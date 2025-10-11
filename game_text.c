@@ -7,7 +7,7 @@
 
 void print_help(void)
 {
-    printf("Liste commandes : \nt x y : mettre une tente en (x,y)\ng x y : mettre de l'herbe en (x,y)\ne x y : supprimer le contenu en (x,y)\nr = restart\nf  = remplir avec herbe\nq = quitter");
+    printf("Liste commandes : \nt x y : mettre une tente en (x,y)\ng x y : mettre de l'herbe en (x,y)\ne x y : supprimer le contenu en (x,y)\nr = restart\nf  = remplir avec herbe\nq = quitter \n");
 
     return;
 }

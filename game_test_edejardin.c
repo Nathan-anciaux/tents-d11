@@ -10,7 +10,11 @@ int test_dummy()
 
 int main(int argc, char *argv[])
 {
-    if (strcmp("dummy", argv[1]) == 0)
+    if (argc == 1)
+    {
+        return EXIT_FAILURE;
+    }
+    else if (strcmp("dummy", argv[1]) == 0)
     {
         return test_dummy();
     }

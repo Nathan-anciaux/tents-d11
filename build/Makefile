@@ -139,6 +139,43 @@ game_text/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_text.dir/build.make CMakeFiles/game_text.dir/build
 .PHONY : game_text/fast
 
+#=============================================================================
+# Target rules for targets named game_test_maxjulienne
+
+# Build rule for target.
+game_test_maxjulienne: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 game_test_maxjulienne
+.PHONY : game_test_maxjulienne
+
+# fast build rule for target.
+game_test_maxjulienne/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/build
+.PHONY : game_test_maxjulienne/fast
+
+game_test_maxjulienne.o: game_test_maxjulienne.c.o
+.PHONY : game_test_maxjulienne.o
+
+# target to build an object file
+game_test_maxjulienne.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/game_test_maxjulienne.c.o
+.PHONY : game_test_maxjulienne.c.o
+
+game_test_maxjulienne.i: game_test_maxjulienne.c.i
+.PHONY : game_test_maxjulienne.i
+
+# target to preprocess a source file
+game_test_maxjulienne.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/game_test_maxjulienne.c.i
+.PHONY : game_test_maxjulienne.c.i
+
+game_test_maxjulienne.s: game_test_maxjulienne.c.s
+.PHONY : game_test_maxjulienne.s
+
+# target to generate assembly for a file
+game_test_maxjulienne.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/game_test_maxjulienne.c.s
+.PHONY : game_test_maxjulienne.c.s
+
 game_text.o: game_text.c.o
 .PHONY : game_text.o
 
@@ -172,7 +209,11 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... game_test_maxjulienne"
 	@echo "... game_text"
+	@echo "... game_test_maxjulienne.o"
+	@echo "... game_test_maxjulienne.i"
+	@echo "... game_test_maxjulienne.s"
 	@echo "... game_text.o"
 	@echo "... game_text.i"
 	@echo "... game_text.s"

@@ -48,4 +48,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/game_text.dir/DependInfo.cmake"
+  "CMakeFiles/game_test_maxjulienne.dir/DependInfo.cmake"
   )

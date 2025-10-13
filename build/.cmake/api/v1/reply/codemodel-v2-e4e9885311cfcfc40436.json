@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,12 +31,20 @@
 					"name" : "game_text",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
 			"targets" : 
 			[
+				{
+					"directoryIndex" : 0,
+					"id" : "game_test_maxjulienne::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-game_test_maxjulienne-Debug-2707b0a2bf6ec6a6f102.json",
+					"name" : "game_test_maxjulienne",
+					"projectIndex" : 0
+				},
 				{
 					"directoryIndex" : 0,
 					"id" : "game_text::@6890427a1f51a3e7e1df",

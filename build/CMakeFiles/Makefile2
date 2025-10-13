@@ -64,10 +64,12 @@ CMAKE_BINARY_DIR = /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tent
 
 # The main recursive "all" target.
 all: CMakeFiles/game_text.dir/all
+all: CMakeFiles/game_test_maxjulienne.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/game_text.dir/codegen
+codegen: CMakeFiles/game_test_maxjulienne.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -76,6 +78,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/game_text.dir/clean
+clean: CMakeFiles/game_test_maxjulienne.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -85,7 +88,7 @@ clean: CMakeFiles/game_text.dir/clean
 CMakeFiles/game_text.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_text.dir/build.make CMakeFiles/game_text.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_text.dir/build.make CMakeFiles/game_text.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=1,2 "Built target game_text"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=3,4 "Built target game_text"
 .PHONY : CMakeFiles/game_text.dir/all
 
 # Build rule for subdir invocation for target.
@@ -102,13 +105,45 @@ game_text: CMakeFiles/game_text.dir/rule
 # codegen rule for target.
 CMakeFiles/game_text.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_text.dir/build.make CMakeFiles/game_text.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=1,2 "Finished codegen for target game_text"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=3,4 "Finished codegen for target game_text"
 .PHONY : CMakeFiles/game_text.dir/codegen
 
 # clean rule for target.
 CMakeFiles/game_text.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_text.dir/build.make CMakeFiles/game_text.dir/clean
 .PHONY : CMakeFiles/game_text.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/game_test_maxjulienne.dir
+
+# All Build rule for target.
+CMakeFiles/game_test_maxjulienne.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=1,2 "Built target game_test_maxjulienne"
+.PHONY : CMakeFiles/game_test_maxjulienne.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/game_test_maxjulienne.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/game_test_maxjulienne.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles 0
+.PHONY : CMakeFiles/game_test_maxjulienne.dir/rule
+
+# Convenience name for target.
+game_test_maxjulienne: CMakeFiles/game_test_maxjulienne.dir/rule
+.PHONY : game_test_maxjulienne
+
+# codegen rule for target.
+CMakeFiles/game_test_maxjulienne.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=1,2 "Finished codegen for target game_test_maxjulienne"
+.PHONY : CMakeFiles/game_test_maxjulienne.dir/codegen
+
+# clean rule for target.
+CMakeFiles/game_test_maxjulienne.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_test_maxjulienne.dir/build.make CMakeFiles/game_test_maxjulienne.dir/clean
+.PHONY : CMakeFiles/game_test_maxjulienne.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

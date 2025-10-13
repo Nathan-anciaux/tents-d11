@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20251013-1311-Experimental"
+	Name="(empty)"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="bellaud"
+	OSRelease="6.12.43+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.43-1~bpo12+1 (2025-09-06)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="165"
+	ModelName="Intel(R) Xeon(R) W-1290 CPU @ 3.20GHz"
+	ProcessorCacheSize="20480"
+	NumberOfLogicalCPU="20"
+	NumberOfPhysicalCPU="10"
+	TotalVirtualMemory="39070"
+	TotalPhysicalMemory="64038"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="800"
+	>
+	<Testing>
+		<StartDateTime>Oct 13 15:22 CEST</StartDateTime>
+		<StartTestTime>1760361732</StartTestTime>
+		<TestList/>
+		<EndDateTime>Oct 13 15:22 CEST</EndDateTime>
+		<EndTestTime>1760361732</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

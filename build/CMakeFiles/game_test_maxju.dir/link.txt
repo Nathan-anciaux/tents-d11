@@ -1,0 +1,1 @@
+/usr/bin/cc -std=c99 -g -Wall -g CMakeFiles/game_test_maxju.dir/game_text.c.o -o game_test_maxju   -L/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11

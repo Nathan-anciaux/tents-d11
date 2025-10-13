@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int test_maxence()
+int test_dummy()
 {
     return 1;
 }

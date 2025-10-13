@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     bool ok = 0;
     if (strcmp("dummy", argv[1]) == 0)
     {
-        ok = test_maxence();
+        ok = test_dummy();
     }
 
     if (ok)

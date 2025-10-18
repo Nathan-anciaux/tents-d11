@@ -12,3 +12,6 @@ add_test(test_maxjulienne_dummy ./game_test_maxjulienne dummy)
 
 add_executable(game_test_edejardin game_test_edejardin.c)
 add_test(test_edejardin_dummy ./game_test_edejardin dummy)
+
+add_executable(game_test_nanciaux game_test_nanciaux.c)
+add_test(test_nanciaux_dummy ./game_test_nanciaux dummy)

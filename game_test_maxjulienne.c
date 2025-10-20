@@ -2,6 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "game.h"
+#include "game_aux.h"
+
+
+int test_game_won()
+{
+    game g = game_default();
+    game_delete(g);
+
+    return 1;
+}
 
 int test_dummy()
 {
@@ -22,6 +33,10 @@ int main(int argc, char *argv[])
     if (strcmp("dummy", argv[1]) == 0)
     {
         ok = test_dummy();
+    }
+    if (strcmp("game_won", argv[1]) == 0)
+    {
+        ok = test_game_won();
     }
 
     if (ok)

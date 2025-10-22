@@ -1,0 +1,1 @@
+/usr/bin/cc -std=c99 -g -Wall CMakeFiles/game_test_nanciaux.dir/game_test_nanciaux.c.o -o game_test_nanciaux   -L/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11

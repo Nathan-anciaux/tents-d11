@@ -202,6 +202,7 @@ int test_game_is_neigh()
     if (game_is_neigh(g, 2, 2, TREE, false) != 1)
     {
         fprintf(stderr, "Erreur : Vérifie en (2,1), renvoie false alors qu'il y a un arbre en (3,1)");
+        game_delete(g);
         return 0;
     }
     // Arbre en diagonale
@@ -209,30 +210,35 @@ int test_game_is_neigh()
     {
 
         fprintf(stderr, "Erreur : Vérifie en (1,1), renvoie false alors qu'il y a un arbre en diagonale (1,1)");
+        game_delete(g);
         return 0;
     }
     // si il y a un arbre uniquement en diagonale
     if (game_is_neigh(g, 2, 3, TREE, false) != 0)
     {
         fprintf(stderr, "Erreur : Vérifie en (2,3), renvoie true alors qu'il n'y a pas d'arbre (uniquement en diagonale)");
+        game_delete(g);
         return 0;
     }
     // pas d'abre autours
     if (game_is_neigh(g, 5, 7, TREE, false) != 0)
     {
         fprintf(stderr, "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas d'arbre en voisinnage");
+        game_delete(g);
         return 0;
     }
     // Pas d'abre autours meme en diagonale
     if (game_is_neigh(g, 5, 7, TREE, true) != 0)
     {
         fprintf(stderr, "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas d'abre en voisinnage (diagonale)");
+        game_delete(g);
         return 0;
     }
     // en (0,0), sur un arbre mais rien autours
     if (game_is_neigh(g, 0, 0, TREE, true) != 0)
     {
         fprintf(stderr, "Erreur : Vérifie en (0,0), renvoie true alors qu'il n'y a pas d'abre en voisinnage");
+        game_delete(g);
         return 0;
     }
 

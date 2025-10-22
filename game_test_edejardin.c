@@ -77,6 +77,7 @@ int main(int argc, char *argv[])
 
 bool test_game_new(void)
 {
+    // je regarde sii defaut = new je regarde si en changeant les parametres il se passe quelque chose.
     uint nb_tents_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
     uint nb_tents_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
     square squares[DEFAULT_SIZE * DEFAULT_SIZE] = {
@@ -96,7 +97,7 @@ bool test_game_new(void)
     game g_ref = game_default();
     test = test && g_ref != NULL; // test qui est tjr vrai normalement
 
-    test = test && game_equal(g_new, g_ref); // source d'erreur mais jsp pourquoi
+    test = test && game_equal(g_new, g_ref);
 
     // Le jeu g_new ne doit PAS changer (il doit avoir fait une copie).
     squares[0] = EMPTY;
@@ -107,9 +108,26 @@ bool test_game_new(void)
     test = test && game_get_expected_nb_tents_row(g_new, 0) == 1; // Doit être resté 1
     test = test && game_get_expected_nb_tents_col(g_new, 0) == 3; // Doit être resté 3
 
-    squares[0] = TREE;
     nb_tents_row[0] = 1;
     nb_tents_col[0] = 3;
+
+    for (uint i = 0; i < DEFAULT_SIZE; i++)
+    {
+        test = test && nb_tents_col[i] == game_get_expected_nb_tents_col(g_new, i); // Regarde si le nombre de tentes est bon
+        test = test && nb_tents_row[i] == game_get_expected_nb_tents_row(g_new, i); // Regarde si le nombre de tentes est bon
+    }
+
+    squares[0] = TREE;
+    nb_tents_row[0] = 7;
+    nb_tents_col[0] = 7;
+
+    g_new = game_new(squares, nb_tents_row, nb_tents_col);
+    test = test && g_new != NULL; // regarde si ça a bien marché
+
+    g_ref = game_default();
+    test = test && g_ref != NULL; // test qui est tjr vrai normalement
+
+    test = test && !game_equal(g_new, g_ref);
 
     // Attention j'ai fait l'implementation naive qui va empecher les nombres abusés, mais faut faire nombre de empty /2 (+1) fin meme pas c'est plus subtil nsm
     for (uint i = 0; i < DEFAULT_SIZE; i++)
@@ -123,7 +141,6 @@ bool test_game_new(void)
     return test;
 }
 
-// il faut faire attention avec default size !! parce qu'on peut la changer mais jsp encore ce que c'est la variable pas par default
 bool test_game_new_empty(void)
 {
     game g = game_new_empty();
@@ -152,6 +169,7 @@ bool test_game_new_empty(void)
 
 bool test_game_copy(void)
 {
+
     game g_orig = game_default();
     bool test = true;
     test = test && g_orig != NULL;
@@ -269,6 +287,19 @@ bool test_game_play_move(void)
     bool test = true;
 
     test = test && g != NULL;
+    uint nb_tents_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
+    uint nb_tents_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
+    square squares[DEFAULT_SIZE * DEFAULT_SIZE] = {
+        TREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE, TREE, EMPTY,
+        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE, EMPTY,
+        TREE, EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+        EMPTY, EMPTY, EMPTY, EMPTY, TREE, EMPTY, EMPTY, EMPTY,
+        EMPTY, EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+        EMPTY, TREE, TREE, EMPTY, EMPTY, TREE, TREE, EMPTY};
+
+    game g_ref = game_new(squares, nb_tents_row, nb_tents_col);
 
     // on place une tent sur un empty
     uint row0_before = game_get_current_nb_tents_row(g, 0);
@@ -280,6 +311,9 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_row(g, 0) == row0_before + 1;
     test = test && game_get_current_nb_tents_col(g, 1) == col1_before + 1;
     test = test && game_get_current_nb_tents_all(g) == all_before + 1; // on regarde ce que ça implique
+    squares[1] = TENT;
+    g_ref = game_new(squares, nb_tents_row, nb_tents_col);
+    test = test && game_equal(g, g_ref);
 
     // test tent sur tent
     row0_before = game_get_current_nb_tents_row(g, 0);
@@ -291,10 +325,21 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_row(g, 0) == row0_before;
     test = test && game_get_current_nb_tents_col(g, 1) == col1_before;
     test = test && game_get_current_nb_tents_all(g) == all_before; // on regarde ce que ça implique
+    test = test && game_equal(g, g_ref);
+
+    uint row1_before = game_get_current_nb_tents_row(g, 1);
+    col1_before = game_get_current_nb_tents_col(g, 1);
+    all_before = game_get_current_nb_tents_all(g);
 
     // on place de l'herbe sur un empty
     game_play_move(g, 1, 1, GRASS);
     test = test && game_get_square(g, 1, 1) == GRASS; // on check si ça a bien marché et que c'est bien grass
+    test = test && game_get_current_nb_tents_row(g, 1) == row1_before;
+    test = test && game_get_current_nb_tents_col(g, 1) == col1_before;
+    test = test && game_get_current_nb_tents_all(g) == all_before; // implication
+    squares[9] = GRASS;
+    g_ref = game_new(squares, nb_tents_row, nb_tents_col);
+    test = test && game_equal(g, g_ref);
 
     // empty sur TENT
     row0_before = game_get_current_nb_tents_row(g, 0);
@@ -307,6 +352,9 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_row(g, 0) == row0_before - 1;
     test = test && game_get_current_nb_tents_col(g, 1) == col1_before - 1;
     test = test && game_get_current_nb_tents_all(g) == all_before - 1; // implication
+    squares[1] = EMPTY;
+    g_ref = game_new(squares, nb_tents_row, nb_tents_col);
+    test = test && game_equal(g, g_ref);
 
     // empty sur empty
     row0_before = game_get_current_nb_tents_row(g, 0);
@@ -320,8 +368,10 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_col(g, 1) == col1_before;
     test = test && game_get_current_nb_tents_all(g) == all_before; // implication
 
+    test = test && game_equal(g, g_ref);
+
     // tent sur grass . On a bien grass en 1 1 grace au test 2 et si on est la ça veut dire que c'est success
-    uint row1_before = game_get_current_nb_tents_row(g, 1);
+    row1_before = game_get_current_nb_tents_row(g, 1);
     uint col1_before_2 = game_get_current_nb_tents_col(g, 1);
     all_before = game_get_current_nb_tents_all(g);
 
@@ -330,6 +380,9 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_row(g, 1) == row1_before + 1;
     test = test && game_get_current_nb_tents_col(g, 1) == col1_before_2 + 1;
     test = test && game_get_current_nb_tents_all(g) == all_before + 1; // implication
+    squares[9] = TENT;
+    g_ref = game_new(squares, nb_tents_row, nb_tents_col);
+    test = test && game_equal(g, g_ref);
 
     // grass sur tent
     row1_before = game_get_current_nb_tents_row(g, 1);
@@ -342,6 +395,10 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_col(g, 1) == col1_before_2 - 1;
     test = test && game_get_current_nb_tents_all(g) == all_before - 1; // ==>
 
+    squares[9] = GRASS;
+    g_ref = game_new(squares, nb_tents_row, nb_tents_col);
+    test = test && game_equal(g, g_ref);
+
     // test grass sur grass
     row1_before = game_get_current_nb_tents_row(g, 1);
     col1_before_2 = game_get_current_nb_tents_col(g, 1);
@@ -352,7 +409,9 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_row(g, 1) == row1_before;
     test = test && game_get_current_nb_tents_col(g, 1) == col1_before_2;
     test = test && game_get_current_nb_tents_all(g) == all_before; // ==>
+    test = test && game_equal(g, g_ref);
 
+    game_delete(g_ref);
     game_delete(g); // fin mashallah
     return test;
 }

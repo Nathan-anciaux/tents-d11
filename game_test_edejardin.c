@@ -15,74 +15,59 @@ bool test_game_delete(void);
 bool test_game_play_move(void);
 bool test_game_check_move(void);
 
-// le main permet denvoyer les tests de toutes les fonctions
 int main(int argc, char *argv[])
 {
     if (argc == 1)
+        usage(argc, argv);
+    bool ok = 0;
+    if (strcmp("dummy", argv[1]) == 0)
     {
-        fprintf(stderr, "Usage: %s <test_name>\n", argv[0]);
-        fprintf(stderr, "Available tests:\n");
-        fprintf(stderr, "  game_new\n");
-        fprintf(stderr, "  game_new_empty\n");
-        fprintf(stderr, "  game_copy\n");
-        fprintf(stderr, "  game_equal\n");
-        fprintf(stderr, "  game_delete\n");
-        fprintf(stderr, "  game_play_move\n");
-        fprintf(stderr, "  game_check_move\n");
-        return EXIT_FAILURE;
+        ok = test_dummy();
     }
-
-    typedef struct
+    if (strcmp("game_new", argv[1]) == 0)
     {
-        const char *name;
-        bool (*test_func)(void);
-    } test_entry;
-
-    test_entry tests[] = {
-        {"game_new", test_game_new},
-        {"game_new_empty", test_game_new_empty},
-        {"game_copy", test_game_copy},
-        {"game_equal", test_game_equal},
-        {"game_delete", test_game_delete},
-        {"game_play_move", test_game_play_move},
-        {"game_check_move", test_game_check_move}};
-
-    bool ok = false;
-    const char *test_name = argv[1];
-    bool test_found = false;
-
-    for (size_t i = 0; i < sizeof(tests) / sizeof(tests[0]); ++i)
-    {
-        if (strcmp(tests[i].name, test_name) == 0)
-        {
-            ok = tests[i].test_func();
-            test_found = true;
-            break;
-        }
+        ok = test_game_new();
     }
-
-    if (!test_found)
+    if (strcmp("game_new_empty", argv[1]) == 0)
     {
-        fprintf(stderr, "Unknown test: %s\n", test_name);
-        return EXIT_FAILURE;
+        ok = test_game_new_empty();
     }
-
+    if (strcmp("game_copy", argv[1]) == 0)
+    {
+        ok = test_game_copy();
+    }
+    if (strcmp("game_equal", argv[1]) == 0)
+    {
+        ok = test_game_equal();
+    }
+    if (strcmp("game_delete", argv[1]) == 0)
+    {
+        ok = test_game_delete();
+    }
+    if (strcmp("game_play_move", argv[1]) == 0)
+    {
+        ok = test_game_play_move();
+    }
+    if (strcmp("game_check_move", argv[1]) == 0)
+    {
+        ok = test_game_check_move();
+    }
     if (ok)
     {
-        fprintf(stdout, "Test \"%s\" finished: SUCCESS\n", test_name);
+        fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);
         return EXIT_SUCCESS;
     }
     else
     {
-        fprintf(stderr, "Test \"%s\" finished: FAILURE\n", test_name);
+        fprintf(stderr, "Test \"%s\" finished: FAILURE\n", argv[1]);
         return EXIT_FAILURE;
     }
 }
-/*
+
 int test_dummy()
 {
     return EXIT_SUCCESS;
-} */
+}
 
 bool test_game_new(void)
 {
@@ -376,8 +361,8 @@ bool test_game_check_move(void)
     // illegal
     test = test && !game_check_move(g, 0, DEFAULT_SIZE, TENT); // trop grand
     test = test && !game_check_move(g, DEFAULT_SIZE, 0, TENT);
-    /*test = test && !game_check_move(g, -1, 0, TENT);
-    test = test && !game_check_move(g, 0, -1, TENT);*/
+    test = test && !game_check_move(g, -1, 0, TENT);
+    test = test && !game_check_move(g, 0, -1, TENT);
 
     // placer un arbre
     test = test && !game_check_move(g, 0, 1, TREE); // Sur EMPTY

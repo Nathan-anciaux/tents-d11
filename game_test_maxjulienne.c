@@ -9,9 +9,7 @@
 
 int test_game_won()
 {
-    // Ne marche pas...
 
-    // A tester : jeu vide, jeu gagnant, jeu pas gagné
     game tab[3];
     tab[0] = game_new_empty();
     tab[1] = game_default_solution();

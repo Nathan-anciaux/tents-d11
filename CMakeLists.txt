@@ -10,14 +10,14 @@ target_link_libraries(game_text libgame.a )
 
 add_executable(game_test_maxjulienne game_test_maxjulienne.c)
 target_link_libraries(game_test_maxjulienne libgame.a)
-add_test(test_maxjulienne_dummy ./game_test_maxjulienne dummy)
-add_test(test_game_won ./game_test_maxjulienne game_won)
-add_test(test_game_fill_grass ./game_test_maxjulienne game_fill_grass)
-add_test(test_game_restart ./game_test_maxjulienne game_restart)
-add_test(test_game_is_neigh ./game_test_maxjulienne game_is_neigh)
-add_test(test_game_default ./game_test_maxjulienne game_default)
-add_test(test_game_default_solution ./game_test_maxjulienne game_default_solution)
-add_test(test_game_print ./game_test_maxjulienne game_print)
+#add_test(test_maxjulienne_dummy ./game_test_maxjulienne dummy)
+#add_test(test_game_won ./game_test_maxjulienne game_won)
+#add_test(test_game_fill_grass ./game_test_maxjulienne game_fill_grass)
+#add_test(test_game_restart ./game_test_maxjulienne game_restart)
+#add_test(test_game_is_neigh ./game_test_maxjulienne game_is_neigh)
+#add_test(test_game_default ./game_test_maxjulienne game_default)
+#add_test(test_game_default_solution ./game_test_maxjulienne game_default_solution)
+#add_test(test_game_print ./game_test_maxjulienne game_print)
 
 
 

@@ -192,7 +192,20 @@ bool test_game_copy(void)
     test = test && game_get_square(g_orig, 2, 0) == EMPTY; // L'original doit rester EMPTY
 
     game_delete(g_orig);
+
+    game g_fill;
+    game_fill_grass(g_fill);
+    g_copy = game_copy(g_fill);
+    test = test && game_equal(g_fill, g_copy);
+
+    game_delete(g_fill);
+
+    game g_empty = game_new_empty();
+    g_copy = game_copy(g_empty);
+    test= test && game_equal (g_empty, g_copy);
+
     game_delete(g_copy);
+    game_delete(g_empty);
     return test;
 }
 

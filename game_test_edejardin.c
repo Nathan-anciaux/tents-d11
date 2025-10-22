@@ -376,8 +376,8 @@ bool test_game_check_move(void)
     // illegal
     test = test && !game_check_move(g, 0, DEFAULT_SIZE, TENT); // trop grand
     test = test && !game_check_move(g, DEFAULT_SIZE, 0, TENT);
-    /*test = test && !game_check_move(g, -1, 0, TENT);
-    test = test && !game_check_move(g, 0, -1, TENT);*/
+    test = test && !game_check_move(g, -1, 0, TENT);
+    test = test && !game_check_move(g, 0, -1, TENT);
 
     // placer un arbre
     test = test && !game_check_move(g, 0, 1, TREE); // Sur EMPTY

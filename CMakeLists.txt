@@ -11,9 +11,16 @@ target_link_libraries(game_text libgame.a )
 add_executable(game_test_maxjulienne game_test_maxjulienne.c)
 target_link_libraries(game_test_maxjulienne libgame.a)
 add_test(test_maxjulienne_dummy ./game_test_maxjulienne dummy)
+add_test(test_game_won ./game_test_maxjulienne game_won)
+add_test(test_game_fill_grass ./game_test_maxjulienne game_fill_grass)
+add_test(test_game_restart ./game_test_maxjulienne game_restart)
+add_test(test_game_is_neigh ./game_test_maxjulienne game_is_neigh)
+add_test(test_game_default ./game_test_maxjulienne game_default)
+add_test(test_game_default_solution ./game_test_maxjulienne game_default_solution)
+add_test(test_game_print ./game_test_maxjulienne game_print)
 
-add_executable(game_test_edejardin game_test_edejardin.c)
-add_test(test_edejardin_dummy ./game_test_edejardin dummy)
+
+
 
 add_executable(game_test_nanciaux game_test_nanciaux.c)
 add_test(test_nanciaux_dummy ./game_test_nanciaux dummy)
@@ -27,3 +34,4 @@ add_test(test_game_equal ./game_test_edejardin game_equal)
 add_test(test_game_delete ./game_test_edejardin game_delete)
 add_test(test_game_play_move ./game_test_edejardin game_play_move)
 add_test(test_game_check_move ./game_test_edejardin game_check_move)
+#add_test(test_edejardin_dummy ./game_test_edejardin dummy)

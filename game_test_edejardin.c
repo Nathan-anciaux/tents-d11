@@ -193,7 +193,7 @@ bool test_game_copy(void)
 
     game_delete(g_orig);
 
-    game g_fill;
+    game g_fill = game_default();
     game_fill_grass(g_fill);
     g_copy = game_copy(g_fill);
     test = test && game_equal(g_fill, g_copy);
@@ -219,6 +219,9 @@ bool test_game_equal(void)
 
     test = test && game_equal(g1, g2); // reagrde l'egalité simple
 
+    test = test && game_get_current_nb_tents_all(g1) == game_get_current_nb_tents_all(g2);
+    test = test && game_get_expected_nb_tents_all(g1) == game_get_expected_nb_tents_all(g2);
+
     game g_copy = game_copy(g1);
     test = test && g_copy != NULL;
     test = test && game_equal(g1, g_copy);
@@ -227,6 +230,21 @@ bool test_game_equal(void)
     game_play_move(g2, 0, 1, TENT); // (0,1) etait EMPTY par défaut
     test = test && !game_equal(g1, g2);
 
+    game_play_move(g2, 0, 1, GRASS); // (0,1) etait TENT
+    test = test && !game_equal(g1, g2);
+
+    game g_fill = game_default();
+    game_fill_grass(g_fill);
+    game gf1 = game_copy(g_fill);
+    
+    game_play_move(g_fill, 0, 1, TENT); // (0,1) etait GRASS par défaut
+    test = test && !game_equal(g_fill, gf1);
+
+    game_play_move(g_fill, 0, 1, EMPTY); // (0,1) etait TENT
+    test = test && !game_equal(g_fill, gf1);
+
+    game_delete(g_fill);
+    game_delete(gf1);
     game_delete(g2);
     g2 = game_default();
 
@@ -252,6 +270,7 @@ bool test_game_equal(void)
     // Test 5: Différence dans nb_tents_col
     game_set_expected_nb_tents_col(g2, 1, 99); // meme test que precedemment
     test = test && !game_equal(g1, g2);
+    test = test && game_get_current_nb_tents_col(g1, 1) != game_get_expected_nb_tents_col(g2, 1);
 
     game_delete(g1);
     game_delete(g2);
@@ -437,6 +456,8 @@ bool test_game_check_move(void)
     test = test && g != NULL;
 
     // illegal
+    test = test && !game_check_move(g, 0, DEFAULT_SIZE+200, TENT); // trop grand
+    test = test && !game_check_move(g, DEFAULT_SIZE+200, 0, TENT);
     test = test && !game_check_move(g, 0, DEFAULT_SIZE, TENT); // trop grand
     test = test && !game_check_move(g, DEFAULT_SIZE, 0, TENT);
     /*test = test && !game_check_move(g, -1, 0, TENT);
@@ -445,6 +466,8 @@ bool test_game_check_move(void)
     // placer un arbre
     test = test && !game_check_move(g, 0, 1, TREE); // Sur EMPTY
     test = test && !game_check_move(g, 0, 0, TREE); // Sur TREE
+    game_play_move(g,0,1, GRASS);
+    test = test && !game_check_move(g, 0, 1, TREE); // Sur GRASS
 
     // sur arbre
     test = test && !game_check_move(g, 0, 0, TENT);

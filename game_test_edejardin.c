@@ -202,7 +202,7 @@ bool test_game_copy(void)
 
     game g_empty = game_new_empty();
     g_copy = game_copy(g_empty);
-    test= test && game_equal (g_empty, g_copy);
+    test = test && game_equal(g_empty, g_copy);
 
     game_delete(g_copy);
     game_delete(g_empty);
@@ -236,7 +236,7 @@ bool test_game_equal(void)
     game g_fill = game_default();
     game_fill_grass(g_fill);
     game gf1 = game_copy(g_fill);
-    
+
     game_play_move(g_fill, 0, 1, TENT); // (0,1) etait GRASS par défaut
     test = test && !game_equal(g_fill, gf1);
 
@@ -443,6 +443,42 @@ bool test_game_play_move(void)
     test = test && game_get_current_nb_tents_all(g) == all_before; // ==>
     test = test && game_equal(g, g_ref);
 
+    row1_before = game_get_current_nb_tents_row(g, 1);
+    col1_before_2 = game_get_current_nb_tents_col(g, 1);
+    all_before = game_get_current_nb_tents_all(g);
+
+    // grass sur grass
+    game_play_move(g, 1, 1, EMPTY);
+    test = test && game_get_square(g, 1, 1) == EMPTY;
+    test = test && game_get_current_nb_tents_row(g, 1) == row1_before;
+    test = test && game_get_current_nb_tents_col(g, 1) == col1_before_2;
+    test = test && game_get_current_nb_tents_all(g) == all_before; // ==>
+
+    squares[9] = EMPTY;
+    g_ref = game_new(squares, nb_tents_row, nb_tents_col);
+    test = test && game_equal(g, g_ref);
+
+    /*
+    uint row0_illegal = game_get_current_nb_tents_row(g, 0);
+    uint col0_illegal = game_get_current_nb_tents_col(g, 0);
+    uint col1_illegal = game_get_current_nb_tents_col(g, 1);
+    uint all_illegal = game_get_current_nb_tents_all(g);
+    game_print(g);
+    game_play_move(g, 0, 0, TENT);
+    game_print(g);
+    test = test && game_get_square(g, 0, 0) == TREE;
+    test = test && game_get_current_nb_tents_row(g, 0) == row0_illegal;
+    test = test && game_get_current_nb_tents_col(g, 0) == col0_illegal;
+    test = test && game_get_current_nb_tents_all(g) == all_illegal;
+
+    game_play_move(g, 0, 1, TREE);
+    test = test && game_get_square(g, 0, 1) == EMPTY;
+    test = test && game_get_current_nb_tents_row(g, 0) == row0_illegal;
+    test = test && game_get_current_nb_tents_col(g, 1) == col1_illegal;
+    test = test && game_get_current_nb_tents_all(g) == all_illegal;
+
+    test = test && game_get_current_nb_tents_all(g) == all_illegal;*/
+
     game_delete(g_ref);
     game_delete(g); // fin mashallah
     return test;
@@ -456,8 +492,8 @@ bool test_game_check_move(void)
     test = test && g != NULL;
 
     // illegal
-    test = test && !game_check_move(g, 0, DEFAULT_SIZE+200, TENT); // trop grand
-    test = test && !game_check_move(g, DEFAULT_SIZE+200, 0, TENT);
+    test = test && !game_check_move(g, 0, DEFAULT_SIZE + 200, TENT); // trop grand
+    test = test && !game_check_move(g, DEFAULT_SIZE + 200, 0, TENT);
     test = test && !game_check_move(g, 0, DEFAULT_SIZE, TENT); // trop grand
     test = test && !game_check_move(g, DEFAULT_SIZE, 0, TENT);
     /*test = test && !game_check_move(g, -1, 0, TENT);
@@ -466,7 +502,7 @@ bool test_game_check_move(void)
     // placer un arbre
     test = test && !game_check_move(g, 0, 1, TREE); // Sur EMPTY
     test = test && !game_check_move(g, 0, 0, TREE); // Sur TREE
-    game_play_move(g,0,1, GRASS);
+    game_play_move(g, 0, 1, GRASS);
     test = test && !game_check_move(g, 0, 1, TREE); // Sur GRASS
 
     // sur arbre

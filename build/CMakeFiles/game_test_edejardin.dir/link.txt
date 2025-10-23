@@ -1,1 +1,0 @@
-/usr/bin/cc -std=c99 -g -Wall CMakeFiles/game_test_edejardin.dir/game_test_edejardin.c.o -o game_test_edejardin   -L/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11  -Wl,-rpath,/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11 -Wl,-Bstatic -lgame -Wl,-Bdynamic

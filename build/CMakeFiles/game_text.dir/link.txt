@@ -1,1 +1,0 @@
-/usr/bin/cc -std=c99 -g -Wall CMakeFiles/game_text.dir/game_text.c.o -o game_text   -L/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11  -Wl,-rpath,/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11 -Wl,-Bstatic -lgame -Wl,-Bdynamic

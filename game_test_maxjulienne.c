@@ -402,6 +402,31 @@ int test_game_get_ajacent_square(){
     return 1;
 }
 
+int test_game_get_expected_nb_tents_all(){
+    // TESTS SUR : un empty, en additionnant le nombre voulu pour chaque ligne et chaque colonne
+
+    game g_empty = game_new_empty();
+    game g = game_default();
+    if (game_get_expected_nb_tents_all(g_empty) != 0){
+        game_delete(g_empty);
+        return 0; 
+    }
+
+    int a = 0;
+    for (int i=0; i<DEFAULT_SIZE; i++){
+        a = a + game_get_expected_nb_tents_col(g,i);
+    }
+
+    if (a != game_get_expected_nb_tents_all(g)){
+        game_delete(g);
+        return 0;
+    }
+
+    game_delete(g_empty);
+    game_delete(g);
+    return 1;
+}
+
 int test_dummy()
 {
     return 1;
@@ -453,6 +478,10 @@ int main(int argc, char *argv[])
     if (strcmp("game_get_ajacent_square", argv[1]) == 0)
     {
         ok = test_game_get_ajacent_square();
+    }
+    if (strcmp("game_get_expected_nb_tents_all", argv[1]) == 0)
+    {
+        ok = test_game_get_expected_nb_tents_all();
     }
     if (ok)
     {

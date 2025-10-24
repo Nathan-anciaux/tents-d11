@@ -19,7 +19,7 @@ add_test(test_game_default ./game_test_maxjulienne game_default)
 add_test(test_game_default_solution ./game_test_maxjulienne game_default_solution)
 add_test(test_game_print ./game_test_maxjulienne game_print)
 add_test(test_game_get_ajacent_square ./game_test_maxjulienne game_get_ajacent_square)
-
+add_test(test_game_get_expected_nb_tents_all ./game_test_maxjulienne game_get_expected_nb_tents_all)
 
 
 

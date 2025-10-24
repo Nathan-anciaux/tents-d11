@@ -21,11 +21,20 @@ add_test(test_game_print ./game_test_maxjulienne game_print)
 add_test(test_game_get_ajacent_square ./game_test_maxjulienne game_get_ajacent_square)
 add_test(test_game_get_expected_nb_tents_all ./game_test_maxjulienne game_get_expected_nb_tents_all)
 
-
-
-
 add_executable(game_test_nanciaux game_test_nanciaux.c)
+target_link_libraries(game_test_nanciaux libgame.a)
 add_test(test_nanciaux_dummy ./game_test_nanciaux dummy)
+add_test(test_game_set_square ./game_test_nanciaux game_set_square)
+add_test(test_game_set_expected_nb_tents_row ./game_test_nanciaux game_set_expected_nb_tents_row)
+add_test(test_game_set_expected_nb_tents_col ./game_test_nanciaux game_set_expected_nb_tents_col)
+add_test(test_game_get_square ./game_test_nanciaux game_get_square)
+add_test(test_game_get_expected_nb_tents_row ./game_test_nanciaux game_get_expected_nb_tents_row)
+add_test(test_game_get_expected_nb_tents_col ./game_test_nanciaux game_get_expected_nb_tents_col)
+add_test(test_game_get_expected_nb_tents_all ./game_test_nanciaux game_get_expected_nb_tents_all)
+add_test(test_game_get_current_nb_tents_row ./game_test_nanciaux  game_get_current_nb_tents_row)
+add_test(test_game_get_current_nb_tents_col ./game_test_nanciaux  game_get_current_nb_tents_col)
+add_test(test_game_get_current_nb_tents_all ./game_test_nanciaux  game_get_current_nb_tents_all)
+add_test(test_game_get_ajacent_square ./game_test_nanciaux game_get_ajacent_square)
 
 add_executable(game_test_edejardin game_test_edejardin.c)
 target_link_libraries(game_test_edejardin libgame.a)

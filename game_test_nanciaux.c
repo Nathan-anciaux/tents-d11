@@ -33,12 +33,12 @@ int test_dummy()
 
 bool test_game_set_square()
 {
-    cgame g = game_new_empty;
-    int L[] = {TENT, GRASS, EMPTY, TREE};
+    game g = game_new_empty();
     if (g == NULL)
     {
         return false;
     }
+    int L[] = {TENT, GRASS, EMPTY, TREE};
     for (int i = 0; i < DEFAULT_SIZE; i++)
     {
         for (int j = 0; j < DEFAULT_SIZE; j++)
@@ -58,7 +58,7 @@ bool test_game_set_square()
 
 bool test_game_set_expected_nb_tents_row()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     if (g == NULL)
     {
         return false;
@@ -79,7 +79,7 @@ bool test_game_set_expected_nb_tents_row()
 
 bool test_game_set_expected_nb_tents_col()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     if (g == NULL)
     {
         return false;
@@ -100,7 +100,7 @@ bool test_game_set_expected_nb_tents_col()
 
 bool test_game_get_square()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     int L[] = {TENT, GRASS, EMPTY, TREE};
     if (g == NULL)
     {
@@ -125,7 +125,7 @@ bool test_game_get_square()
 
 bool test_game_get_expected_nb_tents_row()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     if (g == NULL)
     {
         return false;
@@ -146,7 +146,7 @@ bool test_game_get_expected_nb_tents_row()
 
 bool test_game_get_expected_nb_tents_col()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     if (g == NULL)
     {
         return false;
@@ -167,7 +167,7 @@ bool test_game_get_expected_nb_tents_col()
 
 bool test_game_get_expected_nb_tents_all()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     int s = 0;
     if (g == NULL)
     {
@@ -186,7 +186,7 @@ bool test_game_get_expected_nb_tents_all()
 
 bool test_game_get_current_nb_tents_row()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     int s = 0;
     if (g == NULL)
     {
@@ -212,7 +212,7 @@ bool test_game_get_current_nb_tents_row()
 
 bool test_game_get_current_nb_tents_col()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     int s = 0;
     if (g == NULL)
     {
@@ -237,7 +237,7 @@ bool test_game_get_current_nb_tents_col()
 }
 bool test_game_get_current_nb_tents_all()
 {
-    cgame g = game_new_empty;
+    game g = game_new_empty();
     int s = 0;
     if (g == NULL)
     {
@@ -253,27 +253,73 @@ bool test_game_get_current_nb_tents_all()
             }
         }
     }
-    if (game_get_current_nb_tents_all != s)
+    if (game_get_current_nb_tents_all(g) != s)
     {
         return false;
     }
     return true;
 }
 
-bool test_game_get_ajacent_square()
-{
-}
-
 int main(int argc, char *argv[])
 {
+    bool ok = 0;
     if (argc == 1)
     {
         fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
         exit(EXIT_FAILURE);
     }
-    if (strcmp(argv[1], "dummy") == 0)
+    if (strcmp("dummy", argv[1]) == 0)
     {
-        return test_dummy();
+        ok = test_dummy();
     }
-    return EXIT_FAILURE;
+    if (strcmp("game_set_square",argv[1] ) == 0)
+    {
+        ok = test_game_set_square();
+    }
+    if (strcmp("game_set_expected_nb_tents_row", argv[1]) == 0)
+    {
+        ok = test_game_set_expected_nb_tents_row();
+    }
+    if (strcmp("game_set_expected_nb_tents_col", argv[1]) == 0)
+    {
+        ok = test_game_set_expected_nb_tents_col();
+    }
+    if (strcmp("game_get_square", argv[1]) == 0)
+    {
+        ok = test_game_get_square();
+    }
+    if (strcmp("game_get_expected_nb_tents_row",argv[1]) == 0)
+    {
+        ok = test_game_get_expected_nb_tents_row();
+    }
+    if (strcmp("game_get_expected_nb_tents_col" , argv[1]) == 0)
+    {
+        ok = test_game_get_expected_nb_tents_col();
+    }
+    if (strcmp("game_get_expected_nb_tents_all",argv[1] ) == 0)
+    {
+        ok = test_game_get_expected_nb_tents_all();
+    }
+    if (strcmp("game_get_current_nb_tents_row", argv[1]) == 0)
+    {
+        ok = test_game_get_current_nb_tents_row();
+    }
+    if (strcmp("game_get_current_nb_tents_col", argv[1]) == 0)
+    {
+        ok = test_game_get_current_nb_tents_col();
+    }
+     if (strcmp("game_get_current_nb_tents_all", argv[1]) == 0)
+    {
+        ok = test_game_get_current_nb_tents_all();
+    }
+    if (ok)
+    {
+        fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);
+        return EXIT_SUCCESS;
+    }
+    else
+    {
+        fprintf(stderr, "Test \"%s\" finished: FAILURE\n", argv[1]);
+        return EXIT_FAILURE;
+    }
 }

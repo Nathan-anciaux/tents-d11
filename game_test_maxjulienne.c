@@ -374,6 +374,34 @@ int test_game_print()
     return 1;
 }
 
+int test_game_get_ajacent_square(){
+    game g = game_default();
+    game_print((cgame)g);
+    uint pi_next;
+    uint pj_next;
+    if (game_get_ajacent_square(g,0,0,UP_LEFT, &pi_next, &pj_next) != 0){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,DEFAULT_SIZE-1,DEFAULT_SIZE-1,DOWN_RIGHT, &pi_next, &pj_next) != 0){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,1,1,UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 0 || pj_next !=0){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,2,2,HERE, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=2){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,0,3,UP, &pi_next, &pj_next) != 0){
+        game_delete(g);
+        return 0;
+    }
+    return 1;
+}
+
 int test_dummy()
 {
     return 1;
@@ -421,6 +449,10 @@ int main(int argc, char *argv[])
     if (strcmp("game_print", argv[1]) == 0)
     {
         ok = test_game_print();
+    }
+    if (strcmp("game_get_ajacent_square", argv[1]) == 0)
+    {
+        ok = test_game_get_ajacent_square();
     }
     if (ok)
     {

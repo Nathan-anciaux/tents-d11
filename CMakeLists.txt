@@ -18,6 +18,8 @@ add_test(test_game_is_neigh ./game_test_maxjulienne game_is_neigh)
 add_test(test_game_default ./game_test_maxjulienne game_default)
 add_test(test_game_default_solution ./game_test_maxjulienne game_default_solution)
 add_test(test_game_print ./game_test_maxjulienne game_print)
+add_test(test_game_get_ajacent_square ./game_test_maxjulienne game_get_ajacent_square)
+
 
 
 

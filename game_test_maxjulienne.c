@@ -284,6 +284,16 @@ int test_game_default()
 {
     game g = game_default();
     int arbre_place[12][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2}, {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};
+    if (game_get_expected_nb_tents_all(g) != 12){
+        return 0;
+    }
+    //Vérifie si le nb de tente attendue sur chaque colonne est le bon
+    if (game_get_expected_nb_tents_col(g,0)!=3 || game_get_expected_nb_tents_col(g,1)!=0 ||game_get_expected_nb_tents_col(g,2)!=2 ||game_get_expected_nb_tents_col(g,3)!=1 ||game_get_expected_nb_tents_col(g,4)!=2 ||game_get_expected_nb_tents_col(g,5)!=1 ||game_get_expected_nb_tents_col(g,6)!=2 ||game_get_expected_nb_tents_col(g,7)!=1){
+        return 0;
+    }
+    if (game_get_expected_nb_tents_row(g,0)!=1 ||game_get_expected_nb_tents_row(g,1)!=2||game_get_expected_nb_tents_row(g,2)!=1||game_get_expected_nb_tents_row(g,3)!=2||game_get_expected_nb_tents_row(g,4)!=2||game_get_expected_nb_tents_row(g,5)!=0||game_get_expected_nb_tents_row(g,6)!=1||game_get_expected_nb_tents_row(g,7)!=3){
+        return 0;
+    }
     if (g == NULL)
     {
         fprintf(stderr, "Erreur : game_default retourne NULL \n");

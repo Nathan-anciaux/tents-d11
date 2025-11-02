@@ -14,6 +14,7 @@ bool test_game_equal(void);
 bool test_game_delete(void);
 bool test_game_play_move(void);
 bool test_game_check_move(void);
+bool test_game_get_current_nb_tents_all(void);
 
 int test_dummy()
 {

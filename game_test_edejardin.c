@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     }
     if (strcmp("game_get_current_nb_tents_all", argv[1]) == 0)
     {
-        ok = test_game_check_move();
+        ok = test_game_get_current_nb_tents_all();
     }
     if (ok)
     {

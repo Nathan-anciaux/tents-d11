@@ -401,6 +401,38 @@ int test_game_get_ajacent_square(){
         game_delete(g);
         return 0;
     }
+    if (game_get_ajacent_square(g,3,3,DOWN, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next !=3){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,3,3,DOWN_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next !=4){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,3,3,RIGHT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next !=4){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,3,3,UP_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=4){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,3,3,UP, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=3){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,3,3,UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=2){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,3,3,LEFT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next !=2){
+        game_delete(g);
+        return 0;
+    }
+    if (game_get_ajacent_square(g,3,3,DOWN_LEFT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next !=2){
+        game_delete(g);
+        return 0;
+    }
     if (game_get_ajacent_square(g,2,2,HERE, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=2){
         game_delete(g);
         return 0;

@@ -334,8 +334,10 @@ bool test_game_get_current_nb_tents_row()
     }
     for (int i = 0; i < DEFAULT_SIZE; i++)
     {
+        s = 0;
         for (int j = 0; j < DEFAULT_SIZE; j++)
         {
+            
             if (game_get_square(g, i, j) == TENT)
             {
                 s++;
@@ -345,7 +347,7 @@ bool test_game_get_current_nb_tents_row()
                 game_delete(g);
                 return false;
             }
-            s = 0;
+            
         }
     }
     game_delete(g);
@@ -364,6 +366,7 @@ bool test_game_get_current_nb_tents_col()
     }
     for (int j = 0; j < DEFAULT_SIZE; j++)
     {
+        s = 0;
         for (int i = 0; i < DEFAULT_SIZE; i++)
         {
             if (game_get_square(g, i, j) == TENT)
@@ -375,7 +378,7 @@ bool test_game_get_current_nb_tents_col()
                 game_delete(g);
                 return false;
             }
-            s = 0;
+            
         }
     }
     game_delete(g);

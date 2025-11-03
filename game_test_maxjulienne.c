@@ -15,107 +15,124 @@ int test_game_won()
     // Sur jeu vide
     g = game_new_empty();
     result = game_won(g);
-    if (result != 1){
+    if (result != 1)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
-    //Cas de base
+    // Cas de base
     g = game_default();
     result = game_won(g);
-    if (result != 0){
+    if (result != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
-    //Tentes adjacentes : horizontale
+    // Tentes adjacentes : horizontale
     g = game_default();
-    game_set_square(g,1,0,TENT);
-    game_set_square(g,1,1,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 1, 0, TENT);
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
-    //Tentes adjacentes : Verticale
+    // Tentes adjacentes : Verticale
     g = game_default();
-    game_set_square(g,0,1,TENT);
-    game_set_square(g,1,1,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 0, 1, TENT);
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
-    //Tentes adjacentes : Diagonale
+    // Tentes adjacentes : Diagonale
     g = game_default();
-    game_set_square(g,1,1,TENT);
-    game_set_square(g,2,2,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 1, 1, TENT);
+    game_set_square(g, 2, 2, TENT);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
-
-    //Tentes adjacentes : Verticale
+    // Tentes adjacentes : Verticale
     g = game_default();
-    game_set_square(g,0,1,TENT);
-    game_set_square(g,1,1,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 0, 1, TENT);
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
-    //Règle 2
+    // Règle 2
     g = game_default_solution();
-    game_set_square(g,1,0,GRASS);
-    game_set_square(g,0,1,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 1, 0, GRASS);
+    game_set_square(g, 0, 1, TENT);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
-
 
     // Règle 3 : nb tente != nb arbre
     g = game_default_solution();
-    game_set_square(g,1,1,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
-    //Sans doute à revoir
+    // Sans doute à revoir
     g = game_default_solution();
-    game_set_square(g,0,4,GRASS);
-    if (game_won(g) != 0){
-        game_delete(g);
-        return 0;
-    }
-    game_delete(g);
-
-    g = game_default_solution();
-    game_set_square(g,0,4,GRASS);
-    game_set_square(g,0,2,TENT);
-    g = game_default_solution();
-    game_set_square(g,1,1,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 0, 4, GRASS);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }
     game_delete(g);
 
     g = game_default_solution();
-    game_set_square(g,0,4,GRASS);
+    game_set_square(g, 0, 4, GRASS);
+    game_set_square(g, 0, 2, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+
     g = game_default_solution();
-    game_set_square(g,1,1,TENT);
-    if (game_won(g) != 0){
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    g = game_default_solution();
+    game_set_square(g, 0, 4, GRASS);
+    g = game_default_solution();
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
         game_delete(g);
         return 0;
     }

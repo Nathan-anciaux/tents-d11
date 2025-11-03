@@ -9,8 +9,13 @@
 
 int test_game_won()
 {
-
-    game tab[8];
+    /*
+    Rule 1) No two tents are adjacent, even diagonally.
+    Rule 2) The number of tents in each row, and in each column, matches the expected numbers given around the sides of the grid.
+    Rule 3) There are exactly as many tents as trees.
+    Rule 4) Each tent must be orthogonally adjacent (horizontally or vertically, but not diagonally) to at least one tree and vice versa.
+*/
+    game tab[11];
     // Cas à tester : jeu vide, solution parfaite, jeu de départ, solution + 1 tente de trop, solution mais 2 tentes adjacentes, solution mais une tente sans arbre, solution mais un arbre sans tente, solution mais mauvais comtpe ligne/col (échange une tente (1,0) et une herbe (0,1))
     tab[0] = game_new_empty();        // game vide (victoire car aucune tente voulue)
     tab[1] = game_default_solution(); // game gagné
@@ -29,6 +34,15 @@ int test_game_won()
     game_set_square(tab[7], 1, 0, GRASS);
     game_set_square(tab[7], 0, 1, TENT);
     printf("%d\n", game_won(tab[1]));
+    tab[8] = game_default(); // test 2 tentes adjacentes ligne
+    game_set_square(tab[8], 1, 0, TENT);
+    game_set_square(tab[8], 1, 1, TENT);
+    tab[9] = game_default(); // test 2 tentes adjacentes colonne
+    game_set_square(tab[9], 0, 1, TENT);
+    game_set_square(tab[9], 1, 1, TENT);
+    tab[10] = game_default(); // test 2 tentes adjacentes diagonale
+    game_set_square(tab[10], 1, 1, TENT);
+    game_set_square(tab[10], 2, 2, TENT);
 
     // attendu 0
     if (game_won(tab[0]) != 1)
@@ -69,6 +83,18 @@ int test_game_won()
         return 0;
     }
     if (game_won(tab[7]) != 0)
+    {
+        return 0;
+    }
+    if (game_won(tab[8]) != 0)
+    {
+        return 0;
+    }
+    if (game_won(tab[9]) != 0)
+    {
+        return 0;
+    }
+    if (game_won(tab[10]) != 0)
     {
         return 0;
     }
@@ -284,14 +310,17 @@ int test_game_default()
 {
     game g = game_default();
     int arbre_place[12][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2}, {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};
-    if (game_get_expected_nb_tents_all(g) != 12){
+    if (game_get_expected_nb_tents_all(g) != 12)
+    {
         return 0;
     }
-    //Vérifie si le nb de tente attendue sur chaque colonne est le bon
-    if (game_get_expected_nb_tents_col(g,0)!=3 || game_get_expected_nb_tents_col(g,1)!=0 ||game_get_expected_nb_tents_col(g,2)!=2 ||game_get_expected_nb_tents_col(g,3)!=1 ||game_get_expected_nb_tents_col(g,4)!=2 ||game_get_expected_nb_tents_col(g,5)!=1 ||game_get_expected_nb_tents_col(g,6)!=2 ||game_get_expected_nb_tents_col(g,7)!=1){
+    // Vérifie si le nb de tente attendue sur chaque colonne est le bon
+    if (game_get_expected_nb_tents_col(g, 0) != 3 || game_get_expected_nb_tents_col(g, 1) != 0 || game_get_expected_nb_tents_col(g, 2) != 2 || game_get_expected_nb_tents_col(g, 3) != 1 || game_get_expected_nb_tents_col(g, 4) != 2 || game_get_expected_nb_tents_col(g, 5) != 1 || game_get_expected_nb_tents_col(g, 6) != 2 || game_get_expected_nb_tents_col(g, 7) != 1)
+    {
         return 0;
     }
-    if (game_get_expected_nb_tents_row(g,0)!=1 ||game_get_expected_nb_tents_row(g,1)!=2||game_get_expected_nb_tents_row(g,2)!=1||game_get_expected_nb_tents_row(g,3)!=2||game_get_expected_nb_tents_row(g,4)!=2||game_get_expected_nb_tents_row(g,5)!=0||game_get_expected_nb_tents_row(g,6)!=1||game_get_expected_nb_tents_row(g,7)!=3){
+    if (game_get_expected_nb_tents_row(g, 0) != 1 || game_get_expected_nb_tents_row(g, 1) != 2 || game_get_expected_nb_tents_row(g, 2) != 1 || game_get_expected_nb_tents_row(g, 3) != 2 || game_get_expected_nb_tents_row(g, 4) != 2 || game_get_expected_nb_tents_row(g, 5) != 0 || game_get_expected_nb_tents_row(g, 6) != 1 || game_get_expected_nb_tents_row(g, 7) != 3)
+    {
         return 0;
     }
     if (g == NULL)
@@ -384,82 +413,100 @@ int test_game_print()
     return 1;
 }
 
-int test_game_get_ajacent_square(){
+int test_game_get_ajacent_square()
+{
     game g = game_default();
     game_print((cgame)g);
     uint pi_next;
     uint pj_next;
-    if (game_get_ajacent_square(g,0,0,UP_LEFT, &pi_next, &pj_next) != 0){
+    if (game_get_ajacent_square(g, 0, 0, UP_LEFT, &pi_next, &pj_next) != 0)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,DEFAULT_SIZE-1,DEFAULT_SIZE-1,DOWN_RIGHT, &pi_next, &pj_next) != 0){
+    if (game_get_ajacent_square(g, DEFAULT_SIZE - 1, DEFAULT_SIZE - 1, DOWN_RIGHT, &pi_next, &pj_next) != 0)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,1,1,UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 0 || pj_next !=0){
+    if (game_get_ajacent_square(g, 1, 1, UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 0 || pj_next != 0)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,DOWN, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next !=3){
+    if (game_get_ajacent_square(g, 3, 3, DOWN, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 3)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,DOWN_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next !=4){
+    if (game_get_ajacent_square(g, 3, 3, DOWN_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 4)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,RIGHT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next !=4){
+    if (game_get_ajacent_square(g, 3, 3, RIGHT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next != 4)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,UP_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=4){
+    if (game_get_ajacent_square(g, 3, 3, UP_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 4)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,UP, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=3){
+    if (game_get_ajacent_square(g, 3, 3, UP, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 3)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=2){
+    if (game_get_ajacent_square(g, 3, 3, UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 2)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,LEFT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next !=2){
+    if (game_get_ajacent_square(g, 3, 3, LEFT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next != 2)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,3,3,DOWN_LEFT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next !=2){
+    if (game_get_ajacent_square(g, 3, 3, DOWN_LEFT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 2)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,2,2,HERE, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next !=2){
+    if (game_get_ajacent_square(g, 2, 2, HERE, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 2)
+    {
         game_delete(g);
         return 0;
     }
-    if (game_get_ajacent_square(g,0,3,UP, &pi_next, &pj_next) != 0){
+    if (game_get_ajacent_square(g, 0, 3, UP, &pi_next, &pj_next) != 0)
+    {
         game_delete(g);
         return 0;
     }
     return 1;
 }
 
-int test_game_get_expected_nb_tents_all(){
+int test_game_get_expected_nb_tents_all()
+{
     // TESTS SUR : un empty, en additionnant le nombre voulu pour chaque ligne et chaque colonne
 
     game g_empty = game_new_empty();
     game g = game_default();
-    if (game_get_expected_nb_tents_all(g_empty) != 0){
+    if (game_get_expected_nb_tents_all(g_empty) != 0)
+    {
         game_delete(g_empty);
-        return 0; 
+        return 0;
     }
 
     int a = 0;
-    for (int i=0; i<DEFAULT_SIZE; i++){
-        a = a + game_get_expected_nb_tents_col(g,i);
+    for (int i = 0; i < DEFAULT_SIZE; i++)
+    {
+        a = a + game_get_expected_nb_tents_col(g, i);
     }
 
-    if (a != game_get_expected_nb_tents_all(g)){
+    if (a != game_get_expected_nb_tents_all(g))
+    {
         game_delete(g);
         return 0;
     }

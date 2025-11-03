@@ -1,0 +1,1 @@
+struct game_s;

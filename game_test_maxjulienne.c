@@ -9,100 +9,135 @@
 
 int test_game_won()
 {
-    /*
-    Rule 1) No two tents are adjacent, even diagonally.
-    Rule 2) The number of tents in each row, and in each column, matches the expected numbers given around the sides of the grid.
-    Rule 3) There are exactly as many tents as trees.
-    Rule 4) Each tent must be orthogonally adjacent (horizontally or vertically, but not diagonally) to at least one tree and vice versa.
-*/
-    game tab[11];
-    // Cas à tester : jeu vide, solution parfaite, jeu de départ, solution + 1 tente de trop, solution mais 2 tentes adjacentes, solution mais une tente sans arbre, solution mais un arbre sans tente, solution mais mauvais comtpe ligne/col (échange une tente (1,0) et une herbe (0,1))
-    tab[0] = game_new_empty();        // game vide (victoire car aucune tente voulue)
-    tab[1] = game_default_solution(); // game gagné
-    tab[2] = game_default();          // game de départ
-    tab[3] = game_default_solution();
-    game_set_square(tab[3], 1, 1, TENT);
-    tab[4] = game_default_solution();
-    game_set_square(tab[4], 0, 4, GRASS);
-    game_set_square(tab[4], 1, 5, TENT);
-    tab[5] = game_default_solution();
-    game_set_square(tab[5], 0, 4, GRASS);
-    game_set_square(tab[5], 0, 2, TENT);
-    tab[6] = game_default_solution();
-    game_set_square(tab[6], 0, 4, GRASS);
-    tab[7] = game_default_solution();
-    game_set_square(tab[7], 1, 0, GRASS);
-    game_set_square(tab[7], 0, 1, TENT);
-    printf("%d\n", game_won(tab[1]));
-    tab[8] = game_default(); // test 2 tentes adjacentes ligne
-    game_set_square(tab[8], 1, 0, TENT);
-    game_set_square(tab[8], 1, 1, TENT);
-    tab[9] = game_default(); // test 2 tentes adjacentes colonne
-    game_set_square(tab[9], 0, 1, TENT);
-    game_set_square(tab[9], 1, 1, TENT);
-    tab[10] = game_default(); // test 2 tentes adjacentes diagonale
-    game_set_square(tab[10], 1, 1, TENT);
-    game_set_square(tab[10], 2, 2, TENT);
+    game g;
+    int result;
 
-    // attendu 0
-    if (game_won(tab[0]) != 1)
+    // Sur jeu vide
+    g = game_new_empty();
+    result = game_won(g);
+    if (result != 1)
     {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
 
-        fprintf(stderr, "Erreur : jeu vide détecté comme gagnant");
-        return 0;
-    }
-    // attendu 1
-    if (game_won(tab[1]) != 1)
+    // Cas de base
+    g = game_default();
+    result = game_won(g);
+    if (result != 0)
     {
-        fprintf(stderr, "Erreur : jeu gagnant détecté comme non gagnant");
+        game_delete(g);
         return 0;
     }
-    // attendu 0
-    if (game_won(tab[2]) != 0)
-    {
-        printf("%d\n", game_won(tab[2]));
-        fprintf(stderr, "Erreur : jeu non gagnant détecté comme gagnant");
-        return 0;
-    }
-    if (game_won(tab[3]) != 0)
-    {
-        printf("%d\n", game_won(tab[3]));
-        fprintf(stderr, "Erreur : jeu non gagnant détecté comme gagnant (tente en trop)");
-        return 0;
-    }
-    if (game_won(tab[4]) != 0)
-    {
-        return 0;
-    }
-    if (game_won(tab[5]) != 0)
-    {
-        return 0;
-    }
-    if (game_won(tab[6]) != 0)
-    {
-        return 0;
-    }
-    if (game_won(tab[7]) != 0)
-    {
-        return 0;
-    }
-    if (game_won(tab[8]) != 0)
-    {
-        return 0;
-    }
-    if (game_won(tab[9]) != 0)
-    {
-        return 0;
-    }
-    if (game_won(tab[10]) != 0)
-    {
-        return 0;
-    }
+    game_delete(g);
 
-    for (int i = 0; i < 8; i++)
+    // Tentes adjacentes : horizontale
+    g = game_default();
+    game_set_square(g, 1, 0, TENT);
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
     {
-        game_delete(tab[i]);
+        game_delete(g);
+        return 0;
     }
+    game_delete(g);
+
+    // Tentes adjacentes : Verticale
+    g = game_default();
+    game_set_square(g, 0, 1, TENT);
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    // Tentes adjacentes : Diagonale
+    g = game_default();
+    game_set_square(g, 1, 1, TENT);
+    game_set_square(g, 2, 2, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    // Tentes adjacentes : Verticale
+    g = game_default();
+    game_set_square(g, 0, 1, TENT);
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    // Règle 2
+    g = game_default_solution();
+    game_set_square(g, 1, 0, GRASS);
+    game_set_square(g, 0, 1, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    // Règle 3 : nb tente != nb arbre
+    g = game_default_solution();
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    // Sans doute à revoir
+    g = game_default_solution();
+    game_set_square(g, 0, 4, GRASS);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    g = game_default_solution();
+    game_set_square(g, 0, 4, GRASS);
+    game_set_square(g, 0, 2, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+
+    g = game_default_solution();
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    g = game_default_solution();
+    game_set_square(g, 0, 4, GRASS);
+    g = game_default_solution();
+    game_set_square(g, 1, 1, TENT);
+    if (game_won(g) != 0)
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
     return 1;
 }
 

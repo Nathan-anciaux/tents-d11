@@ -12,6 +12,13 @@ int test_game_won()
     game g;
     int result;
 
+
+    g = game_default_solution();
+    if (game_won(g)!=1){
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
     // Sur jeu vide
     g = game_new_empty();
     result = game_won(g);

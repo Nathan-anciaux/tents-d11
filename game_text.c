@@ -58,7 +58,7 @@ int main(void)
         }
         game_print((cgame)g);
     }
-    printf("congratulation");
+    printf("congratulation\n");
     game_delete(g);
     return EXIT_SUCCESS;
 }

@@ -151,6 +151,67 @@ int test_game_won()
     {
         return 0;
     }
+    game_delete(g);    
+
+    g = game_new_empty();
+    game_set_square(g,0,0,TREE);
+    game_set_expected_nb_tents_col(g,0,1);
+    game_set_expected_nb_tents_row(g,2,1);
+    game_set_square(g,0,2,TENT);
+
+    if (game_won(g) != 0 )
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    g = game_new_empty();
+    game_set_square(g,0,0,TREE);
+    game_set_expected_nb_tents_col(g,1,1);
+    game_set_expected_nb_tents_row(g,1,1);
+    game_set_square(g,1,1,TENT);
+
+    if (game_won(g) != 0 )
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    g = game_new_empty();
+    game_set_square(g,0,0,TREE);
+    game_set_square(g,1,0,TREE);
+    game_set_square(g,0,1,TENT);
+    game_set_square(g,1,1,TENT);
+
+    game_set_expected_nb_tents_row(g,0,1);
+    game_set_expected_nb_tents_row(g,1,1);
+    game_set_expected_nb_tents_col(g,1,2);
+
+    if (game_won(g) != 0 )
+    {
+        game_delete(g);
+        return 0;
+    }
+    game_delete(g);
+
+    g = game_new_empty();
+    game_set_square(g,0,0,TREE);
+    game_set_square(g,2,2,TREE);
+    game_set_square(g,0,1,TENT);
+    game_set_square(g,1,2,TENT);
+
+    game_set_expected_nb_tents_row(g,0,1);
+    game_set_expected_nb_tents_row(g,1,1);
+    game_set_expected_nb_tents_col(g,1,1);
+    game_set_expected_nb_tents_col(g,2,1);
+
+    if (game_won(g) != 0 )
+    {
+        game_delete(g);
+        return 0;
+    }
     game_delete(g);
 
 

@@ -300,6 +300,7 @@ int test_game_is_neigh()
     return 0;
   }
 
+  game_delete(g_solution);
   game_delete(g_default);
   return 1;
 }
@@ -458,6 +459,8 @@ int test_game_get_ajacent_square()
     game_delete(g);
     return 0;
   }
+
+  game_delete(g);
   return 1;
 }
 

@@ -9,7 +9,7 @@ add_library(game STATIC
         game.c
         game_aux.c
 )
-
+include(CTest)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(game_text game_text.c)

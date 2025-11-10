@@ -1,0 +1,73 @@
+#include <stdio.h>
+
+#include "game_struct.h"
+
+uint game_get_expected_nb_tents_row(cgame g, uint i)
+// Gets the expected number of tents in a given row
+{
+  uint u = 0;
+  return u;
+}
+
+uint game_get_expected_nb_tents_col(cgame g, uint j)
+// Gets the expected number of tents in a given column
+{
+  uint u = 0;
+  return u;
+}
+
+void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents)
+// Sets the expected number of tents in a given row.
+{
+  return;
+}
+
+void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)
+// Sets the expected number of tents in a given column.
+{
+  return;
+}
+
+bool game_equal(cgame g1, cgame g2)
+// Tests if two games are equal
+{
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    // regarde si chaque square de l'un est egale a l'autre
+    /*
+    if (!=){
+        return 0
+    }
+    else rien
+    */
+  }
+  return 1;
+}
+
+game game_default(void)
+// Creates the default game
+{
+  // tout indenter a la main
+  game g = NULL;
+  return g;
+}
+
+game game_default_solution(void)
+// Creates the default game solution.
+{
+  // tout indenter a la main
+  game g = NULL;
+  return g;
+}
+
+bool game_get_ajacent_square(cgame g, uint i, uint j, direction d, uint* pi_next, uint* pj_next)
+// Gets the coordinate of the adjacent square in a given direction.
+{
+  return 1;
+}
+
+bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
+// Determines if a neighboring square has a given value
+{
+  // regarder i-1 i+1 etc...
+  return 1;
+}

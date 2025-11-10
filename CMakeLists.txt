@@ -8,6 +8,8 @@ set(CMAKE_C_FLAGS "-std=c99 -g -Wall")
 add_executable(game_text game_text.c )
 target_link_libraries(game_text libgame.a)
 
+include(CTest)
+
 add_executable(game_test_maxjulienne game_test_maxjulienne.c)
 target_link_libraries(game_test_maxjulienne libgame.a )
 add_test(test_maxjulienne_dummy ./game_test_maxjulienne dummy)

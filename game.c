@@ -74,6 +74,7 @@ game game_copy(cgame g)
   return g2;
 }
 
+/*EVAANNNN*/
 bool game_equal(cgame g1, cgame g2)
 // Tests if two games are equal
 {
@@ -102,15 +103,16 @@ square game_get_square(cgame g, uint i, uint j)
 void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents)
 // Sets the expected number of tents in a given row.
 {
-  return;
+  return g->nb_tent_row_expected[i] = nb_tents;
 }
 
 void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)
 // Sets the expected number of tents in a given column.
 {
-  return;
+  return g->nb_tent_col_expected[j] = nb_tents;
 }
 
+/*EVAANNNN*/
 uint game_get_expected_nb_tents_row(cgame g, uint i)
 // Gets the expected number of tents in a given row
 {
@@ -118,6 +120,7 @@ uint game_get_expected_nb_tents_row(cgame g, uint i)
   return u;
 }
 
+/*EVAANNNN*/
 uint game_get_expected_nb_tents_col(cgame g, uint j)
 // Gets the expected number of tents in a given column
 {

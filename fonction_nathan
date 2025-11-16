@@ -1,0 +1,56 @@
+// game.c
+#include <stdio.h>
+
+#include "game_struct.h"
+
+void game_delete(game g)
+// Deletes the game and frees the allocated memory
+{
+  return;
+}
+
+uint game_get_expected_nb_tents_all(cgame g)
+// Gets the expected number of tents on the whole grid.
+{
+  uint u = 0;
+  return u;
+}
+
+uint game_get_current_nb_tents_row(cgame g, uint i)
+// Gets the current number of tents in a given row.
+{
+  uint u = 0;
+  return u;
+}
+
+uint game_get_current_nb_tents_col(cgame g, uint j)
+// Gets the current number of tents in a given column.
+{
+  uint u = 0;
+  return u;
+}
+
+uint game_get_current_nb_tents_all(cgame g)
+// Gets the current number of tents on the whole grid.
+{
+  uint u = 0;
+  return u;
+}
+
+void game_play_move(game g, uint i, uint j, square s)
+// Plays a move in a given square
+{
+  return;
+}
+
+bool game_check_move(cgame g, uint i, uint j, square s)
+// Checks if a given move in a square is legal
+{
+  return 1;
+}
+
+bool game_won(cgame g)
+// Checks if the game is won
+{
+  return 1;
+}

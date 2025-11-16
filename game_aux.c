@@ -6,6 +6,53 @@
 void game_print(cgame g)
 // Prints a game as text on the standard output stream.
 {
+  // Affichage d'abord des indices de chaque colonne
+  printf("   ");
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    printf("%d ", i);
+  }
+  printf("\n");
+  // Bordure supérieure
+  printf("   ");
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    printf("_ ");
+  }
+  printf("\n");
+  // Affichage dans l'ordre de : l'indice de la ligne, les bordures, le jeu, une bordure, le nombre de tentes attendues
+  // sur la ligne
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    printf("%d |", i);
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g, i, j) == EMPTY) {
+        printf("  ");
+      }
+      if (game_get_square(g, i, j) == TREE) {
+        printf("X ");
+      }
+      if (game_get_square(g, i, j) == TENT) {
+        printf("* ");
+      }
+      if (game_get_square(g, i, j) == GRASS) {
+        printf("- ");
+      }
+    }
+    
+    printf("| %d", g->nb_tent_row_expected[i]);
+    printf("\n");
+  }
+  //Affichage bordure inférieure
+  printf("   ");
+  for (int i=0; i<DEFAULT_SIZE; i++){
+    printf("_ ");
+  }
+  printf("\n");
+  //Affichage nb tente attendues colonnes
+  printf("   ");
+  for (int i=0; i<DEFAULT_SIZE; i++){
+    printf("%d ", g->nb_tent_col_expected[i]);
+  }
+  printf("\n");
+
   return;
 }
 

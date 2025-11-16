@@ -16,6 +16,7 @@ int main(void)
 {
     game g = game_default();
     game_print((cgame)g);
+
     char c;
 
     while (!game_won((cgame)g))

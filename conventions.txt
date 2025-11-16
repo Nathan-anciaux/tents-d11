@@ -10,3 +10,4 @@ set i = 0
  }
 #Commentaires : Tout en anglais
 #Documentation fonction (dans le .h) tout faire en anglais (les /**/)
+#Nom des variables : mots séparés par des tirets du bas (ex : nb_tents_row)

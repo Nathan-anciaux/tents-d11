@@ -78,6 +78,20 @@ game game_copy(cgame g)
 bool game_equal(cgame g1, cgame g2)
 // Tests if two games are equal
 {
+  int j = 0;
+  for (int i = 0; i< DEFAULT_SIZE * DEFAULT_SIZE; i++){
+    if (game_get_square(g1,i,j) != game_get_square(g2,i,j)) return 0;
+    if (i%(DEFAULT_SIZE-1) == 0) j++;
+  }
+
+  if (game_get_current_nb_tents_all(g1) == game_get_current_nb_tents_all(g2)) return 0;
+  if (game_get_expected_nb_tents_all(g1) == game_get_expected_nb_tents_all(g2)) return 0;
+  for (int i = 0; i< DEFAULT_SIZE; i++){
+    if (game_get_current_nb_tents_row(g1,i) == game_get_current_nb_tents_row(g2,i)) return 0;
+    if (game_get_current_nb_tents_col(g1,i) == game_get_current_nb_tents_col(g2,i)) return 0;
+    if (game_get_expected_nb_tents_col(g1,i) == game_get_expected_nb_tents_col(g2,i)) return 0;
+    if (game_get_expected_nb_tents_col(g1,i) == game_get_expected_nb_tents_col(g2,i)) return 0;
+  }
   return 1;
 }
 
@@ -113,14 +127,12 @@ void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)
   return;
 }
 
-/*EVAANNNN*/
 uint game_get_expected_nb_tents_row(cgame g, uint i)
 // Gets the expected number of tents in a given row
 {
   return g->nb_tent_row_expected[i];
 }
 
-/*EVAANNNN*/
 uint game_get_expected_nb_tents_col(cgame g, uint j)
 // Gets the expected number of tents in a given column
 {

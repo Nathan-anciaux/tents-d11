@@ -116,7 +116,7 @@ typedef struct {
   int col;
 } coord;
 
-bool get_direction(direction d, int* di, int* dj){
+static bool get_direction(direction d, int* di, int* dj){
   static const coord coordonnees[] = {
     {0,0},{-1,0},{1,0},{0,-1},{0,1},{-1,-1},{-1,1},{1,-1},{1,1}
   };

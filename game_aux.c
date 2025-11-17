@@ -144,14 +144,17 @@ static const char *dir[]{
 bool game_get_ajacent_square(cgame g, uint i, uint j, direction d, uint* pi_next, uint* pj_next)
 // Gets the coordinate of the adjacent square in a given direction.
 {
-
-  return 1;
+  int test[] = [[0,0],[1,0],[-1,0],[0,-1],[0,1],[1,-1],[1,1],[-1,-1],[-1,1]];
+  //j'arrive passsssss ptnnnnnnnnnnnnnnnnnnnnnnnnn
+  pi_next = test[d][0];
+  pi_next = test[d][1];
+  return 0;
 }
 
 bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
 // Determines if a neighboring square has a given value
 {
-  test[] = {0,0,0,1,1,0,1,1,1,-1,-1,1,-1,-1,1,-1};
+  int test[] = {0,0,0,1,1,0,1,1,1,-1,-1,1,-1,-1,1,-1};
   for(int i= 0; i<9; i=i+2){
     if (game_get_square(g, i + test[i] * DEFAULT_SIZE, j + test[i+1] * DEFAULT_SIZE) == s) return 1;
   }

@@ -98,6 +98,10 @@ bool game_equal(cgame g1, cgame g2)
 void game_delete(game g)
 // Deletes the game and frees the allocated memory
 {
+  free(g->tab);
+  free(g->nb_tent_col_expected);
+  free(g->nb_tent_row_expected);
+  free(g);
   return;
 }
 
@@ -117,7 +121,8 @@ square game_get_square(cgame g, uint i, uint j)
 void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents)
 // Sets the expected number of tents in a given row.
 {
-  return g->nb_tent_row_expected[i] = nb_tents;
+   g->nb_tent_row_expected[i] = nb_tents;
+  return;
 }
 
 void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)
@@ -176,13 +181,35 @@ void game_play_move(game g, uint i, uint j, square s)
 bool game_check_move(cgame g, uint i, uint j, square s)
 // Checks if a given move in a square is legal
 {
-  return 1;
+  if (game_is_neigh(g,i,j,TENT,true)) {
+    return false;
+  }
+  if (game_get_current_nb_tents_row(g,i) == game_get_expected_nb_tents_row(g,i)) {
+    return false;
+  }
+  if (game_get_current_nb_tents_col(g,i) == game_get_expected_nb_tents_col(g,i)) {
+    return false;
+  }
+  if (!game_is_neigh(g,i,j,TREE,true)) {
+    return false;
+  }
+  return true;
 }
 
 bool game_won(cgame g)
 // Checks if the game is won
 {
-  return 1;
+  int s = 0;
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    if (game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i) &&
+        game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i)) {
+      s++;
+    }
+  }
+  if (s == DEFAULT_SIZE) {
+    return true;
+  }
+  return false;
 }
 
 void game_fill_grass(game g)

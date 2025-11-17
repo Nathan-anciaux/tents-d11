@@ -71,9 +71,11 @@ void game_print(cgame g)
 game game_default(void)
 // Creates the default game
 {
+  
+
   uint* expected_tent_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
   uint* expected_tent_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
-  square* tab = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  square* tab[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
                  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,
                  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,
                  EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
@@ -114,7 +116,7 @@ game game_default_solution(void)
 
   return g;
 }
-/*
+
 bool game_get_ajacent_square(cgame g, uint i, uint j, direction d, uint* pi_next, uint* pj_next)
 // Gets the coordinate of the adjacent square in a given direction.
 {
@@ -134,9 +136,3 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
   return 0;
 }
 
-int main(void)
-{
-  game g = game_default();
-
-  return 1;
-}*/

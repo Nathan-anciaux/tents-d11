@@ -6,7 +6,7 @@
 
 #include "game_struct.h"
 
-static game_pointer_validity_verification(game g)
+static void game_pointer_validity_verification(game g)
 {
   if (g == NULL) {
     free(g);

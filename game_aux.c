@@ -73,9 +73,9 @@ game game_default(void)
 {
   
 
-  uint* expected_tent_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
-  uint* expected_tent_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
-  square* tab[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  uint expected_tent_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
+  uint expected_tent_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
+  square tab[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
                  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,
                  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,
                  EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
@@ -89,49 +89,66 @@ game game_default(void)
 game game_default_solution(void)
 // Creates the default game solution.
 {
-  game g = malloc(sizeof(struct game_s));
-
-  g->tab = malloc(DEFAULT_SIZE * DEFAULT_SIZE * (sizeof(square)));
   square tab[DEFAULT_SIZE * DEFAULT_SIZE] = {
-      TREE,  EMPTY, EMPTY, EMPTY, TENT,  TREE,  TREE,  EMPTY, TENT,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TENT,  EMPTY,
-      EMPTY, EMPTY, TENT,  EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, TREE,  EMPTY, TENT,  EMPTY, TENT,  EMPTY,
-      TENT,  EMPTY, TENT,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TENT,  EMPTY, EMPTY, TENT,  TREE,  TREE,  TENT,  EMPTY, TREE,  TREE,  TENT};
+      TREE,  EMPTY, EMPTY, EMPTY, TENT,  TREE,  TREE,  EMPTY, 
+      TENT,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TENT,  EMPTY,
+      EMPTY, EMPTY, TENT,  EMPTY, EMPTY, EMPTY, TREE,  EMPTY, 
+      TREE,  EMPTY, TREE,  EMPTY, TENT,  EMPTY, TENT,  EMPTY,
+      TENT,  EMPTY, TENT,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, 
+      EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TENT,  EMPTY, EMPTY, 
+      TENT,  TREE,  TREE,  TENT,  EMPTY, TREE,  TREE,  TENT};
 
-  // each squares are initialized at the correct place
-  for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
-    g->tab[i] = tab[i];
-  }
+  uint expected_tent_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
+  uint expected_tent_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
 
-  g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
-  g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
-  uint tents_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
-  uint tents_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
-
-  // each expected tents lines are initialized
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    g->nb_tent_col_expected[i] = tents_col[i];
-    g->nb_tent_row_expected[i] = tents_row[i];
-  }
+  game g = game_new(tab, expected_tent_row, expected_tent_col);
 
   return g;
+}
+
+static bool on_board (int i, int j){
+  return i >= 0 && i < DEFAULT_SIZE && j >= 0 && j < DEFAULT_SIZE;
+}
+
+typedef struct {
+  int row;
+  int col;
+} coord;
+
+bool get_direction(direction d, int* di, int* dj){
+  static const coord coordonnees[] = {
+    {0,0},{-1,0},{1,0},{0,-1},{0,1},{-1,-1},{-1,1},{1,-1},{1,1}
+  };
+
+  *di = coordonnees[d].row;
+  *dj = coordonnees[d].col;
+  return 1;
 }
 
 bool game_get_ajacent_square(cgame g, uint i, uint j, direction d, uint* pi_next, uint* pj_next)
 // Gets the coordinate of the adjacent square in a given direction.
 {
-  int* test[] = {{0, 0}, {1, 0}, {-1, 0}, {0, -1}, {0, 1}, {1, -1}, {1, 1}, {-1, -1}, {-1, 1}};
-  pi_next = test[d][0];
-  pi_next = test[d][1];
-  return 0;
+  int row, col;
+  get_direction(d, &row , &col);
+  int new_row = i + row;
+  int new_col = j + col;
+  if (!on_board(new_row, new_col)) return 0;
+  *pi_next = new_row;
+  *pj_next = new_col;
+  return 1;
 }
 
 bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
 // Determines if a neighboring square has a given value
 {
-  int test[] = {0, 0, 0, 1, 1, 0, 1, 1, 1, -1, -1, 1, -1, -1, 1, -1};
-  for (int i = 0; i < 9; i = i + 2) {
-    if (game_get_square(g, i + test[i] * DEFAULT_SIZE, j + test[i + 1] * DEFAULT_SIZE) == s) return 1;
+  int val = 8;
+  int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1 , 1 , 1};
+  if (diag) val = 16;
+  for (int k = 0; k < val; k=k+2)
+  {
+    if (i + test[k]>=0 && i + test[k] < DEFAULT_SIZE && j + test[k+1] >= 0 && j + test[k+1] < DEFAULT_SIZE)
+      if (game_get_square(g, i + test[k], j + test[k+1]) == s) return 1;
   }
   return 0;
 }

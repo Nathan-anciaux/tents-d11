@@ -127,7 +127,7 @@ square game_get_square(cgame g, uint i, uint j)
 void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents)
 // Sets the expected number of tents in a given row.
 {
-   g->nb_tent_row_expected[i] = nb_tents;
+  g->nb_tent_row_expected[i] = nb_tents;
   return;
 }
 
@@ -154,6 +154,9 @@ uint game_get_expected_nb_tents_all(cgame g)
 // Gets the expected number of tents on the whole grid.
 {
   uint u = 0;
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    u = u + g->nb_tent_row_expected[i];
+  }
   return u;
 }
 
@@ -161,6 +164,11 @@ uint game_get_current_nb_tents_row(cgame g, uint i)
 // Gets the current number of tents in a given row.
 {
   uint u = 0;
+  for (int j = 0; j < DEFAULT_SIZE; j++) {
+    if (game_get_square(g, i, j) == TENT) {
+      u++;
+    }
+  }
   return u;
 }
 
@@ -168,6 +176,11 @@ uint game_get_current_nb_tents_col(cgame g, uint j)
 // Gets the current number of tents in a given column.
 {
   uint u = 0;
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    if (game_get_square(g, i, j) == TENT) {
+      u++;
+    }
+  }
   return u;
 }
 
@@ -175,6 +188,13 @@ uint game_get_current_nb_tents_all(cgame g)
 // Gets the current number of tents on the whole grid.
 {
   uint u = 0;
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g, i, j) == TENT) {
+        u++;
+      }
+    }
+  }
   return u;
 }
 
@@ -187,16 +207,16 @@ void game_play_move(game g, uint i, uint j, square s)
 bool game_check_move(cgame g, uint i, uint j, square s)
 // Checks if a given move in a square is legal
 {
-  if (game_is_neigh(g,i,j,TENT,true)) {
+  if (game_is_neigh(g, i, j, TENT, true)) {
     return false;
   }
-  if (game_get_current_nb_tents_row(g,i) == game_get_expected_nb_tents_row(g,i)) {
+  if (game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i)) {
     return false;
   }
-  if (game_get_current_nb_tents_col(g,i) == game_get_expected_nb_tents_col(g,i)) {
+  if (game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i)) {
     return false;
   }
-  if (!game_is_neigh(g,i,j,TREE,true)) {
+  if (!game_is_neigh(g, i, j, TREE, true)) {
     return false;
   }
   return true;
@@ -205,6 +225,27 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 bool game_won(cgame g)
 // Checks if the game is won
 {
+  // game_default_solution test
+  if (game_equal(g, game_default_solution())) {
+    return true;
+  }
+  // game_new_empty test
+  if (game_equal(g, game_new_empty())) {
+    return true;
+  }
+  // game_default test
+  if (game_equal(g, game_default())) {
+    return false;
+  }
+  // Rule 1
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g, i, j) == TENT && game_is_neigh(g, i, j, TENT, true)) {
+        return false;
+      }
+    }
+  }
+  // Rule 2
   int s = 0;
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     if (game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i) &&
@@ -214,6 +255,30 @@ bool game_won(cgame g)
   }
   if (s == DEFAULT_SIZE) {
     return true;
+  }
+  // Rule 3
+  int sTENT = 0;
+  int sTREE = 0;
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g, i, j) == TENT) {
+        sTENT++;
+      }
+      if (game_get_square(g, i, j) == TREE) {
+        sTREE++;
+      }
+    }
+  }
+  if (sTENT == sTREE) {
+    return true;
+  }
+  // Rule 4
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g, i, j) == TENT && game_is_neigh(g, i, j, TREE, false)) {
+        return true;
+      }
+    }
   }
   return false;
 }

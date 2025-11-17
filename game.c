@@ -6,17 +6,23 @@
 
 #include "game_struct.h"
 
+static game_pointer_validity_verification(game g)
+{
+  if (g == NULL) {
+    free(g);
+    fprintf(stderr, "ERROR, game pointer is NULL");
+    exit(EXIT_FAILURE);
+  }
+}
+
 game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 // Creates a new game with default size and initializes it
 {
-  // Alocation de la mémoire pour tous les attributs de g
+  // memory allocation for all g attribut's
   game g = malloc(sizeof(struct game_s));
 
-  if (g == NULL) {
-    free(g);
-    fprintf(stderr, "ERROR");
-    exit(EXIT_FAILURE);
-  }
+  game_pointer_validity_verification(
+      g);  // We test it only here beacause each time we want to create a game we use this function
 
   g->tab = malloc(DEFAULT_SIZE * DEFAULT_SIZE * sizeof(square));
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
@@ -31,7 +37,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
     exit(EXIT_FAILURE);
   }
 
-  // Remplissage des tableaux avec toutes les valeurs attendues
+  // Filling the table with all expected values (squares)
   for (uint i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     g->tab[i] = squares[i];
   }
@@ -47,21 +53,21 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 game game_new_empty(void)
 // Creates a new empty game with defaut size
 {
-  // Allocation des éléments à remplir
+  // Allocation of the element to be completed and to use with game_new
   square* tab = malloc(sizeof(square) * DEFAULT_SIZE * DEFAULT_SIZE);
   uint* expected_tent_row = malloc(sizeof(uint) * DEFAULT_SIZE);
   uint* expected_tent_col = malloc(sizeof(uint) * DEFAULT_SIZE);
 
-  // Remplissage de ces éléments pour qu'ils soient considérés comme vide (EMPTY et 0)
+  // Filling the tab with EMPTY values
   for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     tab[i] = EMPTY;
   }
-
+  // Set all the expected tents to 0
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     expected_tent_col[i] = 0;
     expected_tent_row[i] = 0;
   }
-
+  // Create the game with all parameters empty
   game g = game_new(tab, expected_tent_row, expected_tent_col);
   return g;
 }
@@ -69,7 +75,7 @@ game game_new_empty(void)
 game game_copy(cgame g)
 // 	Duplicates a game
 {
-  // Récupère les attributs de g et créer une nouvelle partie g2 avec ceux-ci
+  // Get all the g attributes and create a new game g2 with those
   game g2 = game_new(g->tab, g->nb_tent_row_expected, g->nb_tent_col_expected);
   return g2;
 }
@@ -79,18 +85,18 @@ bool game_equal(cgame g1, cgame g2)
 // Tests if two games are equal
 {
   int j = 0;
-  for (int i = 0; i< DEFAULT_SIZE * DEFAULT_SIZE; i++){
-    if (game_get_square(g1,i,j) != game_get_square(g2,i,j)) return 0;
-    if (i%(DEFAULT_SIZE-1) == 0) j++;
+  for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
+    if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
+    if (i % (DEFAULT_SIZE - 1) == 0) j++;
   }
 
   if (game_get_current_nb_tents_all(g1) == game_get_current_nb_tents_all(g2)) return 0;
   if (game_get_expected_nb_tents_all(g1) == game_get_expected_nb_tents_all(g2)) return 0;
-  for (int i = 0; i< DEFAULT_SIZE; i++){
-    if (game_get_current_nb_tents_row(g1,i) == game_get_current_nb_tents_row(g2,i)) return 0;
-    if (game_get_current_nb_tents_col(g1,i) == game_get_current_nb_tents_col(g2,i)) return 0;
-    if (game_get_expected_nb_tents_col(g1,i) == game_get_expected_nb_tents_col(g2,i)) return 0;
-    if (game_get_expected_nb_tents_col(g1,i) == game_get_expected_nb_tents_col(g2,i)) return 0;
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    if (game_get_current_nb_tents_row(g1, i) == game_get_current_nb_tents_row(g2, i)) return 0;
+    if (game_get_current_nb_tents_col(g1, i) == game_get_current_nb_tents_col(g2, i)) return 0;
+    if (game_get_expected_nb_tents_col(g1, i) == game_get_expected_nb_tents_col(g2, i)) return 0;
+    if (game_get_expected_nb_tents_col(g1, i) == game_get_expected_nb_tents_col(g2, i)) return 0;
   }
   return 1;
 }
@@ -215,11 +221,12 @@ bool game_won(cgame g)
 void game_fill_grass(game g)
 // Fills the board with grass
 {
-  //Remplace tous les carrés qui sont empty par de l'herbe (Ici on fait le choix de faire 2 boucles imbriquées au lieu d'une afin d'utiliser des fonctions déjà faite)
-  for (int i=0; i<DEFAULT_SIZE; i++){
-    for (int j=0; j<DEFAULT_SIZE; j++){
-      if (game_get_square(g,i,j) == EMPTY){
-        game_set_square(g,i,j,GRASS);
+  // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more understandable and to use already done
+  // functions
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g, i, j) == EMPTY) {
+        game_set_square(g, i, j, GRASS);
       }
     }
   }
@@ -229,11 +236,11 @@ void game_fill_grass(game g)
 void game_restart(game g)
 // Restarts a game.
 {
-  // On remplace tous les square par empty si ce n'est pas des arbres
-  for (int i=0; i<DEFAULT_SIZE; i++){
-    for (int j=0; j<DEFAULT_SIZE; j++){
-      if (!(game_get_square(g,i,j) == TREE)){
-        game_set_square(g,i,j,EMPTY);
+  // Replace all squares with EMPTY if there are not TREE
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (!(game_get_square(g, i, j) == TREE)) {
+        game_set_square(g, i, j, EMPTY);
       }
     }
   }

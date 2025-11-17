@@ -129,6 +129,18 @@ game game_default_solution(void)
   return g;
 }
 
+static const char *dir[]{
+  "HERE",  
+  "UP",
+  "DOWN",
+  "LEFT",
+  "RIGHT",
+  "UP_LEFT",
+  "UP_RIGHT",
+  "DOWN_LEFT",
+  "DOWN_RIGHT"
+};  
+
 bool game_get_ajacent_square(cgame g, uint i, uint j, direction d, uint* pi_next, uint* pj_next)
 // Gets the coordinate of the adjacent square in a given direction.
 {
@@ -136,11 +148,14 @@ bool game_get_ajacent_square(cgame g, uint i, uint j, direction d, uint* pi_next
   return 1;
 }
 
-/*EVAANNNN*/
 bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
 // Determines if a neighboring square has a given value
 {
-  return 1;
+  test[] = {0,0,0,1,1,0,1,1,1,-1,-1,1,-1,-1,1,-1};
+  for(int i= 0; i<9; i=i+2){
+    if (game_get_square(g, i + test[i] * DEFAULT_SIZE, j + test[i+1] * DEFAULT_SIZE) == s) return 1;
+  }
+  return 0;
 }
 
 int main(void){

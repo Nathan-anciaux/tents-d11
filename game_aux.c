@@ -6,50 +6,59 @@
 #include "game.h"
 #include "game_struct.h"
 
+void print_horizontal_border()
+// Auxiliary function to print an horizontal border
+{
+  printf("   ");
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    printf("_ ");
+  }
+  printf("\n");
+}
+
+void print_square(square s)
+// Auxiliary function to print a square
+{
+  switch (s) {
+    case EMPTY:
+      printf("  ");
+      break;
+    case TREE:
+      printf("X ");
+      break;
+    case TENT:
+      printf("* ");
+      break;
+    case GRASS:
+      printf("- ");
+      break;
+  }
+}
+
 void game_print(cgame g)
 // Prints a game as text on the standard output stream.
 {
-  // Affichage d'abord des indices de chaque colonne
+  // Print of each column index
   printf("   ");
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     printf("%d ", i);
   }
   printf("\n");
-  // Bordure supérieure
-  printf("   ");
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    printf("_ ");
-  }
-  printf("\n");
-  // Affichage dans l'ordre de : l'indice de la ligne, les bordures, le jeu, une bordure, le nombre de tentes attendues
-  // sur la ligne
+  // Upper border
+  print_horizontal_border();
+  // Print in the following order : line index, border, game, border, nb of expected tent
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     printf("%d |", i);
     for (int j = 0; j < DEFAULT_SIZE; j++) {
-      if (game_get_square(g, i, j) == EMPTY) {
-        printf("  ");
-      }
-      if (game_get_square(g, i, j) == TREE) {
-        printf("X ");
-      }
-      if (game_get_square(g, i, j) == TENT) {
-        printf("* ");
-      }
-      if (game_get_square(g, i, j) == GRASS) {
-        printf("- ");
-      }
+      print_square(game_get_square(g, i, j));
     }
 
     printf("| %d", g->nb_tent_row_expected[i]);
     printf("\n");
   }
-  // Affichage bordure inférieure
-  printf("   ");
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    printf("_ ");
-  }
-  printf("\n");
-  // Affichage nb tente attendues colonnes
+  // lower border
+  print_horizontal_border();
+  // Print of nb expected tents column
   printf("   ");
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     printf("%d ", g->nb_tent_col_expected[i]);

@@ -97,19 +97,29 @@ game game_copy(cgame g)
 bool game_equal(cgame g1, cgame g2)
 // Tests if two games are equal
 {
+  /*
   int j = 0;
   for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
     if (i % (DEFAULT_SIZE - 1) == 0) j++;
+  }*/
+
+  if (g1 == NULL || g2 == NULL) return g1 == g2;
+
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
+    }
   }
 
-  if (game_get_current_nb_tents_all(g1) == game_get_current_nb_tents_all(g2)) return 0;
-  if (game_get_expected_nb_tents_all(g1) == game_get_expected_nb_tents_all(g2)) return 0;
+  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) return 0;
+  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) return 0;
+
   for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (game_get_current_nb_tents_row(g1, i) == game_get_current_nb_tents_row(g2, i)) return 0;
-    if (game_get_current_nb_tents_col(g1, i) == game_get_current_nb_tents_col(g2, i)) return 0;
-    if (game_get_expected_nb_tents_col(g1, i) == game_get_expected_nb_tents_col(g2, i)) return 0;
-    if (game_get_expected_nb_tents_col(g1, i) == game_get_expected_nb_tents_col(g2, i)) return 0;
+    if (game_get_expected_nb_tents_col(g1, i) != game_get_expected_nb_tents_col(g2, i)) return 0;
+    if (game_get_expected_nb_tents_row(g1, i) != game_get_expected_nb_tents_row(g2, i)) return 0;
+    if (game_get_current_nb_tents_col(g1, i) != game_get_current_nb_tents_col(g2, i)) return 0;
+    if (game_get_current_nb_tents_row(g1, i) != game_get_current_nb_tents_row(g2, i)) return 0;
   }
   return 1;
 }

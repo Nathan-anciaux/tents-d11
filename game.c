@@ -76,7 +76,20 @@ game game_copy(cgame g)
 // 	Duplicates a game
 {
   // Get all the g attributes and create a new game g2 with those
+  /*game g2 = game_new_empty();
+
+  for (int k = 0; k < DEFAULT_SIZE; k++) {
+    game_set_expected_nb_tents_row(g2, k, g->nb_tent_row_expected[k]);
+    game_set_expected_nb_tents_col(g2, k, g->nb_tent_col_expected[k]);
+  }
+
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      game_set_square(g2, i, j, g->tab[i * DEFAULT_SIZE + j]);
+    }
+  }*/
   game g2 = game_new(g->tab, g->nb_tent_row_expected, g->nb_tent_col_expected);
+
   return g2;
 }
 
@@ -201,8 +214,7 @@ uint game_get_current_nb_tents_all(cgame g)
 void game_play_move(game g, uint i, uint j, square s)
 // Plays a move in a given square
 {
-  if (game_check_move(g,i,j,s))
-    g->tab[i*DEFAULT_SIZE + j] = s;
+  if (game_check_move(g, i, j, s)) g->tab[i * DEFAULT_SIZE + j] = s;
   return;
 }
 

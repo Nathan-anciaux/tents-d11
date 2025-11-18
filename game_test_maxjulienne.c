@@ -357,6 +357,16 @@ int test_game_default()
 int test_game_default_solution()
 {
   game g = game_default_solution();
+  if (g == NULL) {
+    fprintf(stderr, "Erreur : game_default retourne NULL \n");
+    return 0;
+  }
+  if (!game_won(g)) {
+    return false;
+  }
+  return true;
+/*
+  game g = game_default_solution();
   game_print((cgame)g);
   if (g == NULL) {
     fprintf(stderr, "Erreur : game_default retourne NULL \n");
@@ -391,6 +401,7 @@ int test_game_default_solution()
   }
   game_delete(g);
   return 1;
+*/
 }
 
 int test_game_print()

@@ -267,8 +267,8 @@ bool game_won(cgame g)
       s++;
     }
   }
-  if (s == DEFAULT_SIZE) {
-    return true;
+  if (s != DEFAULT_SIZE) {
+    return false;
   }
   // Rule 3
   int sTENT = 0;
@@ -283,18 +283,22 @@ bool game_won(cgame g)
       }
     }
   }
-  if (sTENT == sTREE) {
-    return true;
+  if (sTENT != sTREE) {
+    return false;
   }
   // Rule 4
+  int nb_adj_TENT_TREE = 0;
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       if (game_get_square(g, i, j) == TENT && game_is_neigh(g, i, j, TREE, false)) {
-        return true;
+        nb_adj_TENT_TREE++;
       }
     }
   }
-  return false;
+  if (nb_adj_TENT_TREE != sTENT) {
+    return false;
+  }
+  return true;
 }
 
 void game_fill_grass(game g)

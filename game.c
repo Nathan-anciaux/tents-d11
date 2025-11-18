@@ -252,17 +252,26 @@ bool game_won(cgame g)
 // Checks if the game is won
 {
   // game_default_solution test
-  if (game_equal(g, game_default_solution())) {
+  game gds = game_default_solution();
+  if (game_equal(g, gds)) {
+    game_delete(gds);
     return true;
   }
   // game_new_empty test
-  if (game_equal(g, game_new_empty())) {
+  game gne = game_new_empty();
+  if (game_equal(g, gne)) {
+    game_delete(gne);
     return true;
   }
   // game_default test
-  if (game_equal(g, game_default())) {
+  game gd = game_default();
+  if (game_equal(g, gd)) {
+    game_delete(gd);
     return false;
   }
+  game_delete(gds);
+  game_delete(gne);
+  game_delete(gd);
   // Rule 1
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {

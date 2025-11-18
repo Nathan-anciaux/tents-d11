@@ -225,7 +225,7 @@ void game_play_move(game g, uint i, uint j, square s)
 // Plays a move in a given square
 {
   if (game_check_move(g, i, j, s)) {
-    g->tab[i * DEFAULT_SIZE + j] = s;
+    game_set_square(g, i, j, s);
   }
   return;
 }

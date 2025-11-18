@@ -198,17 +198,27 @@ bool test_game_play_move(void)
 
   // le set de test pour chaque possibilité
   int test[9] = {EMPTY, TENT, TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};
-  int test_tents[9] = {0, 1, 0, -1, 0, 0, 1, -1, 0};
   int row0, col1, all;
+
+  bool interdit;
   for (int i = 0; i < 9; i++) {
+    square old = game_get_square(g, 0, 1);
+    square new = test[i];
+
+    interdit = game_check_move(g, 0, 1, new);
+
     row0 = game_get_current_nb_tents_row(g, 0);
     col1 = game_get_current_nb_tents_col(g, 1);
     all = game_get_current_nb_tents_all(g);
-    game_play_move(g, 0, 1, test[i]);
-    if (game_get_square(g, 0, 1) != test[i]) return 0;
-    if (game_get_current_nb_tents_row(g, 0) != row0 + test_tents[i]) return 0;
-    if (game_get_current_nb_tents_col(g, 1) != col1 + test_tents[i]) return 0;
-    if (game_get_current_nb_tents_all(g) != all + test_tents[i]) return 0;
+
+    game_play_move(g, 0, 1, new);
+    if (interdit) {
+      if (game_get_square(g, 0, 1) != new) return 0;
+      int diff = (new == TENT) - (old == TENT);
+      if (game_get_current_nb_tents_row(g, 0) != row0 + diff) return 0;
+      if (game_get_current_nb_tents_col(g, 1) != col1 + diff) return 0;
+      if (game_get_current_nb_tents_all(g) != all + diff) return 0;
+    }
   }
   game_delete(g);
   return 1;

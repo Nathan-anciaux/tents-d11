@@ -147,23 +147,24 @@ bool test_game_equal(void)
   if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) return 0;
   if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) return 0;
 
-  // ça sert a rien non?
   game g_copy = game_copy(g1);
-  if (g1 == NULL || !game_equal(g1, g_copy)) return 0;
+  if (g1 == NULL || !game_equal(g1, g_copy)) {game_delete(g_copy); return 0;}
   game_delete(g_copy);
 
   game g_fill = game_copy(g1);
   game_fill_grass(g_fill);
   game gf1 = game_copy(g_fill);
-  int test[3] = {TENT, EMPTY};
   if (!game_equal(gf1, g_fill)) return 0;
+
+  int test[3] = {TENT, EMPTY};
   for (int i = 0; i < 2; i++) {
-    game_play_move(g_fill, 0, 1, test[i]);
+    game_play_move(g_fill, 0, 4, test[i]);
     if (game_equal(gf1, g_fill)) return 0;
   }
 
   game_delete(g_fill);
   game_delete(gf1);
+  
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     game_set_expected_nb_tents_row(g2, i, 99);
     game_set_expected_nb_tents_col(g2, i, 99);
@@ -238,7 +239,7 @@ bool test_game_check_move(void)
   }
   // je fais toutes les autres possibilités possibles
   for (int i = 6; i < 15; i++) {
-    if (!game_check_move(g, 0, 1, test[i])) return 0;
+    if (!game_check_move(g, 0, 4, test[i])) return 0;
   }
   game_delete(g);
   game_delete(g1);

@@ -53,7 +53,7 @@ int main(void)
         }
         else if (c == 'q')
         {
-            printf("shame");
+            printf("shame \n");
             game_delete(g);
             return EXIT_SUCCESS;
         }

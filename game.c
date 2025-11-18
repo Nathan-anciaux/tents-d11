@@ -28,6 +28,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
 
+/*
   if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL) {
     free(g->tab);
     free(g->nb_tent_col_expected);
@@ -35,7 +36,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 
     fprintf(stderr, "ERROR");
     exit(EXIT_FAILURE);
-  }
+  }*/
 
   // Filling the table with all expected values (squares)
   for (uint i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
@@ -62,6 +63,7 @@ game game_new_empty(void)
   for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     tab[i] = EMPTY;
   }
+
   // Set all the expected tents to 0
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     expected_tent_col[i] = 0;
@@ -69,25 +71,13 @@ game game_new_empty(void)
   }
   // Create the game with all parameters empty
   game g = game_new(tab, expected_tent_row, expected_tent_col);
+  free(tab); free(expected_tent_row); free(expected_tent_col);
   return g;
 }
 
 game game_copy(cgame g)
 // 	Duplicates a game
 {
-  // Get all the g attributes and create a new game g2 with those
-  /*game g2 = game_new_empty();
-
-  for (int k = 0; k < DEFAULT_SIZE; k++) {
-    game_set_expected_nb_tents_row(g2, k, g->nb_tent_row_expected[k]);
-    game_set_expected_nb_tents_col(g2, k, g->nb_tent_col_expected[k]);
-  }
-
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
-      game_set_square(g2, i, j, g->tab[i * DEFAULT_SIZE + j]);
-    }
-  }*/
   game g2 = game_new(g->tab, g->nb_tent_row_expected, g->nb_tent_col_expected);
 
   return g2;
@@ -101,7 +91,7 @@ bool game_equal(cgame g1, cgame g2)
   int j = 0;
   for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
     if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
-    if (i % (DEFAULT_SIZE - 1) == 0) j++;
+    if (j % (DEFAULT_SIZE - 1) == 0) i++;
   }*/
 
   if (g1 == NULL || g2 == NULL) return g1 == g2;
@@ -233,26 +223,31 @@ void game_play_move(game g, uint i, uint j, square s)
 bool game_check_move(cgame g, uint i, uint j, square s)
 // Checks if a given move in a square is legal
 {
-  if (game_is_neigh(g, i, j, TENT, true)) {
-    return false;
+  if (i>=DEFAULT_SIZE || j>= DEFAULT_SIZE) return false;
+  if (s == TREE) return false;
+  if (game_get_square(g,i,j) == TREE) return false;
+
+  if (s == TENT){
+    if (game_is_neigh(g, i, j, TENT, true)) 
+      return false;
+    
+    if (game_get_current_nb_tents_row(g, i) >= game_get_expected_nb_tents_row(g, i)) 
+      return false;
+    
+    if (game_get_current_nb_tents_col(g, j) >= game_get_expected_nb_tents_col(g, j)) 
+      return false;
+    
+    if (!game_is_neigh(g, i, j, TREE, false)) 
+      return false;
   }
-  if (game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i)) {
-    return false;
-  }
-  if (game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i)) {
-    return false;
-  }
-  if (!game_is_neigh(g, i, j, TREE, true)) {
-    return false;
-  }
-  return true;
+  return 1;
 }
 
 bool game_won(cgame g)
 // Checks if the game is won
 {
   // game_default_solution test
-  game gds = game_default_solution();
+  /*game gds = game_default_solution();
   if (game_equal(g, gds)) {
     game_delete(gds);
     return true;
@@ -271,7 +266,7 @@ bool game_won(cgame g)
   }
   game_delete(gds);
   game_delete(gne);
-  game_delete(gd);
+  game_delete(gd);*/
   // Rule 1
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
@@ -308,16 +303,13 @@ bool game_won(cgame g)
     return false;
   }
   // Rule 4
-  int nb_adj_TENT_TREE = 0;
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
-      if (game_get_square(g, i, j) == TENT && game_is_neigh(g, i, j, TREE, false)) {
-        nb_adj_TENT_TREE++;
+      if (game_get_square(g, i, j) == TENT) {
+        if(!game_is_neigh(g, i, j, TREE, false))
+          return false;
       }
     }
-  }
-  if (nb_adj_TENT_TREE != sTENT) {
-    return false;
   }
   return true;
 }

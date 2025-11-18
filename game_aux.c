@@ -2,9 +2,29 @@
 #include "game_aux.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "game.h"
 #include "game_struct.h"
+
+static bool on_board (int i, int j){
+  return i >= 0 && i < DEFAULT_SIZE && j >= 0 && j < DEFAULT_SIZE;
+}
+
+typedef struct {
+  int row;
+  int col;
+} coord;
+
+static bool get_direction(direction d, int* di, int* dj){
+  static const coord coordonnees[] = {
+    {0,0},{-1,0},{1,0},{0,-1},{0,1},{-1,-1},{-1,1},{1,-1},{1,1}
+  };
+
+  *di = coordonnees[d].row;
+  *dj = coordonnees[d].col;
+  return 1;
+}
 
 void print_horizontal_border()
 // Auxiliary function to print an horizontal border
@@ -90,14 +110,14 @@ game game_default_solution(void)
 // Creates the default game solution.
 {
   square tab[DEFAULT_SIZE * DEFAULT_SIZE] = {
-      TREE,  EMPTY, EMPTY, EMPTY, TENT,  TREE,  TREE,  EMPTY, 
-      TENT,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TENT,  EMPTY,
-      EMPTY, EMPTY, TENT,  EMPTY, EMPTY, EMPTY, TREE,  EMPTY, 
-      TREE,  EMPTY, TREE,  EMPTY, TENT,  EMPTY, TENT,  EMPTY,
-      TENT,  EMPTY, TENT,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, 
-      EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TENT,  EMPTY, EMPTY, 
-      TENT,  TREE,  TREE,  TENT,  EMPTY, TREE,  TREE,  TENT};
+      TREE,  GRASS, GRASS, GRASS, TENT,  TREE,  TREE,  GRASS, 
+      TENT,  GRASS, GRASS, GRASS, GRASS, GRASS, TENT,  GRASS,
+      GRASS, GRASS, TENT,  GRASS, GRASS, GRASS, TREE,  GRASS, 
+      TREE,  GRASS, TREE,  GRASS, TENT,  GRASS, TENT,  GRASS,
+      TENT,  GRASS, TENT,  GRASS, TREE,  GRASS, GRASS, GRASS, 
+      GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS,
+      GRASS, GRASS, GRASS, GRASS, GRASS, TENT,  GRASS, GRASS, 
+      TENT,  TREE,  TREE,  TENT,  GRASS, TREE,  TREE,  TENT};
 
   uint expected_tent_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
   uint expected_tent_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
@@ -105,25 +125,6 @@ game game_default_solution(void)
   game g = game_new(tab, expected_tent_row, expected_tent_col);
 
   return g;
-}
-
-static bool on_board (int i, int j){
-  return i >= 0 && i < DEFAULT_SIZE && j >= 0 && j < DEFAULT_SIZE;
-}
-
-typedef struct {
-  int row;
-  int col;
-} coord;
-
-static bool get_direction(direction d, int* di, int* dj){
-  static const coord coordonnees[] = {
-    {0,0},{-1,0},{1,0},{0,-1},{0,1},{-1,-1},{-1,1},{1,-1},{1,1}
-  };
-
-  *di = coordonnees[d].row;
-  *dj = coordonnees[d].col;
-  return 1;
 }
 
 bool game_get_ajacent_square(cgame g, uint i, uint j, direction d, uint* pi_next, uint* pj_next)

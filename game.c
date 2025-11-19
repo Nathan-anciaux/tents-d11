@@ -6,22 +6,31 @@
 
 #include "game_struct.h"
 
-static void game_pointer_validity_verification(game g)
+//Problème dans le check move : ne permet pas de poser de tente, jsp pourquoi
+
+
+
+void game_delete(game g)
+// Deletes the game and frees the allocated memory
 {
-  if (g == NULL) {
-    free(g);
-    fprintf(stderr, "ERROR, game pointer is NULL");
-    exit(EXIT_FAILURE);
-  }
+  free(g->tab);
+  free(g->nb_tent_col_expected);
+  free(g->nb_tent_row_expected);
+  free(g);
+  return;
 }
+
 
 game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 // Creates a new game with default size and initializes it
 {
   // memory allocation for all g attribut's
   game g = malloc(sizeof(struct game_s));
-
-  game_pointer_validity_verification(g);  // We test it only here beacause each time we want to create a game we use this function
+  if (g == NULL){
+    free(g);
+    exit(EXIT_FAILURE);
+  }
+  
 
   g->tab = malloc(DEFAULT_SIZE * DEFAULT_SIZE * sizeof(square));
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
@@ -29,12 +38,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL) {
-    free(g->tab);
-    free(g->nb_tent_col_expected);
-    free(g->nb_tent_row_expected);
-    free(g);
-    fprintf(stderr, "ERROR");
-    exit(EXIT_FAILURE);
+    game_delete(g);
   }
 
   // Filling the table with all expected values (squares)
@@ -113,19 +117,14 @@ bool game_equal(cgame g1, cgame g2)
   return 1;
 }
 
-void game_delete(game g)
-// Deletes the game and frees the allocated memory
-{
-  free(g->tab);
-  free(g->nb_tent_col_expected);
-  free(g->nb_tent_row_expected);
-  free(g);
-  return;
-}
+
 
 void game_set_square(game g, uint i, uint j, square s)
 // Sets the value of a given square
-{
+{ 
+  if (s == TENT){
+    printf("TENT ajoutée \n");
+  }
   g->tab[i * DEFAULT_SIZE + j] = s;
   return;
 }
@@ -213,6 +212,9 @@ uint game_get_current_nb_tents_all(cgame g)
 void game_play_move(game g, uint i, uint j, square s)
 // Plays a move in a given square
 {
+  if (s == TENT){
+    printf("TENT ajoutée play_move\n");
+  }
   if (game_check_move(g, i, j, s)) {
     game_set_square(g, i, j, s);
   }
@@ -226,7 +228,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
   if (s == TREE) return false;
   if (game_get_square(g,i,j) == TREE) return false;
 
-  if (s == TENT){
+  /*if (s == TENT){
     if (game_is_neigh(g, i, j, TENT, true)) 
       return false;
     
@@ -238,7 +240,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
     
     if (!game_is_neigh(g, i, j, TREE, false)) 
       return false;
-  }
+  }*/
   return 1;
 }
 

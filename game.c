@@ -223,7 +223,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
   if (s == TREE) return false;
   if (game_get_square(g, i, j) == TREE) return false;
 
-  /*if (s == TENT){
+  if (s == TENT){
     if (game_is_neigh(g, i, j, TENT, true))
       return false;
 
@@ -235,7 +235,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 
     if (!game_is_neigh(g, i, j, TREE, false))
       return false;
-  }*/
+  }
   return 1;
 }
 

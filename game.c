@@ -32,7 +32,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
     free(g->tab);
     free(g->nb_tent_col_expected);
     free(g->nb_tent_row_expected);
-
+    free(g);
     fprintf(stderr, "ERROR");
     exit(EXIT_FAILURE);
   }

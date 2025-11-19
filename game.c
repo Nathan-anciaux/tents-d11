@@ -21,14 +21,13 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   // memory allocation for all g attribut's
   game g = malloc(sizeof(struct game_s));
 
-  game_pointer_validity_verification(
-      g);  // We test it only here beacause each time we want to create a game we use this function
+  game_pointer_validity_verification(g);  // We test it only here beacause each time we want to create a game we use this function
 
   g->tab = malloc(DEFAULT_SIZE * DEFAULT_SIZE * sizeof(square));
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
 
-/*
+
   if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL) {
     free(g->tab);
     free(g->nb_tent_col_expected);
@@ -36,7 +35,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 
     fprintf(stderr, "ERROR");
     exit(EXIT_FAILURE);
-  }*/
+  }
 
   // Filling the table with all expected values (squares)
   for (uint i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {

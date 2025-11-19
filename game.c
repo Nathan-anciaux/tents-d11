@@ -6,9 +6,7 @@
 
 #include "game_struct.h"
 
-//Problème dans le check move : ne permet pas de poser de tente, jsp pourquoi
-
-
+// Problème dans le check move : ne permet pas de poser de tente, jsp pourquoi
 
 void game_delete(game g)
 // Deletes the game and frees the allocated memory
@@ -20,22 +18,19 @@ void game_delete(game g)
   return;
 }
 
-
 game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 // Creates a new game with default size and initializes it
 {
   // memory allocation for all g attribut's
   game g = malloc(sizeof(struct game_s));
-  if (g == NULL){
+  if (g == NULL) {
     free(g);
     exit(EXIT_FAILURE);
   }
-  
 
   g->tab = malloc(DEFAULT_SIZE * DEFAULT_SIZE * sizeof(square));
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
-
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL) {
     game_delete(g);
@@ -74,7 +69,9 @@ game game_new_empty(void)
   }
   // Create the game with all parameters empty
   game g = game_new(tab, expected_tent_row, expected_tent_col);
-  free(tab); free(expected_tent_row); free(expected_tent_col);
+  free(tab);
+  free(expected_tent_row);
+  free(expected_tent_col);
   return g;
 }
 
@@ -117,12 +114,10 @@ bool game_equal(cgame g1, cgame g2)
   return 1;
 }
 
-
-
 void game_set_square(game g, uint i, uint j, square s)
 // Sets the value of a given square
-{ 
-  if (s == TENT){
+{
+  if (s == TENT) {
     printf("TENT ajoutée \n");
   }
   g->tab[i * DEFAULT_SIZE + j] = s;
@@ -212,7 +207,7 @@ uint game_get_current_nb_tents_all(cgame g)
 void game_play_move(game g, uint i, uint j, square s)
 // Plays a move in a given square
 {
-  if (s == TENT){
+  if (s == TENT) {
     printf("TENT ajoutée play_move\n");
   }
   if (game_check_move(g, i, j, s)) {
@@ -224,21 +219,21 @@ void game_play_move(game g, uint i, uint j, square s)
 bool game_check_move(cgame g, uint i, uint j, square s)
 // Checks if a given move in a square is legal
 {
-  if (i>=DEFAULT_SIZE || j>= DEFAULT_SIZE) return false;
+  if (i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) return false;
   if (s == TREE) return false;
-  if (game_get_square(g,i,j) == TREE) return false;
+  if (game_get_square(g, i, j) == TREE) return false;
 
   /*if (s == TENT){
-    if (game_is_neigh(g, i, j, TENT, true)) 
+    if (game_is_neigh(g, i, j, TENT, true))
       return false;
-    
-    if (game_get_current_nb_tents_row(g, i) >= game_get_expected_nb_tents_row(g, i)) 
+
+    if (game_get_current_nb_tents_row(g, i) >= game_get_expected_nb_tents_row(g, i))
       return false;
-    
-    if (game_get_current_nb_tents_col(g, j) >= game_get_expected_nb_tents_col(g, j)) 
+
+    if (game_get_current_nb_tents_col(g, j) >= game_get_expected_nb_tents_col(g, j))
       return false;
-    
-    if (!game_is_neigh(g, i, j, TREE, false)) 
+
+    if (!game_is_neigh(g, i, j, TREE, false))
       return false;
   }*/
   return 1;
@@ -307,8 +302,7 @@ bool game_won(cgame g)
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       if (game_get_square(g, i, j) == TENT) {
-        if(!game_is_neigh(g, i, j, TREE, false))
-          return false;
+        if (!game_is_neigh(g, i, j, TREE, false)) return false;
       }
     }
   }

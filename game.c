@@ -169,6 +169,10 @@ uint game_get_expected_nb_tents_all(cgame g)
 uint game_get_current_nb_tents_row(cgame g, uint i)
 // Gets the current number of tents in a given row.
 {
+  if (i >= DEFAULT_SIZE) {
+    return 0;
+  }
+
   uint u = 0;
   for (int j = 0; j < DEFAULT_SIZE; j++) {
     if (game_get_square(g, i, j) == TENT) {
@@ -181,6 +185,9 @@ uint game_get_current_nb_tents_row(cgame g, uint i)
 uint game_get_current_nb_tents_col(cgame g, uint j)
 // Gets the current number of tents in a given column.
 {
+  if (j >= DEFAULT_SIZE) {
+    return 0;
+  }
   uint u = 0;
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     if (game_get_square(g, i, j) == TENT) {

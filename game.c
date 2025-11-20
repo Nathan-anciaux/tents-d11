@@ -241,7 +241,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 
   // Si on met en commentaire de ici
   if (s == TENT) {
-    if (game_is_neigh(g, i, j, TENT, true)) return false;
+    // if (game_is_neigh(g, i, j, TENT, true)) return false;
 
     // if (game_get_current_nb_tents_row(g, i) >= game_get_expected_nb_tents_row(g, i)) return false;
 

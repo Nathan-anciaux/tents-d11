@@ -127,6 +127,7 @@ void game_set_square(game g, uint i, uint j, square s)
 square game_get_square(cgame g, uint i, uint j)
 // Gets the value of a given square
 {
+  if (j < 0 || i < 0 || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) exit(EXIT_FAILURE);
   return g->tab[i * DEFAULT_SIZE + j];
 }
 

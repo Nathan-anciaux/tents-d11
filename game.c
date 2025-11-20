@@ -223,20 +223,16 @@ bool game_check_move(cgame g, uint i, uint j, square s)
   if (s == TREE) return false;
   if (game_get_square(g, i, j) == TREE) return false;
 
-  // Si on met en commentaire de ici 
-  /*if (s == TENT){
-    if (game_is_neigh(g, i, j, TENT, true))
-      return false;
+  // Si on met en commentaire de ici
+  if (s == TENT) {
+    if (game_is_neigh(g, i, j, TENT, true)) return false;
 
-    if (game_get_current_nb_tents_row(g, i) >= game_get_expected_nb_tents_row(g, i))
-      return false;
+    if (game_get_current_nb_tents_row(g, i) >= game_get_expected_nb_tents_row(g, i)) return false;
 
-    if (game_get_current_nb_tents_col(g, j) >= game_get_expected_nb_tents_col(g, j))
-      return false;
+    if (game_get_current_nb_tents_col(g, j) >= game_get_expected_nb_tents_col(g, j)) return false;
 
-    if (!game_is_neigh(g, i, j, TREE, false))
-      return false;
-  }*/
+    if (!game_is_neigh(g, i, j, TREE, false)) return false;
+  }
   // a ici, tout se passe bien 100% sur moodle
   return 1;
 }

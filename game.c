@@ -150,12 +150,14 @@ void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)
 uint game_get_expected_nb_tents_row(cgame g, uint i)
 // Gets the expected number of tents in a given row
 {
+  if (g == NULL) return 0;
   return g->nb_tent_row_expected[i];
 }
 
 uint game_get_expected_nb_tents_col(cgame g, uint j)
 // Gets the expected number of tents in a given column
 {
+  if (g == NULL) return 0;
   return g->nb_tent_col_expected[j];
 }
 
@@ -232,6 +234,7 @@ void game_play_move(game g, uint i, uint j, square s)
 bool game_check_move(cgame g, uint i, uint j, square s)
 // Checks if a given move in a square is legal
 {
+  if (g == NULL) return 0;
   if (i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) return false;
   if (s == TREE) return false;
   if (game_get_square(g, i, j) == TREE) return false;

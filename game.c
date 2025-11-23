@@ -32,7 +32,8 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
 
-  if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL) {
+  if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
+      g->nb_tent_row_expected == NULL) {
     game_delete(g);
     exit(EXIT_FAILURE);
   }
@@ -103,14 +104,24 @@ bool game_equal(cgame g1, cgame g2)
     }
   }
 
-  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) return 0;
-  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) return 0;
+  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2))
+    return 0;
+  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2))
+    return 0;
 
   for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (game_get_expected_nb_tents_col(g1, i) != game_get_expected_nb_tents_col(g2, i)) return 0;
-    if (game_get_expected_nb_tents_row(g1, i) != game_get_expected_nb_tents_row(g2, i)) return 0;
-    if (game_get_current_nb_tents_col(g1, i) != game_get_current_nb_tents_col(g2, i)) return 0;
-    if (game_get_current_nb_tents_row(g1, i) != game_get_current_nb_tents_row(g2, i)) return 0;
+    if (game_get_expected_nb_tents_col(g1, i) !=
+        game_get_expected_nb_tents_col(g2, i))
+      return 0;
+    if (game_get_expected_nb_tents_row(g1, i) !=
+        game_get_expected_nb_tents_row(g2, i))
+      return 0;
+    if (game_get_current_nb_tents_col(g1, i) !=
+        game_get_current_nb_tents_col(g2, i))
+      return 0;
+    if (game_get_current_nb_tents_row(g1, i) !=
+        game_get_current_nb_tents_row(g2, i))
+      return 0;
   }
   return 1;
 }
@@ -129,7 +140,8 @@ square game_get_square(cgame g, uint i, uint j)
 // Gets the value of a given square
 {
   if (g == NULL) return 0;
-  if (j < 0 || i < 0 || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) exit(EXIT_FAILURE);
+  if (j < 0 || i < 0 || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE)
+    exit(EXIT_FAILURE);
   return g->tab[i * DEFAULT_SIZE + j];
 }
 
@@ -269,7 +281,8 @@ bool game_won(cgame g)
   // Rule 1
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
-      if (game_get_square(g, i, j) == TENT && game_is_neigh(g, i, j, TENT, true)) {
+      if (game_get_square(g, i, j) == TENT &&
+          game_is_neigh(g, i, j, TENT, true)) {
         return false;
       }
     }
@@ -277,8 +290,10 @@ bool game_won(cgame g)
   // Rule 2
   int s = 0;
   for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i) &&
-        game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i)) {
+    if (game_get_current_nb_tents_row(g, i) ==
+            game_get_expected_nb_tents_row(g, i) &&
+        game_get_current_nb_tents_col(g, i) ==
+            game_get_expected_nb_tents_col(g, i)) {
       s++;
     }
   }
@@ -315,8 +330,8 @@ bool game_won(cgame g)
 void game_fill_grass(game g)
 // Fills the board with grass
 {
-  // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more understandable and to use already done
-  // functions
+  // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more
+  // understandable and to use already done functions
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       if (game_get_square(g, i, j) == EMPTY) {

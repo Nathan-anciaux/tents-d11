@@ -33,6 +33,8 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   g->tab = malloc(DEFAULT_SIZE * sizeof(square*));
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
+  g->width = DEFAULT_SIZE;
+  g->height = DEFAULT_SIZE;
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
       g->nb_tent_row_expected == NULL || g->elem == NULL) {

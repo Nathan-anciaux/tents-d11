@@ -8,12 +8,14 @@ set(CMAKE_C_FLAGS "-std=c99 -g -Wall")
 add_library(game STATIC 
         game.c
         game_aux.c
+        game_ext.c
 )
 include(CTest)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game)
+
 
 add_executable(game_test_maxjulienne game_test_maxjulienne.c game_aux.c game.c)
 target_link_libraries(game_test_maxjulienne)

@@ -6,7 +6,8 @@
 
 struct game_s {
   // pour les nombres de tentes attendues colonne et  ligne : 2 tableaux
-  square *tab;  // tableau simple pour la grille
+  square **tab;  // tableau simple pour la grille
+  square *elem;
   uint *nb_tent_row_expected;
   uint *nb_tent_col_expected;
 };

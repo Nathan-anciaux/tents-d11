@@ -12,6 +12,7 @@ void game_delete(game g)
 // Deletes the game and frees the allocated memory
 {
   free(g->tab);
+  free(g->elem);
   free(g->nb_tent_col_expected);
   free(g->nb_tent_row_expected);
   free(g);
@@ -28,24 +29,29 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
     exit(EXIT_FAILURE);
   }
 
-  g->tab = malloc(DEFAULT_SIZE * DEFAULT_SIZE * sizeof(square));
+  g->elem = malloc(DEFAULT_SIZE * DEFAULT_SIZE * sizeof(square));
+  g->tab = malloc(DEFAULT_SIZE * sizeof(square*));
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
-      g->nb_tent_row_expected == NULL) {
+      g->nb_tent_row_expected == NULL || g->elem == NULL) {
     game_delete(g);
     exit(EXIT_FAILURE);
   }
 
   // Filling the table with all expected values (squares)
   for (uint i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
-    g->tab[i] = squares[i];
+    g->elem[i] = squares[i];
   }
 
   for (uint i = 0; i < DEFAULT_SIZE; i++) {
     g->nb_tent_col_expected[i] = nb_tents_col[i];
     g->nb_tent_row_expected[i] = nb_tents_row[i];
+  }
+  // Filling
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    g->tab[i] = &g->elem[i * DEFAULT_SIZE];
   }
 
   return g;
@@ -80,7 +86,7 @@ game game_new_empty(void)
 game game_copy(cgame g)
 // 	Duplicates a game
 {
-  game g2 = game_new(g->tab, g->nb_tent_row_expected, g->nb_tent_col_expected);
+  game g2 = game_new(g->elem, g->nb_tent_row_expected, g->nb_tent_col_expected);
 
   return g2;
 }
@@ -129,10 +135,7 @@ bool game_equal(cgame g1, cgame g2)
 void game_set_square(game g, uint i, uint j, square s)
 // Sets the value of a given square
 {
-  if (s == TENT) {
-    printf("TENT ajoutée \n");
-  }
-  g->tab[i * DEFAULT_SIZE + j] = s;
+  g->tab[i][j] = s;
   return;
 }
 
@@ -142,7 +145,7 @@ square game_get_square(cgame g, uint i, uint j)
   if (g == NULL) return 0;
   if (j < 0 || i < 0 || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE)
     exit(EXIT_FAILURE);
-  return g->tab[i * DEFAULT_SIZE + j];
+  return g->tab[i][j];
 }
 
 void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents)

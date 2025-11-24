@@ -11,8 +11,8 @@ struct game_s {
   square *elem; // Tableau de tous les 
   uint *nb_tent_row_expected;
   uint *nb_tent_col_expected;
-  int width;
-  int height;
+  uint width;
+  uint height;
 };
 typedef struct game_s *game;
 

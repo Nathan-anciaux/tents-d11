@@ -52,6 +52,9 @@ void print_square(square s)
     case GRASS:
       printf("- ");
       break;
+    case BIGTREE:
+      printf("# ");
+      break;
   }
 }
 

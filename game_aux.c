@@ -140,9 +140,28 @@ bool game_get_ajacent_square(cgame g, uint i, uint j, direction d,
   get_direction(d, &row, &col);
   int new_row = i + row;
   int new_col = j + col;
-  if (!on_board(g, new_row, new_col)) return 0;
-  *pi_next = new_row;
-  *pj_next = new_col;
+  if (!on_board(new_row, new_col)) return 0;
+  /*
+   *pi_next = new_row;
+   *pj_next = new_col;
+   */
+
+  // POUR WRAPPED
+  //  regarde la direction qu'on a et suivant celle ci si mon nbr de colonne /
+  //  ligne excede on va modulo ou revenir au debut quoi
+  if (new_col > g->width) {
+    *pj_next = 0;
+  }
+  if (new_col < 0) {
+    *pj_next = g->width;
+  }
+  if (new_row > g->height) {
+    *pi_next = 0;
+  }
+  if (new_row < 0) {
+    *pi_next = g->height;
+  }
+
   return 1;
 }
 

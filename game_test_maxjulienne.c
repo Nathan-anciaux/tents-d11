@@ -170,11 +170,11 @@ int test_game_fill_grass() {
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnée
   game tab[5];
-  tab[0] = game_new_empty();
-  tab[1] = game_default();
-  tab[2] = game_new_empty();
-  tab[3] = game_new_empty();
-  tab[4] = game_default_solution();
+  tab[0] = game_new_empty(); //game vide
+  tab[1] = game_default(); //game normale
+  tab[2] = game_new_empty(); //game remplie de tente
+  tab[3] = game_new_empty(); //Game remplies d'arbres
+  tab[4] = game_default_solution(); //Game gagnée
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       game_set_square(tab[2], i, j, TENT);

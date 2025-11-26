@@ -59,7 +59,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   return g;
 }
 
-game game_new_empty(void)
+game game_new_empty(void) // Attention ici on utilise l'implémentaion 1d du tableau
 // Creates a new empty game with defaut size
 {
   // Allocation of the element to be completed and to use with game_new

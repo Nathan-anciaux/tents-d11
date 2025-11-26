@@ -140,7 +140,7 @@ bool game_get_ajacent_square(cgame g, uint i, uint j, direction d,
   get_direction(d, &row, &col);
   int new_row = i + row;
   int new_col = j + col;
-  if (!on_board(new_row, new_col)) return 0;
+  if (!on_board(g, new_row, new_col)) return 0;
   /*
    *pi_next = new_row;
    *pj_next = new_col;

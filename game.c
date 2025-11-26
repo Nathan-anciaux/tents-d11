@@ -105,9 +105,12 @@ bool game_equal(cgame g1, cgame g2)
   }*/
 
   if (g1 == NULL || g2 == NULL) return g1 == g2;
+  if (g1->height != g2->height || g1->width != g2->width){
+    return false;
+  }
 
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g1->height; i++) {
+    for (int j = 0; j < g1->width; j++) {
       if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
     }
   }
@@ -117,18 +120,22 @@ bool game_equal(cgame g1, cgame g2)
   if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2))
     return 0;
 
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (game_get_expected_nb_tents_col(g1, i) !=
-        game_get_expected_nb_tents_col(g2, i))
-      return 0;
+  for (int i = 0; i < g1->height; i++) {
+    
     if (game_get_expected_nb_tents_row(g1, i) !=
         game_get_expected_nb_tents_row(g2, i))
       return 0;
     if (game_get_current_nb_tents_col(g1, i) !=
         game_get_current_nb_tents_col(g2, i))
       return 0;
-    if (game_get_current_nb_tents_row(g1, i) !=
+  }
+    
+  for (int i = 0; i < g1->width; i++) {
+      if (game_get_current_nb_tents_row(g1, i) !=
         game_get_current_nb_tents_row(g2, i))
+      return 0;
+    if (game_get_expected_nb_tents_col(g1, i) !=
+        game_get_expected_nb_tents_col(g2, i))
       return 0;
   }
   return 1;
@@ -145,7 +152,7 @@ square game_get_square(cgame g, uint i, uint j)
 // Gets the value of a given square
 {
   if (g == NULL) return 0;
-  if (j < 0 || i < 0 || i >= DEFAULT_SIZE || j >= DEFAULT_SIZE)
+  if (j < 0 || i < 0 || i >= g->height || j >= g->width)
     exit(EXIT_FAILURE);
   return g->tab[i][j];
 }
@@ -182,7 +189,7 @@ uint game_get_expected_nb_tents_all(cgame g)
 // Gets the expected number of tents on the whole grid.
 {
   uint u = 0;
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->width; i++) {
     u = u + g->nb_tent_row_expected[i];
   }
   return u;
@@ -192,12 +199,12 @@ uint game_get_current_nb_tents_row(cgame g, uint i)
 // Gets the current number of tents in a given row.
 {
   if (g == NULL) return 0;
-  if (i >= DEFAULT_SIZE) {
+  if (i >= g->width) {
     return 0;
   }
 
   uint u = 0;
-  for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int j = 0; j < g->height; j++) {
     if (game_get_square(g, i, j) == TENT) {
       u++;
     }
@@ -209,11 +216,11 @@ uint game_get_current_nb_tents_col(cgame g, uint j)
 // Gets the current number of tents in a given column.
 {
   if (g == NULL) return 0;
-  if (j >= DEFAULT_SIZE) {
+  if (j >= g->height) {
     return 0;
   }
   uint u = 0;
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->width; i++) {
     if (game_get_square(g, i, j) == TENT) {
       u++;
     }
@@ -226,8 +233,8 @@ uint game_get_current_nb_tents_all(cgame g)
 {
   if (g == NULL) return 0;
   uint u = 0;
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == TENT) {
         u++;
       }
@@ -239,9 +246,6 @@ uint game_get_current_nb_tents_all(cgame g)
 void game_play_move(game g, uint i, uint j, square s)
 // Plays a move in a given square
 {
-  if (s == TENT) {
-    printf("TENT ajoutée play_move\n");
-  }
   if (game_check_move(g, i, j, s)) {
     game_set_square(g, i, j, s);
   }
@@ -252,7 +256,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 // Checks if a given move in a square is legal
 {
   if (g == NULL) return 0;
-  if (i >= DEFAULT_SIZE || j >= DEFAULT_SIZE) return false;
+  if (i >= g->height || j >= g->width) return false;
   if (s == TREE) return false;
   if (game_get_square(g, i, j) == TREE) return false;
 
@@ -284,8 +288,8 @@ bool game_won(cgame g)
   game_delete(gne);
   game_delete(gd);*/
   // Rule 1
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == TENT &&
           game_is_neigh(g, i, j, TENT, true)) {
         return false;
@@ -293,23 +297,21 @@ bool game_won(cgame g)
     }
   }
   // Rule 2
-  int s = 0;
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (game_get_current_nb_tents_row(g, i) ==
-            game_get_expected_nb_tents_row(g, i) &&
-        game_get_current_nb_tents_col(g, i) ==
-            game_get_expected_nb_tents_col(g, i)) {
-      s++;
+  for (int i = 0; i < g->width; i++) {
+    if (!(game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i))){
+      return false;
     }
   }
-  if (s != DEFAULT_SIZE) {
-    return false;
+  for (int i = 0; i < g->height; i++) {
+    if (!(game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i))){
+      return false;
+    }
   }
   // Rule 3
   int sTENT = 0;
   int sTREE = 0;
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height ; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == TENT) {
         sTENT++;
       }
@@ -322,8 +324,8 @@ bool game_won(cgame g)
     return false;
   }
   // Rule 4
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == TENT) {
         if (!game_is_neigh(g, i, j, TREE, false)) return false;
       }
@@ -337,8 +339,8 @@ void game_fill_grass(game g)
 {
   // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more
   // understandable and to use already done functions
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == EMPTY) {
         game_set_square(g, i, j, GRASS);
       }
@@ -351,8 +353,8 @@ void game_restart(game g)
 // Restarts a game.
 {
   // Replace all squares with EMPTY if there are not TREE
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (!(game_get_square(g, i, j) == TREE)) {
         game_set_square(g, i, j, EMPTY);
       }

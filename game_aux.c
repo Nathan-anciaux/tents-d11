@@ -7,8 +7,9 @@
 #include "game.h"
 #include "game_struct.h"
 
-static bool on_board(int i, int j) {
-  return i >= 0 && i < DEFAULT_SIZE && j >= 0 && j < DEFAULT_SIZE;
+static bool on_board(cgame g, int i, int j) {
+  
+  return i >= 0 && i <  g->height && j >= 0 && j < g->width;
 }
 
 typedef struct {
@@ -63,7 +64,7 @@ void game_print(cgame g)
 {
   // Print of each column index
   printf("   ");
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->width; i++) {
     printf("%d ", i);
   }
   printf("\n");
@@ -71,9 +72,9 @@ void game_print(cgame g)
   print_horizontal_border();
   // Print in the following order : line index, border, game, border, nb of
   // expected tent
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->height; i++) {
     printf("%d |", i);
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+    for (int j = 0; j < g->width; j++) {
       print_square(game_get_square(g, i, j));
     }
 
@@ -84,7 +85,7 @@ void game_print(cgame g)
   print_horizontal_border();
   // Print of nb expected tents column
   printf("   ");
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->width; i++) {
     printf("%d ", g->nb_tent_col_expected[i]);
   }
   printf("\n");
@@ -139,7 +140,7 @@ bool game_get_ajacent_square(cgame g, uint i, uint j, direction d,
   get_direction(d, &row, &col);
   int new_row = i + row;
   int new_col = j + col;
-  if (!on_board(new_row, new_col)) return 0;
+  if (!on_board(g, new_row, new_col)) return 0;
   *pi_next = new_row;
   *pj_next = new_col;
   return 1;

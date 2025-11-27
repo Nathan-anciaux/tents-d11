@@ -14,7 +14,8 @@ struct game_s {
   uint *nb_tent_col_expected;
   uint width;
   uint height;
-  stack *undoredo;
+  stack *undo;
+  stack *redo;
   bool wrapped;
 };
 // typedef struct game_s *game;

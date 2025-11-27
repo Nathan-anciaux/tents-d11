@@ -250,9 +250,14 @@ void game_play_move(game g, uint i, uint j, square s)
 // Plays a move in a given square
 {
   if (game_check_move(g, i, j, s)) {
+    // on reinitialise le redo
+    delete_stack(g->redo);
+    g->redo = create_stack();
+
+    // on met letat de l'ancien carré dans le undo
+    setsquare squareplayed = {i, j, game_get_square(g, i, j)};
+    push(squareplayed, g->undo);
     game_set_square(g, i, j, s);
-    setsquare squareplayed = {i, j, s};
-    push(squareplayed, g->undoredo);
   }
   return;
 }

@@ -11,7 +11,7 @@
 // Cette fonction sera utilisée lorsque le tableau est plein et qu'on veut y
 // ajouter une valeur.
 static void grow_stack(stack *p) {
-  p->array = realloc(p->array, 2 * p->capacity * (sizeof(int)));
+  p->array = realloc(p->array, 2 * p->capacity * (sizeof(setsquare)));
   p->capacity *= 2;
   return;
 }
@@ -24,7 +24,7 @@ static void shrink_stack(stack *p) {
     printf("the table is too short !");
     return;
   }
-  p->array = realloc(p->array, p->capacity / 2 * sizeof(int));
+  p->array = realloc(p->array, p->capacity / 2 * sizeof(setsquare));
   p->capacity /= 2;
   return;
 }
@@ -37,7 +37,7 @@ stack *create_stack(void) {
   stack *p = malloc(sizeof(stack));
   p->capacity = 1;
   p->size_stack = 0;
-  p->array = malloc((p->capacity) * sizeof(int));
+  p->array = malloc((p->capacity) * sizeof(setsquare));
   return p;
 }
 

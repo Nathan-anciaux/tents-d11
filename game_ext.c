@@ -21,7 +21,8 @@ game game_new_ext(uint nb_rows, uint nb_cols, square *squares,
   g->tab = malloc(g->height * sizeof(square *));
   g->nb_tent_col_expected = malloc(g->width * sizeof(uint));
   g->nb_tent_row_expected = malloc(g->height * sizeof(uint));
-  g->undoredo = NULL;
+  g->undo = create_stack();
+  g->redo = create_stack();
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
       g->nb_tent_row_expected == NULL || g->elem == NULL) {
@@ -69,6 +70,27 @@ uint game_nb_cols(cgame g) { return g->width; }
 
 bool game_is_wrapping(cgame g) { return g->wrapped; }
 
-void game_undo(game g) { return; }
+void game_undo(game g) {
+  
+  if (!isempty_stack(g->undo)){
+    setsquare square;
+    square = pop(g->undo);
+    // j'undo en mettant l'ancien etat dans redo
+    setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
+    game_set_square(g, square.row, square.col, square.square);
+    push(squareplayed, g->redo);
+  }
+  return;
+}
 
-void game_redo(game g) { return; }
+void game_redo(game g) {
+  if (!isempty_stack(g->redo)){
+    setsquare square;
+    square = pop(g->redo);
+    // j'undo en mettant l'ancien etat dans redo
+    setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
+    game_set_square(g, square.row, square.col, square.square);
+    push(squareplayed, g->undo);
+  }
+  return;
+}

@@ -58,8 +58,8 @@ bool test_game_set_expected_nb_tents_row() {
   if (g == NULL) {
     return false;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       game_set_expected_nb_tents_row(g, i, j);
       if (game_get_expected_nb_tents_row(g, i) != j) {
         game_delete(g);
@@ -77,8 +77,8 @@ bool test_game_set_expected_nb_tents_col() {
   if (g == NULL) {
     return false;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       game_set_expected_nb_tents_col(g, i, j);
       if (game_get_expected_nb_tents_col(g, i) != j) {
         game_delete(g);

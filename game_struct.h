@@ -17,7 +17,7 @@ struct game_s {
   stack *undoredo;
   bool wrapped;
 };
-typedef struct game_s *game;
+// typedef struct game_s *game;
 
 void game_delete_ext(game g);
 

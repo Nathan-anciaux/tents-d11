@@ -6,6 +6,8 @@
 
 #include "game.h"
 #include "game_aux.h"
+#include "game_struct.h"
+#include "game_ext.h"
 
 bool test_game_new(void);
 bool test_game_new_empty(void);
@@ -21,9 +23,9 @@ int test_dummy() { return 1; }
 // ici je teste si les initialisationd e game_new sont pas deconnantes
 bool test_game_new(void) {
   // on initialise le game_default en gros
-  uint tents_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
-  uint tents_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
-  square squares[DEFAULT_SIZE * DEFAULT_SIZE] = {
+  uint tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};
+  uint tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};
+  square squares[] = {
       TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY,
       EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
       EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
@@ -49,10 +51,14 @@ bool test_game_new(void) {
   tents_col[0] = 3;
 
   // on regarde si chaque ligne a le bon nombre de tentes
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) return 0;
+  for (int i = 0; i < game_nb_rows(g_new); i++) {
     if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) return 0;
   }
+
+  for (int i = 0; i < game_nb_cols(g_new); i++) {
+    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) return 0;
+  }
+
   game_delete(g_new);
 
   // initialisation expres pas possible donc pas le game default
@@ -65,11 +71,12 @@ bool test_game_new(void) {
   if (game_equal(g_new, g_ref)) return 0;
 
   // Attention j'ai fait l'implementation naive qui va empecher les nombres
-  // abusés, mais faut faire nombre de empty /2
-  // (+1) fin meme pas c'est plus subtil nsm
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) return 0;
+  for (int i = 0; i < game_nb_rows(g_new); i++) {
     if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) return 0;
+  }
+
+  for (int i = 0; i < game_nb_cols(g_new); i++) {
+    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) return 0;
   }
 
   game_delete(g_new);
@@ -82,16 +89,20 @@ bool test_game_new_empty(void) {
   if (g == NULL) return 0;
 
   // on regarde si c'est bien empty partout
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) != EMPTY) return 0;
     }
   }
   // on regarde si c'est bien 0 partout
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    if (game_get_expected_nb_tents_col(g, i) != 0) return 0;
+  for (int i = 0; i < game_nb_rows(g); i++) {
     if (game_get_expected_nb_tents_row(g, i) != 0) return 0;
   }
+
+  for (int i = 0; i < game_nb_cols(g); i++) {
+    if (game_get_expected_nb_tents_col(g, i) != 0) return 0;
+  }
+
   if (game_get_current_nb_tents_all(g) != 0) return 0;
 
   game_delete(g);
@@ -115,9 +126,9 @@ bool test_game_copy() {
   game g2_copy = game_copy(g2);
   game g3 = game_default_solution();
   game g3_copy = game_copy(g3);
-
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  
+  for (int i = 0; i < game_nb_cols(g1); i++) {
+    for (int j = 0; j < game_nb_rows(g1); j++) {
       if (game_get_square(g1, i, j) != game_get_square(g1_copy, i, j) ||
           game_get_square(g2, i, j) != game_get_square(g2_copy, i, j) ||
           game_get_square(g3, i, j) != game_get_square(g3_copy, i, j))
@@ -125,6 +136,7 @@ bool test_game_copy() {
       ;
     }
   }
+
   if (g1 == g1_copy) return 0;
   if (g3 == g3_copy) return 0;
   if (g2 == g2_copy) return 0;
@@ -170,8 +182,12 @@ bool test_game_equal(void) {
   game_delete(g_fill);
   game_delete(gf1);
 
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < game_nb_rows(g2); i++) {
     game_set_expected_nb_tents_row(g2, i, 99);
+    if (game_equal(g2, g1)) return 0;
+  }
+
+  for (int i = 0; i < game_nb_cols(g2); i++) {
     game_set_expected_nb_tents_col(g2, i, 99);
     if (game_equal(g2, g1)) return 0;
   }
@@ -224,6 +240,7 @@ bool test_game_play_move(void) {
       if (game_get_current_nb_tents_all(g) != all + diff) return 0;
     }
   }
+  
   game_delete(g);
   return 1;
 }

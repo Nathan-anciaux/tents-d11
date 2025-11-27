@@ -21,6 +21,7 @@ game game_new_ext(uint width, uint height, square *squares, uint *nb_tents_row,
   g->nb_tent_row_expected = malloc(height * sizeof(uint));
   g->width = width;
   g->height = height;
+  g->undoredo = NULL;
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
       g->nb_tent_row_expected == NULL || g->elem == NULL) {
@@ -37,11 +38,11 @@ game game_new_ext(uint width, uint height, square *squares, uint *nb_tents_row,
     g->nb_tent_col_expected[i] = nb_tents_col[i];
   }
   for (uint i = 0; i < height; i++) {
-    g->nb_tent_row_expected[i] = nb_tents_col[i];
+    g->nb_tent_row_expected[i] = nb_tents_row[i];
   }
   // Filling
   for (int i = 0; i < height; i++) {
-    g->tab[i] = &g->elem[i * DEFAULT_SIZE];
+    g->tab[i] = &g->elem[i * width];
   }
 
   return g;

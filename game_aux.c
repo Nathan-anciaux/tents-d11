@@ -27,11 +27,11 @@ static bool get_direction(direction d, int* di, int* dj) {
   return 1;
 }
 
-void print_horizontal_border()
+void print_horizontal_border(int height)
 // Auxiliary function to print an horizontal border
 {
   printf("   ");
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < height; i++) {
     printf("_ ");
   }
   printf("\n");
@@ -69,7 +69,7 @@ void game_print(cgame g)
   }
   printf("\n");
   // Upper border
-  print_horizontal_border();
+  print_horizontal_border(g->height);
   // Print in the following order : line index, border, game, border, nb of
   // expected tent
   for (int i = 0; i < g->height; i++) {
@@ -82,7 +82,7 @@ void game_print(cgame g)
     printf("\n");
   }
   // lower border
-  print_horizontal_border();
+  print_horizontal_border(g->height);
   // Print of nb expected tents column
   printf("   ");
   for (int i = 0; i < g->width; i++) {

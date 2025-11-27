@@ -6,7 +6,10 @@
 
 #include "game_struct.h"
 
-// Problème dans le check move : ne permet pas de poser de tente, jsp pourquoi
+static bool on_board(cgame g, int i, int j) {
+  
+  return i >= 0 && i <  g->height && j >= 0 && j < g->width;
+}
 
 void game_delete(game g)
 // Deletes the game and frees the allocated memory
@@ -33,8 +36,8 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   g->tab = malloc(DEFAULT_SIZE * sizeof(square*));
   g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
-  g->width = (uint)DEFAULT_SIZE;
-  g->height = (uint)DEFAULT_SIZE;
+  g->width = DEFAULT_SIZE;
+  g->height = DEFAULT_SIZE;
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
       g->nb_tent_row_expected == NULL || g->elem == NULL) {
@@ -93,7 +96,6 @@ game game_copy(cgame g)
   return g2;
 }
 
-/*EVAANNNN*/
 bool game_equal(cgame g1, cgame g2)
 // Tests if two games are equal
 {
@@ -144,7 +146,8 @@ bool game_equal(cgame g1, cgame g2)
 void game_set_square(game g, uint i, uint j, square s)
 // Sets the value of a given square
 {
-  g->tab[i][j] = s;
+  if (on_board(g, i, j))
+    g->tab[i][j] = s;
   return;
 }
 

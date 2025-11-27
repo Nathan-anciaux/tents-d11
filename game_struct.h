@@ -4,6 +4,7 @@
 #include "game.h"
 #include "game_aux.h"
 #include "game_ext.h"
+#include "stack.h"
 
 struct game_s {
   // pour les nombres de tentes attendues colonne et  ligne : 2 tableaux
@@ -13,6 +14,7 @@ struct game_s {
   uint *nb_tent_col_expected;
   uint width;
   uint height;
+  stack *undoredo;
   bool wrapped;
 };
 typedef struct game_s *game;

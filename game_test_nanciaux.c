@@ -365,6 +365,20 @@ bool test_game_get_current_nb_tents_all() {
   return true;
 }
 
+bool test_game_new_ext() { return false; }
+
+bool test_game_redo() { return false; }
+
+bool test_game_undo() { return false; }
+
+bool test_game_is_wrapping() { return false; }
+
+bool test_game_nb_cols() { return false; }
+
+bool test_game_nb_rows() { return false; }
+
+bool test_game_new_empty_ext() { return false; }
+
 int main(int argc, char* argv[]) {
   bool ok = 0;
   if (argc == 1) {
@@ -403,6 +417,27 @@ int main(int argc, char* argv[]) {
   }
   if (strcmp("game_get_current_nb_tents_all", argv[1]) == 0) {
     ok = test_game_get_current_nb_tents_all();
+  }
+  if (strcmp("game_new_ext", argv[1]) == 0) {
+    ok = test_game_new_ext();
+  }
+  if (strcmp("game_new_empty_ext", argv[1]) == 0) {
+    ok = test_game_new_empty_ext();
+  }
+  if (strcmp("game_nb_rows", argv[1]) == 0) {
+    ok = test_game_nb_rows();
+  }
+  if (strcmp("game_nb_cols", argv[1]) == 0) {
+    ok = test_game_nb_cols();
+  }
+  if (strcmp("game_is_wrapping", argv[1]) == 0) {
+    ok = test_game_is_wrapping();
+  }
+  if (strcmp("game_undo", argv[1]) == 0) {
+    ok = test_game_undo();
+  }
+  if (strcmp("game_redo", argv[1]) == 0) {
+    ok = test_game_redo();
   }
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);

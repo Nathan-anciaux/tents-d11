@@ -160,9 +160,16 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
   int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1};
   if (diag) val = 16;
   for (int k = 0; k < val; k = k + 2) {
-    if (i + test[k] >= 0 && i + test[k] < DEFAULT_SIZE &&
-        j + test[k + 1] >= 0 && j + test[k + 1] < DEFAULT_SIZE)
-      if (game_get_square(g, i + test[k], j + test[k + 1]) == s) return 1;
+    if (!g->wrapped){
+      // on fait comme precedemment
+      if (i + test[k] >= 0 && i + test[k] < DEFAULT_SIZE &&
+          j + test[k + 1] >= 0 && j + test[k + 1] < DEFAULT_SIZE)
+        if (game_get_square(g, i + test[k], j + test[k + 1]) == s) return 1;}
+    else{
+      // on regarde avec les modulos pour que ce soit des cases dans le plateau
+      // similaire a ajacent square
+      if (game_get_square(g, (i + test[k]) % g->height, (j + test[k + 1]) % g->width) == s) return 1;
+    }
   }
   return 0;
 }

@@ -36,6 +36,8 @@ typedef enum {
  **/
 typedef struct game_s* game;
 
+struct setsquare;
+
 /**
  * @brief The structure constant pointer that stores the game state.
  * @details That means that it is not possible to modify the game using this

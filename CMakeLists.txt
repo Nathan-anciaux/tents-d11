@@ -9,6 +9,7 @@ add_library(game STATIC
         game.c
         game_aux.c
         game_ext.c
+        stack_by_array.c
 )
 include(CTest)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -16,9 +17,8 @@ target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game)
 
-
 add_executable(game_test_maxjulienne game_test_maxjulienne.c game_aux.c game.c game_ext.c)
-target_link_libraries(game_test_maxjulienne)
+target_link_libraries(game_test_maxjulienne game)
 add_test(test_maxjulienne_dummy ./game_test_maxjulienne dummy)
 add_test(test_game_won ./game_test_maxjulienne game_won)
 add_test(test_game_fill_grass ./game_test_maxjulienne game_fill_grass)
@@ -30,7 +30,7 @@ add_test(test_game_print ./game_test_maxjulienne game_print)
 add_test(test_game_get_ajacent_square ./game_test_maxjulienne game_get_ajacent_square)
 
 add_executable(game_test_nanciaux game_test_nanciaux.c game_aux.c game.c game_ext.c)
-target_link_libraries(game_test_nanciaux)
+target_link_libraries(game_test_nanciaux game)
 add_test(test_nanciaux_dummy ./game_test_nanciaux dummy)
 add_test(test_game_set_square ./game_test_nanciaux game_set_square)
 add_test(test_game_set_expected_nb_tents_row ./game_test_nanciaux game_set_expected_nb_tents_row)
@@ -51,7 +51,7 @@ add_test(test_game_new_empty_ext ./game_test_nanciaux game_new_empty_ext)
 add_test(test_game_new_ext ./game_test_nanciaux game_new_ext)
 
 add_executable(game_test_edejardin game_test_edejardin.c game_aux.c game.c game_ext.c)
-target_link_libraries(game_test_edejardin)
+target_link_libraries(game_test_edejardin game)
 add_test(test_game_new ./game_test_edejardin game_new)
 add_test(test_game_new_empty ./game_test_edejardin game_new_empty)
 add_test(test_game_copy ./game_test_edejardin game_copy)

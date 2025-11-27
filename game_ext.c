@@ -69,6 +69,6 @@ uint game_nb_cols(cgame g) { return g->width; }
 
 bool game_is_wrapping(cgame g) { return g->wrapped; }
 
-void game_undo(game) { return; }
+void game_undo(game g) { return; }
 
-void game_redo(game) { return; }
+void game_redo(game g) { return; }

@@ -140,28 +140,16 @@ bool game_get_ajacent_square(cgame g, uint i, uint j, direction d,
   get_direction(d, &row, &col);
   int new_row = i + row;
   int new_col = j + col;
-  if (!on_board(g, new_row, new_col)) return 0;
-  /*
-   *pi_next = new_row;
-   *pj_next = new_col;
-   */
-
+  if (!g->wrapped)
+    if (!on_board(g, new_row, new_col)) return 0;
+  
   // POUR WRAPPED
   //  regarde la direction qu'on a et suivant celle ci si mon nbr de colonne /
   //  ligne excede on va modulo ou revenir au debut quoi
-  if (new_col > g->width) {
-    *pj_next = 0;
-  }
-  if (new_col < 0) {
-    *pj_next = g->width;
-  }
-  if (new_row > g->height) {
-    *pi_next = 0;
-  }
-  if (new_row < 0) {
-    *pi_next = g->height;
-  }
-
+  // franchement si c'est ça c'est vraiment facile i = -1 modulo 7 = 6 --> la derniere ligne et la même pour les colonne 
+  *pi_next = new_row % g->height;
+  *pj_next = new_col % g->width;
+  
   return 1;
 }
 
@@ -172,9 +160,16 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
   int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1};
   if (diag) val = 16;
   for (int k = 0; k < val; k = k + 2) {
-    if (i + test[k] >= 0 && i + test[k] < DEFAULT_SIZE &&
-        j + test[k + 1] >= 0 && j + test[k + 1] < DEFAULT_SIZE)
-      if (game_get_square(g, i + test[k], j + test[k + 1]) == s) return 1;
+    if (!g->wrapped){
+      // on fait comme precedemment
+      if (i + test[k] >= 0 && i + test[k] < DEFAULT_SIZE &&
+          j + test[k + 1] >= 0 && j + test[k + 1] < DEFAULT_SIZE)
+        if (game_get_square(g, i + test[k], j + test[k + 1]) == s) return 1;}
+    else{
+      // on regarde avec les modulos pour que ce soit des cases dans le plateau
+      // similaire a ajacent square
+      if (game_get_square(g, (i + test[k]) % g->height, (j + test[k + 1]) % g->width) == s) return 1;
+    }
   }
   return 0;
 }

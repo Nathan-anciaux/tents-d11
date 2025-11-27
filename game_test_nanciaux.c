@@ -6,6 +6,20 @@
 #include "game_aux.h"
 #include "game_ext.h"
 
+bool test_game_redo();
+
+bool test_game_undo();
+
+bool test_game_is_wrapping();
+
+bool test_game_nb_cols();
+
+bool test_game_nb_rows();
+
+bool test_game_new_empty_ext();
+
+bool test_game_new_ext();
+
 bool test_game_set_square();
 
 bool test_game_set_expected_nb_tents_row();

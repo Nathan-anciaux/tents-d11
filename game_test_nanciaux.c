@@ -97,8 +97,8 @@ bool test_game_get_square() {
   if (g_empty == NULL) {
     return false;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(g_empty); i++) {
+    for (int j = 0; j < game_nb_cols(g_empty); j++) {
       for (int k = 0; k < 4; k++) {
         game_set_square(g_empty, i, j, L[k]);
         if (game_get_square(g_empty, i, j) != L[k]) {

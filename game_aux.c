@@ -8,8 +8,7 @@
 #include "game_struct.h"
 
 static bool on_board(cgame g, int i, int j) {
-  
-  return i >= 0 && i <  g->height && j >= 0 && j < g->width;
+  return i >= 0 && i < g->height && j >= 0 && j < g->width;
 }
 
 typedef struct {
@@ -142,14 +141,15 @@ bool game_get_ajacent_square(cgame g, uint i, uint j, direction d,
   int new_col = j + col;
   if (!g->wrapped)
     if (!on_board(g, new_row, new_col)) return 0;
-  
+
   // POUR WRAPPED
   //  regarde la direction qu'on a et suivant celle ci si mon nbr de colonne /
   //  ligne excede on va modulo ou revenir au debut quoi
-  // franchement si c'est ça c'est vraiment facile i = -1 modulo 7 = 6 --> la derniere ligne et la même pour les colonne 
+  // franchement si c'est ça c'est vraiment facile i = -1 modulo 7 = 6 --> la
+  // derniere ligne et la même pour les colonne
   *pi_next = new_row % g->height;
   *pj_next = new_col % g->width;
-  
+
   return 1;
 }
 
@@ -160,15 +160,17 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
   int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1};
   if (diag) val = 16;
   for (int k = 0; k < val; k = k + 2) {
-    if (!g->wrapped){
+    if (!g->wrapped) {
       // on fait comme precedemment
       if (i + test[k] >= 0 && i + test[k] < DEFAULT_SIZE &&
           j + test[k + 1] >= 0 && j + test[k + 1] < DEFAULT_SIZE)
-        if (game_get_square(g, i + test[k], j + test[k + 1]) == s) return 1;}
-    else{
+        if (game_get_square(g, i + test[k], j + test[k + 1]) == s) return 1;
+    } else {
       // on regarde avec les modulos pour que ce soit des cases dans le plateau
       // similaire a ajacent square
-      if (game_get_square(g, (i + test[k]) % g->height, (j + test[k + 1]) % g->width) == s) return 1;
+      if (game_get_square(g, (i + test[k]) % g->height,
+                          (j + test[k + 1]) % g->width) == s)
+        return 1;
     }
   }
   return 0;

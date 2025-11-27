@@ -7,8 +7,7 @@
 #include "game_struct.h"
 
 static bool on_board(cgame g, int i, int j) {
-  
-  return i >= 0 && i <  g->height && j >= 0 && j < g->width;
+  return i >= 0 && i < g->height && j >= 0 && j < g->width;
 }
 
 void game_delete(game g)
@@ -62,7 +61,8 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   return g;
 }
 
-game game_new_empty(void) // Attention ici on utilise l'implémentaion 1d du tableau
+game game_new_empty(
+    void)  // Attention ici on utilise l'implémentaion 1d du tableau
 // Creates a new empty game with defaut size
 {
   // Allocation of the element to be completed and to use with game_new
@@ -107,7 +107,7 @@ bool game_equal(cgame g1, cgame g2)
   }*/
 
   if (g1 == NULL || g2 == NULL) return g1 == g2;
-  if (g1->height != g2->height || g1->width != g2->width){
+  if (g1->height != g2->height || g1->width != g2->width) {
     return false;
   }
 
@@ -123,7 +123,6 @@ bool game_equal(cgame g1, cgame g2)
     return 0;
 
   for (int i = 0; i < g1->height; i++) {
-    
     if (game_get_expected_nb_tents_row(g1, i) !=
         game_get_expected_nb_tents_row(g2, i))
       return 0;
@@ -131,9 +130,9 @@ bool game_equal(cgame g1, cgame g2)
         game_get_current_nb_tents_col(g2, i))
       return 0;
   }
-    
+
   for (int i = 0; i < g1->width; i++) {
-      if (game_get_current_nb_tents_row(g1, i) !=
+    if (game_get_current_nb_tents_row(g1, i) !=
         game_get_current_nb_tents_row(g2, i))
       return 0;
     if (game_get_expected_nb_tents_col(g1, i) !=
@@ -146,8 +145,7 @@ bool game_equal(cgame g1, cgame g2)
 void game_set_square(game g, uint i, uint j, square s)
 // Sets the value of a given square
 {
-  if (on_board(g, i, j))
-    g->tab[i][j] = s;
+  if (on_board(g, i, j)) g->tab[i][j] = s;
   return;
 }
 
@@ -155,8 +153,7 @@ square game_get_square(cgame g, uint i, uint j)
 // Gets the value of a given square
 {
   if (g == NULL) return 0;
-  if (j < 0 || i < 0 || i >= g->height || j >= g->width)
-    exit(EXIT_FAILURE);
+  if (j < 0 || i < 0 || i >= g->height || j >= g->width) exit(EXIT_FAILURE);
   return g->tab[i][j];
 }
 
@@ -310,19 +307,21 @@ bool game_won(cgame g)
   }
   // Rule 2
   for (int i = 0; i < g->width; i++) {
-    if (!(game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i))){
+    if (!(game_get_current_nb_tents_col(g, i) ==
+          game_get_expected_nb_tents_col(g, i))) {
       return false;
     }
   }
   for (int i = 0; i < g->height; i++) {
-    if (!(game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i))){
+    if (!(game_get_current_nb_tents_row(g, i) ==
+          game_get_expected_nb_tents_row(g, i))) {
       return false;
     }
   }
   // Rule 3
   int sTENT = 0;
   int sTREE = 0;
-  for (int i = 0; i < g->height ; i++) {
+  for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == TENT) {
         sTENT++;
@@ -344,12 +343,12 @@ bool game_won(cgame g)
         if (!game_is_neigh(g, i, j, TREE, false)) return false;
       }
       if (game_get_square(g, i, j) == BIGTREE) {
-        if (game_get_square(g, i+1, j) == TENT) compteur ++;
-        if (game_get_square(g, i-1, j) == TENT) compteur ++;
-        if (game_get_square(g, i, j+1) == TENT) compteur ++;
-        if (game_get_square(g, i, j-1) == TENT) compteur ++;
+        if (game_get_square(g, i + 1, j) == TENT) compteur++;
+        if (game_get_square(g, i - 1, j) == TENT) compteur++;
+        if (game_get_square(g, i, j + 1) == TENT) compteur++;
+        if (game_get_square(g, i, j - 1) == TENT) compteur++;
       }
-      if (compteur != 2){
+      if (compteur != 2) {
         return false;
       }
       compteur = 0;

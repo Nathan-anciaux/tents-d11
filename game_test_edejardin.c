@@ -6,8 +6,8 @@
 
 #include "game.h"
 #include "game_aux.h"
-#include "game_struct.h"
 #include "game_ext.h"
+#include "game_struct.h"
 
 bool test_game_new(void);
 bool test_game_new_empty(void);
@@ -25,14 +25,14 @@ bool test_game_new(void) {
   // on initialise le game_default en gros
   uint tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};
   uint tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};
-  square squares[] = {
-      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
-      EMPTY, TREE,  TREE,  EMPTY};
+  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY,
+                      TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
 
   game g_new = game_new(squares, tents_row, tents_col);
   game g_ref = game_default();
@@ -126,7 +126,7 @@ bool test_game_copy() {
   game g2_copy = game_copy(g2);
   game g3 = game_default_solution();
   game g3_copy = game_copy(g3);
-  
+
   for (int i = 0; i < game_nb_cols(g1); i++) {
     for (int j = 0; j < game_nb_rows(g1); j++) {
       if (game_get_square(g1, i, j) != game_get_square(g1_copy, i, j) ||
@@ -240,7 +240,7 @@ bool test_game_play_move(void) {
       if (game_get_current_nb_tents_all(g) != all + diff) return 0;
     }
   }
-  
+
   game_delete(g);
   return 1;
 }

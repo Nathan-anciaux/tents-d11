@@ -71,12 +71,12 @@ uint game_nb_cols(cgame g) { return g->width; }
 bool game_is_wrapping(cgame g) { return g->wrapped; }
 
 void game_undo(game g) {
-  
-  if (!isempty_stack(g->undo)){
+  if (!isempty_stack(g->undo)) {
     setsquare square;
     square = pop(g->undo);
     // j'undo en mettant l'ancien etat dans redo
-    setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
+    setsquare squareplayed = {square.row, square.col,
+                              game_get_square(g, square.row, square.col)};
     game_set_square(g, square.row, square.col, square.square);
     push(squareplayed, g->redo);
   }
@@ -84,11 +84,12 @@ void game_undo(game g) {
 }
 
 void game_redo(game g) {
-  if (!isempty_stack(g->redo)){
+  if (!isempty_stack(g->redo)) {
     setsquare square;
     square = pop(g->redo);
     // j'undo en mettant l'ancien etat dans redo
-    setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
+    setsquare squareplayed = {square.row, square.col,
+                              game_get_square(g, square.row, square.col)};
     game_set_square(g, square.row, square.col, square.square);
     push(squareplayed, g->undo);
   }

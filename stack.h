@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "game.h"
 
 ///////////////////////////////////////////
@@ -21,9 +22,9 @@ typedef struct {
 } setsquare;
 
 typedef struct stack {
-  int capacity;    // Taille totale du tableau alloué en mémoire.
-  int size_stack;  // Nombre d'éléments dans la pile représentée.
-  setsquare *array;      // Tableau contenant les valeurs de la pile représentée.
+  int capacity;      // Taille totale du tableau alloué en mémoire.
+  int size_stack;    // Nombre d'éléments dans la pile représentée.
+  setsquare *array;  // Tableau contenant les valeurs de la pile représentée.
 } stack;
 
 ///////////////////////////////////
@@ -49,4 +50,4 @@ setsquare pop(stack *);
 // redimensionné au préalable, par la fonction grow_stack.
 void push(setsquare, stack *);
 
-#endif // STACK_H_
+#endif  // STACK_H_

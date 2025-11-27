@@ -365,7 +365,76 @@ bool test_game_get_current_nb_tents_all() {
   return true;
 }
 
-bool test_game_new_ext() { return false; }
+bool test_game_new_ext() {
+  // on initialise un game default
+  uint tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};
+  uint nb_rows = 8;
+  uint tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1, 0};
+  uint nb_cols = 9;
+  bool wrap = true;
+  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,  EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};
+
+  game g_new_ext =
+      game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+  if (g_new_ext == NULL) {
+    return false;
+    game_delete(g_new_ext);
+  }
+
+  // test data independence
+  squares[0] = EMPTY;
+  tents_row[0] = 99;
+  tents_col[0] = 99;
+  if (game_get_square(g_new_ext, 0, 0) != TREE) return false;
+  if (game_get_expected_nb_tents_row(g_new_ext, 0) != 1) return false;
+  if (game_get_expected_nb_tents_col(g_new_ext, 0) != 3) return false;
+  tents_row[0] = 1;
+  tents_col[0] = 3;
+  squares[0] = TREE;
+
+  // checks if each row have correct nb of tents
+  for (int i = 0; i < game_nb_rows(g_new_ext); i++) {
+    if (tents_row[i] != game_get_expected_nb_tents_row(g_new_ext, i)) {
+      return false;
+      game_delete(g_new_ext);
+    }
+  }
+
+  // checks if each col have correct nb of tents
+  for (int i = 0; i < game_nb_cols(g_new_ext); i++) {
+    if (tents_row[i] != game_get_expected_nb_tents_col(g_new_ext, i)) {
+      return false;
+      game_delete(g_new_ext);
+    }
+  }
+
+  // test with a another game
+  tents_row[0] = 7;
+  tents_col[0] = 7;
+  game g_new_ext_false = game_new(squares, tents_row, tents_col);
+  if (g_new_ext_false == NULL) {
+    return false;
+    game_delete(g_new_ext);
+    game_delete(g_new_ext);
+  }
+  if (game_equal(g_new_ext, g_new_ext_false)) {
+    return false;
+    game_delete(g_new_ext);
+    game_delete(g_new_ext);
+  }
+  return true;
+  game_delete(g_new_ext);
+  game_delete(g_new_ext_false);
+  return 1;
+}
 
 bool test_game_redo() { return false; }
 

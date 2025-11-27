@@ -4,6 +4,7 @@
 
 #include "game.h"
 #include "game_aux.h"
+#include "game_ext.h"
 
 bool test_game_set_square();
 
@@ -36,8 +37,8 @@ bool test_game_set_square() {
     return false;
   }
   int L[] = {TENT, GRASS, EMPTY, TREE};
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       for (int k = 0; k < 4; k++) {
         game_set_square(g, i, j, L[k]);
         if (game_get_square(g, i, j) != L[k]) {

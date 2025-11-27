@@ -234,7 +234,7 @@ bool test_game_get_expected_nb_tents_all() {
     game_delete(g);
     return false;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
     s = s + game_get_expected_nb_tents_row(g, i);
   }
   if (game_get_expected_nb_tents_all(g) != s) {
@@ -242,22 +242,22 @@ bool test_game_get_expected_nb_tents_all() {
     game_delete(g);
     return false;
   }
-  uint nb_tents_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};
-  uint nb_tents_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};
-  square squares[DEFAULT_SIZE * DEFAULT_SIZE] = {
-      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
-      EMPTY, TREE,  TREE,  EMPTY};
+  uint nb_tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};
+  uint nb_tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};
+  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY,
+                      TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
   game g_new = game_new(squares, nb_tents_row, nb_tents_col);
   if (g_new == NULL) {
     return false;
   }
   s = 0;
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
     s = s + game_get_expected_nb_tents_row(g_new, i);
   }
   if (game_get_expected_nb_tents_all(g_new) != s) {
@@ -280,9 +280,9 @@ bool test_game_get_current_nb_tents_row() {
     game_delete(g);
     return false;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
     s = 0;
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       if (game_get_square(g, i, j) == TENT) {
         s++;
       }
@@ -304,9 +304,9 @@ bool test_game_get_current_nb_tents_col() {
     game_delete(g);
     return false;
   }
-  for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int j = 0; j < game_nb_cols(g); j++) {
     s = 0;
-    for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int i = 0; i < game_nb_rows(g); i++) {
       if (game_get_square(g, i, j) == TENT) {
         s++;
       }
@@ -334,8 +334,8 @@ bool test_game_get_current_nb_tents_all() {
     game_delete(g);
     return false;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       if (game_get_square(g, i, j) == TENT) {
         s++;
       }

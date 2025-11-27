@@ -166,7 +166,7 @@ bool test_game_get_expected_nb_tents_row() {
   if (g == NULL) {
     return false;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
     if (game_get_expected_nb_tents_row(g, i) != nb_tents_row[i]) {
       game_delete(g);
       game_delete(g_empty);

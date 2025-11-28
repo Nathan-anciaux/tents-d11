@@ -17,6 +17,8 @@ void game_delete(game g)
   free(g->elem);
   free(g->nb_tent_col_expected);
   free(g->nb_tent_row_expected);
+  free(g->redo);
+  free(g->undo);
   free(g);
   return;
 }
@@ -37,6 +39,8 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
   g->width = DEFAULT_SIZE;
   g->height = DEFAULT_SIZE;
+  g->redo = create_stack();
+  g->undo = create_stack();
 
   if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
       g->nb_tent_row_expected == NULL || g->elem == NULL) {
@@ -126,14 +130,14 @@ bool game_equal(cgame g1, cgame g2)
     if (game_get_expected_nb_tents_row(g1, i) !=
         game_get_expected_nb_tents_row(g2, i))
       return 0;
-    if (game_get_current_nb_tents_col(g1, i) !=
-        game_get_current_nb_tents_col(g2, i))
+    if (game_get_current_nb_tents_row(g1, i) !=
+        game_get_current_nb_tents_row(g2, i))
       return 0;
   }
 
   for (int i = 0; i < g1->width; i++) {
-    if (game_get_current_nb_tents_row(g1, i) !=
-        game_get_current_nb_tents_row(g2, i))
+    if (game_get_current_nb_tents_col(g1, i) !=
+        game_get_current_nb_tents_col(g2, i))
       return 0;
     if (game_get_expected_nb_tents_col(g1, i) !=
         game_get_expected_nb_tents_col(g2, i))

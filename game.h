@@ -1,259 +1,120 @@
 /**
- * @file game.h
- * @brief Basic Game Functions.
+ * @file game_aux.h
+ * @brief Auxiliarry Game Functions.
  * @details See @ref index for further details.
  * @copyright University of Bordeaux. All rights reserved, 2025.
+ *
  **/
 
-#ifndef __GAME_H__
-#define __GAME_H__
-
+#ifndef __GAME_AUX_H__
+#define __GAME_AUX_H__
 #include <stdbool.h>
 
-/**
- * @brief Standard unsigned integer type.
- **/
-typedef unsigned int uint;
+#include "game.h"
 
-/**
- * @brief Size of the default game grid.
- **/
-#define DEFAULT_SIZE 8
-
-/**
- * @brief Different kinds of square used in the game.
- **/
 typedef enum {
-  EMPTY = 0,   /**< empty square */
-  TREE = 1,    /**< tree square */
-  TENT = 2,    /**< tent square */
-  GRASS = 3,   /**< grass square */
-  BIGTREE = 4, /**< big tree square */
-} square;
+  HERE,
+  UP,
+  DOWN,
+  LEFT,
+  RIGHT,
+  UP_LEFT,
+  UP_RIGHT,
+  DOWN_LEFT,
+  DOWN_RIGHT
+} direction;
 
 /**
- * @brief The structure pointer that stores the game state.
+ * @brief Prints a game as text on the standard output stream.
+ * @details The different squares EMPTY, TREE, TENT, GRASS and BIGTREE are
+respectively
+ * displayed with the following characters ' ', 'x', '*', '-', '#'.
+ * Here is the attempted output for the default game:
+@verbatim
+   01234567
+   --------
+0 |x    xx | 1
+1 |        | 2
+2 |      x | 1
+3 |x  x    | 2
+4 |     x  | 2
+5 |   x    | 0
+6 |        | 1
+7 | xx  xx | 3
+   --------
+   30212121
+@endverbatim
+ * @param g the game
+ * @pre @p g must be a valid pointer toward a game structure.
  **/
-typedef struct game_s* game;
-
-struct setsquare;
+void game_print(cgame g);
 
 /**
- * @brief The structure constant pointer that stores the game state.
- * @details That means that it is not possible to modify the game using this
- * pointer.
- **/
-typedef const struct game_s* cgame;
-
-/**
- * @brief Creates a new game with default size and initializes it.
- * @param squares an array describing the initial square values (row-major
- * storage)
- * @param nb_tents_row an array with the expected number of tents in each row
- * @param nb_tents_col an array with the expected number of tents in each column
- * @pre @p squares must be an initialized array of default size squared.
- * @pre @p nb_tents_row must be an initialized array of default size.
- * @pre @p nb_tents_col must be an initialized array of default size.
+ * @brief Creates the default game.
+ * @details See the description of the default game in @ref index.
+ * @details
+ *https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/tents.html#8x8de#911105660705777
  * @return the created game
  **/
-game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col);
+game game_default(void);
 
 /**
- * @brief Creates a new empty game with defaut size.
- * @details All squares are initialized with empty squares, and the expected
- * numbers of tents for each row/column are set to zero.
+ * @brief Creates the default game solution.
+ * @details See the description of the default game in @ref index. Note that
+ * this game must no longer have empty squares and have grass squares instead.
+ * @details
+ *https://www.chiark.greenend.org.uk/~sgtatham/puzzles/js/tents.html#8x8de#911105660705777
  * @return the created game
  **/
-game game_new_empty(void);
+game game_default_solution(void);
 
 /**
- * @brief Duplicates a game.
- * @param g the game to copy
- * @return the copy of the game
- * @pre @p g must be a valid pointer toward a game structure.
- **/
-game game_copy(cgame g);
-
-/**
- * @brief Tests if two games are equal.
- * @param g1 the first game
- * @param g2 the second game
- * @return true if the two games are equal, false otherwise
- * @pre @p g1 must be a valid pointer toward a game structure.
- * @pre @p g2 must be a valid pointer toward a game structure.
- **/
-bool game_equal(cgame g1, cgame g2);
-
-/**
- * @brief Deletes the game and frees the allocated memory.
- * @param g the game to delete
- * @pre @p g must be a valid pointer toward a game structure.
- **/
-void game_delete(game g);
-
-/**
- * @brief Sets the value of a given square.
- * @details This function is useful for initializing the squares of an empty
- * game.
+ * @brief Gets the coordinate of the adjacent square in a given direction.
  * @param g the game
  * @param i row index
  * @param j column index
- * @param s the square value
- * @pre @p g must be a valid pointer toward a game structure.
+ * @param d the direction
+ * @param[out] pi_next the row index of the adjacent square (output)
+ * @param[out] pj_next the column index of the adjacent square (output)
+ * @pre @p g must be a valid pointer toward a game structure
  * @pre @p i < game height
  * @pre @p j < game width
- * @pre @p s must be either EMPTY, GRASS, TENT or TREE.
- **/
-void game_set_square(game g, uint i, uint j, square s);
-
-/**
- * @brief Gets the value of a given square.
- * @param g the game
- * @param i row index
- * @param j column index
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p i < game height
- * @pre @p j < game width
- * @return the square value
- **/
-square game_get_square(cgame g, uint i, uint j);
-
-/**
- * @brief Sets the expected number of tents in a given row.
- * @param g the game
- * @param i row index
- * @param nb_tents the expected number of tents on this row
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p i < game height
- **/
-void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents);
-
-/**
- * @brief Sets the expected number of tents in a given column.
- * @param g the game
- * @param j column index
- * @param nb_tents the expected number of tents on this column
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p j < game width
- **/
-void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents);
-
-/**
- * @brief Gets the expected number of tents in a given row.
- * @param g the game
- * @param i row index
- * @return the expected number of tents on this row
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p i < game height
- **/
-uint game_get_expected_nb_tents_row(cgame g, uint i);
-
-/**
- * @brief Gets the expected number of tents in a given column.
- * @param g the game
- * @param j column index
- * @return the expected number of tents on this column
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p j < game width
- **/
-uint game_get_expected_nb_tents_col(cgame g, uint j);
-
-/**
- * @brief Gets the expected number of tents on the whole grid.
- * @param g the game
- * @return the expected number of tents on this game
- * @details This is computed by summing the number of trees on the grid.
- * @pre @p g must be a valid pointer toward a game structure.
- **/
-uint game_get_expected_nb_tents_all(cgame g);
-
-/**
- * @brief Gets the current number of tents in a given row.
- * @param g the game
- * @param i row index
- * @return the current number of tents on this row
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p i < game height
- **/
-uint game_get_current_nb_tents_row(cgame g, uint i);
-
-/**
- * @brief Gets the current number of tents in a given column.
- * @param g the game
- * @param j column index
- * @return the current number of tents on this column
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p j < game width
- **/
-uint game_get_current_nb_tents_col(cgame g, uint j);
-
-/**
- * @brief Gets the current number of tents on the whole grid.
- * @param g the game
- * @return the current number of tents on this game
- * @pre @p g must be a valid pointer toward a game structure.
- **/
-uint game_get_current_nb_tents_all(cgame g);
-
-/**
- * @brief Plays a move in a given square.
- * @details This function allows to play both a regular or a losing move, but
- * not an illegal move (see @ref index).
- * @param g the game
- * @param i row index
- * @param j column index
- * @param s the square value
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p i < game height
- * @pre @p j < game width
- * @pre @p s must be either EMPTY, GRASS or TENT (but not TREE).
- * @pre The game square at position (i,j) must not be TREE.
- **/
-void game_play_move(game g, uint i, uint j, square s);
-
-/**
- * @brief Checks if a given move in a square is legal
- * @details This function checks whether playing a move in a square is legal.
- * Indeed, it is not legal to play a move that replaces a tree, or to try to add
- * a new tree to the board. Besides, it is not possible to play outside the
- * board (see *@ref index).
- * @param g the game
- * @param i row index
- * @param j column index
- * @param s the square value
- * @return true if the move is legal, false otherwise
- * @pre @p g must be a valid pointer toward a game structure.
- * @pre @p s must be either EMPTY, GRASS, TENT or TREE.
- **/
-bool game_check_move(cgame g, uint i, uint j, square s);
-
-/**
- * @brief Checks if the game is won.
- * @param g the game
- * @details This function checks that all the game rules (decribed on @ref
- * index) are satisfied, and more specifically that all the tents are correctly
- * placed. The remaining squares are either empty square or grass square.
- * @return true if the game ended successfully, false otherwise
- * @pre @p g must be a valid pointer toward a game structure.
- **/
-bool game_won(cgame g);
-
-/**
- * @brief Fills the board with grass.
- * @details This function only puts grass on empty squares, without modifying
- * the other squares.
- * @param g the game
- * @pre @p g must be a valid pointer toward a game structure.
+ * @return true if the adjacent square is inside the grid, false otherwise
  */
-void game_fill_grass(game g);
+bool game_get_adjacent_square(cgame g, uint i, uint j, direction d,
+                              uint* pi_next, uint* pj_next);
 
 /**
- * @brief Restarts a game.
- * @details All the game is reset to its initial state. In particular, all the
- * squares except trees are reset to empty state.
+ * @brief Counts the number of neighboring squares with a given value.
+ * @details The square at position (i,j) is not included in the count.
  * @param g the game
- * @pre @p g must be a valid pointer toward a game structure.
- **/
-void game_restart(game g);
+ * @param i row index
+ * @param j column index
+ * @param s the square value
+ * @param diag if true, include diagonal neighbors; otherwise, only count
+ * orthogonal neighbors
+ * @pre @p g is a valid pointer to a game structure
+ * @pre @p i < game height
+ * @pre @p j < game width
+ * @return the number of neighboring squares with value @p s
+ */
+uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag);
 
-#endif  // __GAME_H__
+/**
+ * @brief Determines if there is at least one neighboring square with a given
+ * value.
+ * @details The square at position (i,j) is not included in the check.
+ * @param g the game
+ * @param i row index
+ * @param j column index
+ * @param s the square value
+ * @param diag if true, include diagonal neighbors; otherwise, only check
+ * orthogonal neighbors
+ * @pre @p g is a valid pointer to a game structure
+ * @pre @p i < game height
+ * @pre @p j < game width
+ * @return true if any neighbor has the given value @p s, false otherwise
+ */
+bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag);
+
+#endif  // __GAME_AUX_H__

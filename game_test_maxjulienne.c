@@ -6,6 +6,18 @@
 #include "game.h"
 #include "game_aux.h"
 #include "game_ext.h"
+#include "game_struct.h"
+
+game create_game_rectangle(){
+    // Game rectangle
+  square squares[10] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
+                        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+  uint nb_row[6] = {1, 0, 0, 0, 0, 0};
+  uint nb_col[2] = {1, 0};
+  game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);
+  return g ;
+}
+
 
 // 1 = TRUE
 
@@ -140,16 +152,16 @@ int test_game_won() {
 
 int test_unique_game_fill_grass(game g) {
   // Récup l'état initial du tableau
-  int tab_init[DEFAULT_SIZE][DEFAULT_SIZE];
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  int tab_init[g->height][g->width];
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       tab_init[i][j] = game_get_square(g, i, j);
     }
   }
   game_fill_grass(g);
   // Vérifie que les cases empty ont été remplacé par grass
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (tab_init[i][j] == EMPTY && game_get_square(g, i, j) != GRASS) {
         fprintf(stderr,
                 "Erreur : une case EMPTY n'a pas été transformée en GRASS");
@@ -170,12 +182,14 @@ int test_unique_game_fill_grass(game g) {
 int test_game_fill_grass() {
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnée
-  game tab[5];
+  game tab[6];
   tab[0] = game_new_empty();         // game vide
   tab[1] = game_default();           // game normale
   tab[2] = game_new_empty();         // game remplie de tente
   tab[3] = game_new_empty();         // Game remplies d'arbres
   tab[4] = game_default_solution();  // Game gagnée
+  tab[5] = create_game_rectangle();
+  
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       game_set_square(tab[2], i, j, TENT);
@@ -183,7 +197,7 @@ int test_game_fill_grass() {
     }
   }
   int result = 1;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 6; i++) {
     if (test_unique_game_fill_grass(tab[i]) == 0) {
       result = 0;
     }
@@ -193,16 +207,16 @@ int test_game_fill_grass() {
 }
 
 int test_unique_game_restart(game g) {
-  int tab_init[DEFAULT_SIZE][DEFAULT_SIZE];
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  int tab_init[g->height][g->width];
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       tab_init[i][j] = game_get_square(g, i, j);
     }
   }
   game_restart(g);
   // Vérifie que les cases ont été remplacé par empty sauf les arbres
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       if (tab_init[i][j] != TREE && game_get_square(g, i, j) != EMPTY) {
         fprintf(stderr, "Erreur : une case n'a pas été transformée en empty");
         return 0;
@@ -220,12 +234,13 @@ int test_unique_game_restart(game g) {
 int test_game_restart() {
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnante
-  game tab[5];
+  game tab[6];
   tab[0] = game_new_empty();
   tab[1] = game_default();
   tab[2] = game_new_empty();
   tab[3] = game_new_empty();
   tab[4] = game_default_solution();
+  tab[5] = create_game_rectangle();
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       game_set_square(tab[2], i, j, TENT);
@@ -234,7 +249,7 @@ int test_game_restart() {
   }
 
   int result = 1;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 6; i++) {
     if (test_unique_game_restart(tab[i]) == 0) {
       result = 0;
     }
@@ -352,8 +367,8 @@ int test_game_default() {
     game_delete(g);
     return 0;
   }
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
       int t = 0;
       for (int m = 0; m < 12; m++) {
         if (arbre_place[m][0] == i && arbre_place[m][1] == j) {
@@ -433,7 +448,7 @@ int test_game_get_ajacent_square() {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, DEFAULT_SIZE - 1, DEFAULT_SIZE - 1, DOWN_RIGHT,
+  if (game_get_ajacent_square(g, g->height - 1, g->width - 1, DOWN_RIGHT,
                               &pi_next, &pj_next) != 0) {
     game_delete(g);
     return 0;
@@ -509,7 +524,7 @@ int test_game_get_expected_nb_tents_all() {
   }
 
   int a = 0;
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
+  for (int i = 0; i < g->width; i++) {
     a = a + game_get_expected_nb_tents_col(g, i);
   }
 

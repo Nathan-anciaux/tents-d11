@@ -3,6 +3,7 @@
 
 #include "game.h"
 #include "game_aux.h"
+#include "game_ext.h"
 
 //
 
@@ -16,7 +17,10 @@ void print_help(void) {
 }
 
 int main(void) {
-  game g = game_default();
+  square squares[10] = {EMPTY,TREE,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY, EMPTY, EMPTY, EMPTY};
+  uint nb_row[6] = {1,0,0,0,0,0};
+  uint nb_col[2] = {1,0};
+  game g = game_new_ext(5,2,squares, nb_row, nb_col, true);
   game_print((cgame)g);
 
   char c;

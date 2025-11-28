@@ -49,28 +49,15 @@ game game_new_ext(uint nb_rows, uint nb_cols, square *squares,
   return g;
 }
 
+
+
 game game_new_empty_ext(uint height, uint width, bool wrapping) {
   // Allocation of the element to be completed and to use with game_new
-  square *tab = malloc(sizeof(square) * height * width);
-  uint *expected_tent_row = malloc(sizeof(uint) * height);
-  uint *expected_tent_col = malloc(sizeof(uint) * width);
+  square *tab = calloc(height * width, sizeof(square));
+  uint *expected_tent_row = calloc(height, sizeof(uint));
+  uint *expected_tent_col = calloc(width, sizeof(uint));
 
-  // Filling the tab with EMPTY values
-  for (int i = 0; i < width * height; i++) {
-    tab[i] = EMPTY;
-  }
-
-  // Set all the expected col tents to 0
-  for (int i = 0; i < height; i++) {
-    expected_tent_col[i] = 0;
-  }
-
-  // Set all the expected row tents to 0
-  for (int i = 0; i < width; i++) {
-    expected_tent_row[i] = 0;
-  }
-
-  // Create the game with all parameters empty
+  // Create the game with all parameters empty (thanks to calloc)
   game g = game_new_ext(width, height, tab, expected_tent_row,
                         expected_tent_col, wrapping);
   free(tab);

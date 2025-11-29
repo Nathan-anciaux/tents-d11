@@ -472,9 +472,51 @@ bool test_game_new_ext() {
   return true;
 }
 
-bool test_game_redo() { return false; }
+bool test_game_redo() {
+  // initializing an empty game
+  uint nb_rows = 8;
+  uint nb_cols = 9;
+  bool wrap = true;
+  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
 
-bool test_game_undo() { return false; }
+  // Game redo test
+  for (int i = 0; i < nb_rows; i++) {
+    for (int j = 0; j < nb_cols; j++) {
+      game_play_move(g_new_empty_ext, i, j, TENT);
+      game_undo(g_new_empty_ext);
+      game_redo(g_new_empty_ext);
+      if (game_get_square(g_new_empty_ext, i, j) != TENT) {
+        game_delete(g_new_empty_ext);
+        return false;
+      }
+      game_set_square(g_new_empty_ext, i, j, EMPTY);
+    }
+  }
+  game_delete(g_new_empty_ext);
+  return true;
+}
+
+bool test_game_undo() {
+  // initializing an empty game
+  uint nb_rows = 8;
+  uint nb_cols = 9;
+  bool wrap = true;
+  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
+
+  // Game undo test
+  for (int i = 0; i < nb_rows; i++) {
+    for (int j = 0; j < nb_cols; j++) {
+      game_play_move(g_new_empty_ext, i, j, TENT);
+      game_undo(g_new_empty_ext);
+      if (game_get_square(g_new_empty_ext, i, j) != EMPTY) {
+        game_delete(g_new_empty_ext);
+        return false;
+      }
+    }
+  }
+  game_delete(g_new_empty_ext);
+  return true;
+}
 
 bool test_game_is_wrapping() {
   // initializing a default game

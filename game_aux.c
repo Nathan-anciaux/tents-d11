@@ -131,7 +131,7 @@ game game_default_solution(void)
   return g;
 }
 
-bool game_get_ajacent_square(cgame g, uint i, uint j, direction d,
+bool game_get_adjacent_square(cgame g, uint i, uint j, direction d,
                              uint* pi_next, uint* pj_next)
 // Gets the coordinate of the adjacent square in a given direction.
 {
@@ -167,7 +167,7 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
         if (game_get_square(g, i + test[k], j + test[k + 1]) == s) return 1;
     } else {
       // on regarde avec les modulos pour que ce soit des cases dans le plateau
-      // similaire a ajacent square
+      // similaire a adjacent square
       if (game_get_square(g, (i + test[k]) % g->height,
                           (j + test[k + 1]) % g->width) == s)
         return 1;

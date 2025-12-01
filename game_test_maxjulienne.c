@@ -8,16 +8,15 @@
 #include "game_ext.h"
 #include "game_struct.h"
 
-game create_game_rectangle(){
-    // Game rectangle
+game create_game_rectangle() {
+  // Game rectangle
   square squares[10] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
                         EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[2] = {1, 0};
   game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);
-  return g ;
+  return g;
 }
-
 
 // 1 = TRUE
 
@@ -189,7 +188,7 @@ int test_game_fill_grass() {
   tab[3] = game_new_empty();         // Game remplies d'arbres
   tab[4] = game_default_solution();  // Game gagnée
   tab[5] = create_game_rectangle();
-  
+
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       game_set_square(tab[2], i, j, TENT);
@@ -439,71 +438,71 @@ int test_game_print() {
   return 1;
 }
 
-int test_game_get_ajacent_square() {
+int test_game_get_adjacent_square() {
   game g = game_default();
   game_print((cgame)g);
   uint pi_next;
   uint pj_next;
-  if (game_get_ajacent_square(g, 0, 0, UP_LEFT, &pi_next, &pj_next) != 0) {
+  if (game_get_adjacent_square(g, 0, 0, UP_LEFT, &pi_next, &pj_next) != 0) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, g->height - 1, g->width - 1, DOWN_RIGHT,
-                              &pi_next, &pj_next) != 0) {
+  if (game_get_adjacent_square(g, g->height - 1, g->width - 1, DOWN_RIGHT,
+                               &pi_next, &pj_next) != 0) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 1, 1, UP_LEFT, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 1, 1, UP_LEFT, &pi_next, &pj_next) != 1 ||
       pi_next != 0 || pj_next != 0) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, DOWN, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, DOWN, &pi_next, &pj_next) != 1 ||
       pi_next != 4 || pj_next != 3) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, DOWN_RIGHT, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, DOWN_RIGHT, &pi_next, &pj_next) != 1 ||
       pi_next != 4 || pj_next != 4) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, RIGHT, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, RIGHT, &pi_next, &pj_next) != 1 ||
       pi_next != 3 || pj_next != 4) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, UP_RIGHT, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, UP_RIGHT, &pi_next, &pj_next) != 1 ||
       pi_next != 2 || pj_next != 4) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, UP, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, UP, &pi_next, &pj_next) != 1 ||
       pi_next != 2 || pj_next != 3) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, UP_LEFT, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, UP_LEFT, &pi_next, &pj_next) != 1 ||
       pi_next != 2 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, LEFT, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, LEFT, &pi_next, &pj_next) != 1 ||
       pi_next != 3 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 3, 3, DOWN_LEFT, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 3, 3, DOWN_LEFT, &pi_next, &pj_next) != 1 ||
       pi_next != 4 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 2, 2, HERE, &pi_next, &pj_next) != 1 ||
+  if (game_get_adjacent_square(g, 2, 2, HERE, &pi_next, &pj_next) != 1 ||
       pi_next != 2 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
-  if (game_get_ajacent_square(g, 0, 3, UP, &pi_next, &pj_next) != 0) {
+  if (game_get_adjacent_square(g, 0, 3, UP, &pi_next, &pj_next) != 0) {
     game_delete(g);
     return 0;
   }
@@ -572,8 +571,8 @@ int main(int argc, char* argv[]) {
   if (strcmp("game_print", argv[1]) == 0) {
     ok = test_game_print();
   }
-  if (strcmp("game_get_ajacent_square", argv[1]) == 0) {
-    ok = test_game_get_ajacent_square();
+  if (strcmp("game_get_adjacent_square", argv[1]) == 0) {
+    ok = test_game_get_adjacent_square();
   }
   if (strcmp("game_get_expected_nb_tents_all", argv[1]) == 0) {
     ok = test_game_get_expected_nb_tents_all();

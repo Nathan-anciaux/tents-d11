@@ -27,7 +27,7 @@ add_test(test_game_is_neigh ./game_test_maxjulienne game_is_neigh)
 add_test(test_game_default ./game_test_maxjulienne game_default)
 add_test(test_game_default_solution ./game_test_maxjulienne game_default_solution)
 add_test(test_game_print ./game_test_maxjulienne game_print)
-add_test(test_game_get_ajacent_square ./game_test_maxjulienne game_get_ajacent_square)
+add_test(test_game_get_adjacent_square ./game_test_maxjulienne game_get_adjacent_square)
 
 add_executable(game_test_nanciaux game_test_nanciaux.c game_aux.c game.c game_ext.c)
 target_link_libraries(game_test_nanciaux game)

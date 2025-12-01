@@ -81,7 +81,7 @@ game game_default_solution(void);
  * @pre @p j < game width
  * @return true if the adjacent square is inside the grid, false otherwise
  */
-bool game_get_ajacent_square(cgame g, uint i, uint j, direction d,
+bool game_get_adjacent_square(cgame g, uint i, uint j, direction d,
                               uint* pi_next, uint* pj_next);
 
 /**

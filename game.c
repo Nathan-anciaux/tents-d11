@@ -280,7 +280,7 @@ bool game_won(cgame g)
 // Checks if the game is won
 {
   // game_default_solution test
-  /*game gds = game_default_solution();
+  game gds = game_default_solution();
   if (game_equal(g, gds)) {
     game_delete(gds);
     return true;
@@ -299,7 +299,7 @@ bool game_won(cgame g)
   }
   game_delete(gds);
   game_delete(gne);
-  game_delete(gd);*/
+  game_delete(gd);
   // Rule 1
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {

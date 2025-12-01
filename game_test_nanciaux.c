@@ -472,17 +472,179 @@ bool test_game_new_ext() {
   return true;
 }
 
-bool test_game_redo() { return false; }
+bool test_game_redo() {
+  // initializing an empty game
+  uint nb_rows = 8;
+  uint nb_cols = 9;
+  bool wrap = true;
+  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
 
-bool test_game_undo() { return false; }
+  // Game redo test
+  for (int i = 0; i < nb_rows; i++) {
+    for (int j = 0; j < nb_cols; j++) {
+      game_play_move(g_new_empty_ext, i, j, TENT);
+      game_undo(g_new_empty_ext);
+      game_redo(g_new_empty_ext);
+      if (game_get_square(g_new_empty_ext, i, j) != TENT) {
+        game_delete(g_new_empty_ext);
+        return false;
+      }
+      game_set_square(g_new_empty_ext, i, j, EMPTY);
+    }
+  }
+  game_delete(g_new_empty_ext);
+  return true;
+}
 
-bool test_game_is_wrapping() { return false; }
+bool test_game_undo() {
+  // initializing an empty game
+  uint nb_rows = 8;
+  uint nb_cols = 9;
+  bool wrap = true;
+  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
 
-bool test_game_nb_cols() { return false; }
+  // Game undo test
+  for (int i = 0; i < nb_rows; i++) {
+    for (int j = 0; j < nb_cols; j++) {
+      game_play_move(g_new_empty_ext, i, j, TENT);
+      game_undo(g_new_empty_ext);
+      if (game_get_square(g_new_empty_ext, i, j) != EMPTY) {
+        game_delete(g_new_empty_ext);
+        return false;
+      }
+    }
+  }
+  game_delete(g_new_empty_ext);
+  return true;
+}
 
-bool test_game_nb_rows() { return false; }
+bool test_game_is_wrapping() {
+  // initializing a default game
+  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};
+  uint nb_rows = 8;
+  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};
+  uint nb_cols = 9;
+  bool wrap = true;
+  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};
 
-bool test_game_new_empty_ext() { return false; }
+  game g_new_ext =
+      game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+  if (!game_is_wrapping(g_new_ext)) {
+    game_delete(g_new_ext);
+    return false;
+  }
+
+  // Change le bool wrap
+  wrap = false;
+  game g_new_ext_2 =
+      game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+  if (game_is_wrapping(g_new_ext_2)) {
+    game_delete(g_new_ext);
+    game_delete(g_new_ext_2);
+    return false;
+  }
+  game_delete(g_new_ext);
+  game_delete(g_new_ext_2);
+  return true;
+}
+
+bool test_game_nb_cols() {
+  // initializing a default game
+  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};
+  uint nb_rows = 8;
+  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};
+  uint nb_cols = 9;
+  bool wrap = true;
+  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};
+
+  game g_new_ext =
+      game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+  if (game_nb_cols(g_new_ext) != nb_cols) {
+    game_delete(g_new_ext);
+    return false;
+  }
+  game_delete(g_new_ext);
+  return true;
+}
+
+bool test_game_nb_rows() {
+  // initializing a default game
+  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};
+  uint nb_rows = 8;
+  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};
+  uint nb_cols = 9;
+  bool wrap = true;
+  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      TREE,    TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};
+
+  game g_new_ext =
+      game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+  if (game_nb_rows(g_new_ext) != nb_rows) {
+    game_delete(g_new_ext);
+    return false;
+  }
+  game_delete(g_new_ext);
+  return true;
+}
+
+bool test_game_new_empty_ext() {
+  // initializing an empty game
+  uint nb_rows = 8;
+  uint nb_cols = 9;
+  bool wrap = true;
+  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
+
+  // check if the tab tents row is empty
+  for (int i = 0; i < nb_rows; i++) {
+    if (game_get_expected_nb_tents_row(g_new_empty_ext, i) != 0) {
+      game_delete(g_new_empty_ext);
+      return false;
+    }
+  }
+
+  // check if the tab tents col is empty
+  for (int j = 0; j < nb_cols; j++) {
+    if (game_get_expected_nb_tents_row(g_new_empty_ext, j) != 0) {
+      game_delete(g_new_empty_ext);
+      return false;
+    }
+  }
+
+  // check if the game is empty
+  for (int i = 0; i < nb_rows; i++) {
+    for (int j = 0; j < nb_cols; j++) {
+      if (game_get_square(g_new_empty_ext, i, j) != 0) {
+        game_delete(g_new_empty_ext);
+        return false;
+      }
+    }
+  }
+  game_delete(g_new_empty_ext);
+  return true;
+}
 
 int main(int argc, char* argv[]) {
   bool ok = 0;

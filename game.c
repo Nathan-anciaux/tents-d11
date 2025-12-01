@@ -70,21 +70,10 @@ game game_new_empty(
 // Creates a new empty game with defaut size
 {
   // Allocation of the element to be completed and to use with game_new
-  square* tab = malloc(sizeof(square) * DEFAULT_SIZE * DEFAULT_SIZE);
-  uint* expected_tent_row = malloc(sizeof(uint) * DEFAULT_SIZE);
-  uint* expected_tent_col = malloc(sizeof(uint) * DEFAULT_SIZE);
+  square* tab = calloc(DEFAULT_SIZE * DEFAULT_SIZE, sizeof(square));
+  uint* expected_tent_row = calloc(DEFAULT_SIZE, sizeof(uint));
+  uint* expected_tent_col = calloc(DEFAULT_SIZE, sizeof(uint));
 
-  // Filling the tab with EMPTY values
-  for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
-    tab[i] = EMPTY;
-  }
-
-  // Set all the expected tents to 0
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    expected_tent_col[i] = 0;
-    expected_tent_row[i] = 0;
-  }
-  // Create the game with all parameters empty
   game g = game_new(tab, expected_tent_row, expected_tent_col);
   free(tab);
   free(expected_tent_row);

@@ -17,10 +17,11 @@ void print_help(void) {
 }
 
 int main(void) {
-  square squares[10] = {EMPTY,TREE,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY, EMPTY, EMPTY, EMPTY};
-  uint nb_row[6] = {1,0,0,0,0,0};
-  uint nb_col[2] = {1,0};
-  game g = game_new_ext(5,2,squares, nb_row, nb_col, true);
+  square squares[10] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
+                        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+  uint nb_row[6] = {1, 0, 0, 0, 0, 0};
+  uint nb_col[2] = {1, 0};
+  game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);
   game_print((cgame)g);
 
   char c;
@@ -40,6 +41,10 @@ int main(void) {
       } else if (c == 'e') {
         game_play_move(g, j, i, EMPTY);
       }
+    } else if (c == 'y') {
+      game_redo(g);
+    } else if (c == 'z') {
+      game_undo(g);
     } else if (c == 'r') {
       game_restart(g);
     } else if (c == 'f') {

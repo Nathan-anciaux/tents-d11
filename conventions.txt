@@ -1,9 +1,13 @@
-Les conventions :
+Les conventions : 
 #noms des fonctions : en anglais : espace remplacé par _ exemple : game_won
-#Format code : utiliser le formateur que Mr Zeitoun nous avais mit
-    exemple : set i = 0 while {$i < 10} {
-  puts "$i squared = [expr $i*$i]" incr i
-}
+#Format code : utiliser le formateur que Mr Zeitoun nous avais mit 
+exemple :  
+set i = 0
+ while {$i < 10} 
+ {
+    puts "$i squared = [expr $i*$i]"
+    incr i
+ }
 #Commentaires : Tout en anglais
-#Documentation fonction(dans le.h) tout faire en anglais(les /**/)
-#Nom des variables : mots séparés par des tirets du bas(ex : nb_tents_row)
+#Documentation fonction (dans le .h) tout faire en anglais (les /**/)
+#Nom des variables : mots séparés par des tirets du bas (ex : nb_tents_row)

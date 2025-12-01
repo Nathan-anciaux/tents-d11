@@ -8,16 +8,15 @@
 #include "game_ext.h"
 #include "game_struct.h"
 
-game create_game_rectangle(){
-    // Game rectangle
+game create_game_rectangle() {
+  // Game rectangle
   square squares[10] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
                         EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[2] = {1, 0};
   game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);
-  return g ;
+  return g;
 }
-
 
 // 1 = TRUE
 
@@ -189,7 +188,7 @@ int test_game_fill_grass() {
   tab[3] = game_new_empty();         // Game remplies d'arbres
   tab[4] = game_default_solution();  // Game gagnée
   tab[5] = create_game_rectangle();
-  
+
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
       game_set_square(tab[2], i, j, TENT);
@@ -449,7 +448,7 @@ int test_game_get_adjacent_square() {
     return 0;
   }
   if (game_get_adjacent_square(g, g->height - 1, g->width - 1, DOWN_RIGHT,
-                              &pi_next, &pj_next) != 0) {
+                               &pi_next, &pj_next) != 0) {
     game_delete(g);
     return 0;
   }

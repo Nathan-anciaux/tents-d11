@@ -260,21 +260,22 @@ bool game_won(cgame g)
     game_delete(gds);
     return true;
   }
+  game_delete(gds);
   // game_new_empty test
   game gne = game_new_empty();
   if (game_equal(g, gne)) {
     game_delete(gne);
     return true;
   }
+  game_delete(gne);
   // game_default test
   game gd = game_default();
   if (game_equal(g, gd)) {
     game_delete(gd);
     return false;
   }
-  game_delete(gds);
-  game_delete(gne);
   game_delete(gd);
+
   // Rule 1
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
@@ -283,6 +284,7 @@ bool game_won(cgame g)
       }
     }
   }
+
   // Rule 2
   for (int i = 0; i < g->width; i++) {
     if (!(game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i))) {
@@ -319,13 +321,10 @@ bool game_won(cgame g)
         if (!game_is_neigh(g, i, j, TREE, false)) return false;
       }
       if (game_get_square(g, i, j) == BIGTREE) {
-        if (game_get_square(g, i + 1, j) == TENT) compteur++;
-        if (game_get_square(g, i - 1, j) == TENT) compteur++;
-        if (game_get_square(g, i, j + 1) == TENT) compteur++;
-        if (game_get_square(g, i, j - 1) == TENT) compteur++;
-      }
-      if (compteur != 2) {
-        return false;
+        compteur = game_nb_neigh(g,i,j, game_get_square(g, i, j), false);
+        if (compteur != 2) {
+          return false;
+        }
       }
       compteur = 0;
     }

@@ -6,9 +6,7 @@
 
 #include "game_struct.h"
 
-static bool on_board(cgame g, int i, int j) {
-  return i >= 0 && i < g->height && j >= 0 && j < g->width;
-}
+static bool on_board(cgame g, int i, int j) { return i >= 0 && i < g->height && j >= 0 && j < g->width; }
 
 void game_delete(game g)
 // Deletes the game and frees the allocated memory
@@ -42,8 +40,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   g->redo = create_stack();
   g->undo = create_stack();
 
-  if (g->tab == NULL || g->nb_tent_col_expected == NULL ||
-      g->nb_tent_row_expected == NULL || g->elem == NULL) {
+  if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL || g->elem == NULL) {
     game_delete(g);
     exit(EXIT_FAILURE);
   }
@@ -65,8 +62,7 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
   return g;
 }
 
-game game_new_empty(
-    void)  // Attention ici on utilise l'implémentaion 1d du tableau
+game game_new_empty(void)  // Attention ici on utilise l'implémentaion 1d du tableau
 // Creates a new empty game with defaut size
 {
   // Allocation of the element to be completed and to use with game_new
@@ -110,27 +106,17 @@ bool game_equal(cgame g1, cgame g2)
     }
   }
 
-  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2))
-    return 0;
-  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2))
-    return 0;
+  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) return 0;
+  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) return 0;
 
   for (int i = 0; i < g1->height; i++) {
-    if (game_get_expected_nb_tents_row(g1, i) !=
-        game_get_expected_nb_tents_row(g2, i))
-      return 0;
-    if (game_get_current_nb_tents_row(g1, i) !=
-        game_get_current_nb_tents_row(g2, i))
-      return 0;
+    if (game_get_expected_nb_tents_row(g1, i) != game_get_expected_nb_tents_row(g2, i)) return 0;
+    if (game_get_current_nb_tents_row(g1, i) != game_get_current_nb_tents_row(g2, i)) return 0;
   }
 
   for (int i = 0; i < g1->width; i++) {
-    if (game_get_current_nb_tents_col(g1, i) !=
-        game_get_current_nb_tents_col(g2, i))
-      return 0;
-    if (game_get_expected_nb_tents_col(g1, i) !=
-        game_get_expected_nb_tents_col(g2, i))
-      return 0;
+    if (game_get_current_nb_tents_col(g1, i) != game_get_current_nb_tents_col(g2, i)) return 0;
+    if (game_get_expected_nb_tents_col(g1, i) != game_get_expected_nb_tents_col(g2, i)) return 0;
   }
   return 1;
 }
@@ -292,22 +278,19 @@ bool game_won(cgame g)
   // Rule 1
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
-      if (game_get_square(g, i, j) == TENT &&
-          game_is_neigh(g, i, j, TENT, true)) {
+      if (game_get_square(g, i, j) == TENT && game_is_neigh(g, i, j, TENT, true)) {
         return false;
       }
     }
   }
   // Rule 2
   for (int i = 0; i < g->width; i++) {
-    if (!(game_get_current_nb_tents_col(g, i) ==
-          game_get_expected_nb_tents_col(g, i))) {
+    if (!(game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i))) {
       return false;
     }
   }
   for (int i = 0; i < g->height; i++) {
-    if (!(game_get_current_nb_tents_row(g, i) ==
-          game_get_expected_nb_tents_row(g, i))) {
+    if (!(game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i))) {
       return false;
     }
   }

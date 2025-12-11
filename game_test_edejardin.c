@@ -21,42 +21,66 @@ int test_dummy(void);
 int test_dummy() { return 1; }
 
 // ici je teste si les initialisationd e game_new sont pas deconnantes
-bool test_game_new(void) {
+bool test_game_new(void)
+{
   // on initialise le game_default en gros
   uint tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};
   uint tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};
-  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY,
-                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY,
-                      TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
-                      EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
+  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,
+                      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
 
   game g_new = game_new(squares, tents_row, tents_col);
   game g_ref = game_default();
-  if (g_new == NULL || g_ref == NULL) return 0;
-  if (!game_equal(g_new, g_ref)) return 0;
+  if (g_new == NULL) {
+    game_delete(g_ref);
+    return 0;
+  }
+  if (g_new == NULL || g_ref == NULL) {
+    game_delete(g_new);
+    return 0;
+  }
+  if (!game_equal(g_new, g_ref)) {
+    game_delete(g_new);
+    game_delete(g_ref);
+    return 0;
+  }
   game_delete(g_ref);
 
   // verifier si on peut enlever ça normalement oui
   squares[0] = EMPTY;
   tents_row[0] = 99;
   tents_col[0] = 99;
-  if (game_get_square(g_new, 0, 0) != TREE) return 0;
-  if (game_get_expected_nb_tents_row(g_new, 0) != 1) return 0;
-  if (game_get_expected_nb_tents_col(g_new, 0) != 3) return 0;
+  if (game_get_square(g_new, 0, 0) != TREE) {
+    game_delete(g_new);
+    return 0;
+  }
+  if (game_get_expected_nb_tents_row(g_new, 0) != 1) {
+    game_delete(g_new);
+    return 0;
+  }
+  if (game_get_expected_nb_tents_col(g_new, 0) != 3) {
+    game_delete(g_new);
+    return 0;
+  }
   tents_row[0] = 1;
   tents_col[0] = 3;
 
   // on regarde si chaque ligne a le bon nombre de tentes
   for (int i = 0; i < game_nb_rows(g_new); i++) {
-    if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) return 0;
+    if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) {
+      game_delete(g_new);
+      return 0;
+    }
   }
 
   for (int i = 0; i < game_nb_cols(g_new); i++) {
-    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) return 0;
+    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) {
+      game_delete(g_new);
+      return 0;
+    }
   }
 
   game_delete(g_new);
@@ -67,16 +91,35 @@ bool test_game_new(void) {
   tents_col[0] = 7;
   g_new = game_new(squares, tents_row, tents_col);
   g_ref = game_default();
-  if (g_new == NULL || g_ref == NULL) return 0;
-  if (game_equal(g_new, g_ref)) return 0;
+  if (g_new == NULL) {
+    game_delete(g_ref);
+    return 0;
+  }
+  if (g_new == NULL || g_ref == NULL) {
+    game_delete(g_new);
+    return 0;
+  }
+  if (game_equal(g_new, g_ref)) {
+    game_delete(g_new);
+    game_delete(g_ref);
+    return 0;
+  }
 
   // Attention j'ai fait l'implementation naive qui va empecher les nombres
   for (int i = 0; i < game_nb_rows(g_new); i++) {
-    if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) return 0;
+    if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) {
+      game_delete(g_new);
+      game_delete(g_ref);
+      return 0;
+    }
   }
 
   for (int i = 0; i < game_nb_cols(g_new); i++) {
-    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) return 0;
+    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) {
+      game_delete(g_new);
+      game_delete(g_ref);
+      return 0;
+    }
   }
 
   game_delete(g_new);
@@ -84,7 +127,8 @@ bool test_game_new(void) {
   return 1;
 }
 
-bool test_game_new_empty(void) {
+bool test_game_new_empty(void)
+{
   game g = game_new_empty();
   if (g == NULL) return 0;
 
@@ -119,7 +163,8 @@ bool test_game_new_empty(void) {
 }*/
 
 // je prend chaque possibilités de copies possible et je fais des equals
-bool test_game_copy() {
+bool test_game_copy()
+{
   game g1 = game_default();
   game g1_copy = game_copy(g1);
   game g2 = game_new_empty();
@@ -131,15 +176,26 @@ bool test_game_copy() {
     for (int j = 0; j < game_nb_rows(g1); j++) {
       if (game_get_square(g1, i, j) != game_get_square(g1_copy, i, j) ||
           game_get_square(g2, i, j) != game_get_square(g2_copy, i, j) ||
-          game_get_square(g3, i, j) != game_get_square(g3_copy, i, j))
+          game_get_square(g3, i, j) != game_get_square(g3_copy, i, j)) {
+        game_delete(g1);
+        game_delete(g2);
+        game_delete(g3);
+        game_delete(g1_copy);
+        game_delete(g2_copy);
+        game_delete(g3_copy);
         return 0;
-      ;
+      }
     }
   }
 
-  if (g1 == g1_copy) return 0;
-  if (g3 == g3_copy) return 0;
-  if (g2 == g2_copy) return 0;
+  if (g1 == g1_copy || g3 == g3_copy || g2 == g2_copy) {
+    game_delete(g1);
+    game_delete(g2);
+    game_delete(g3);
+    game_delete(g1_copy);
+    game_delete(g2_copy);
+    game_delete(g3_copy);
+  }
 
   game_delete(g1);
   game_delete(g2);
@@ -151,10 +207,19 @@ bool test_game_copy() {
 }
 
 //
-bool test_game_equal(void) {
+bool test_game_equal(void)
+{
   game g1 = game_default();
   game g2 = game_default();
-  if (g1 == NULL || g2 == NULL || !game_equal(g1, g2)) {
+  if (g1 == NULL) {
+    game_delete(g2);
+    return 0;
+  }
+  if (g2 == NULL) {
+    game_delete(g1);
+    return 0;
+  }
+  if (!game_equal(g1, g2)) {
     game_delete(g1);
     game_delete(g2);
     return 0;
@@ -165,14 +230,18 @@ bool test_game_equal(void) {
     game_delete(g2);
     return 0;
   }
-  if (game_get_expected_nb_tents_all(g1) !=
-      game_get_expected_nb_tents_all(g2)) {
+  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) {
     game_delete(g1);
     game_delete(g2);
     return 0;
   }
   game g_copy = game_copy(g1);
-  if (g1 == NULL || !game_equal(g1, g_copy)) {
+  if (g_copy == NULL) {
+    game_delete(g1);
+    game_delete(g2);
+    return 0;
+  }
+  if (!game_equal(g1, g_copy)) {
     game_delete(g_copy);
     game_delete(g1);
     game_delete(g2);
@@ -181,8 +250,22 @@ bool test_game_equal(void) {
   game_delete(g_copy);
 
   game g_fill = game_copy(g1);
+
+  if (g_fill == NULL) {
+    game_delete(g1);
+    game_delete(g2);
+    return 0;
+  }
   game_fill_grass(g_fill);
   game gf1 = game_copy(g_fill);
+
+  if (gf1 == NULL) {
+    game_delete(g1);
+    game_delete(g2);
+    game_delete(g_fill);
+    return 0;
+  }
+
   if (!game_equal(gf1, g_fill)) {
     game_delete(g1);
     game_delete(g2);
@@ -190,8 +273,8 @@ bool test_game_equal(void) {
     game_delete(gf1);
     return 0;
   }
-  int test[3] = {TENT, EMPTY};
-  for (int i = 0; i < 2; i++) {
+  uint test[3] = {TENT, EMPTY};
+  for (uint i = 0; i < 2; i++) {
     game_play_move(g_fill, 0, 4, test[i]);
     if (game_equal(gf1, g_fill)) {
       game_delete(g1);
@@ -205,7 +288,7 @@ bool test_game_equal(void) {
   game_delete(g_fill);
   game_delete(gf1);
 
-  for (int i = 0; i < game_nb_rows(g2); i++) {
+  for (uint i = 0; i < game_nb_rows(g2); i++) {
     game_set_expected_nb_tents_row(g2, i, 99);
     if (game_equal(g2, g1)) {
       game_delete(g1);
@@ -214,7 +297,7 @@ bool test_game_equal(void) {
     }
   }
 
-  for (int i = 0; i < game_nb_cols(g2); i++) {
+  for (uint i = 0; i < game_nb_cols(g2); i++) {
     game_set_expected_nb_tents_col(g2, i, 99);
     if (game_equal(g2, g1)) {
       game_delete(g1);
@@ -228,7 +311,8 @@ bool test_game_equal(void) {
   return 1;
 }
 
-bool test_game_delete(void) {
+bool test_game_delete(void)
+{
   game g1 = game_default();
   game g2 = game_new_empty();
   game g3 = game_default();
@@ -243,7 +327,8 @@ bool test_game_delete(void) {
   return 1;
 }
 
-bool test_game_play_move(void) {
+bool test_game_play_move(void)
+{
   game g = game_default();
   if (g == NULL) return 0;
 
@@ -276,14 +361,14 @@ bool test_game_play_move(void) {
   return 1;
 }
 
-bool test_game_check_move(void) {
+bool test_game_check_move(void)
+{
   game g = game_default();
   if (g == NULL) return 0;
   game g1 = game_default();
   game_play_move(g1, 0, 1, GRASS);
   int test_tents[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1};
-  int test[15] = {TENT, GRASS, EMPTY, TREE,  TREE, TREE,  EMPTY, TENT,
-                  TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};
+  int test[15] = {TENT, GRASS, EMPTY, TREE, TREE, TREE, EMPTY, TENT, TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};
   // je fais les tests arbre sur x et x sur arbres
   for (int i = 0, j = 0; j < 6 && i < 6; i++, j = j + 2) {
     if (game_check_move(g1, test_tents[j], test_tents[j + 1], test[i])) {
@@ -305,12 +390,14 @@ bool test_game_check_move(void) {
   return 1;
 }
 
-void usage(int argc, char* argv[]) {
+void usage(int argc, char* argv[])
+{
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
   exit(EXIT_FAILURE);
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
   if (argc == 1) usage(argc, argv);
   bool ok = 0;
   if (strcmp("dummy", argv[1]) == 0) {

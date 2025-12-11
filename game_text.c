@@ -7,7 +7,8 @@
 
 //
 
-void print_help(void) {
+void print_help(void)
+{
   printf(
       "Liste commandes : \nt x y : mettre une tente en (x,y)\ng x y : mettre "
       "de l'herbe en (x,y)\ne x y : supprimer le contenu en (x,y)\nr = "
@@ -16,9 +17,9 @@ void print_help(void) {
   return;
 }
 
-int main(void) {
-  square squares[10] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
-                        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+int main(void)
+{
+  square squares[10] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[2] = {1, 0};
   game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);

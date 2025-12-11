@@ -8,10 +8,10 @@
 #include "game_ext.h"
 #include "game_struct.h"
 
-game create_game_rectangle() {
+game create_game_rectangle()
+{
   // Game rectangle
-  square squares[10] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY,
-                        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+  square squares[10] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[2] = {1, 0};
   game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);
@@ -20,7 +20,8 @@ game create_game_rectangle() {
 
 // 1 = TRUE
 
-int test_game_won() {
+int test_game_won()
+{
   game g;
   int result;
 
@@ -146,10 +147,61 @@ int test_game_won() {
   }
   game_delete(g);
 
+  // Test sur bigtree -> 2 tentes piles a coté d'un bigtree
+  // Test normalement gagnant
+  g = game_default_solution();
+  g->nb_tent_col_expected[1]++;
+  g->nb_tent_row_expected[0]++;
+  game_set_square(g, 0, 0, BIGTREE);
+  game_set_square(g, 0, 1, TENT);
+  result = game_won(g);
+  if (result != 1) {
+    return 0;
+  }
+  game_delete(g);
+
+  // Test normalement perdant
+  g = game_default_solution();
+  game_set_square(g, 0, 0, BIGTREE);
+  game_print(g);
+  result = game_won(g);
+  printf("result : %d\n", result);
+  if (result != 0) {
+    return 0;
+  }
+  game_delete(g);
+
+  // Test de wrapping
+  // Test normalement gagnant
+  g = game_default_solution();
+  g->nb_tent_col_expected[7]++;
+  g->nb_tent_row_expected[5]++;
+  game_set_square(g, 5, 0, TREE);
+  game_set_square(g, 5, 7, TENT);
+  result = game_won(g);
+  game_print(g);
+  printf("result : %d\n", result);
+  if (result != 1) {
+    return 0;
+  }
+  game_delete(g);
+  // Test normalement perdant
+  g = game_default_solution();
+  g->nb_tent_col_expected[7]++;
+  g->nb_tent_row_expected[0]++;
+  game_set_square(g, 0, 7, TREE);
+  result = game_won(g);
+  game_print(g);
+  printf("result : %d\n", result);
+  if (result != 0) {
+    return 0;
+  }
+  game_delete(g);
   return 1;
 }
 
-int test_unique_game_fill_grass(game g) {
+int test_unique_game_fill_grass(game g)
+{
   // Récup l'état initial du tableau
   int tab_init[g->height][g->width];
   for (int i = 0; i < g->height; i++) {
@@ -162,15 +214,12 @@ int test_unique_game_fill_grass(game g) {
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (tab_init[i][j] == EMPTY && game_get_square(g, i, j) != GRASS) {
-        fprintf(stderr,
-                "Erreur : une case EMPTY n'a pas été transformée en GRASS");
+        fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
         return 0;
       }
 
-      else if (tab_init[i][j] != EMPTY &&
-               tab_init[i][j] != game_get_square(g, i, j)) {
-        fprintf(stderr,
-                "Erreur : une case a été modifié alors qu'il ne fallait pas");
+      else if (tab_init[i][j] != EMPTY && tab_init[i][j] != game_get_square(g, i, j)) {
+        fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
         return 0;
       }
     }
@@ -178,7 +227,8 @@ int test_unique_game_fill_grass(game g) {
   return 1;
 }
 
-int test_game_fill_grass() {
+int test_game_fill_grass()
+{
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnée
   game tab[6];
@@ -205,7 +255,8 @@ int test_game_fill_grass() {
   return result;
 }
 
-int test_unique_game_restart(game g) {
+int test_unique_game_restart(game g)
+{
   int tab_init[g->height][g->width];
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
@@ -230,7 +281,8 @@ int test_unique_game_restart(game g) {
   return 1;
 }
 
-int test_game_restart() {
+int test_game_restart()
+{
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnante
   game tab[6];
@@ -257,7 +309,8 @@ int test_game_restart() {
   return result;
 }
 
-int test_game_is_neigh() {
+int test_game_is_neigh()
+{
   game g_default = game_default();  // valide la condition (ici un arbre dans
                                     // l'entourage de ..)
   game g_solution = game_default_solution();
@@ -316,8 +369,7 @@ int test_game_is_neigh() {
     return 0;
   }
   if (game_is_neigh(g_default, 1, 1, TENT, false) != 0) {
-    fprintf(stderr,
-            "Erreur : A trouvé un voisin tente alors qu'il ne devrait pas");
+    fprintf(stderr, "Erreur : A trouvé un voisin tente alors qu'il ne devrait pas");
     game_delete(g_solution);
     return 0;
   }
@@ -333,7 +385,8 @@ int test_game_is_neigh() {
   return 1;
 }
 
-int test_game_default() {
+int test_game_default()
+{
   game g = game_default();
   int arbre_place[12][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2},
                             {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};
@@ -341,24 +394,16 @@ int test_game_default() {
     return 0;
   }
   // Vérifie si le nb de tente attendue sur chaque colonne est le bon
-  if (game_get_expected_nb_tents_col(g, 0) != 3 ||
-      game_get_expected_nb_tents_col(g, 1) != 0 ||
-      game_get_expected_nb_tents_col(g, 2) != 2 ||
-      game_get_expected_nb_tents_col(g, 3) != 1 ||
-      game_get_expected_nb_tents_col(g, 4) != 2 ||
-      game_get_expected_nb_tents_col(g, 5) != 1 ||
-      game_get_expected_nb_tents_col(g, 6) != 2 ||
-      game_get_expected_nb_tents_col(g, 7) != 1) {
+  if (game_get_expected_nb_tents_col(g, 0) != 3 || game_get_expected_nb_tents_col(g, 1) != 0 ||
+      game_get_expected_nb_tents_col(g, 2) != 2 || game_get_expected_nb_tents_col(g, 3) != 1 ||
+      game_get_expected_nb_tents_col(g, 4) != 2 || game_get_expected_nb_tents_col(g, 5) != 1 ||
+      game_get_expected_nb_tents_col(g, 6) != 2 || game_get_expected_nb_tents_col(g, 7) != 1) {
     return 0;
   }
-  if (game_get_expected_nb_tents_row(g, 0) != 1 ||
-      game_get_expected_nb_tents_row(g, 1) != 2 ||
-      game_get_expected_nb_tents_row(g, 2) != 1 ||
-      game_get_expected_nb_tents_row(g, 3) != 2 ||
-      game_get_expected_nb_tents_row(g, 4) != 2 ||
-      game_get_expected_nb_tents_row(g, 5) != 0 ||
-      game_get_expected_nb_tents_row(g, 6) != 1 ||
-      game_get_expected_nb_tents_row(g, 7) != 3) {
+  if (game_get_expected_nb_tents_row(g, 0) != 1 || game_get_expected_nb_tents_row(g, 1) != 2 ||
+      game_get_expected_nb_tents_row(g, 2) != 1 || game_get_expected_nb_tents_row(g, 3) != 2 ||
+      game_get_expected_nb_tents_row(g, 4) != 2 || game_get_expected_nb_tents_row(g, 5) != 0 ||
+      game_get_expected_nb_tents_row(g, 6) != 1 || game_get_expected_nb_tents_row(g, 7) != 3) {
     return 0;
   }
   if (g == NULL) {
@@ -389,25 +434,22 @@ int test_game_default() {
   return 1;
 }
 
-int test_game_default_solution() {
+int test_game_default_solution()
+{
   game g = game_default_solution();
   game_print((cgame)g);
   if (g == NULL) {
     fprintf(stderr, "Erreur : game_default retourne NULL \n");
     return 0;
   }
-  int trees[][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2},
-                    {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};
+  int trees[][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2}, {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};
   int size_trees = 12;
   int size_tents = 12;
-  int tent[][2] = {{0, 4}, {1, 0}, {1, 6}, {2, 2}, {3, 4}, {3, 6},
-                   {4, 0}, {4, 2}, {6, 5}, {7, 0}, {7, 3}, {7, 7}};
-  int grass[][2] = {{0, 1}, {0, 2}, {0, 3}, {0, 7}, {1, 1}, {1, 2}, {1, 3},
-                    {1, 4}, {1, 5}, {1, 7}, {2, 0}, {2, 1}, {2, 3}, {2, 4},
-                    {2, 5}, {2, 7}, {3, 1}, {3, 3}, {3, 5}, {3, 7}, {4, 1},
-                    {4, 3}, {4, 5}, {4, 6}, {4, 7}, {5, 0}, {5, 1}, {5, 3},
-                    {5, 4}, {5, 5}, {5, 6}, {5, 7}, {6, 0}, {6, 1}, {6, 2},
-                    {6, 3}, {6, 4}, {6, 6}, {6, 7}, {7, 4}};
+  int tent[][2] = {{0, 4}, {1, 0}, {1, 6}, {2, 2}, {3, 4}, {3, 6}, {4, 0}, {4, 2}, {6, 5}, {7, 0}, {7, 3}, {7, 7}};
+  int grass[][2] = {{0, 1}, {0, 2}, {0, 3}, {0, 7}, {1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 7},
+                    {2, 0}, {2, 1}, {2, 3}, {2, 4}, {2, 5}, {2, 7}, {3, 1}, {3, 3}, {3, 5}, {3, 7},
+                    {4, 1}, {4, 3}, {4, 5}, {4, 6}, {4, 7}, {5, 0}, {5, 1}, {5, 3}, {5, 4}, {5, 5},
+                    {5, 6}, {5, 7}, {6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4}, {6, 6}, {6, 7}, {7, 4}};
   int size_grass = 40;
   for (int i = 0; i < size_trees; i++) {
     if (game_get_square(g, trees[i][0], trees[i][1]) != TREE) {
@@ -431,14 +473,16 @@ int test_game_default_solution() {
   return 1;
 }
 
-int test_game_print() {
+int test_game_print()
+{
   game g = game_default();
   game_print((cgame)g);
   game_delete(g);
   return 1;
 }
 
-int test_game_get_adjacent_square() {
+int test_game_get_adjacent_square()
+{
   game g = game_default();
   game_print((cgame)g);
   uint pi_next;
@@ -447,58 +491,47 @@ int test_game_get_adjacent_square() {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, g->height - 1, g->width - 1, DOWN_RIGHT,
-                               &pi_next, &pj_next) != 0) {
+  if (game_get_adjacent_square(g, g->height - 1, g->width - 1, DOWN_RIGHT, &pi_next, &pj_next) != 0) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 1, 1, UP_LEFT, &pi_next, &pj_next) != 1 ||
-      pi_next != 0 || pj_next != 0) {
+  if (game_get_adjacent_square(g, 1, 1, UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 0 || pj_next != 0) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, DOWN, &pi_next, &pj_next) != 1 ||
-      pi_next != 4 || pj_next != 3) {
+  if (game_get_adjacent_square(g, 3, 3, DOWN, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 3) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, DOWN_RIGHT, &pi_next, &pj_next) != 1 ||
-      pi_next != 4 || pj_next != 4) {
+  if (game_get_adjacent_square(g, 3, 3, DOWN_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 4) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, RIGHT, &pi_next, &pj_next) != 1 ||
-      pi_next != 3 || pj_next != 4) {
+  if (game_get_adjacent_square(g, 3, 3, RIGHT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next != 4) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, UP_RIGHT, &pi_next, &pj_next) != 1 ||
-      pi_next != 2 || pj_next != 4) {
+  if (game_get_adjacent_square(g, 3, 3, UP_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 4) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, UP, &pi_next, &pj_next) != 1 ||
-      pi_next != 2 || pj_next != 3) {
+  if (game_get_adjacent_square(g, 3, 3, UP, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 3) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, UP_LEFT, &pi_next, &pj_next) != 1 ||
-      pi_next != 2 || pj_next != 2) {
+  if (game_get_adjacent_square(g, 3, 3, UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, LEFT, &pi_next, &pj_next) != 1 ||
-      pi_next != 3 || pj_next != 2) {
+  if (game_get_adjacent_square(g, 3, 3, LEFT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 3, 3, DOWN_LEFT, &pi_next, &pj_next) != 1 ||
-      pi_next != 4 || pj_next != 2) {
+  if (game_get_adjacent_square(g, 3, 3, DOWN_LEFT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, 2, 2, HERE, &pi_next, &pj_next) != 1 ||
-      pi_next != 2 || pj_next != 2) {
+  if (game_get_adjacent_square(g, 2, 2, HERE, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 2) {
     game_delete(g);
     return 0;
   }
@@ -511,7 +544,8 @@ int test_game_get_adjacent_square() {
   return 1;
 }
 
-int test_game_get_expected_nb_tents_all() {
+int test_game_get_expected_nb_tents_all()
+{
   // TESTS SUR : un empty, en additionnant le nombre voulu pour chaque ligne et
   // chaque colonne
 
@@ -539,12 +573,14 @@ int test_game_get_expected_nb_tents_all() {
 
 int test_dummy() { return 1; }
 
-void usage(int argc, char* argv[]) {
+void usage(int argc, char* argv[])
+{
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
   exit(EXIT_FAILURE);
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
   if (argc == 1) usage(argc, argv);
   bool ok = 0;
   if (strcmp("dummy", argv[1]) == 0) {

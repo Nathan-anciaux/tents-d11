@@ -8,14 +8,14 @@
 
 struct game_s {
   // pour les nombres de tentes attendues colonne et  ligne : 2 tableaux
-  square **tab;  // Tableau qui indique le début de chaque ligne
-  square *elem;  // Tableau de tous les
-  uint *nb_tent_row_expected;
-  uint *nb_tent_col_expected;
+  square** tab;  // Tableau qui indique le début de chaque ligne
+  square* elem;  // Tableau de tous les
+  uint* nb_tent_row_expected;
+  uint* nb_tent_col_expected;
   uint width;
   uint height;
-  stack *undo;
-  stack *redo;
+  stack* undo;
+  stack* redo;
   bool wrapped;
 };
 // typedef struct game_s *game;

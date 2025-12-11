@@ -10,7 +10,8 @@
 // Double la taille du tableau utilisé dans la représentation.
 // Cette fonction sera utilisée lorsque le tableau est plein et qu'on veut y
 // ajouter une valeur.
-static void grow_stack(stack *p) {
+static void grow_stack(stack* p)
+{
   p->array = realloc(p->array, 2 * p->capacity * (sizeof(setsquare)));
   p->capacity *= 2;
   return;
@@ -19,7 +20,8 @@ static void grow_stack(stack *p) {
 // Divise par deux la taille du tableau utilisé dans la représentation.
 // Cette fonction sera utilisée lorsque le tableau est rempli à moins de 25%
 // de sa capacité.
-static void shrink_stack(stack *p) {
+static void shrink_stack(stack* p)
+{
   if (p->capacity == 1) {
     printf("the table is too short !");
     return;
@@ -33,23 +35,26 @@ static void shrink_stack(stack *p) {
 // Fonctions à écrire, documentées dans le fichier d'en-tête. //
 ////////////////////////////////////////////////////////////////
 
-stack *create_stack(void) {
-  stack *p = malloc(sizeof(stack));
+stack* create_stack(void)
+{
+  stack* p = malloc(sizeof(stack));
   p->capacity = 1;
   p->size_stack = 0;
   p->array = malloc((p->capacity) * sizeof(setsquare));
   return p;
 }
 
-void delete_stack(stack *p) {
+void delete_stack(stack* p)
+{
   free(p->array);
   free(p);
   return;
 }
 
-bool isempty_stack(stack *p) { return p->size_stack == 0; }
+bool isempty_stack(stack* p) { return p->size_stack == 0; }
 
-setsquare pop(stack *p) {
+setsquare pop(stack* p)
+{
   if (isempty_stack(p)) {
     fprintf(stderr, "the table is too short ! \n");
     exit(EXIT_FAILURE);
@@ -62,7 +67,8 @@ setsquare pop(stack *p) {
   return result;
 }
 
-void push(setsquare val, stack *p) {
+void push(setsquare val, stack* p)
+{
   if (p->capacity == p->size_stack) {
     grow_stack(p);
   }

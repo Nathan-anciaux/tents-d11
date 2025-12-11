@@ -134,6 +134,7 @@ bool test_game_get_square() {
                       EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
   game g = game_new(squares, nb_tents_row, nb_tents_col);
   if (g == NULL) {
+    game_delete(g_empty);
     return false;
   }
   for (int i = 0; i < game_nb_rows(g); i++) {
@@ -178,6 +179,7 @@ bool test_game_get_expected_nb_tents_row() {
                       EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
   game g = game_new(squares, nb_tents_row, nb_tents_col);
   if (g == NULL) {
+    game_delete(g_empty);
     return false;
   }
   for (int i = 0; i < game_nb_rows(g); i++) {
@@ -219,6 +221,7 @@ bool test_game_get_expected_nb_tents_col() {
                       EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
   game g = game_new(squares, nb_tents_row, nb_tents_col);
   if (g == NULL) {
+    game_delete(g_empty);
     return false;
   }
   for (int i = 0; i < game_nb_cols(g); i++) {
@@ -237,8 +240,11 @@ bool test_game_get_expected_nb_tents_all() {
   // test sur game empty et sur new game et sur game default
   game g_empty = game_new_empty();
   game g = game_default();
-  if (g == NULL || g_empty == NULL) {
+  if (g_empty == NULL) {
     game_delete(g);
+    return false;
+  }
+  if (g == NULL) {
     game_delete(g_empty);
     return false;
   }
@@ -268,6 +274,8 @@ bool test_game_get_expected_nb_tents_all() {
                       EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};
   game g_new = game_new(squares, nb_tents_row, nb_tents_col);
   if (g_new == NULL) {
+    game_delete(g_empty);
+    game_delete(g);
     return false;
   }
   s = 0;
@@ -291,7 +299,6 @@ bool test_game_get_current_nb_tents_row() {
   game g = game_default();
   int s = 0;
   if (g == NULL) {
-    game_delete(g);
     return false;
   }
   for (int i = 0; i < game_nb_rows(g); i++) {
@@ -315,7 +322,6 @@ bool test_game_get_current_nb_tents_col() {
   game g = game_default();
   int s = 0;
   if (g == NULL) {
-    game_delete(g);
     return false;
   }
   for (int j = 0; j < game_nb_cols(g); j++) {
@@ -338,9 +344,12 @@ bool test_game_get_current_nb_tents_all() {
   game g = game_default();
   game g_empty = game_new_empty();
   int s = 0;
-  if (g == NULL || g_empty == NULL) {
-    game_delete(g);
+  if (g == NULL) {
     game_delete(g_empty);
+    return false;
+  }
+  if (g_empty == NULL) {
+    game_delete(g);
     return false;
   }
   if (game_get_current_nb_tents_all(g_empty) != 0) {
@@ -385,7 +394,6 @@ bool test_game_new_ext() {
   game g_new_ext =
       game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
   if (g_new_ext == NULL) {
-    game_delete(g_new_ext);
     return false;
   }
 
@@ -459,7 +467,6 @@ bool test_game_new_ext() {
       game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
   if (g_new_ext_false == NULL) {
     game_delete(g_new_ext);
-    game_delete(g_new_ext_false);
     return false;
   }
   if (game_equal(g_new_ext, g_new_ext_false)) {
@@ -478,6 +485,10 @@ bool test_game_redo() {
   uint nb_cols = 9;
   bool wrap = true;
   game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
+
+  if (g_new_empty_ext == NULL) {
+    return false;
+  }
 
   // Game redo test
   for (int i = 0; i < nb_rows; i++) {
@@ -502,6 +513,10 @@ bool test_game_undo() {
   uint nb_cols = 9;
   bool wrap = true;
   game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
+
+  if (g_new_empty_ext == NULL) {
+    return false;
+  }
 
   // Game undo test
   for (int i = 0; i < nb_rows; i++) {
@@ -537,6 +552,11 @@ bool test_game_is_wrapping() {
 
   game g_new_ext =
       game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+
+  if (g_new_ext == NULL) {
+    return false;
+  }
+
   if (!game_is_wrapping(g_new_ext)) {
     game_delete(g_new_ext);
     return false;
@@ -546,6 +566,12 @@ bool test_game_is_wrapping() {
   wrap = false;
   game g_new_ext_2 =
       game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+
+  if (g_new_ext_2 == NULL) {
+    game_delete(g_new_ext);
+    return false;
+  }
+
   if (game_is_wrapping(g_new_ext_2)) {
     game_delete(g_new_ext);
     game_delete(g_new_ext_2);
@@ -575,6 +601,11 @@ bool test_game_nb_cols() {
 
   game g_new_ext =
       game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
+
+  if (g_new_ext == NULL) {
+    return false;
+  }
+
   if (game_nb_cols(g_new_ext) != nb_cols) {
     game_delete(g_new_ext);
     return false;
@@ -616,6 +647,10 @@ bool test_game_new_empty_ext() {
   uint nb_cols = 9;
   bool wrap = true;
   game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);
+
+  if (g_new_empty_ext == NULL) {
+    return false;
+  }
 
   // check if the tab tents row is empty
   for (int i = 0; i < nb_rows; i++) {

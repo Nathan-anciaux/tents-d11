@@ -154,16 +154,28 @@ bool test_game_copy() {
 bool test_game_equal(void) {
   game g1 = game_default();
   game g2 = game_default();
-  if (g1 == NULL || g2 == NULL || !game_equal(g1, g2)) return 0;
+  if (g1 == NULL || g2 == NULL || !game_equal(g1, g2)) {
+    game_delete(g1);
+    game_delete(g2);
+    return 0;
+  }
   // on regarde l'egalité pour les nbr de tentes demandées
-  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2))
+  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) {
+    game_delete(g1);
+    game_delete(g2);
     return 0;
-  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2))
+  }
+  if (game_get_expected_nb_tents_all(g1) !=
+      game_get_expected_nb_tents_all(g2)) {
+    game_delete(g1);
+    game_delete(g2);
     return 0;
-
+  }
   game g_copy = game_copy(g1);
   if (g1 == NULL || !game_equal(g1, g_copy)) {
     game_delete(g_copy);
+    game_delete(g1);
+    game_delete(g2);
     return 0;
   }
   game_delete(g_copy);
@@ -171,12 +183,23 @@ bool test_game_equal(void) {
   game g_fill = game_copy(g1);
   game_fill_grass(g_fill);
   game gf1 = game_copy(g_fill);
-  if (!game_equal(gf1, g_fill)) return 0;
-
+  if (!game_equal(gf1, g_fill)) {
+    game_delete(g1);
+    game_delete(g2);
+    game_delete(g_fill);
+    game_delete(gf1);
+    return 0;
+  }
   int test[3] = {TENT, EMPTY};
   for (int i = 0; i < 2; i++) {
     game_play_move(g_fill, 0, 4, test[i]);
-    if (game_equal(gf1, g_fill)) return 0;
+    if (game_equal(gf1, g_fill)) {
+      game_delete(g1);
+      game_delete(g2);
+      game_delete(g_fill);
+      game_delete(gf1);
+      return 0;
+    }
   }
 
   game_delete(g_fill);
@@ -184,12 +207,20 @@ bool test_game_equal(void) {
 
   for (int i = 0; i < game_nb_rows(g2); i++) {
     game_set_expected_nb_tents_row(g2, i, 99);
-    if (game_equal(g2, g1)) return 0;
+    if (game_equal(g2, g1)) {
+      game_delete(g1);
+      game_delete(g2);
+      return 0;
+    }
   }
 
   for (int i = 0; i < game_nb_cols(g2); i++) {
     game_set_expected_nb_tents_col(g2, i, 99);
-    if (game_equal(g2, g1)) return 0;
+    if (game_equal(g2, g1)) {
+      game_delete(g1);
+      game_delete(g2);
+      return 0;
+    }
   }
 
   game_delete(g1);
@@ -255,12 +286,19 @@ bool test_game_check_move(void) {
                   TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};
   // je fais les tests arbre sur x et x sur arbres
   for (int i = 0, j = 0; j < 6 && i < 6; i++, j = j + 2) {
-    if (game_check_move(g1, test_tents[j], test_tents[j + 1], test[i]))
+    if (game_check_move(g1, test_tents[j], test_tents[j + 1], test[i])) {
+      game_delete(g);
+      game_delete(g1);
       return 0;
+    }
   }
   // je fais toutes les autres possibilités possibles
   for (int i = 6; i < 15; i++) {
-    if (!game_check_move(g, 0, 4, test[i])) return 0;
+    if (!game_check_move(g, 0, 4, test[i])) {
+      game_delete(g);
+      game_delete(g1);
+      return 0;
+    }
   }
   game_delete(g);
   game_delete(g1);

@@ -153,8 +153,19 @@ int test_game_won()
   g->nb_tent_row_expected[0]++;
   game_set_square(g, 0, 0, BIGTREE);
   game_set_square(g, 0, 1, TENT);
-  game_print(g);
   result = game_won(g);
+  if (result != 0) {
+    return 0;
+  }
+  game_delete(g);
+
+  g = game_default_solution();
+  g->nb_tent_col_expected[7]++;
+  g->nb_tent_row_expected[5]++;
+  game_set_square(g, 5, 0, TREE);
+  game_set_square(g, 5, 7, TENT);
+  result = game_won(g);
+  game_print(g);
   printf("result : %d\n", result);
   if (result != 0) {
     return 0;

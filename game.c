@@ -278,6 +278,7 @@ bool game_won(cgame g)
   game_delete(gd);
   */
 
+  /*
   // Rule 1
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
@@ -297,7 +298,7 @@ bool game_won(cgame g)
     if (!(game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i))) {
       return false;
     }
-  }
+  }*/
 
   /*
   // Rule 3

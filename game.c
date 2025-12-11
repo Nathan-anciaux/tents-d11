@@ -322,9 +322,9 @@ bool game_won(cgame g)
       }
       if (game_get_square(g, i, j) == BIGTREE) {
         compteur = game_nb_neigh(g,i,j, game_get_square(g, i, j), false);
-      }
-      if (compteur != 2) {
-        return false;
+        if (compteur != 2) {
+          return false;
+        }
       }
       compteur = 0;
     }

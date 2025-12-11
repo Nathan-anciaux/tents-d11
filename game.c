@@ -254,6 +254,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 bool game_won(cgame g)
 // Checks if the game is won
 {
+  /*
   // game_default_solution test
   game gds = game_default_solution();
   if (game_equal(g, gds)) {
@@ -275,6 +276,7 @@ bool game_won(cgame g)
     return false;
   }
   game_delete(gd);
+  */
 
   // Rule 1
   for (int i = 0; i < g->height; i++) {
@@ -296,7 +298,7 @@ bool game_won(cgame g)
       return false;
     }
   }
-  /*
+
   // Rule 3
   int sTENT = 0;
   int sTREE = 0;
@@ -318,8 +320,6 @@ bool game_won(cgame g)
     return false;
   }
 
-  */
- 
   // Rule 4
   // on check si chaque bigtree est collé a exactement 2 tents
   int compteur = 0;

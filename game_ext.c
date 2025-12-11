@@ -18,7 +18,6 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   // memory allocation for all g attribut's
   game g = malloc(sizeof(struct game_s));
   if (g == NULL) {
-    free(g);
     exit(EXIT_FAILURE);
   }
   g->wrapped = wrapped;
@@ -31,7 +30,8 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   g->undo = create_stack();
   g->redo = create_stack();
 
-  if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL || g->elem == NULL) {
+  if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL || g->elem == NULL ||
+      g->redo == NULL || g->undo == NULL) {
     game_delete(g);
     exit(EXIT_FAILURE);
   }

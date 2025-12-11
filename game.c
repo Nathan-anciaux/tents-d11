@@ -319,6 +319,7 @@ bool game_won(cgame g)
   }
 
   */
+ 
   // Rule 4
   // on check si chaque bigtree est collé a exactement 2 tents
   int compteur = 0;

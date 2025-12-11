@@ -299,6 +299,7 @@ bool game_won(cgame g)
   // Rule 3
   int sTENT = 0;
   int sTREE = 0;
+  int sBIGTREE = 0;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == TENT) {
@@ -307,26 +308,34 @@ bool game_won(cgame g)
       if (game_get_square(g, i, j) == TREE) {
         sTREE++;
       }
+      if (game_get_square(g, i, j) == BIGTREE) {
+        sBIGTREE++;
+      }
     }
   }
-  if (sTENT != sTREE) {
+  if (sTENT != sTREE + 2 * sBIGTREE) {
     return false;
   }
+
   // Rule 4
   // on check si chaque bigtree est collé a exactement 2 tents
   int compteur = 0;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == TENT) {
-        if (!game_is_neigh(g, i, j, TREE, false)) return false;
+        if (!game_is_neigh(g, i, j, TREE, false) && !game_is_neigh(g, i, j, BIGTREE, false)) return false;
       }
       if (game_get_square(g, i, j) == BIGTREE) {
-        compteur = game_nb_neigh(g,i,j, game_get_square(g, i, j), false);
+        compteur = game_nb_neigh(g, i, j, TENT, false);
         if (compteur != 2) {
           return false;
         }
       }
       compteur = 0;
+      square s = game_get_square(g, i, j);
+      if (s == TREE) {
+        if (!game_is_neigh(g, i, j, TENT, false)) return false;
+      }
     }
   }
 

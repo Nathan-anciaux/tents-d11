@@ -53,6 +53,7 @@ int test_game_won()
   game_set_square(g, 1, 1, TENT);
   result = game_won(g);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
@@ -63,6 +64,7 @@ int test_game_won()
   game_set_square(g, 1, 1, TENT);
   result = game_won(g);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
@@ -73,6 +75,7 @@ int test_game_won()
   game_set_square(g, 2, 2, TENT);
   result = game_won(g);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
@@ -83,6 +86,7 @@ int test_game_won()
   game_set_square(g, 0, 1, TENT);
   result = game_won(g);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
@@ -92,6 +96,7 @@ int test_game_won()
   game_set_square(g, 1, 1, TENT);
   result = game_won(g);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
@@ -101,6 +106,7 @@ int test_game_won()
   game_set_square(g, 0, 4, EMPTY);
   result = game_won(g);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
@@ -110,6 +116,7 @@ int test_game_won()
   game_set_square(g, 0, 2, TENT);
   result = game_won(g);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
@@ -149,51 +156,60 @@ int test_game_won()
 
   // Test sur bigtree -> 2 tentes piles a coté d'un bigtree
   // Test normalement gagnant
-  g = game_default_solution();
-  g->nb_tent_col_expected[1]++;
-  g->nb_tent_row_expected[0]++;
-  game_set_square(g, 0, 0, BIGTREE);
+  g = game_new_empty();
+  game_set_square(g, 1, 1, BIGTREE);
   game_set_square(g, 0, 1, TENT);
+  game_set_square(g, 2, 1, TENT);
+  g->nb_tent_row_expected[0] = 1;
+  g->nb_tent_row_expected[2] = 1;
+  g->nb_tent_col_expected[1] = 2;
+  game_fill_grass(g);
   result = game_won(g);
   if (result != 1) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
 
   // Test normalement perdant
-  g = game_default_solution();
-  game_set_square(g, 0, 0, BIGTREE);
-  game_print(g);
+  g = game_new_empty();
+  game_set_square(g, 1, 1, BIGTREE);
+  game_set_square(g, 0, 1, TENT);
+  g->nb_tent_row_expected[0] = 1;
+  g->nb_tent_col_expected[1] = 1;
+  game_fill_grass(g);
   result = game_won(g);
-  printf("result : %d\n", result);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
 
   // Test de wrapping
   // Test normalement gagnant
-  g = game_default_solution();
-  g->nb_tent_col_expected[7]++;
-  g->nb_tent_row_expected[5]++;
-  game_set_square(g, 5, 0, TREE);
-  game_set_square(g, 5, 7, TENT);
+  g = game_new_empty();
+  g->wrapped = true;
+  game_set_square(g, 0, 0, TREE);
+  game_set_square(g, 0, 7, TENT);
+  g->nb_tent_row_expected[0] = 1;
+  g->nb_tent_col_expected[7] = 1;
+  game_fill_grass(g);
   result = game_won(g);
-  game_print(g);
-  printf("result : %d\n", result);
   if (result != 1) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);
+
   // Test normalement perdant
-  g = game_default_solution();
-  g->nb_tent_col_expected[7]++;
-  g->nb_tent_row_expected[0]++;
-  game_set_square(g, 0, 7, TREE);
+  g = game_new_empty();
+  g->wrapped = true;
+  game_set_square(g, 0, 7, TENT);
+  g->nb_tent_row_expected[0] = 1;
+  g->nb_tent_col_expected[7] = 1;
   result = game_won(g);
-  game_print(g);
-  printf("result : %d\n", result);
   if (result != 0) {
+    game_delete(g);
     return 0;
   }
   game_delete(g);

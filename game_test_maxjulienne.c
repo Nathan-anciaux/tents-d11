@@ -148,17 +148,31 @@ int test_game_won()
   game_delete(g);
 
   // Test sur bigtree -> 2 tentes piles a coté d'un bigtree
+  // Test normalement gagnant
   g = game_default_solution();
   g->nb_tent_col_expected[1]++;
   g->nb_tent_row_expected[0]++;
   game_set_square(g, 0, 0, BIGTREE);
   game_set_square(g, 0, 1, TENT);
   result = game_won(g);
+  if (result != 1) {
+    return 0;
+  }
+  game_delete(g);
+
+  // Test normalement perdant
+  g = game_default_solution();
+  game_set_square(g, 0, 0, BIGTREE);
+  game_print(g);
+  result = game_won(g);
+  printf("result : %d\n", result);
   if (result != 0) {
     return 0;
   }
   game_delete(g);
 
+  // Test de wrapping
+  // Test normalement gagnant
   g = game_default_solution();
   g->nb_tent_col_expected[7]++;
   g->nb_tent_row_expected[5]++;
@@ -167,11 +181,22 @@ int test_game_won()
   result = game_won(g);
   game_print(g);
   printf("result : %d\n", result);
+  if (result != 1) {
+    return 0;
+  }
+  game_delete(g);
+  // Test normalement perdant
+  g = game_default_solution();
+  g->nb_tent_col_expected[7]++;
+  g->nb_tent_row_expected[0]++;
+  game_set_square(g, 0, 7, TREE);
+  result = game_won(g);
+  game_print(g);
+  printf("result : %d\n", result);
   if (result != 0) {
     return 0;
   }
   game_delete(g);
-
   return 1;
 }
 

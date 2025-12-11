@@ -296,6 +296,7 @@ bool game_won(cgame g)
       return false;
     }
   }
+  /*
   // Rule 3
   int sTENT = 0;
   int sTREE = 0;
@@ -317,6 +318,7 @@ bool game_won(cgame g)
     return false;
   }
 
+  */
   // Rule 4
   // on check si chaque bigtree est collé a exactement 2 tents
   int compteur = 0;

@@ -254,7 +254,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 bool game_won(cgame g)
 // Checks if the game is won
 {
-  /*
+  
   // game_default_solution test
   game gds = game_default_solution();
   if (game_equal(g, gds)) {
@@ -276,9 +276,9 @@ bool game_won(cgame g)
     return false;
   }
   game_delete(gd);
-  */
+  
 
-  /*
+  
   // Rule 1
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
@@ -298,29 +298,7 @@ bool game_won(cgame g)
     if (!(game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i))) {
       return false;
     }
-  }*/
-
-  /*
-  // Rule 3
-  int sTENT = 0;
-  int sTREE = 0;
-  int sBIGTREE = 0;
-  for (int i = 0; i < g->height; i++) {
-    for (int j = 0; j < g->width; j++) {
-      if (game_get_square(g, i, j) == TENT) {
-        sTENT++;
-      }
-      if (game_get_square(g, i, j) == TREE) {
-        sTREE++;
-      }
-      if (game_get_square(g, i, j) == BIGTREE) {
-        sBIGTREE++;
-      }
-    }
   }
-  if (sTENT != sTREE + 2 * sBIGTREE) {
-    return false;
-  }*/
 
   // Rule 4
   // on check si chaque bigtree est collé a exactement 2 tents

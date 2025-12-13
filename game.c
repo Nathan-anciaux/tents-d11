@@ -11,12 +11,15 @@ static bool on_board(cgame g, int i, int j) { return i >= 0 && i < g->height && 
 void game_delete(game g)
 // Deletes the game and frees the allocated memory
 {
+  if (!g) {
+    return;
+  }
   free(g->tab);
   free(g->elem);
   free(g->nb_tent_col_expected);
   free(g->nb_tent_row_expected);
-  free(g->redo);
-  free(g->undo);
+  delete_stack(g->redo);
+  delete_stack(g->undo);
   free(g);
   return;
 }
@@ -254,7 +257,6 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 bool game_won(cgame g)
 // Checks if the game is won
 {
-  
   // game_default_solution test
   game gds = game_default_solution();
   if (game_equal(g, gds)) {
@@ -276,9 +278,7 @@ bool game_won(cgame g)
     return false;
   }
   game_delete(gd);
-  
 
-  
   // Rule 1
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {

@@ -16,8 +16,9 @@ static setsquare recup_val(stack* p)
 game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_row, uint* nb_tents_col, bool wrapped)
 {
   // memory allocation for all g attribut's
-  game g = malloc(sizeof(struct game_s));
+  game g = calloc(1, (sizeof(struct game_s)));
   if (g == NULL) {
+    game_delete(g);
     exit(EXIT_FAILURE);
   }
   g->wrapped = wrapped;

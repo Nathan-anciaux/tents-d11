@@ -28,9 +28,9 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 // Creates a new game with default size and initializes it
 {
   // memory allocation for all g attribut's
-  game g = malloc(sizeof(struct game_s));
+  game g = calloc(1, sizeof(struct game_s));
   if (g == NULL) {
-    free(g);
+    game_delete(g);
     exit(EXIT_FAILURE);
   }
 

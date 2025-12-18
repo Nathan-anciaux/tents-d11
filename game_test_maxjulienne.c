@@ -338,6 +338,7 @@ int test_game_is_neigh()
             "Erreur : Vérifie en (2,1), renvoie false alors qu'il y a un arbre "
             "en (3,1)");
     game_delete(g_default);
+    game_delete(g_solution);
     return 0;
   }
   // Arbre en diagonale
@@ -346,6 +347,7 @@ int test_game_is_neigh()
             "Erreur : Vérifie en (1,1), renvoie false alors qu'il y a un arbre "
             "en diagonale (1,1)");
     game_delete(g_default);
+    game_delete(g_solution);
     return 0;
   }
   // si il y a un arbre uniquement en diagonale
@@ -354,6 +356,7 @@ int test_game_is_neigh()
             "Erreur : Vérifie en (2,3), renvoie true alors qu'il n'y a pas "
             "d'arbre (uniquement en diagonale)");
     game_delete(g_default);
+    game_delete(g_solution);
     return 0;
   }
   // pas d'abre autours
@@ -362,6 +365,8 @@ int test_game_is_neigh()
             "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas "
             "d'arbre en voisinnage");
     game_delete(g_default);
+    game_delete(g_solution);
+    ;
     return 0;
   }
   // Pas d'abre autours meme en diagonale
@@ -370,6 +375,7 @@ int test_game_is_neigh()
             "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas "
             "d'abre en voisinnage (diagonale)");
     game_delete(g_default);
+    game_delete(g_solution);
     return 0;
   }
   // en (0,0), sur un arbre mais rien autours
@@ -378,21 +384,25 @@ int test_game_is_neigh()
             "Erreur : Vérifie en (0,0), renvoie true alors qu'il n'y a pas "
             "d'abre en voisinnage");
     game_delete(g_default);
+    game_delete(g_solution);
     return 0;
   }
   if (game_is_neigh(g_solution, 1, 1, TENT, true) != 1) {
     fprintf(stderr, "Erreur : n'a pas trouvé ses voisins tente");
+    game_delete(g_default);
     game_delete(g_solution);
     return 0;
   }
   if (game_is_neigh(g_default, 1, 1, TENT, false) != 0) {
     fprintf(stderr, "Erreur : A trouvé un voisin tente alors qu'il ne devrait pas");
+    game_delete(g_default);
     game_delete(g_solution);
     return 0;
   }
   // en (0,0), sur un arbre mais rien autours
   if (game_is_neigh(g_solution, 0, 3, TENT, false) != 1) {
     fprintf(stderr, "Erreur : n'a pas trouvé son voisin tente");
+    game_delete(g_default);
     game_delete(g_solution);
     return 0;
   }
@@ -603,6 +613,7 @@ bool test_game_new_empty_ext(void)
     game_delete(g);
     return 0;
   }
+  game_delete(g);
 
   game g2 = game_new_empty_ext(4, 8, true);
   if (g2 == NULL) {
@@ -622,8 +633,25 @@ bool test_game_new_empty_ext(void)
     return 0;
   }
 
-  game_delete(g);
   game_delete(g2);
+  game g3 = game_new_empty_ext(5, 5, true);
+  if (g3 == NULL) {
+    return 0;
+  }
+  if (game_nb_rows(g3) != 5) {
+    game_delete(g3);
+    return 0;
+  }
+  if (game_nb_cols(g3) != 5) {
+    game_delete(g3);
+    return 0;
+  }
+  if (game_is_wrapping(g3) != true) {
+    game_delete(g3);
+    return 0;
+  }
+
+  game_delete(g3);
   return 1;
 }
 

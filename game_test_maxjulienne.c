@@ -560,6 +560,32 @@ int test_game_get_adjacent_square()
   return 1;
 }
 
+bool test_game_new_empty_ext(void)
+{
+  game g = game_new_empty_ext(10, 5, false);
+  if (g == NULL) return 0;
+  if (game_nb_rows(g) != 10) return 0;
+
+  if (game_nb_cols(g) != 5) return 0;
+  
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
+      if (game_get_square(g, i, j) != EMPTY) return 0;
+    }
+  }
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    if (game_get_expected_nb_tents_row(g, i) != 0) return 0;
+  }
+
+  for (int i = 0; i < game_nb_cols(g); i++) {
+    if (game_get_expected_nb_tents_col(g, i) != 0) return 0;
+  }
+  if (game_get_current_nb_tents_all(g) != 0) return 0;
+
+  game_delete(g);
+  return 1;
+}
+
 int test_game_get_expected_nb_tents_all()
 {
   // TESTS SUR : un empty, en additionnant le nombre voulu pour chaque ligne et
@@ -628,6 +654,9 @@ int main(int argc, char* argv[])
   }
   if (strcmp("game_get_expected_nb_tents_all", argv[1]) == 0) {
     ok = test_game_get_expected_nb_tents_all();
+  }
+  if (strcmp("game_new_empty_ext", argv[1]) == 0) {
+    ok = test_game_new_empty_ext();
   }
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);

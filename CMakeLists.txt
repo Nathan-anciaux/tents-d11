@@ -29,7 +29,7 @@ add_test(test_game_default_solution ./game_test_maxjulienne game_default_solutio
 add_test(test_game_print ./game_test_maxjulienne game_print)
 add_test(test_game_get_adjacent_square ./game_test_maxjulienne game_get_adjacent_square)
 
-add_executable(game_test_nanciaux game_test_nanciaux.c game_aux.c game.c game_ext.c)
+add_executable(game_test_nanciaux game_test_nanciaux.c)
 target_link_libraries(game_test_nanciaux game)
 add_test(test_nanciaux_dummy ./game_test_nanciaux dummy)
 add_test(test_game_set_square ./game_test_nanciaux game_set_square)
@@ -50,7 +50,7 @@ add_test(test_game_nb_rows ./game_test_nanciaux game_nb_rows)
 add_test(test_game_new_empty_ext ./game_test_nanciaux game_new_empty_ext)
 add_test(test_game_new_ext ./game_test_nanciaux game_new_ext)
 
-add_executable(game_test_edejardin game_test_edejardin.c game_aux.c game.c game_ext.c)
+add_executable(game_test_edejardin game_test_edejardin.c)
 target_link_libraries(game_test_edejardin game)
 add_test(test_game_new ./game_test_edejardin game_new)
 add_test(test_game_new_empty ./game_test_edejardin game_new_empty)

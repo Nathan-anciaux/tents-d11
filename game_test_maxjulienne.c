@@ -219,16 +219,16 @@ int test_game_won()
 int test_unique_game_fill_grass(game g)
 {
   // Récup l'état initial du tableau
-  int tab_init[g->height][g->width];
-  for (int i = 0; i < g->height; i++) {
-    for (int j = 0; j < g->width; j++) {
+  int tab_init[game_nb_rows(g)][game_nb_cols(g)];
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       tab_init[i][j] = game_get_square(g, i, j);
     }
   }
   game_fill_grass(g);
   // Vérifie que les cases empty ont été remplacé par grass
-  for (int i = 0; i < g->height; i++) {
-    for (int j = 0; j < g->width; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       if (tab_init[i][j] == EMPTY && game_get_square(g, i, j) != GRASS) {
         fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
         return 0;
@@ -273,16 +273,16 @@ int test_game_fill_grass()
 
 int test_unique_game_restart(game g)
 {
-  int tab_init[g->height][g->width];
-  for (int i = 0; i < g->height; i++) {
-    for (int j = 0; j < g->width; j++) {
+  int tab_init[game_nb_rows(g)][game_nb_cols(g)];
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       tab_init[i][j] = game_get_square(g, i, j);
     }
   }
   game_restart(g);
   // Vérifie que les cases ont été remplacé par empty sauf les arbres
-  for (int i = 0; i < g->height; i++) {
-    for (int j = 0; j < g->width; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       if (tab_init[i][j] != TREE && game_get_square(g, i, j) != EMPTY) {
         fprintf(stderr, "Erreur : une case n'a pas été transformée en empty");
         return 0;
@@ -427,8 +427,8 @@ int test_game_default()
     game_delete(g);
     return 0;
   }
-  for (int i = 0; i < g->height; i++) {
-    for (int j = 0; j < g->width; j++) {
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       int t = 0;
       for (int m = 0; m < 12; m++) {
         if (arbre_place[m][0] == i && arbre_place[m][1] == j) {
@@ -507,7 +507,7 @@ int test_game_get_adjacent_square()
     game_delete(g);
     return 0;
   }
-  if (game_get_adjacent_square(g, g->height - 1, g->width - 1, DOWN_RIGHT, &pi_next, &pj_next) != 0) {
+  if (game_get_adjacent_square(g, game_nb_rows(g) - 1, game_nb_cols(g) - 1, DOWN_RIGHT, &pi_next, &pj_next) != 0) {
     game_delete(g);
     return 0;
   }
@@ -573,7 +573,7 @@ int test_game_get_expected_nb_tents_all()
   }
 
   int a = 0;
-  for (int i = 0; i < g->width; i++) {
+  for (int i = 0; i < game_nb_cols(g); i++) {
     a = a + game_get_expected_nb_tents_col(g, i);
   }
 

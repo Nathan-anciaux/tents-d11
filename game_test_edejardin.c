@@ -134,7 +134,7 @@ bool test_game_new_empty(void)
 
   // on regarde si c'est bien empty partout
   for (int i = 0; i < game_nb_rows(g); i++) {
-    for (int j = 0; j < g->width; j++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       if (game_get_square(g, i, j) != EMPTY) return 0;
     }
   }

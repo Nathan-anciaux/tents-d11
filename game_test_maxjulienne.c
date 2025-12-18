@@ -188,7 +188,7 @@ int test_game_won()
 
   // Test de wrapping
   // Test normalement gagnant
-  g = game_new_empty_ext(8,8,true);
+  g = game_new_empty_ext(8, 8, true);
   game_set_square(g, 0, 0, TREE);
   game_set_square(g, 0, 7, TENT);
   game_set_expected_nb_tents_col(g, 7, 1);
@@ -203,11 +203,11 @@ int test_game_won()
   game_delete(g);
 
   // Test normalement perdant
-  g = game_new_empty_ext(8,8,true);
+  g = game_new_empty_ext(8, 8, true);
   game_set_square(g, 0, 7, TENT);
   game_set_expected_nb_tents_col(g, 7, 1);
   game_set_expected_nb_tents_row(g, 0, 1);
-  
+
   result = game_won(g);
   if (result != 0) {
     game_delete(g);
@@ -564,26 +564,66 @@ int test_game_get_adjacent_square()
 bool test_game_new_empty_ext(void)
 {
   game g = game_new_empty_ext(10, 5, false);
-  if (g == NULL) return 0;
-  if (game_nb_rows(g) != 10) return 0;
-
-  if (game_nb_cols(g) != 5) return 0;
+  if (g == NULL) {
+    game_delete(g);
+    return 0;
+  }
+  if (game_nb_rows(g) != 10) {
+    game_delete(g);
+    return 0;
+  }
+  if (game_nb_cols(g) != 5) {
+    game_delete(g);
+    return 0;
+  }
+  if (game_is_wrapping(g) != false) {
+    game_delete(g);
+    return 0;
+  }
 
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      if (game_get_square(g, i, j) != EMPTY) return 0;
+      if (game_get_square(g, i, j) != EMPTY) {
+        game_delete(g);
+        return 0;
+      }
+    }
+    if (game_get_expected_nb_tents_row(g, i) != 0) {
+      game_delete(g);
+      return 0;
     }
   }
-  for (int i = 0; i < game_nb_rows(g); i++) {
-    if (game_get_expected_nb_tents_row(g, i) != 0) return 0;
+  for (int i = 0; i < game_nb_cols(g); i++) {
+    if (game_get_expected_nb_tents_col(g, i) != 0) {
+      game_delete(g);
+      return 0;
+    }
+  }
+  if (game_get_current_nb_tents_all(g) != 0) {
+    game_delete(g);
+    return 0;
   }
 
-  for (int i = 0; i < game_nb_cols(g); i++) {
-    if (game_get_expected_nb_tents_col(g, i) != 0) return 0;
+  game g2 = game_new_empty_ext(4, 8, true);
+  if (g2 == NULL) {
+    game_delete(g2);
+    return 0;
   }
-  if (game_get_current_nb_tents_all(g) != 0) return 0;
+  if (game_nb_rows(g2) != 4) {
+    game_delete(g2);
+    return 0;
+  }
+  if (game_nb_cols(g2) != 8) {
+    game_delete(g2);
+    return 0;
+  }
+  if (game_is_wrapping(g2) != true) {
+    game_delete(g2);
+    return 0;
+  }
 
   game_delete(g);
+  game_delete(g2);
   return 1;
 }
 

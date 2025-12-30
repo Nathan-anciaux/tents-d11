@@ -570,7 +570,7 @@ int test_game_get_adjacent_square()
   return 1;
 }
 
-bool test_game_nb_neigh()
+int test_game_nb_neigh()
 {
   game g = game_new_empty_ext(8, 8, false);
 
@@ -583,12 +583,7 @@ bool test_game_nb_neigh()
     return 0;
   }
 
-  if (game_nb_neigh(g, 1, 1, TREE, false) != 2) {
-    game_delete(g);
-    return 0;
-  }
-
-  if (game_nb_neigh(g, 0, 0, TREE, false) != 1) {
+  if (game_nb_neigh(g, 1, 1, TREE, true) != 2) {
     game_delete(g);
     return 0;
   }
@@ -596,7 +591,7 @@ bool test_game_nb_neigh()
 
   game g_wrap = game_new_empty_ext(8, 8, true);
   game_set_square(g_wrap, 0, 0, TREE);
-  if (game_nb_neigh(g_wrap, 0, 2, TREE, false) != 1) {
+  if (game_nb_neigh(g_wrap, 0, 7, TREE, false) != 1) {
     game_delete(g_wrap);
     return 0;
   }
@@ -604,7 +599,7 @@ bool test_game_nb_neigh()
   return 1;
 }
 
-bool test_game_new_empty_ext(void)
+int test_game_new_empty_ext(void)
 {
   game g = game_new_empty_ext(10, 5, false);
   if (g == NULL) {
@@ -759,6 +754,9 @@ int main(int argc, char* argv[])
   }
   if (strcmp("game_new_empty_ext", argv[1]) == 0) {
     ok = test_game_new_empty_ext();
+  }
+  if (strcmp("game_nb_neigh", argv[1]) == 0) {
+    ok = test_game_nb_neigh();
   }
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);

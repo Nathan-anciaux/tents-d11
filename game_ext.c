@@ -19,7 +19,7 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   game g = calloc(1, (sizeof(struct game_s)));
   if (g == NULL) {
     game_delete(g);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
   g->wrapped = wrapped;
   g->width = nb_cols;
@@ -34,7 +34,7 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL || g->elem == NULL ||
       g->redo == NULL || g->undo == NULL) {
     game_delete(g);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
 
   // Filling the table with all expected values (squares)
@@ -64,17 +64,17 @@ game game_new_empty_ext(uint height, uint width, bool wrapping)
   
   if (tab == NULL) {
     free(tab);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
   uint* expected_tent_row = calloc(height, sizeof(uint));
   if (expected_tent_row == NULL) {
     free(expected_tent_row);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
   uint* expected_tent_col = calloc(width, sizeof(uint));
   if (expected_tent_col == NULL) {
     free(expected_tent_col);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
 
 

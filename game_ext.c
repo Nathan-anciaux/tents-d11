@@ -60,28 +60,28 @@ game game_new_empty_ext(uint height, uint width, bool wrapping)
 {
   // Allocation of the element to be completed and to use with game_new
   square* tab = calloc(height * width, sizeof(square));
-  
-  
+
   if (tab == NULL) {
     free(tab);
     return NULL;
   }
   uint* expected_tent_row = calloc(height, sizeof(uint));
   if (expected_tent_row == NULL) {
+    free(tab);
     free(expected_tent_row);
     return NULL;
   }
   uint* expected_tent_col = calloc(width, sizeof(uint));
   if (expected_tent_col == NULL) {
+    free(tab);
+    free(expected_tent_row);
     free(expected_tent_col);
     return NULL;
   }
 
-
-
   // Create the game with all parameters empty (thanks to calloc)
   game g = game_new_ext(height, width, tab, expected_tent_row, expected_tent_col, wrapping);
-  if (!g){
+  if (!g) {
     game_delete(g);
     exit(EXIT_FAILURE);
   }

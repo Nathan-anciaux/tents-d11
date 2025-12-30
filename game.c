@@ -101,11 +101,16 @@ bool game_equal(cgame g1, cgame g2)
     if (j % (DEFAULT_SIZE - 1) == 0) i++;
   }*/
 
-  if (g1 == NULL || g2 == NULL) return g1 == g2;
+  if (g1 == NULL && g2 == NULL) return true;
+  if (g1 == NULL || g2 == NULL) return false;
+
   if (g1->height != g2->height || g1->width != g2->width) {
     return false;
   }
 
+  if (g1->wrapped != g2->wrapped) {
+    return 0;
+  }
   for (int i = 0; i < g1->height; i++) {
     for (int j = 0; j < g1->width; j++) {
       if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
@@ -260,27 +265,7 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 bool game_won(cgame g)
 // Checks if the game is won
 {
-  // game_default_solution test
-  game gds = game_default_solution();
-  if (game_equal(g, gds)) {
-    game_delete(gds);
-    return true;
-  }
-  game_delete(gds);
-  // game_new_empty test
-  game gne = game_new_empty();
-  if (game_equal(g, gne)) {
-    game_delete(gne);
-    return true;
-  }
-  game_delete(gne);
-  // game_default test
-  game gd = game_default();
-  if (game_equal(g, gd)) {
-    game_delete(gd);
-    return false;
-  }
-  game_delete(gd);
+  if (g == NULL) return false;
 
   // Rule 1
   for (int i = 0; i < g->height; i++) {

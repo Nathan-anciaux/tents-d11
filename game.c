@@ -14,12 +14,12 @@ void game_delete(game g)
   if (!g) {
     return;
   }
-  free(g->tab);
-  free(g->elem);
-  free(g->nb_tent_col_expected);
-  free(g->nb_tent_row_expected);
-  delete_stack(g->redo);
-  delete_stack(g->undo);
+  if (g->tab) free(g->tab);
+  if (g->elem) free(g->elem);
+  if (g->nb_tent_col_expected) free(g->nb_tent_col_expected);
+  if (g->nb_tent_row_expected) free(g->nb_tent_row_expected);
+  if (g->redo) delete_stack(g->redo);
+  if (g->undo) delete_stack(g->undo);
   free(g);
   return;
 }
@@ -83,8 +83,11 @@ game game_new_empty(void)  // Attention ici on utilise l'implémentaion 1d du ta
 game game_copy(cgame g)
 // 	Duplicates a game
 {
-  game g2 = game_new(g->elem, g->nb_tent_row_expected, g->nb_tent_col_expected);
-
+  game g2 = game_new_ext(g->height, g->width, g->elem, g->nb_tent_row_expected, g->nb_tent_col_expected, g->wrapped);
+  if (!g2) {
+    game_delete(g2);
+    exit(EXIT_FAILURE);
+  }
   return g2;
 }
 

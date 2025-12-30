@@ -220,27 +220,31 @@ int test_game_won()
 int test_unique_game_fill_grass(game g)
 {
   // Récup l'état initial du tableau
-  int tab_init[game_nb_rows(g)][game_nb_cols(g)];
+  square* tab_init = malloc(g->width * g->height * sizeof(square));
+  if (!tab_init) {
+    return 0;
+  }
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      tab_init[i][j] = game_get_square(g, i, j);
+      tab_init[i * g->width + j] = game_get_square(g, i, j);
     }
   }
   game_fill_grass(g);
   // Vérifie que les cases empty ont été remplacé par grass
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      if (tab_init[i][j] == EMPTY && game_get_square(g, i, j) != GRASS) {
+      if (tab_init[i * g->width + j] == EMPTY && game_get_square(g, i, j) != GRASS) {
         fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
         return 0;
       }
 
-      else if (tab_init[i][j] != EMPTY && tab_init[i][j] != game_get_square(g, i, j)) {
+      else if (tab_init[i * g->width + j] != EMPTY && tab_init[i * g->width + j] != game_get_square(g, i, j)) {
         fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
         return 0;
       }
     }
   }
+  free(tab_init);
   return 1;
 }
 
@@ -248,13 +252,16 @@ int test_game_fill_grass()
 {
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnée
-  game tab[6];
+  game tab[7];
   tab[0] = game_new_empty();         // game vide
   tab[1] = game_default();           // game normale
   tab[2] = game_new_empty();         // game remplie de tente
   tab[3] = game_new_empty();         // Game remplies d'arbres
   tab[4] = game_default_solution();  // Game gagnée
   tab[5] = create_game_rectangle();
+  tab[6] = game_new_empty();
+  game_set_square(tab[6], 0, 0, BIGTREE);
+  game_set_square(tab[6], 0, 1, GRASS);
 
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
@@ -263,7 +270,7 @@ int test_game_fill_grass()
     }
   }
   int result = 1;
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < 7; i++) {
     if (test_unique_game_fill_grass(tab[i]) == 0) {
       result = 0;
     }

@@ -83,7 +83,7 @@ game game_new_empty_ext(uint height, uint width, bool wrapping)
   game g = game_new_ext(height, width, tab, expected_tent_row, expected_tent_col, wrapping);
   if (!g) {
     game_delete(g);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
   free(tab);
   free(expected_tent_row);

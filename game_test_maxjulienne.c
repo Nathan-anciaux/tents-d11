@@ -366,7 +366,6 @@ int test_game_is_neigh()
             "d'arbre en voisinnage");
     game_delete(g_default);
     game_delete(g_solution);
-    ;
     return 0;
   }
   // Pas d'abre autours meme en diagonale
@@ -568,6 +567,40 @@ int test_game_get_adjacent_square()
   }
 
   game_delete(g);
+  return 1;
+}
+
+bool test_game_nb_neigh()
+{
+  game g = game_new_empty_ext(8, 8, false);
+
+  game_set_square(g, 1, 1, TREE);
+  game_set_square(g, 0, 1, TREE);
+  game_set_square(g, 2, 2, TREE);
+
+  if (game_nb_neigh(g, 1, 1, TREE, false) != 1) {
+    game_delete(g);
+    return 0;
+  }
+
+  if (game_nb_neigh(g, 1, 1, TREE, false) != 2) {
+    game_delete(g);
+    return 0;
+  }
+
+  if (game_nb_neigh(g, 0, 0, TREE, false) != 1) {
+    game_delete(g);
+    return 0;
+  }
+  game_delete(g);
+
+  game g_wrap = game_new_empty_ext(8, 8, true);
+  game_set_square(g_wrap, 0, 0, TREE);
+  if (game_nb_neigh(g_wrap, 0, 2, TREE, false) != 1) {
+    game_delete(g_wrap);
+    return 0;
+  }
+  game_delete(g_wrap);
   return 1;
 }
 

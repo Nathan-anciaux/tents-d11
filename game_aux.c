@@ -127,8 +127,8 @@ bool game_get_adjacent_square(cgame g, uint i, uint j, direction d, uint* pi_nex
 {
   int row, col;
   get_direction(d, &row, &col);
-  int new_row = i + row;
-  int new_col = j + col;
+  int new_row = (int)i + row;
+  int new_col = (int)j + col;
 
   if (!g->wrapped)
     if (!on_board(g, new_row, new_col)) return 0;

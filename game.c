@@ -301,7 +301,7 @@ bool game_won(cgame g)
       }
     }
   }
-  if (nb_trees < nb_tents) return false;
+  if (nb_trees != nb_tents) return false;
 
   // test
   // Rule 4

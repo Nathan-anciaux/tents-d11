@@ -288,6 +288,19 @@ bool game_won(cgame g)
     }
   }
 
+  // rule 3 
+  uint nb_trees = 0;
+  uint nb_tents = game_get_current_nb_tents_all(g);
+  for (int i = 0; i< g->height; i++){
+    for (int j = 0; j< g->width; j++){
+      square s = game_get_square(g,i,j);
+      if (s == TREE || s ==BIGTREE){
+        nb_trees ++;
+      }
+    }
+  }
+  if (nb_trees < nb_tents) return false;
+
   // Rule 4
   // on check si chaque bigtree est collé a exactement 2 tents
   int compteur = 0;

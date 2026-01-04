@@ -288,16 +288,15 @@ bool game_won(cgame g)
     }
   }
 
-  // rule 3 
+  // rule 3
   uint nb_trees = 0;
   uint nb_tents = game_get_current_nb_tents_all(g);
-  for (int i = 0; i< g->height; i++){
-    for (int j = 0; j< g->width; j++){
-      square s = game_get_square(g,i,j);
-      if (s == TREE){
-        nb_trees ++;
-      }
-      else if (s == BIGTREE){
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
+      square s = game_get_square(g, i, j);
+      if (s == TREE) {
+        nb_trees++;
+      } else if (s == BIGTREE) {
         nb_trees += 2;
       }
     }

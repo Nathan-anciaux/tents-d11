@@ -11,12 +11,15 @@ static bool on_board(cgame g, int i, int j) { return i >= 0 && i < g->height && 
 void game_delete(game g)
 // Deletes the game and frees the allocated memory
 {
-  free(g->tab);
-  free(g->elem);
-  free(g->nb_tent_col_expected);
-  free(g->nb_tent_row_expected);
-  free(g->redo);
-  free(g->undo);
+  if (!g) {
+    return;
+  }
+  if (g->tab) free(g->tab);
+  if (g->elem) free(g->elem);
+  if (g->nb_tent_col_expected) free(g->nb_tent_col_expected);
+  if (g->nb_tent_row_expected) free(g->nb_tent_row_expected);
+  if (g->redo) delete_stack(g->redo);
+  if (g->undo) delete_stack(g->undo);
   free(g);
   return;
 }
@@ -25,9 +28,9 @@ game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 // Creates a new game with default size and initializes it
 {
   // memory allocation for all g attribut's
-  game g = malloc(sizeof(struct game_s));
+  game g = calloc(1, sizeof(struct game_s));
   if (g == NULL) {
-    free(g);
+    game_delete(g);
     exit(EXIT_FAILURE);
   }
 
@@ -80,8 +83,11 @@ game game_new_empty(void)  // Attention ici on utilise l'implémentaion 1d du ta
 game game_copy(cgame g)
 // 	Duplicates a game
 {
-  game g2 = game_new(g->elem, g->nb_tent_row_expected, g->nb_tent_col_expected);
-
+  game g2 = game_new_ext(g->height, g->width, g->elem, g->nb_tent_row_expected, g->nb_tent_col_expected, g->wrapped);
+  if (!g2) {
+    game_delete(g2);
+    exit(EXIT_FAILURE);
+  }
   return g2;
 }
 
@@ -95,11 +101,16 @@ bool game_equal(cgame g1, cgame g2)
     if (j % (DEFAULT_SIZE - 1) == 0) i++;
   }*/
 
-  if (g1 == NULL || g2 == NULL) return g1 == g2;
+  if (g1 == NULL && g2 == NULL) return true;
+  if (g1 == NULL || g2 == NULL) return false;
+
   if (g1->height != g2->height || g1->width != g2->width) {
     return false;
   }
 
+  if (g1->wrapped != g2->wrapped) {
+    return 0;
+  }
   for (int i = 0; i < g1->height; i++) {
     for (int j = 0; j < g1->width; j++) {
       if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
@@ -254,31 +265,8 @@ bool game_check_move(cgame g, uint i, uint j, square s)
 bool game_won(cgame g)
 // Checks if the game is won
 {
-  
-  // game_default_solution test
-  game gds = game_default_solution();
-  if (game_equal(g, gds)) {
-    game_delete(gds);
-    return true;
-  }
-  game_delete(gds);
-  // game_new_empty test
-  game gne = game_new_empty();
-  if (game_equal(g, gne)) {
-    game_delete(gne);
-    return true;
-  }
-  game_delete(gne);
-  // game_default test
-  game gd = game_default();
-  if (game_equal(g, gd)) {
-    game_delete(gd);
-    return false;
-  }
-  game_delete(gd);
-  
+  if (g == NULL) return false;
 
-  
   // Rule 1
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {

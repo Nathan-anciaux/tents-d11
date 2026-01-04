@@ -134,7 +134,7 @@ bool test_game_new_empty(void)
 
   // on regarde si c'est bien empty partout
   for (int i = 0; i < game_nb_rows(g); i++) {
-    for (int j = 0; j < g->width; j++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
       if (game_get_square(g, i, j) != EMPTY) return 0;
     }
   }
@@ -212,11 +212,13 @@ bool test_game_equal(void)
   game g1 = game_default();
   game g2 = game_default();
   if (g1 == NULL) {
+    game_delete(g1);
     game_delete(g2);
     return 0;
   }
   if (g2 == NULL) {
     game_delete(g1);
+    game_delete(g2);
     return 0;
   }
   if (!game_equal(g1, g2)) {
@@ -262,6 +264,7 @@ bool test_game_equal(void)
   if (gf1 == NULL) {
     game_delete(g1);
     game_delete(g2);
+    game_delete(gf1);
     game_delete(g_fill);
     return 0;
   }

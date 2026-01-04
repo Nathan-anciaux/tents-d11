@@ -16,9 +16,10 @@ static setsquare recup_val(stack* p)
 game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_row, uint* nb_tents_col, bool wrapped)
 {
   // memory allocation for all g attribut's
-  game g = malloc(sizeof(struct game_s));
+  game g = calloc(1, (sizeof(struct game_s)));
   if (g == NULL) {
-    exit(EXIT_FAILURE);
+    game_delete(g);
+    return NULL;
   }
   g->wrapped = wrapped;
   g->width = nb_cols;
@@ -33,7 +34,7 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL || g->elem == NULL ||
       g->redo == NULL || g->undo == NULL) {
     game_delete(g);
-    exit(EXIT_FAILURE);
+    return NULL;
   }
 
   // Filling the table with all expected values (squares)
@@ -59,11 +60,31 @@ game game_new_empty_ext(uint height, uint width, bool wrapping)
 {
   // Allocation of the element to be completed and to use with game_new
   square* tab = calloc(height * width, sizeof(square));
+
+  if (tab == NULL) {
+    free(tab);
+    return NULL;
+  }
   uint* expected_tent_row = calloc(height, sizeof(uint));
+  if (expected_tent_row == NULL) {
+    free(tab);
+    free(expected_tent_row);
+    return NULL;
+  }
   uint* expected_tent_col = calloc(width, sizeof(uint));
+  if (expected_tent_col == NULL) {
+    free(tab);
+    free(expected_tent_row);
+    free(expected_tent_col);
+    return NULL;
+  }
 
   // Create the game with all parameters empty (thanks to calloc)
   game g = game_new_ext(height, width, tab, expected_tent_row, expected_tent_col, wrapping);
+  if (!g) {
+    game_delete(g);
+    return NULL;
+  }
   free(tab);
   free(expected_tent_row);
   free(expected_tent_col);

@@ -294,8 +294,11 @@ bool game_won(cgame g)
   for (int i = 0; i< g->height; i++){
     for (int j = 0; j< g->width; j++){
       square s = game_get_square(g,i,j);
-      if (s == TREE || s ==BIGTREE){
+      if (s == TREE){
         nb_trees ++;
+      }
+      else if (s == BIGTREE){
+        nb_trees += 2;
       }
     }
   }

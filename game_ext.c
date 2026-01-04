@@ -38,8 +38,14 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   }
 
   // Filling the table with all expected values (squares)
-  for (uint i = 0; i < g->width * g->height; i++) {
-    g->elem[i] = squares[i];
+  if (squares != NULL) {
+    for (uint i = 0; i < g->width * g->height; i++) {
+      g->elem[i] = squares[i];
+    }
+  } else {
+    for (uint i = 0; i < g->width * g->height; i++) {
+      g->elem[i] = EMPTY;
+    }
   }
 
   for (uint i = 0; i < g->width; i++) {

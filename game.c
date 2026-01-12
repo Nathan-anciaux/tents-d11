@@ -305,7 +305,8 @@ void game_fill_grass(game g)
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == EMPTY) {
-        game_play_move(g, i, j, GRASS);
+        game_set_square(g,i,j,GRASS);
+        //game_play_move(g, i, j, GRASS);
         size++;
       }
     }

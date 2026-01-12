@@ -18,7 +18,6 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   // memory allocation for all g attribut's
   game g = calloc(1, (sizeof(struct game_s)));
   if (g == NULL) {
-    game_delete(g);
     return NULL;
   }
   g->wrapped = wrapped;

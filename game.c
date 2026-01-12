@@ -326,7 +326,7 @@ void game_restart(game g)
   if (g == NULL) return;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
-      if (!(game_get_square(g, i, j) == TREE) || (game_get_square(g, i, j) != TREE)) {
+      if (!(game_get_square(g, i, j) == TREE) && (game_get_square(g, i, j) != BIGTREE)) {
         game_set_square(g, i, j, EMPTY);
       }
     }

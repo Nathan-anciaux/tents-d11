@@ -154,8 +154,8 @@ uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)
     int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1};
     if (diag) val = 16;
 
-    int visitr[8];
-    int visitc[8];
+    int visitr[8] = {0};
+    int visitc[8] = {0};
     int visit = 0;
 
     for (int k = 0; k < val; k = k + 2) {

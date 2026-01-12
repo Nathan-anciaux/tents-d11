@@ -301,12 +301,15 @@ void game_fill_grass(game g)
 {
   // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more
   // understandable and to use already done functions
+  if (g == NULL) return;
+  
+  
   int size = 0;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == EMPTY) {
-        game_set_square(g,i,j,GRASS);
-        //game_play_move(g, i, j, GRASS);
+        //game_set_square(g,i,j,GRASS);
+        game_play_move(g, i, j, GRASS);
         size++;
       }
     }
@@ -320,6 +323,7 @@ void game_restart(game g)
 // Restarts a game.
 {
   // Replace all squares with EMPTY if there are not TREE
+  if (g == NULL) return;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (!(game_get_square(g, i, j) == TREE)) {
@@ -327,5 +331,6 @@ void game_restart(game g)
       }
     }
   }
+  
   return;
 }

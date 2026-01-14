@@ -139,6 +139,7 @@ uint game_get_expected_nb_tents_row(cgame g, uint i)
 uint game_get_expected_nb_tents_col(cgame g, uint j)
 // Gets the expected number of tents in a given column
 {
+  assert(j < g->width);
   if (g == NULL) return 0;
   return g->nb_tent_col_expected[j];
 }
@@ -148,8 +149,8 @@ uint game_get_expected_nb_tents_all(cgame g)
 {
   if (g == NULL) return 0;
   uint u = 0;
-  for (int i = 0; i < g->width; i++) {
-    u = u + g->nb_tent_col_expected[i];
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    u = u + game_get_expected_nb_tents_row(g, i);
   }
   return u;
 }
@@ -157,6 +158,7 @@ uint game_get_expected_nb_tents_all(cgame g)
 uint game_get_current_nb_tents_row(cgame g, uint i)
 // Gets the current number of tents in a given row.
 {
+  assert(i < g->height);
   if (g == NULL) return 0;
   if (i >= g->width) {
     return 0;
@@ -174,6 +176,7 @@ uint game_get_current_nb_tents_row(cgame g, uint i)
 uint game_get_current_nb_tents_col(cgame g, uint j)
 // Gets the current number of tents in a given column.
 {
+  assert(j < g->width);
   if (g == NULL) return 0;
   if (j >= g->height) {
     return 0;

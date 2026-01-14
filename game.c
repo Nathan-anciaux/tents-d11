@@ -146,9 +146,10 @@ uint game_get_expected_nb_tents_col(cgame g, uint j)
 uint game_get_expected_nb_tents_all(cgame g)
 // Gets the expected number of tents on the whole grid.
 {
+  if (g == NULL) return 0;
   uint u = 0;
   for (int i = 0; i < g->width; i++) {
-    u = u + g->nb_tent_row_expected[i];
+    u = u + g->nb_tent_col_expected[i];
   }
   return u;
 }

@@ -11,7 +11,7 @@
 game create_game_rectangle()
 {
   // Game rectangle
-  square squares[10] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+  square squares[12] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[2] = {1, 0};
   game g = game_new_ext(6, 2, squares, nb_row, nb_col, true);
@@ -279,12 +279,9 @@ int test_game_fill_grass()
   game_set_square(tab[7], 1, 1, BIGTREE);
   int result = 1;
   for (int i = 0; i < 8; i++) {
-    game_print(tab[i]);
     if (test_unique_game_fill_grass(tab[i]) == 0) {
       result = 0;
     }
-    game_print(tab[i]);
-    printf("-------------------------\n");
     game_delete(tab[i]);
   }
   return result;
@@ -339,7 +336,7 @@ int test_game_restart()
   }
 
   int result = 1;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 6; i++) {
     game_print(tab[i]);
     if (test_unique_game_restart(tab[i]) == 0) {
       result = 0;

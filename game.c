@@ -28,7 +28,6 @@ void game_delete(game g)
 game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 // Creates a new game with default size and initializes it
 {
-  
   return game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, squares, nb_tents_row, nb_tents_col, false);
 }
 

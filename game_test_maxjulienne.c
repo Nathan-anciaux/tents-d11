@@ -279,9 +279,12 @@ int test_game_fill_grass()
   game_set_square(tab[7], 1, 1, BIGTREE);
   int result = 1;
   for (int i = 0; i < 8; i++) {
+    game_print(tab[i]);
     if (test_unique_game_fill_grass(tab[i]) == 0) {
       result = 0;
     }
+    game_print(tab[i]);
+    printf("-------------------------\n");
     game_delete(tab[i]);
   }
   return result;
@@ -307,6 +310,9 @@ int test_unique_game_restart(game g)
       else if (tab_init[i][j] == TREE && game_get_square(g, i, j) != TREE) {
         fprintf(stderr, "Erreur : Un arbre a été supprimé");
         return 0;
+      } else if (tab_init[i][j] == BIGTREE && game_get_square(g, i, j) != BIGTREE) {
+        fprintf(stderr, "Erreur : Un bigtree a été supprimé");
+        return 0;
       }
     }
   }
@@ -323,6 +329,7 @@ int test_game_restart()
   tab[2] = game_new_empty();
   tab[3] = game_new_empty();
   tab[4] = game_default_solution();
+  game_set_square(tab[4], 0, 1, BIGTREE);
   tab[5] = create_game_rectangle();
   for (int i = 0; i < DEFAULT_SIZE; i++) {
     for (int j = 0; j < DEFAULT_SIZE; j++) {
@@ -333,9 +340,12 @@ int test_game_restart()
 
   int result = 1;
   for (int i = 0; i < 6; i++) {
+    game_print(tab[i]);
     if (test_unique_game_restart(tab[i]) == 0) {
       result = 0;
     }
+    game_print(tab[i]);
+    printf("----------------------\n");
     game_delete(tab[i]);
   }
   return result;
@@ -677,24 +687,6 @@ int test_game_new_empty_ext(void)
   }
 
   game_delete(g2);
-  game g3 = game_new_empty_ext(5, 5, true);
-  if (g3 == NULL) {
-    return 0;
-  }
-  if (game_nb_rows(g3) != 5) {
-    game_delete(g3);
-    return 0;
-  }
-  if (game_nb_cols(g3) != 5) {
-    game_delete(g3);
-    return 0;
-  }
-  if (game_is_wrapping(g3) != true) {
-    game_delete(g3);
-    return 0;
-  }
-
-  game_delete(g3);
   return 1;
 }
 

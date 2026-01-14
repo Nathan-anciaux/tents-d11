@@ -63,20 +63,20 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
 
 game game_new_empty_ext(uint nb_row, uint nb_col, bool wrapping)
 {
-  square squares[nb_row*nb_col];
+  square squares[nb_row * nb_col];
   uint row_tent[nb_row];
   uint col_tent[nb_col];
-  for (int i=0; i<nb_row*nb_col; i++){
+  for (int i = 0; i < nb_row * nb_col; i++) {
     squares[i] = EMPTY;
   }
-  for (int i=0; i< nb_col; i++){
+  for (int i = 0; i < nb_col; i++) {
     col_tent[i] = 0;
   }
-  for (int i=0; i<nb_row; i++){
+  for (int i = 0; i < nb_row; i++) {
     row_tent[i] = 0;
   }
   game g = game_new_ext(nb_row, nb_col, squares, row_tent, col_tent, wrapping);
-  if (g == NULL){
+  if (g == NULL) {
     return NULL;
   }
   return g;

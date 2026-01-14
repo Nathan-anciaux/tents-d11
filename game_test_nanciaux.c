@@ -648,7 +648,7 @@ bool test_game_new_empty_ext()
 
   // check if the tab tents col is empty
   for (int j = 0; j < nb_cols; j++) {
-    if (game_get_expected_nb_tents_row(g_new_empty_ext, j) != 0) {
+    if (game_get_expected_nb_tents_col(g_new_empty_ext, j) != 0) {
       game_delete(g_new_empty_ext);
       return false;
     }

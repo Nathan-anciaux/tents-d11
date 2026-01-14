@@ -1,10 +1,11 @@
 // game.c
 #include "game.h"
-#include "game_ext.h"
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "game_ext.h"
 #include "game_struct.h"
 
 static bool on_board(cgame g, int i, int j) { return i >= 0 && i < g->height && j >= 0 && j < g->width; }
@@ -130,6 +131,7 @@ void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)
 uint game_get_expected_nb_tents_row(cgame g, uint i)
 // Gets the expected number of tents in a given row
 {
+  assert(i < g->height);
   if (g == NULL) return 0;
   return g->nb_tent_row_expected[i];
 }
@@ -301,13 +303,12 @@ void game_fill_grass(game g)
   // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more
   // understandable and to use already done functions
   if (g == NULL) return;
-  
-  
+
   int size = 0;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == EMPTY) {
-        //game_set_square(g,i,j,GRASS);
+        // game_set_square(g,i,j,GRASS);
         game_play_move(g, i, j, GRASS);
         size++;
       }
@@ -325,11 +326,11 @@ void game_restart(game g)
   if (g == NULL) return;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
-      if (!(game_get_square(g, i, j) == TREE) && (game_get_square(g, i, j) != BIGTREE)) {
+      if ((game_get_square(g, i, j) != TREE) && (game_get_square(g, i, j) != BIGTREE)) {
         game_set_square(g, i, j, EMPTY);
       }
     }
   }
-  
+
   return;
 }

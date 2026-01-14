@@ -14,7 +14,7 @@ game create_game_rectangle()
   square squares[10] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[2] = {1, 0};
-  game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);
+  game g = game_new_ext(6, 2, squares, nb_row, nb_col, true);
   return g;
 }
 
@@ -302,7 +302,7 @@ int test_unique_game_restart(game g)
   // Vérifie que les cases ont été remplacé par empty sauf les arbres
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      if (tab_init[i][j] != TREE && game_get_square(g, i, j) != EMPTY) {
+      if ((tab_init[i][j] != TREE && tab_init[i][j] != BIGTREE) && game_get_square(g, i, j) != EMPTY) {
         fprintf(stderr, "Erreur : une case n'a pas été transformée en empty");
         return 0;
       }
@@ -323,32 +323,30 @@ int test_game_restart()
 {
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnante
-  // game tab[6];
-  // tab[0] = game_new_empty();
-  // tab[1] = game_default();
-  // tab[2] = game_new_empty();
-  // tab[3] = game_new_empty();
-  // tab[4] = game_default_solution();
-  // game_set_square(tab[4], 0, 1, BIGTREE);
-  // tab[5] = create_game_rectangle();
-  // for (int i = 0; i < DEFAULT_SIZE; i++) {
-  //   for (int j = 0; j < DEFAULT_SIZE; j++) {
-  //     game_set_square(tab[2], i, j, TENT);
-  //     game_set_square(tab[3], i, j, TREE);
-  //   }
-  // }
+  game tab[6];
+  tab[0] = game_new_empty();
+  tab[1] = game_default();
+  tab[2] = game_new_empty();
+  tab[3] = game_new_empty();
+  tab[4] = game_default_solution();
+  game_set_square(tab[4], 0, 1, BIGTREE);
+  tab[5] = create_game_rectangle();
+  for (int i = 0; i < DEFAULT_SIZE; i++) {
+    for (int j = 0; j < DEFAULT_SIZE; j++) {
+      game_set_square(tab[2], i, j, TENT);
+      game_set_square(tab[3], i, j, TREE);
+    }
+  }
 
-  // int result = 1;
-  // for (int i = 0; i < 6; i++) {
-  //   game_print(tab[i]);
-  //   if (test_unique_game_restart(tab[i]) == 0) {
-  //     result = 0;
-  //   }
-  //   game_print(tab[i]);
-  //   printf("----------------------\n");
-  //   game_delete(tab[i]);
-  // }
-  return 1;
+  int result = 1;
+  for (int i = 0; i < 5; i++) {
+    game_print(tab[i]);
+    if (test_unique_game_restart(tab[i]) == 0) {
+      result = 0;
+    }
+    game_delete(tab[i]);
+  }
+  return result;
 }
 
 int test_game_is_neigh()

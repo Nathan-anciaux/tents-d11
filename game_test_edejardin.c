@@ -162,7 +162,8 @@ bool test_game_new_empty(void)
   return 0;
 }*/
 
-static void free_copy(game g1, game g2, game g3, game g1_copy, game g2_copy, game g3_copy){
+static void free_copy(game g1, game g2, game g3, game g1_copy, game g2_copy, game g3_copy)
+{
   game_delete(g1);
   game_delete(g2);
   game_delete(g3);
@@ -202,7 +203,8 @@ bool test_game_copy()
   return 1;
 }
 
-static void free_equal(game g1, game g2){
+static void free_equal(game g1, game g2)
+{
   game_delete(g1);
   game_delete(g2);
   return;
@@ -273,7 +275,7 @@ bool test_game_equal(void)
   for (uint i = 0; i < 2; i++) {
     game_play_move(g_fill, 0, 4, test[i]);
     if (game_equal(gf1, g_fill)) {
-    free_equal(g1, g2);
+      free_equal(g1, g2);
       game_delete(g_fill);
       game_delete(gf1);
       return 0;
@@ -286,7 +288,7 @@ bool test_game_equal(void)
   for (uint i = 0; i < game_nb_rows(g2); i++) {
     game_set_expected_nb_tents_row(g2, i, 99);
     if (game_equal(g2, g1)) {
-    free_equal(g1, g2);
+      free_equal(g1, g2);
       return 0;
     }
   }
@@ -294,7 +296,7 @@ bool test_game_equal(void)
   for (uint i = 0; i < game_nb_cols(g2); i++) {
     game_set_expected_nb_tents_col(g2, i, 99);
     if (game_equal(g2, g1)) {
-    free_equal(g1, g2);
+      free_equal(g1, g2);
       return 0;
     }
   }

@@ -160,12 +160,12 @@ uint game_get_current_nb_tents_row(cgame g, uint i)
 {
   assert(i < g->height);
   if (g == NULL) return 0;
-  if (i >= g->width) {
+  if (i >= g->height) {
     return 0;
   }
 
   uint u = 0;
-  for (int j = 0; j < g->height; j++) {
+  for (int j = 0; j < g->width; j++) {
     if (game_get_square(g, i, j) == TENT) {
       u++;
     }
@@ -178,11 +178,11 @@ uint game_get_current_nb_tents_col(cgame g, uint j)
 {
   assert(j < g->width);
   if (g == NULL) return 0;
-  if (j >= g->height) {
+  if (j >= g->width) {
     return 0;
   }
   uint u = 0;
-  for (int i = 0; i < g->width; i++) {
+  for (int i = 0; i < g->height; i++) {
     if (game_get_square(g, i, j) == TENT) {
       u++;
     }

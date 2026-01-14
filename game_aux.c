@@ -127,8 +127,8 @@ bool game_get_adjacent_square(cgame g, uint i, uint j, direction d, uint* pi_nex
 {
   int row, col;
   get_direction(d, &row, &col);
-  int new_row = i + row;
-  int new_col = j + col;
+  int new_row = (int)i + row;
+  int new_col = (int)j + col;
 
   if (!g->wrapped)
     if (!on_board(g, new_row, new_col)) return 0;
@@ -153,18 +153,43 @@ uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)
     uint nb_neigh = 0;
     int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1};
     if (diag) val = 16;
+
+    int visitr[8] = {0};
+    int visitc[8] = {0};
+    int visit = 0;
+
     for (int k = 0; k < val; k = k + 2) {
+      int r = -1, c = -1;
+      bool check = false;
       if (!g->wrapped) {
         // on fait comme precedemment
         if ((int)i + test[k] >= 0 && (int)i + test[k] < g->height && (int)j + test[k + 1] >= 0 &&
-            (int)j + test[k + 1] < g->width)
-          if (game_get_square(g, (int)i + test[k], (int)j + test[k + 1]) == s) nb_neigh++;
+            (int)j + test[k + 1] < g->width) {
+          r = (int)i + test[k];
+          c = (int)j + test[k + 1];
+          check = true;
+        }
       } else {
         // on regarde avec les modulos pour que ce soit des cases dans le
         // plateau similaire a adjacent square
-        if (game_get_square(g, (((int)i + test[k]) % g->height + g->height) % g->height,
-                            (((int)j + test[k + 1]) % g->width + g->width) % g->width) == s)
-          nb_neigh++;
+        r = (((int)i + test[k]) % g->height + g->height) % g->height;
+        c = (((int)j + test[k + 1]) % g->width + g->width) % g->width;
+        check = true;
+      }
+      if (check) {
+        bool deja_vu = false;
+        for (int p = 0; p < visit; p++) {
+          if (visitr[p] == r && visitc[p] == c) {
+            deja_vu = true;
+            break;
+          }
+        }
+        if (!deja_vu) {
+          if (game_get_square(g, r, c) == s) nb_neigh++;
+          visitr[visit] = r;
+          visitc[visit] = c;
+          visit++;
+        }
       }
     }
     return nb_neigh;

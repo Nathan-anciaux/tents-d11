@@ -254,7 +254,7 @@ int test_game_fill_grass()
 {
   // A tester : game vide, game normale, game remplie de tente, game remplie
   // d'arbre, game gagnée
-  game tab[7];
+  game tab[8];
   tab[0] = game_new_empty();         // game vide
   tab[1] = game_default();           // game normale
   tab[2] = game_new_empty();         // game remplie de tente
@@ -262,17 +262,23 @@ int test_game_fill_grass()
   tab[4] = game_default_solution();  // Game gagnée
   tab[5] = create_game_rectangle();
   tab[6] = game_new_empty();
+  tab[7] = create_game_rectangle();
   game_set_square(tab[6], 0, 0, BIGTREE);
   game_set_square(tab[6], 0, 1, GRASS);
 
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(tab[2]); i++) {
+    for (int j = 0; j < game_nb_cols(tab[2]); j++) {
       game_set_square(tab[2], i, j, TENT);
+    }
+  }
+  for (int i = 0; i < game_nb_rows(tab[3]); i++) {
+    for (int j = 0; j < game_nb_cols(tab[3]); j++) {
       game_set_square(tab[3], i, j, TREE);
     }
   }
+  game_set_square(tab[7], 1, 1, BIGTREE);
   int result = 1;
-  for (int i = 0; i < 7; i++) {
+  for (int i = 0; i < 8; i++) {
     if (test_unique_game_fill_grass(tab[i]) == 0) {
       result = 0;
     }

@@ -18,7 +18,6 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   // memory allocation for all g attribut's
   game g = calloc(1, (sizeof(struct game_s)));
   if (g == NULL) {
-    game_delete(g);
     return NULL;
   }
   g->wrapped = wrapped;
@@ -38,8 +37,14 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   }
 
   // Filling the table with all expected values (squares)
-  for (uint i = 0; i < g->width * g->height; i++) {
-    g->elem[i] = squares[i];
+  if (squares != NULL) {
+    for (uint i = 0; i < g->width * g->height; i++) {
+      g->elem[i] = squares[i];
+    }
+  } else {
+    for (uint i = 0; i < g->width * g->height; i++) {
+      g->elem[i] = EMPTY;
+    }
   }
 
   for (uint i = 0; i < g->width; i++) {
@@ -56,38 +61,24 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
   return g;
 }
 
-game game_new_empty_ext(uint height, uint width, bool wrapping)
+game game_new_empty_ext(uint nb_row, uint nb_col, bool wrapping)
 {
-  // Allocation of the element to be completed and to use with game_new
-  square* tab = calloc(height * width, sizeof(square));
-
-  if (tab == NULL) {
-    free(tab);
+  square squares[nb_row*nb_col];
+  uint row_tent[nb_row];
+  uint col_tent[nb_col];
+  for (int i=0; i<nb_row*nb_col; i++){
+    squares[i] = EMPTY;
+  }
+  for (int i=0; i< nb_col; i++){
+    col_tent[i] = 0;
+  }
+  for (int i=0; i<nb_row; i++){
+    row_tent[i] = 0;
+  }
+  game g = game_new_ext(nb_row, nb_col, squares, row_tent, col_tent, wrapping);
+  if (g == NULL){
     return NULL;
   }
-  uint* expected_tent_row = calloc(height, sizeof(uint));
-  if (expected_tent_row == NULL) {
-    free(tab);
-    free(expected_tent_row);
-    return NULL;
-  }
-  uint* expected_tent_col = calloc(width, sizeof(uint));
-  if (expected_tent_col == NULL) {
-    free(tab);
-    free(expected_tent_row);
-    free(expected_tent_col);
-    return NULL;
-  }
-
-  // Create the game with all parameters empty (thanks to calloc)
-  game g = game_new_ext(height, width, tab, expected_tent_row, expected_tent_col, wrapping);
-  if (!g) {
-    game_delete(g);
-    return NULL;
-  }
-  free(tab);
-  free(expected_tent_row);
-  free(expected_tent_col);
   return g;
 }
 

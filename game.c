@@ -1,5 +1,6 @@
 // game.c
 #include "game.h"
+#include "game_ext.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,42 +28,8 @@ void game_delete(game g)
 game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
 // Creates a new game with default size and initializes it
 {
-  // memory allocation for all g attribut's
-  game g = calloc(1, sizeof(struct game_s));
-  if (g == NULL) {
-    game_delete(g);
-    exit(EXIT_FAILURE);
-  }
-
-  g->elem = malloc(DEFAULT_SIZE * DEFAULT_SIZE * sizeof(square));
-  g->tab = malloc(DEFAULT_SIZE * sizeof(square*));
-  g->nb_tent_col_expected = malloc(DEFAULT_SIZE * sizeof(uint));
-  g->nb_tent_row_expected = malloc(DEFAULT_SIZE * sizeof(uint));
-  g->width = DEFAULT_SIZE;
-  g->height = DEFAULT_SIZE;
-  g->redo = create_stack();
-  g->undo = create_stack();
-
-  if (g->tab == NULL || g->nb_tent_col_expected == NULL || g->nb_tent_row_expected == NULL || g->elem == NULL) {
-    game_delete(g);
-    exit(EXIT_FAILURE);
-  }
-
-  // Filling the table with all expected values (squares)
-  for (uint i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
-    g->elem[i] = squares[i];
-  }
-
-  for (uint i = 0; i < DEFAULT_SIZE; i++) {
-    g->nb_tent_col_expected[i] = nb_tents_col[i];
-    g->nb_tent_row_expected[i] = nb_tents_row[i];
-  }
-  // Filling
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    g->tab[i] = &g->elem[i * DEFAULT_SIZE];
-  }
-
-  return g;
+  
+  return game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, squares, nb_tents_row, nb_tents_col, false);
 }
 
 game game_new_empty(void)  // Attention ici on utilise l'implémentaion 1d du tableau
@@ -288,6 +255,22 @@ bool game_won(cgame g)
     }
   }
 
+  // rule 3
+  uint nb_trees = 0;
+  uint nb_tents = game_get_current_nb_tents_all(g);
+  for (int i = 0; i < g->height; i++) {
+    for (int j = 0; j < g->width; j++) {
+      square s = game_get_square(g, i, j);
+      if (s == TREE) {
+        nb_trees++;
+      } else if (s == BIGTREE) {
+        nb_trees += 2;
+      }
+    }
+  }
+  if (nb_trees != nb_tents) return false;
+
+  // test
   // Rule 4
   // on check si chaque bigtree est collé a exactement 2 tents
   int compteur = 0;
@@ -318,10 +301,14 @@ void game_fill_grass(game g)
 {
   // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more
   // understandable and to use already done functions
+  if (g == NULL) return;
+  
+  
   int size = 0;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
       if (game_get_square(g, i, j) == EMPTY) {
+        //game_set_square(g,i,j,GRASS);
         game_play_move(g, i, j, GRASS);
         size++;
       }
@@ -336,12 +323,14 @@ void game_restart(game g)
 // Restarts a game.
 {
   // Replace all squares with EMPTY if there are not TREE
+  if (g == NULL) return;
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
-      if (!(game_get_square(g, i, j) == TREE)) {
+      if (!(game_get_square(g, i, j) == TREE) && (game_get_square(g, i, j) != BIGTREE)) {
         game_set_square(g, i, j, EMPTY);
       }
     }
   }
+  
   return;
 }

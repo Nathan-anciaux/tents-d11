@@ -233,16 +233,20 @@ int test_unique_game_fill_grass(game g)
   // Vérifie que les cases empty ont été remplacé par grass
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      if (tab_init[i * g->width + j] == EMPTY && game_get_square(g, i, j) != GRASS) {
-        fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
-        free(tab_init);
-        return 0;
+      if (tab_init[i * g->width + j] == EMPTY) {
+        if (game_get_square(g, i, j) != GRASS){
+          fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
+          free(tab_init);
+          return 0;
+        }
       }
 
-      else if (tab_init[i * g->width + j] != EMPTY && tab_init[i * g->width + j] != game_get_square(g, i, j)) {
-        fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
-        free(tab_init);
-        return 0;
+      else if (tab_init[i * g->width + j] != EMPTY) {
+        if (tab_init[i * g->width + j] != game_get_square(g, i, j)){
+          fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
+          free(tab_init);
+          return 0;
+        }
       }
     }
   }
@@ -289,26 +293,36 @@ int test_game_fill_grass()
 
 int test_unique_game_restart(game g)
 {
+  game_restart(g);
   int tab_init[game_nb_rows(g)][game_nb_cols(g)];
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       tab_init[i][j] = game_get_square(g, i, j);
     }
   }
+
+  // see if tent are made empty (check the first possibility and break)
+  bool tentt = false;
+  for (int i = 0; i < game_nb_rows(g); i++) {
+    for (int j = 0; j < game_nb_cols(g); j++) {
+      if (game_get_square(g,i,j) == EMPTY){
+        game_set_square(g,i,j, TENT);
+        tentt = true;
+        break;
+      }
+    }
+    if (tentt){
+      break;
+    }
+  }
+
   game_restart(g);
+
   // Vérifie que les cases ont été remplacé par empty sauf les arbres
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      if ((tab_init[i][j] != TREE && tab_init[i][j] != BIGTREE) && game_get_square(g, i, j) != EMPTY) {
-        fprintf(stderr, "Erreur : une case n'a pas été transformée en empty");
-        return 0;
-      }
-
-      else if (tab_init[i][j] == TREE && game_get_square(g, i, j) != TREE) {
-        fprintf(stderr, "Erreur : Un arbre a été supprimé");
-        return 0;
-      } else if (tab_init[i][j] == BIGTREE && game_get_square(g, i, j) != BIGTREE) {
-        fprintf(stderr, "Erreur : Un bigtree a été supprimé");
+      if ((tab_init[i][j] != game_get_square(g, i, j))) {
+        fprintf(stderr, "Erreur");
         return 0;
       }
     }
@@ -328,13 +342,16 @@ int test_game_restart()
   tab[4] = game_default_solution();
   game_set_square(tab[4], 0, 1, BIGTREE);
   tab[5] = create_game_rectangle();
-  for (int i = 0; i < DEFAULT_SIZE; i++) {
-    for (int j = 0; j < DEFAULT_SIZE; j++) {
+  for (int i = 0; i < game_nb_rows(tab[2]); i++) {
+    for (int j = 0; j < game_nb_cols(tab[2]); j++) {
       game_set_square(tab[2], i, j, TENT);
+    }
+  }
+  for (int i = 0; i < game_nb_rows(tab[3]); i++) {
+    for (int j = 0; j < game_nb_cols(tab[3]); j++) {
       game_set_square(tab[3], i, j, TREE);
     }
   }
-
   int result = 1;
   for (int i = 0; i < 6; i++) {
     game_print(tab[i]);

@@ -220,20 +220,20 @@ int test_game_won()
 int test_unique_game_fill_grass(game g)
 {
   // Récup l'état initial du tableau
-  square* tab_init = malloc(g->width * g->height * sizeof(square));
+  square* tab_init = malloc(game_nb_rows(g) * game_nb_cols(g) * sizeof(square));
   if (!tab_init) {
     return 0;
   }
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      tab_init[i * g->width + j] = game_get_square(g, i, j);
+      tab_init[i * game_nb_cols(g) + j] = game_get_square(g, i, j);
     }
   }
   game_fill_grass(g);
   // Vérifie que les cases empty ont été remplacé par grass
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      if (tab_init[i * g->width + j] == EMPTY) {
+      if (tab_init[i * game_nb_cols(g) + j] == EMPTY) {
         if (game_get_square(g, i, j) != GRASS && game_get_square(g, i, j) != EMPTY) {
           fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
           free(tab_init);
@@ -241,7 +241,7 @@ int test_unique_game_fill_grass(game g)
         }
       }
 
-      else if (tab_init[i * g->width + j] != game_get_square(g, i, j)) {
+      else if (tab_init[i * game_nb_cols(g) + j] != game_get_square(g, i, j)) {
         fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
         free(tab_init);
         return 0;

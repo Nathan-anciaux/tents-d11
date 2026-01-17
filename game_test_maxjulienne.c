@@ -69,7 +69,7 @@ int test_game_won()
   }
   game_delete(g);
 
-  // Tentes adjacentes : Diagonale
+  // adjacents tents : Diagonal
   g = game_default();
   game_set_square(g, 1, 1, TENT);
   game_set_square(g, 2, 2, TENT);
@@ -101,7 +101,7 @@ int test_game_won()
   }
   game_delete(g);
 
-  // Sans doute à revoir
+  // to be reviewed
   g = game_default_solution();
   game_set_square(g, 0, 4, EMPTY);
   result = game_won(g);
@@ -154,8 +154,8 @@ int test_game_won()
   }
   game_delete(g);
 
-  // Test sur bigtree -> 2 tentes piles a coté d'un bigtree
-  // Test normalement gagnant
+  // Test on bigtree -> 2 tents right next to big tree
+  // Normally winning test
   g = game_new_empty();
   game_set_square(g, 1, 1, BIGTREE);
   game_set_square(g, 0, 1, TENT);
@@ -172,7 +172,7 @@ int test_game_won()
   }
   game_delete(g);
 
-  // Test normalement perdant
+  // normally failling test
   g = game_new_empty();
   game_set_square(g, 1, 1, BIGTREE);
   game_set_square(g, 0, 1, TENT);
@@ -186,8 +186,8 @@ int test_game_won()
   }
   game_delete(g);
 
-  // Test de wrapping
-  // Test normalement gagnant
+  // wrapping test
+  // Normally winning test
   g = game_new_empty_ext(8, 8, true);
   game_set_square(g, 0, 0, TREE);
   game_set_square(g, 0, 7, TENT);
@@ -202,7 +202,7 @@ int test_game_won()
   }
   game_delete(g);
 
-  // Test normalement perdant
+  // normally failling test
   g = game_new_empty_ext(8, 8, true);
   game_set_square(g, 0, 7, TENT);
   game_set_expected_nb_tents_col(g, 7, 1);

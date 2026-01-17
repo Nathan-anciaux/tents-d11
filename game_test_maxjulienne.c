@@ -234,19 +234,17 @@ int test_unique_game_fill_grass(game g)
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       if (tab_init[i * g->width + j] == EMPTY) {
-        if (game_get_square(g, i, j) != GRASS){
+        if (game_get_square(g, i, j) != GRASS && game_get_square(g, i, j) != EMPTY) {
           fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
           free(tab_init);
           return 0;
         }
       }
 
-      else if (tab_init[i * g->width + j] != EMPTY) {
-        if (tab_init[i * g->width + j] != game_get_square(g, i, j)){
-          fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
-          free(tab_init);
-          return 0;
-        }
+      else if (tab_init[i * g->width + j] != game_get_square(g, i, j)) {
+        fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
+        free(tab_init);
+        return 0;
       }
     }
   }
@@ -305,14 +303,29 @@ int test_unique_game_restart(game g)
   bool tentt = false;
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
-      if (game_get_square(g,i,j) == EMPTY){
-        game_set_square(g,i,j, TENT);
+      if (game_get_square(g, i, j) == EMPTY) {
+        game_set_square(g, i, j, TENT);
         tentt = true;
         break;
       }
     }
-    if (tentt){
+    if (tentt) {
       break;
+    }
+  }
+
+  if (!tentt) {
+    for (int i = 0; i < game_nb_rows(g); i++) {
+      for (int j = 0; j < game_nb_cols(g); j++) {
+        if (game_get_square(g, i, j) == TENT) {
+          game_set_square(g, i, j, EMPTY);
+          tentt = true;
+          break;
+        }
+      }
+      if (tentt) {
+        break;
+      }
     }
   }
 

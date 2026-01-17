@@ -715,8 +715,8 @@ int test_game_new_empty_ext(void)
 
 int test_game_get_expected_nb_tents_all()
 {
-  // TESTS SUR : un empty, en additionnant le nombre voulu pour chaque ligne et
-  // chaque colonne
+  // TESTS ON: an empty game, by adding the desired number for each row and
+  // each column
 
   game g_empty = game_new_empty();
   game g = game_default();

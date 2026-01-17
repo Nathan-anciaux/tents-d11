@@ -1,9 +1,10 @@
 // game_aux.c
 #include "game_aux.h"
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
+
 #include "game.h"
 #include "game_struct.h"
 

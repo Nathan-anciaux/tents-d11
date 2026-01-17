@@ -61,7 +61,6 @@ game game_copy(cgame g)
 bool game_equal(cgame g1, cgame g2)
 // Tests if two games are equal
 {
-
   if (g1 == NULL && g2 == NULL) return true;
   if (g1 == NULL || g2 == NULL) return false;
 

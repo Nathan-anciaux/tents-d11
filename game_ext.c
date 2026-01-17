@@ -1,9 +1,10 @@
 #include "game_ext.h"
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+
 #include "game_struct.h"
 
 static setsquare recup_val(stack* p)
@@ -47,23 +48,21 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
     }
   }
 
-  if (nb_tents_col !=NULL){
+  if (nb_tents_col != NULL) {
     for (uint i = 0; i < g->width; i++) {
       g->nb_tent_col_expected[i] = nb_tents_col[i];
     }
-  }
-  else{
+  } else {
     for (uint i = 0; i < g->width; i++) {
       g->nb_tent_col_expected[i] = 0;
     }
   }
 
-  if (nb_tents_row !=NULL){
+  if (nb_tents_row != NULL) {
     for (uint i = 0; i < g->height; i++) {
       g->nb_tent_row_expected[i] = nb_tents_row[i];
     }
-  }
-  else{
+  } else {
     for (uint i = 0; i < g->height; i++) {
       g->nb_tent_row_expected[i] = 0;
     }

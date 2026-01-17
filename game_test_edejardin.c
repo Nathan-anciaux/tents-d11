@@ -100,7 +100,7 @@ bool test_game_new(void)
     game_delete(g_new);
     return 0;
   }
-  
+
   // check if both board are different
   if (game_equal(g_new, g_ref)) {
     game_delete(g_new);

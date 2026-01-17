@@ -219,7 +219,7 @@ int test_game_won()
 
 int test_unique_game_fill_grass(game g)
 {
-  // Récup l'état initial du tableau
+  // initial tab recovery
   square* tab_init = malloc(game_nb_rows(g) * game_nb_cols(g) * sizeof(square));
   if (!tab_init) {
     return 0;
@@ -230,7 +230,7 @@ int test_unique_game_fill_grass(game g)
     }
   }
   game_fill_grass(g);
-  // Vérifie que les cases empty ont été remplacé par grass
+  // check if empty squares are replaced by grass
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       if (tab_init[i * game_nb_cols(g) + j] == EMPTY) {
@@ -254,14 +254,13 @@ int test_unique_game_fill_grass(game g)
 
 int test_game_fill_grass()
 {
-  // A tester : game vide, game normale, game remplie de tente, game remplie
-  // d'arbre, game gagnée
+  // To try: empty game, normal game, game filled with tents, filled game with tree, game win
   game tab[8];
-  tab[0] = game_new_empty();         // game vide
-  tab[1] = game_default();           // game normale
-  tab[2] = game_new_empty();         // game remplie de tente
-  tab[3] = game_new_empty();         // Game remplies d'arbres
-  tab[4] = game_default_solution();  // Game gagnée
+  tab[0] = game_new_empty();         // game empty
+  tab[1] = game_default();           // game normal
+  tab[2] = game_new_empty();         // game filled with tents
+  tab[3] = game_new_empty();         // Game rfilled with tree
+  tab[4] = game_default_solution();  // Game win
   tab[5] = create_game_rectangle();
   tab[6] = game_new_empty();
   tab[7] = create_game_rectangle();
@@ -331,7 +330,7 @@ int test_unique_game_restart(game g)
 
   game_restart(g);
 
-  // Vérifie que les cases ont été remplacé par empty sauf les arbres
+  // Check that the squares have been replaced with empty except for the trees
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       if ((tab_init[i][j] != game_get_square(g, i, j))) {
@@ -345,8 +344,7 @@ int test_unique_game_restart(game g)
 
 int test_game_restart()
 {
-  // A tester : game vide, game normale, game remplie de tente, game remplie
-  // d'arbre, game gagnante
+  // To try: empty game, normal game, game filled with tents, filled game with tree, game win
   game tab[6];
   tab[0] = game_new_empty();
   tab[1] = game_default();
@@ -378,8 +376,8 @@ int test_game_restart()
 
 int test_game_is_neigh()
 {
-  game g_default = game_default();  // valide la condition (ici un arbre dans
-                                    // l'entourage de ..)
+  game g_default = game_default();  // validates the condition (here a tree in
+                                    // the surroundings of ..)
   game g_solution = game_default_solution();
 
   // Arbre adjacent (2,2)

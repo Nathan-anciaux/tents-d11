@@ -69,7 +69,7 @@ bool test_game_set_square()
 
 bool test_game_set_expected_nb_tents_row()
 {
-  // test sur game empty
+  // test on game empty
   game g = game_new_empty();
   if (g == NULL) {
     return false;
@@ -89,7 +89,7 @@ bool test_game_set_expected_nb_tents_row()
 
 bool test_game_set_expected_nb_tents_col()
 {
-  // test sur game empty
+  // test on game empty
   game g = game_new_empty();
   if (g == NULL) {
     return false;
@@ -109,7 +109,7 @@ bool test_game_set_expected_nb_tents_col()
 
 bool test_game_get_square()
 {
-  // test sur game empty et sur new game
+  // test on game empty and on new game
   game g_empty = game_new_empty();
   int L[] = {TENT, GRASS, EMPTY, TREE};
   if (g_empty == NULL) {
@@ -155,7 +155,7 @@ bool test_game_get_square()
 
 bool test_game_get_expected_nb_tents_row()
 {
-  // test sur game empty et sur new game
+  // test on game empty and on new game
   game g_empty = game_new_empty();
   if (g_empty == NULL) {
     return false;
@@ -195,7 +195,7 @@ bool test_game_get_expected_nb_tents_row()
 
 bool test_game_get_expected_nb_tents_col()
 {
-  // test sur game empty et sur new game
+  // test on game empty and on new game
   game g_empty = game_new_empty();
   if (g_empty == NULL) {
     return false;
@@ -235,7 +235,7 @@ bool test_game_get_expected_nb_tents_col()
 
 bool test_game_get_expected_nb_tents_all()
 {
-  // test sur game empty et sur new game et sur game default
+  // test on game empty ,on new game and on game default
   game g_empty = game_new_empty();
   game g = game_default();
   if (g_empty == NULL) {

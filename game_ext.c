@@ -58,7 +58,7 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
     }
   }
 
-  if (nb_tents_col !=NULL){
+  if (nb_tents_row !=NULL){
     for (uint i = 0; i < g->height; i++) {
       g->nb_tent_row_expected[i] = nb_tents_row[i];
     }
@@ -79,19 +79,7 @@ game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_ro
 
 game game_new_empty_ext(uint nb_row, uint nb_col, bool wrapping)
 {
-  square squares[nb_row * nb_col];
-  uint row_tent[nb_row];
-  uint col_tent[nb_col];
-  for (int i = 0; i < nb_row * nb_col; i++) {
-    squares[i] = EMPTY;
-  }
-  for (int i = 0; i < nb_col; i++) {
-    col_tent[i] = 0;
-  }
-  for (int i = 0; i < nb_row; i++) {
-    row_tent[i] = 0;
-  }
-  game g = game_new_ext(nb_row, nb_col, squares, row_tent, col_tent, wrapping);
+  game g = game_new_ext(nb_row, nb_col, NULL, NULL, NULL, wrapping);
   if (g == NULL) {
     return NULL;
   }

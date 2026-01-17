@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <assert.h>
 #include "game.h"
 #include "game_struct.h"
 
@@ -133,11 +133,9 @@ bool game_get_adjacent_square(cgame g, uint i, uint j, direction d, uint* pi_nex
   if (!g->wrapped)
     if (!on_board(g, new_row, new_col)) return 0;
 
-  // POUR WRAPPED
-  // regarde la direction qu'on a et suivant celle ci si mon nbr de colonne /
-  // ligne excede on va modulo ou revenir au debut quoi
-  // franchement si c'est ça c'est vraiment facile i = -1 modulo 7 = 6 --> la
-  // derniere ligne et la même pour les colonne
+  // FOR WRAPPED
+  // use of modulo to pass from the end to the begining or reverse
+
   *pi_next = (new_row + g->height) % g->height;
   *pj_next = (new_col + g->width) % g->width;
 
@@ -162,7 +160,7 @@ uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)
       int r = -1, c = -1;
       bool check = false;
       if (!g->wrapped) {
-        // on fait comme precedemment
+        // check neighbor for every legal square around the particular one
         if ((int)i + test[k] >= 0 && (int)i + test[k] < g->height && (int)j + test[k + 1] >= 0 &&
             (int)j + test[k + 1] < g->width) {
           r = (int)i + test[k];

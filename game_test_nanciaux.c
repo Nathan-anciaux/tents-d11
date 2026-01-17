@@ -338,7 +338,7 @@ bool test_game_get_current_nb_tents_col()
 }
 bool test_game_get_current_nb_tents_all()
 {
-  // test sur game default et game empty
+  // test on game default and game empty
   game g = game_default();
   game g_empty = game_new_empty();
   int s = 0;

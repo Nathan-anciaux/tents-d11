@@ -204,14 +204,14 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
   for (int k = 0; k < val; k = k + 2) {
     if (!g->wrapped) {
       // on fait comme precedemment
-      if ((int)i + test[k] >= 0 && (int)i + test[k] < g->height && (int)j + test[k + 1] >= 0 &&
-          (int)j + test[k + 1] < g->width)
+      if ((int)i + test[k] >= 0 && (int)i + test[k] < (int)g->height && (int)j + test[k + 1] >= 0 &&
+          (int)j + test[k + 1] < (int)g->width)
         if (game_get_square(g, (int)i + test[k], (int)j + test[k + 1]) == s) return 1;
     } else {
       // on regarde avec les modulos pour que ce soit des cases dans le plateau
       // similaire a adjacent square
-      if (game_get_square(g, (((int)i + test[k]) % g->height + g->height) % g->height,
-                          (((int)j + test[k + 1]) % g->width + g->width) % g->width) == s)
+      if (game_get_square(g, (((int)i + test[k]) % (int)g->height + (int)g->height) % (int)g->height,
+                          (((int)j + test[k + 1]) % (int)g->width + (int)g->width) % (int)g->width) == s)
         return 1;
     }
   }

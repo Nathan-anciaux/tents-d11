@@ -20,10 +20,10 @@ int test_dummy(void);
 
 int test_dummy() { return 1; }
 
-// ici je teste si les initialisationd e game_new sont pas deconnantes
+// Test game_new, if dummy made up board is alike to a game_new created board
 bool test_game_new(void)
 {
-  // on initialise le game_default en gros
+  // initializing a default board
   uint tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};
   uint tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};
   square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
@@ -49,7 +49,7 @@ bool test_game_new(void)
   }
   game_delete(g_ref);
 
-  // verifier si on peut enlever ça normalement oui
+  // verify if we have a link between board and locals variables
   squares[0] = EMPTY;
   tents_row[0] = 99;
   tents_col[0] = 99;
@@ -68,7 +68,7 @@ bool test_game_new(void)
   tents_row[0] = 1;
   tents_col[0] = 3;
 
-  // on regarde si chaque ligne a le bon nombre de tentes
+  // check the expected number of tents in a row
   for (int i = 0; i < game_nb_rows(g_new); i++) {
     if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) {
       game_delete(g_new);
@@ -76,6 +76,7 @@ bool test_game_new(void)
     }
   }
 
+  // same for column
   for (int i = 0; i < game_nb_cols(g_new); i++) {
     if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) {
       game_delete(g_new);
@@ -85,7 +86,7 @@ bool test_game_new(void)
 
   game_delete(g_new);
 
-  // initialisation expres pas possible donc pas le game default
+  // initialising illegal board
   squares[0] = TREE;
   tents_row[0] = 7;
   tents_col[0] = 7;
@@ -99,13 +100,15 @@ bool test_game_new(void)
     game_delete(g_new);
     return 0;
   }
+  
+  // check if both board are different
   if (game_equal(g_new, g_ref)) {
     game_delete(g_new);
     game_delete(g_ref);
     return 0;
   }
 
-  // Attention j'ai fait l'implementation naive qui va empecher les nombres
+  // Purpose: forbid illegal number (like: >game_nb_row / col)
   for (int i = 0; i < game_nb_rows(g_new); i++) {
     if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) {
       game_delete(g_new);
@@ -132,13 +135,13 @@ bool test_game_new_empty(void)
   game g = game_new_empty();
   if (g == NULL) return 0;
 
-  // on regarde si c'est bien empty partout
+  // check if every squares are empty
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       if (game_get_square(g, i, j) != EMPTY) return 0;
     }
   }
-  // on regarde si c'est bien 0 partout
+  // check expected tents in every row / coll (we expect 0 for an empty board)
   for (int i = 0; i < game_nb_rows(g); i++) {
     if (game_get_expected_nb_tents_row(g, i) != 0) return 0;
   }
@@ -153,15 +156,7 @@ bool test_game_new_empty(void)
   return 1;
 }
 
-/*static bool check_null(game g)
-{
-  if (g == NULL) {
-    game_delete(g);
-    return 1;
-  }
-  return 0;
-}*/
-
+// auxiliary function to free game_copy board test
 static void free_copy(game g1, game g2, game g3, game g1_copy, game g2_copy, game g3_copy)
 {
   game_delete(g1);
@@ -173,7 +168,7 @@ static void free_copy(game g1, game g2, game g3, game g1_copy, game g2_copy, gam
   return;
 }
 
-// je prend chaque possibilités de copies possible et je fais des equals
+// Purpose: test every possibility and see if game_copy works (both board are equal)
 bool test_game_copy()
 {
   game g1 = game_default();
@@ -203,6 +198,7 @@ bool test_game_copy()
   return 1;
 }
 
+// auxiliary function to free game_equal board test
 static void free_equal(game g1, game g2)
 {
   game_delete(g1);
@@ -210,7 +206,6 @@ static void free_equal(game g1, game g2)
   return;
 }
 
-//
 bool test_game_equal(void)
 {
   game g1 = game_default();
@@ -228,7 +223,7 @@ bool test_game_equal(void)
     free_equal(g1, g2);
     return 0;
   }
-  // on regarde l'egalité pour les nbr de tentes demandées
+  // check equality of current nb tents
   if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) {
     free_equal(g1, g2);
     return 0;
@@ -249,6 +244,7 @@ bool test_game_equal(void)
   }
   game_delete(g_copy);
 
+  // test fill and what happen if we change a special square in one board (no more equal)
   game g_fill = game_copy(g1);
 
   if (g_fill == NULL) {
@@ -285,6 +281,7 @@ bool test_game_equal(void)
   game_delete(g_fill);
   game_delete(gf1);
 
+  // test change of expected nb_row / tents
   for (uint i = 0; i < game_nb_rows(g2); i++) {
     game_set_expected_nb_tents_row(g2, i, 99);
     if (game_equal(g2, g1)) {
@@ -326,10 +323,11 @@ bool test_game_play_move(void)
   game g = game_default();
   if (g == NULL) return 0;
 
-  // le set de test pour chaque possibilité
+  // bunch of test for every possibility
   int test[9] = {EMPTY, TENT, TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};
   int row0, col1, all;
 
+  // check if a move is forbidden --> board has change ?
   bool interdit;
   for (int i = 0; i < 9; i++) {
     square old = game_get_square(g, 0, 1);
@@ -361,9 +359,10 @@ bool test_game_check_move(void)
   if (g == NULL) return 0;
   game g1 = game_default();
   game_play_move(g1, 0, 1, GRASS);
+  // bunch of test coord and square
   int test_tents[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1};
   int test[15] = {TENT, GRASS, EMPTY, TREE, TREE, TREE, EMPTY, TENT, TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};
-  // je fais les tests arbre sur x et x sur arbres
+  // test something on a tree or tree on something --> illegal
   for (int i = 0, j = 0; j < 6 && i < 6; i++, j = j + 2) {
     if (game_check_move(g1, test_tents[j], test_tents[j + 1], test[i])) {
       game_delete(g);
@@ -371,7 +370,7 @@ bool test_game_check_move(void)
       return 0;
     }
   }
-  // je fais toutes les autres possibilités possibles
+  // test something on something
   for (int i = 6; i < 15; i++) {
     if (!game_check_move(g, 0, 4, test[i])) {
       game_delete(g);

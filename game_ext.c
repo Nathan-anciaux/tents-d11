@@ -100,7 +100,7 @@ void game_undo(game g)
       setsquare square;
       for (int k = 0; k < nb_square; k++) {
         square = pop(g->undo);
-        // j'undo en mettant l'ancien etat dans redo
+        // undo it by putting the old state in redo
         setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
         game_set_square(g, square.row, square.col, square.square);
         push(squareplayed, g->redo);
@@ -110,7 +110,7 @@ void game_undo(game g)
     } else {
       setsquare square;
       square = pop(g->undo);
-      // j'undo en mettant l'ancien etat dans redo
+      // undo it by putting the old state in redo
       setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
       game_set_square(g, square.row, square.col, square.square);
       push(squareplayed, g->redo);
@@ -128,7 +128,7 @@ void game_redo(game g)
       for (int k = 0; k < nb_square; k++) {
         setsquare square;
         square = pop(g->redo);
-        // j'edo en mettant l'ancien etat dans undo
+        // edo by putting the old state in undo
         setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
         game_set_square(g, square.row, square.col, square.square);
         push(squareplayed, g->undo);
@@ -138,7 +138,7 @@ void game_redo(game g)
     } else {
       setsquare square;
       square = pop(g->redo);
-      // j'undo en mettant l'ancien etat dans redo
+      // undo it by putting the old state in redo
       setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
       game_set_square(g, square.row, square.col, square.square);
       push(squareplayed, g->undo);

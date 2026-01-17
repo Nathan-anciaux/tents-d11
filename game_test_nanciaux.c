@@ -291,7 +291,7 @@ bool test_game_get_expected_nb_tents_all()
 
 bool test_game_get_current_nb_tents_row()
 {
-  // test sur game default
+  // test on game default
   game g = game_default();
   int s = 0;
   if (g == NULL) {
@@ -315,7 +315,7 @@ bool test_game_get_current_nb_tents_row()
 
 bool test_game_get_current_nb_tents_col()
 {
-  // test sur game default
+  // test on game default
   game g = game_default();
   int s = 0;
   if (g == NULL) {

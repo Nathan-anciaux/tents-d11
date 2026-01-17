@@ -61,12 +61,6 @@ game game_copy(cgame g)
 bool game_equal(cgame g1, cgame g2)
 // Tests if two games are equal
 {
-  /*
-  int j = 0;
-  for (int i = 0; i < DEFAULT_SIZE * DEFAULT_SIZE; i++) {
-    if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
-    if (j % (DEFAULT_SIZE - 1) == 0) i++;
-  }*/
 
   if (g1 == NULL && g2 == NULL) return true;
   if (g1 == NULL || g2 == NULL) return false;

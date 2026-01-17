@@ -19,10 +19,13 @@ void print_help(void)
 
 int main(void)
 {
-  square squares[10] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
-  uint nb_row[6] = {1, 0, 0, 0, 0, 0};
-  uint nb_col[2] = {1, 0};
-  game g = game_new_ext(5, 2, squares, nb_row, nb_col, true);
+  // square squares[18] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+  //                       EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+  // uint nb_row[6] = {1, 0, 0, 0, 0, 0};
+  // uint nb_col[3] = {1, 0, 0};
+  // game g = game_new_ext(6, 3, squares, nb_row, nb_col, true);
+  game g = game_default();
+
   game_print((cgame)g);
 
   char c;

@@ -10,7 +10,7 @@
 
 game create_game_rectangle()
 {
-  // Game rectangle
+  // rectanglular game
   square squares[12] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[2] = {1, 0};
@@ -39,7 +39,7 @@ int test_game_won()
     return 0;
   }
 
-  // Cas de base
+  // base case
   g = game_default();
   result = game_won(g);
   game_delete(g);
@@ -47,7 +47,7 @@ int test_game_won()
     return 0;
   }
 
-  // Tentes adjacentes : horizontale
+  // adjacents tents : horizontal
   g = game_default();
   game_set_square(g, 1, 0, TENT);
   game_set_square(g, 1, 1, TENT);
@@ -58,7 +58,7 @@ int test_game_won()
   }
   game_delete(g);
 
-  // Tentes adjacentes : Verticale
+  // adjacents tents: Vertical
   g = game_default();
   game_set_square(g, 0, 1, TENT);
   game_set_square(g, 1, 1, TENT);

@@ -171,8 +171,8 @@ uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)
       } else {
         // on regarde avec les modulos pour que ce soit des cases dans le
         // plateau similaire a adjacent square
-        r = (((int)i + test[k]) % g->height + g->height) % g->height;
-        c = (((int)j + test[k + 1]) % g->width + g->width) % g->width;
+        r = (((int)i + test[k]) % (int)g->height + (int)g->height) % (int)g->height;
+        c = (((int)j + test[k + 1]) % (int)g->width + (int)g->width) % (int)g->width;
         check = true;
       }
       if (check) {

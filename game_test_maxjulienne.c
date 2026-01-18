@@ -234,7 +234,7 @@ int test_unique_game_fill_grass(game g)
   for (int i = 0; i < game_nb_rows(g); i++) {
     for (int j = 0; j < game_nb_cols(g); j++) {
       if (tab_init[i * game_nb_cols(g) + j] == EMPTY) {
-        if (game_get_square(g, i, j) != GRASS || game_get_square(g, i, j) != EMPTY) {
+        if (game_get_square(g, i, j) != GRASS) {
           fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
           free(tab_init);
           return 0;

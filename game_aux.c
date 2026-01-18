@@ -169,7 +169,8 @@ uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)
           check = true;
         }
       } else {
-        // check neighbor for every legal square around the particular one when wrapped is on (like adjacent square algorithm)
+        // check neighbor for every legal square around the particular one when wrapped is on (like adjacent square
+        // algorithm)
         r = (((int)i + test[k]) % (int)g->height + (int)g->height) % (int)g->height;
         c = (((int)j + test[k + 1]) % (int)g->width + (int)g->width) % (int)g->width;
         check = true;
@@ -207,7 +208,8 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
           (int)j + test[k + 1] < (int)g->width)
         if (game_get_square(g, (int)i + test[k], (int)j + test[k + 1]) == s) return 1;
     } else {
-      // check neighbor for every legal square around the particular one when wrapped is on, (like adjacent square algorithm)
+      // check neighbor for every legal square around the particular one when wrapped is on, (like adjacent square
+      // algorithm)
       if (game_get_square(g, (((int)i + test[k]) % (int)g->height + (int)g->height) % (int)g->height,
                           (((int)j + test[k + 1]) % (int)g->width + (int)g->width) % (int)g->width) == s)
         return 1;

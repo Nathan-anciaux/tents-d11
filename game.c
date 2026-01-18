@@ -254,7 +254,7 @@ bool game_won(cgame g)
   }
 
   // rule 3
-  /*uint nb_trees = 0;
+  uint nb_trees = 0;
   uint nb_tents = game_get_current_nb_tents_all(g);
   for (int i = 0; i < g->height; i++) {
     for (int j = 0; j < g->width; j++) {
@@ -266,7 +266,7 @@ bool game_won(cgame g)
       }
     }
   }
-  if (nb_trees != nb_tents) return false;*/
+  if (nb_trees != nb_tents) return false;
 
   // Rule 4
   // Check if bigtree has exactly 2 bigtree near it

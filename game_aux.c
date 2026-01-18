@@ -161,7 +161,7 @@ uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)
       int r = -1, c = -1;
       bool check = false;
       if (!g->wrapped) {
-        // check neighbor for every legal square around the particular one
+        // check neighbor for every legal square around the particular one when wrapped is off
         if ((int)i + test[k] >= 0 && (int)i + test[k] < g->height && (int)j + test[k + 1] >= 0 &&
             (int)j + test[k + 1] < g->width) {
           r = (int)i + test[k];
@@ -169,8 +169,7 @@ uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)
           check = true;
         }
       } else {
-        // on regarde avec les modulos pour que ce soit des cases dans le
-        // plateau similaire a adjacent square
+        // check neighbor for every legal square around the particular one when wrapped is on (like adjacent square algorithm)
         r = (((int)i + test[k]) % (int)g->height + (int)g->height) % (int)g->height;
         c = (((int)j + test[k + 1]) % (int)g->width + (int)g->width) % (int)g->width;
         check = true;
@@ -203,13 +202,12 @@ bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)
   if (diag) val = 16;
   for (int k = 0; k < val; k = k + 2) {
     if (!g->wrapped) {
-      // on fait comme precedemment
+      // check neighbor for every legal square around the particular one when wrapped is off
       if ((int)i + test[k] >= 0 && (int)i + test[k] < (int)g->height && (int)j + test[k + 1] >= 0 &&
           (int)j + test[k + 1] < (int)g->width)
         if (game_get_square(g, (int)i + test[k], (int)j + test[k + 1]) == s) return 1;
     } else {
-      // on regarde avec les modulos pour que ce soit des cases dans le plateau
-      // similaire a adjacent square
+      // check neighbor for every legal square around the particular one when wrapped is on, (like adjacent square algorithm)
       if (game_get_square(g, (((int)i + test[k]) % (int)g->height + (int)g->height) % (int)g->height,
                           (((int)j + test[k + 1]) % (int)g->width + (int)g->width) % (int)g->width) == s)
         return 1;

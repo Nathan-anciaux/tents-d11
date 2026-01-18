@@ -128,7 +128,7 @@ void game_redo(game g)
       for (int k = 0; k < nb_square; k++) {
         setsquare square;
         square = pop(g->redo);
-        // edo by putting the old state in undo
+        // redo by putting the old state in undo
         setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};
         game_set_square(g, square.row, square.col, square.square);
         push(squareplayed, g->undo);

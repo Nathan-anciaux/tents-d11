@@ -86,12 +86,24 @@ Here is an example that satisfies the Rule 4) as we have stated it, but does not
 satisfy the *matching criterion* formulated in the original rule.
 
 ```
-🌲⬜⬜
-⬜⬜⬜
-⬜⬜🌲
+⛺⬜🌲
+🌲⬜⛺
+⛺⬜🌲
 ```
 
 The variant of the Rule 4) we have chosen is a local criterion, that is much easier to implement.
+
+## Game Extension
+
+We will now consider a new version of the game (*version 2*), which is defined by the following changes:
+
+* The grid can now be rectangular and have any arbitrary number of rows and columns.
+* The game grid can optionally have a *toric* topology (the `wrapping` option): the rightmost column is adjacent to the leftmost column, and the top row is adjacent to the bottom row. 
+* In addition, we add a new piece, `BIGTREE` (represented by '#'), to the `square` enumeration in [game.h](misc/game.h). This piece represents a *big tree* that must be assigned exactly 2 tents, whereas the `TREE` piece accepts (at least) one tent. Actually, it is not possible for a tree to accept more than 2 tents because of the adjacency rules.
+* We also introduce move history management via `game_play_move()`, allowing the last moves played to be undone (`game_undo()`), and possibly redone (`game_redo()`). Note that you can redo as many moves as you have undone consecutively. However, you can no longer redo past moves once a new move has been played.
+
+The file @ref game_ext.h contains the description of these new features. Note that version 2 of the game keeps the compatibility with version 1.
+
 
 ## Programming Interface
 
@@ -99,6 +111,7 @@ The game interface is divided into 2 files:
 
 - Basic Game Functions: @ref game.h
 - Auxiliarry Game Functions: @ref game_aux.h
+- Extended Game Functions: @ref game_ext.h
 
 It manipulates the *opaque* @ref game structure by means of pointers or const pointers (@ref cgame).
 
@@ -143,7 +156,3 @@ int* copyArray(int size, int * array)
 }
 ```
 ---
-
-ROBIN Maxence
-CHEVESSENT Hugo
-TRAMASSET Matho

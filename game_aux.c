@@ -49,6 +49,8 @@ void game_print(cgame g)
   printf("   ");
   for (uint j = 0; j < game_nb_cols(g); j++) printf("%d", game_get_expected_nb_tents_col(g, j));
   printf("\n");
+  printf("\n");
+  printf("--h to show help--\n");
 }
 
 /* ************************************************************************** */

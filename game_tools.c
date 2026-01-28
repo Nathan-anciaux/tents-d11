@@ -29,8 +29,9 @@ static char square_to_char(square s){
         case TENT:
             c = 'T';
             return c;
+        default:
+            return 'E';
     }
-    return;
 }
 
 static char char_to_square(char c){
@@ -51,75 +52,88 @@ static char char_to_square(char c){
         case 'X':
             s = TREE;
             return s;
+        default:
+            return EMPTY;
     }
-    return;
 }
 
 game game_load(char* filename){
-    FILE *file = fopen(filename, "r");
+    char filee[200];
+    sprintf(filee, "../saves/%s.txt", filename);
+    FILE *file = fopen(filee, "r");
+
+    if (file ==NULL){
+        fprintf(stderr, "Fichier inexistant %s\n", filename);
+        return NULL;
+    }
 
     // we check the row and col and wrapp
     uint row, col, wrap;
-    fscanf(file, "%d %d %d\n", &row, &col, &wrap);
+    fscanf(file, "%u %u %u\n", &row, &col, &wrap);
     
-    uint *nb_row[row];
-    uint *nb_col[col];
+    uint nb_row[row];
+    uint nb_col[col];
     uint tmp;
 
     for (uint i=0; i< row; i++){
-        fscanf(file, "%d ", &tmp);
+        fscanf(file, "%u ", &tmp);
         nb_row[i] = tmp;
     }
     fscanf(file, "\n");
 
     for (uint i=0; i< col; i++){
-        fscanf(file, "%d ", &tmp);
+        fscanf(file, "%u ", &tmp);
         nb_col[i] = tmp;
     }
     fscanf(file, "\n");
+    char char_tmp;
     
     // every square in a tab
-    uint *squares[col * row];
-    for (uint c =0; c < col; c++){
-        for (uint r =0; r < row; r++){
-            fscanf(file, "%d ", &tmp);
-            squares[c * col + row] = tmp;
+    square squares[col * row];
+    for (uint r =0; r < row; r++){
+        for (uint c =0; c < col; c++){
+            if (fscanf(file, " %c", &char_tmp) == 1){
+                squares[r * col + c] = char_to_square(char_tmp);
+            }
         }
         fscanf(file, "\n");
     }
 
+    fclose(file);
     // creating the game
-    cgame g = game_new_ext(row, col, squares, nb_row, nb_col, wrap);
+    game g = game_new_ext(row, col, squares, nb_row, nb_col, wrap);
     return g;
 
 }
 
 void game_save(cgame g, char* filename){
-    FILE *file = fopen(filename, "w");
+    char filee[200];
+    sprintf(filee, "../saves/%s", filename);
+    FILE *file = fopen(filee, "w");
     if (file == NULL)
-        return false; // la sauvegarde a échoué
+        return; // la sauvegarde a échoué
 
     // champs de game
-    fpruintf(file, "%d %d %d\n", g->nb_rows, g->nb_cols, g->wrapping);
+    fprintf(file, "%u %u %u\n", g->nb_rows, g->nb_cols, g->wrapping);
 
     // row and col
     for (uint i=0; i<g->nb_rows; i++){
-        fpruintf(file, "%d ", game_get_expected_nb_tents_row(g, i));
+        fprintf(file, "%u ", game_get_expected_nb_tents_row(g, i));
     }
-    fpruintf(file, "\n");
+    fprintf(file, "\n");
 
     for (uint i=0; i<g->nb_cols; i++){
-        fpruintf(file, "%d ", game_get_expected_nb_tents_row(g, i));
+        fprintf(file, "%u ", game_get_expected_nb_tents_col(g, i));
     }
-    fpruintf(file, "\n");
+    fprintf(file, "\n");
 
     // copy of every game's square with a space between each other
     for (uint col=0; col < g->nb_cols; col++){
         for (uint row=0; row < g->nb_rows; row++){
             char c = game_get_square(g, col, row);
-            fpruintf(file, "%c ", square_to_char(c));
+            fprintf(file, "%c ", square_to_char(c));
         }
-        fpruintf(file, "\n");
+        fprintf(file, "\n");
     }
     fclose(file);
 }

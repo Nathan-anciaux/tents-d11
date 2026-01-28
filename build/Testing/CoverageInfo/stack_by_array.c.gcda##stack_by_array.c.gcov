@@ -1,0 +1,82 @@
+        -:    0:Source:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/stack_by_array.c
+        -:    0:Graph:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/stack_by_array.c.gcno
+        -:    0:Data:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/stack_by_array.c.gcda
+        -:    0:Runs:1138
+        -:    1:
+        -:    2:#include "stack.h"
+        -:    3:
+        -:    4:////////////////////////////////////////////////////////////////////////////////
+        -:    5:// Fonctions auxiliaires ne pouvant pas être utilisées dans d'autres fichiers.//
+        -:    6:// Elles ne sont PAS déclarées dans stack.h et sont déclarées "static". Cela  //
+        -:    7:// signifie qu'elles ne peuvent être utilisées QUE dans ce fichier, stack.c.  //
+        -:    8:////////////////////////////////////////////////////////////////////////////////
+        -:    9:
+        -:   10:// Double la taille du tableau utilisé dans la représentation.
+        -:   11:// Cette fonction sera utilisée lorsque le tableau est plein et qu'on veut y
+        -:   12:// ajouter une valeur.
+     2007:   13:static void grow_stack(stack* p)
+        -:   14:{
+     2007:   15:  p->array = realloc(p->array, 2 * p->capacity * (sizeof(setsquare)));
+     2007:   16:  p->capacity *= 2;
+     2007:   17:  return;
+        -:   18:}
+        -:   19:
+        -:   20:// Divise par deux la taille du tableau utilisé dans la représentation.
+        -:   21:// Cette fonction sera utilisée lorsque le tableau est rempli à moins de 25%
+        -:   22:// de sa capacité.
+     9282:   23:static void shrink_stack(stack* p)
+        -:   24:{
+     9282:   25:  if (p->capacity == 1) {
+     9282:   26:    printf("the table is too short !");
+     9282:   27:    return;
+        -:   28:  }
+    #####:   29:  p->array = realloc(p->array, p->capacity / 2 * sizeof(setsquare));
+    #####:   30:  p->capacity /= 2;
+    #####:   31:  return;
+        -:   32:}
+        -:   33:
+        -:   34:////////////////////////////////////////////////////////////////
+        -:   35:// Fonctions à écrire, documentées dans le fichier d'en-tête. //
+        -:   36:////////////////////////////////////////////////////////////////
+        -:   37:
+    24752:   38:stack* create_stack(void)
+        -:   39:{
+    24752:   40:  stack* p = malloc(sizeof(stack));
+    24752:   41:  p->capacity = 1;
+    24752:   42:  p->size_stack = 0;
+    24752:   43:  p->array = malloc((p->capacity) * sizeof(setsquare));
+    24752:   44:  return p;
+        -:   45:}
+        -:   46:
+    24734:   47:void delete_stack(stack* p)
+        -:   48:{
+    24734:   49:  free(p->array);
+    24734:   50:  free(p);
+    24734:   51:  return;
+        -:   52:}
+        -:   53:
+    20739:   54:bool isempty_stack(stack* p) { return p->size_stack == 0; }
+        -:   55:
+    13826:   56:setsquare pop(stack* p)
+        -:   57:{
+    13826:   58:  if (isempty_stack(p)) {
+    #####:   59:    fprintf(stderr, "the table is too short ! \n");
+    #####:   60:    exit(EXIT_FAILURE);
+        -:   61:  }
+    13826:   62:  p->size_stack--;
+    13826:   63:  setsquare result = p->array[p->size_stack];
+    13826:   64:  if ((p->size_stack * 100 / p->capacity) < 25) {
+     9282:   65:    shrink_stack(p);
+        -:   66:  }
+    13826:   67:  return result;
+        -:   68:}
+        -:   69:
+    33324:   70:void push(setsquare val, stack* p)
+        -:   71:{
+    33324:   72:  if (p->capacity == p->size_stack) {
+     2007:   73:    grow_stack(p);
+        -:   74:  }
+    33324:   75:  p->array[p->size_stack] = val;
+    33324:   76:  p->size_stack = p->size_stack + 1;
+    33324:   77:  return;
+        -:   78:}

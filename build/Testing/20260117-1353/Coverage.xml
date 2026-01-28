@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20260117-1353-Experimental"
+	Name="kyoshi-207"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="boursouf"
+	OSRelease="6.12.43+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.43-1~bpo12+1 (2025-09-06)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="85"
+	ModelName="Intel(R) Xeon(R) Gold 6154 CPU @ 3.00GHz"
+	ProcessorCacheSize="16384"
+	NumberOfLogicalCPU="32"
+	NumberOfPhysicalCPU="32"
+	TotalVirtualMemory="32765"
+	TotalPhysicalMemory="128903"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2992.97"
+	>
+	<Coverage>
+		<StartDateTime>Jan 17 15:17 CET</StartDateTime>
+		<StartTime>1768659459</StartTime>
+		<File Name="game.c" FullPath="./game.c" Covered="true">
+			<LOCTested>164</LOCTested>
+			<LOCUnTested>9</LOCUnTested>
+			<PercentCoverage>94.80</PercentCoverage>
+			<CoverageMetric>0.95</CoverageMetric>
+		</File>
+		<File Name="game_aux.c" FullPath="./game_aux.c" Covered="true">
+			<LOCTested>112</LOCTested>
+			<LOCUnTested>3</LOCUnTested>
+			<PercentCoverage>97.39</PercentCoverage>
+			<CoverageMetric>0.98</CoverageMetric>
+		</File>
+		<File Name="game_ext.c" FullPath="./game_ext.c" Covered="true">
+			<LOCTested>61</LOCTested>
+			<LOCUnTested>24</LOCUnTested>
+			<PercentCoverage>71.76</PercentCoverage>
+			<CoverageMetric>0.75</CoverageMetric>
+		</File>
+		<File Name="game_test_edejardin.c" FullPath="./game_test_edejardin.c" Covered="true">
+			<LOCTested>179</LOCTested>
+			<LOCUnTested>79</LOCUnTested>
+			<PercentCoverage>69.38</PercentCoverage>
+			<CoverageMetric>0.71</CoverageMetric>
+		</File>
+		<File Name="game_test_maxjulienne.c" FullPath="./game_test_maxjulienne.c" Covered="true">
+			<LOCTested>326</LOCTested>
+			<LOCUnTested>176</LOCUnTested>
+			<PercentCoverage>64.94</PercentCoverage>
+			<CoverageMetric>0.66</CoverageMetric>
+		</File>
+		<File Name="game_test_nanciaux.c" FullPath="./game_test_nanciaux.c" Covered="true">
+			<LOCTested>305</LOCTested>
+			<LOCUnTested>123</LOCUnTested>
+			<PercentCoverage>71.26</PercentCoverage>
+			<CoverageMetric>0.72</CoverageMetric>
+		</File>
+		<File Name="game_text.c" FullPath="./game_text.c" Covered="true">
+			<LOCTested>17</LOCTested>
+			<LOCUnTested>17</LOCUnTested>
+			<PercentCoverage>50.00</PercentCoverage>
+			<CoverageMetric>0.61</CoverageMetric>
+		</File>
+		<File Name="stack_by_array.c" FullPath="./stack_by_array.c" Covered="true">
+			<LOCTested>32</LOCTested>
+			<LOCUnTested>5</LOCUnTested>
+			<PercentCoverage>86.49</PercentCoverage>
+			<CoverageMetric>0.89</CoverageMetric>
+		</File>
+		<LOCTested>1196</LOCTested>
+		<LOCUntested>436</LOCUntested>
+		<LOC>1632</LOC>
+		<PercentCoverage>73.28</PercentCoverage>
+		<EndDateTime>Jan 17 15:17 CET</EndDateTime>
+		<EndTime>1768659459</EndTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Coverage>
+</Site>

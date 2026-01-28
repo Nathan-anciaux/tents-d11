@@ -1,0 +1,601 @@
+Start testing: Jan 14 08:01 CET
+----------------------------------------------------------
+1/35 Testing: test_maxjulienne_dummy
+1/35 Test: test_maxjulienne_dummy
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "dummy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_maxjulienne_dummy" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "dummy" finished: SUCCESS
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_maxjulienne_dummy" end time: Jan 14 08:01 CET
+"test_maxjulienne_dummy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/35 Testing: test_game_won
+2/35 Test: test_game_won
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_won"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_won" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_won" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_won" end time: Jan 14 08:01 CET
+"test_game_won" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/35 Testing: test_game_fill_grass
+3/35 Test: test_game_fill_grass
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_fill_grass"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_fill_grass" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_fill_grass" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_fill_grass" end time: Jan 14 08:01 CET
+"test_game_fill_grass" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/35 Testing: test_game_restart
+4/35 Test: test_game_restart
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_restart"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_restart" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_restart" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_restart" end time: Jan 14 08:01 CET
+"test_game_restart" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/35 Testing: test_game_is_neigh
+5/35 Test: test_game_is_neigh
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_is_neigh"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_is_neigh" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_is_neigh" finished: SUCCESS
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_is_neigh" end time: Jan 14 08:01 CET
+"test_game_is_neigh" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/35 Testing: test_game_default
+6/35 Test: test_game_default
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_default" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_default" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_default" end time: Jan 14 08:01 CET
+"test_game_default" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/35 Testing: test_game_default_solution
+7/35 Test: test_game_default_solution
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default_solution"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_default_solution" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_default_solution" finished: SUCCESS
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X - - - * X X - | 1
+1 |* - - - - - * - | 2
+2 |- - * - - - X - | 1
+3 |X - X - * - * - | 2
+4 |* - * - X - - - | 2
+5 |- - X - - - - - | 0
+6 |- - - - - * - - | 1
+7 |* X X * - X X * | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_default_solution" end time: Jan 14 08:01 CET
+"test_game_default_solution" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/35 Testing: test_game_print
+8/35 Test: test_game_print
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_print"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_print" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_print" finished: SUCCESS
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X         X X   | 1
+1 |                | 2
+2 |            X   | 1
+3 |X   X           | 2
+4 |        X       | 2
+5 |    X           | 0
+6 |                | 1
+7 |  X X     X X   | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_print" end time: Jan 14 08:01 CET
+"test_game_print" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/35 Testing: test_game_get_adjacent_square
+9/35 Test: test_game_get_adjacent_square
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_get_adjacent_square"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_adjacent_square" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_adjacent_square" finished: SUCCESS
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X         X X   | 1
+1 |                | 2
+2 |            X   | 1
+3 |X   X           | 2
+4 |        X       | 2
+5 |    X           | 0
+6 |                | 1
+7 |  X X     X X   | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_adjacent_square" end time: Jan 14 08:01 CET
+"test_game_get_adjacent_square" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/35 Testing: test_nanciaux_dummy
+10/35 Test: test_nanciaux_dummy
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "dummy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_nanciaux_dummy" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "dummy" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_nanciaux_dummy" end time: Jan 14 08:01 CET
+"test_nanciaux_dummy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/35 Testing: test_game_set_square
+11/35 Test: test_game_set_square
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_square"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_set_square" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_set_square" finished: SUCCESS
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_set_square" end time: Jan 14 08:01 CET
+"test_game_set_square" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/35 Testing: test_game_set_expected_nb_tents_row
+12/35 Test: test_game_set_expected_nb_tents_row
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_row"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_set_expected_nb_tents_row" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_set_expected_nb_tents_row" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_set_expected_nb_tents_row" end time: Jan 14 08:01 CET
+"test_game_set_expected_nb_tents_row" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/35 Testing: test_game_set_expected_nb_tents_col
+13/35 Test: test_game_set_expected_nb_tents_col
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_col"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_set_expected_nb_tents_col" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_set_expected_nb_tents_col" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_set_expected_nb_tents_col" end time: Jan 14 08:01 CET
+"test_game_set_expected_nb_tents_col" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/35 Testing: test_game_get_square
+14/35 Test: test_game_get_square
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_square"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_square" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_square" finished: SUCCESS
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_square" end time: Jan 14 08:01 CET
+"test_game_get_square" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/35 Testing: test_game_get_expected_nb_tents_row
+15/35 Test: test_game_get_expected_nb_tents_row
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_row"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_expected_nb_tents_row" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_expected_nb_tents_row" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_expected_nb_tents_row" end time: Jan 14 08:01 CET
+"test_game_get_expected_nb_tents_row" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/35 Testing: test_game_get_expected_nb_tents_col
+16/35 Test: test_game_get_expected_nb_tents_col
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_col"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_expected_nb_tents_col" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_expected_nb_tents_col" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_expected_nb_tents_col" end time: Jan 14 08:01 CET
+"test_game_get_expected_nb_tents_col" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/35 Testing: test_game_get_expected_nb_tents_all
+17/35 Test: test_game_get_expected_nb_tents_all
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_all"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_expected_nb_tents_all" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_expected_nb_tents_all" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_expected_nb_tents_all" end time: Jan 14 08:01 CET
+"test_game_get_expected_nb_tents_all" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/35 Testing: test_game_get_current_nb_tents_row
+18/35 Test: test_game_get_current_nb_tents_row
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_row"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_current_nb_tents_row" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_current_nb_tents_row" finished: SUCCESS
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_current_nb_tents_row" end time: Jan 14 08:01 CET
+"test_game_get_current_nb_tents_row" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/35 Testing: test_game_get_current_nb_tents_col
+19/35 Test: test_game_get_current_nb_tents_col
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_col"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_current_nb_tents_col" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_current_nb_tents_col" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_current_nb_tents_col" end time: Jan 14 08:01 CET
+"test_game_get_current_nb_tents_col" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/35 Testing: test_game_get_current_nb_tents_all
+20/35 Test: test_game_get_current_nb_tents_all
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_all"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_current_nb_tents_all" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_get_current_nb_tents_all" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_current_nb_tents_all" end time: Jan 14 08:01 CET
+"test_game_get_current_nb_tents_all" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/35 Testing: test_game_redo
+21/35 Test: test_game_redo
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_redo"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_redo" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_redo" finished: SUCCESS
+the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_redo" end time: Jan 14 08:01 CET
+"test_game_redo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/35 Testing: test_game_undo
+22/35 Test: test_game_undo
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_undo"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_undo" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_undo" finished: SUCCESS
+the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_undo" end time: Jan 14 08:01 CET
+"test_game_undo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/35 Testing: test_game_is_wrapping
+23/35 Test: test_game_is_wrapping
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_is_wrapping"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_is_wrapping" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_is_wrapping" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_is_wrapping" end time: Jan 14 08:01 CET
+"test_game_is_wrapping" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/35 Testing: test_game_nb_cols
+24/35 Test: test_game_nb_cols
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_cols"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_nb_cols" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_nb_cols" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_nb_cols" end time: Jan 14 08:01 CET
+"test_game_nb_cols" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/35 Testing: test_game_nb_rows
+25/35 Test: test_game_nb_rows
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_rows"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_nb_rows" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_nb_rows" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_nb_rows" end time: Jan 14 08:01 CET
+"test_game_nb_rows" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/35 Testing: test_game_new_empty_ext
+26/35 Test: test_game_new_empty_ext
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_empty_ext"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new_empty_ext" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_new_empty_ext" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new_empty_ext" end time: Jan 14 08:01 CET
+"test_game_new_empty_ext" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/35 Testing: test_game_new_ext
+27/35 Test: test_game_new_ext
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_ext"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new_ext" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_new_ext" finished: SUCCESS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new_ext" end time: Jan 14 08:01 CET
+"test_game_new_ext" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/35 Testing: test_game_new
+28/35 Test: test_game_new
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_new" finished: SUCCESS 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new" end time: Jan 14 08:01 CET
+"test_game_new" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/35 Testing: test_game_new_empty
+29/35 Test: test_game_new_empty
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new_empty"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new_empty" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_new_empty" finished: SUCCESS 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new_empty" end time: Jan 14 08:01 CET
+"test_game_new_empty" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/35 Testing: test_game_copy
+30/35 Test: test_game_copy
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_copy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_copy" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_copy" finished: SUCCESS 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_copy" end time: Jan 14 08:01 CET
+"test_game_copy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/35 Testing: test_game_equal
+31/35 Test: test_game_equal
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_equal"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_equal" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_equal" finished: SUCCESS 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_equal" end time: Jan 14 08:01 CET
+"test_game_equal" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/35 Testing: test_game_delete
+32/35 Test: test_game_delete
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_delete"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_delete" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_delete" finished: SUCCESS 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_delete" end time: Jan 14 08:01 CET
+"test_game_delete" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/35 Testing: test_game_play_move
+33/35 Test: test_game_play_move
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_play_move"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_play_move" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_play_move" finished: SUCCESS 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_play_move" end time: Jan 14 08:01 CET
+"test_game_play_move" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/35 Testing: test_game_check_move
+34/35 Test: test_game_check_move
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_check_move"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_check_move" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "game_check_move" finished: SUCCESS 
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_check_move" end time: Jan 14 08:01 CET
+"test_game_check_move" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/35 Testing: test_edejardin_dummy
+35/35 Test: test_edejardin_dummy
+Command: "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "dummy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_edejardin_dummy" start time: Jan 14 08:01 CET
+Output:
+----------------------------------------------------------
+Test "dummy" finished: SUCCESS 
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_edejardin_dummy" end time: Jan 14 08:01 CET
+"test_edejardin_dummy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jan 14 08:01 CET

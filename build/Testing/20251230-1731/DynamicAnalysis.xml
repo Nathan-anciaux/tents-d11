@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20251230-1731-Experimental"
+	Name="kyoshi-207"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="boursouf"
+	OSRelease="6.12.43+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.43-1~bpo12+1 (2025-09-06)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="85"
+	ModelName="Intel(R) Xeon(R) Gold 6154 CPU @ 3.00GHz"
+	ProcessorCacheSize="16384"
+	NumberOfLogicalCPU="32"
+	NumberOfPhysicalCPU="32"
+	TotalVirtualMemory="32765"
+	TotalPhysicalMemory="128903"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2992.97"
+	>
+	<DynamicAnalysis Checker="Valgrind">
+		<StartDateTime>Dec 30 19:32 CET</StartDateTime>
+		<StartTestTime>1767119551</StartTestTime>
+		<TestList>
+			<Test>./test_maxjulienne_dummy</Test>
+			<Test>./test_game_won</Test>
+			<Test>./test_game_fill_grass</Test>
+			<Test>./test_game_restart</Test>
+			<Test>./test_game_is_neigh</Test>
+			<Test>./test_game_default</Test>
+			<Test>./test_game_default_solution</Test>
+			<Test>./test_game_print</Test>
+			<Test>./test_game_get_adjacent_square</Test>
+			<Test>./test_nanciaux_dummy</Test>
+			<Test>./test_game_set_square</Test>
+			<Test>./test_game_set_expected_nb_tents_row</Test>
+			<Test>./test_game_set_expected_nb_tents_col</Test>
+			<Test>./test_game_get_square</Test>
+			<Test>./test_game_get_expected_nb_tents_row</Test>
+			<Test>./test_game_get_expected_nb_tents_col</Test>
+			<Test>./test_game_get_expected_nb_tents_all</Test>
+			<Test>./test_game_get_current_nb_tents_row</Test>
+			<Test>./test_game_get_current_nb_tents_col</Test>
+			<Test>./test_game_get_current_nb_tents_all</Test>
+			<Test>./test_game_redo</Test>
+			<Test>./test_game_undo</Test>
+			<Test>./test_game_is_wrapping</Test>
+			<Test>./test_game_nb_cols</Test>
+			<Test>./test_game_nb_rows</Test>
+			<Test>./test_game_new_empty_ext</Test>
+			<Test>./test_game_new_ext</Test>
+			<Test>./test_game_new</Test>
+			<Test>./test_game_new_empty</Test>
+			<Test>./test_game_copy</Test>
+			<Test>./test_game_equal</Test>
+			<Test>./test_game_delete</Test>
+			<Test>./test_game_play_move</Test>
+			<Test>./test_game_check_move</Test>
+			<Test>./test_edejardin_dummy</Test>
+		</TestList>
+		<Test Status="passed">
+			<Name>test_game_new_empty_ext</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_empty_ext</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.26.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_empty_ext"</FullCommandLine>
+			<Results>
+				<Defect type="Uninitialized Memory Read">1</Defect>
+			</Results>
+			<Log compression="gzip" encoding="base64">eJytkU1PwzAMhu/7FdYujAsktF0/tE7qB5M4cKHsHKWNOyK6bGrD1vHrSdtpQoMekMgpsf0+dl4v8uX6+WVxny8hDKnru5Q6YQhP6sArKaBGLmBXQiM/EezJ9xJzuAbSUhL7URTAhm+RbVAzbPdYaBRM5Uyj0g2rd0eYdfm7IqBz7/aak596TpT6qwA0Npr1MIVHhtu9PhmkHgCszyquCsk/WoObO3QMF5PEjLXlUo1oXWpfaSMhamwaI7e57ztzAtI8DNBIgZcaa+CQV7vi/WKK9QC8MpEb8as7tmdTN7a7OboqmB02rMZ9xQtkQ8gMYnmjn0jSVXz2trfjYoS5dUoyJkxJZ+aoj4Pcs8Z3YZE/78Jy/m8Xk1dTAdOfzadQSiWbNxQBZOskecyyyRclO9TJ====</Log>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new_ext</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_ext</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.27.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_ext"</FullCommandLine>
+			<Results>
+				<Defect type="Uninitialized Memory Read">2</Defect>
+			</Results>
+			<Log compression="gzip" encoding="base64">eJzVkk1PwkAQhu/8igkX8aLdbks/QklKkcSDF5HzZtodsLEs2C6I/nq3QEwlNpHEg+xpP+Z5d/JkBulw9vA4uE2HEEXMCzzG/CiCe7XFIpdQEkpYzaHKPwicTrPELNRg7Zg1iq04hAUuSSxIC9qtKdMkhUqFJqUrgUUBvfr9JguZz69Pc9L3Q47nesccet1gg7FZGxO7Yx6CpkqLPajozTSgD6jY3ytUWY6bnQly+m7r51aQhLDEXLWwhjhhYylLqiqDOxgEnFuQm4MJNCjgXFMJCGmxyl6+FHIbjIxVdiV/dOn4DvNGTt1HXQW97UKUtC4wI3G4Mo1wv9VGMp6Mjga/izC7mrRaNdrjye818qA16HyNncG/GsG+e7kj6OElj6Ab2+do/MsRfDIV0G1+24V5rvLqmWQI01mS3E2nnU/cWoMz====</Log>
+		</Test>
+		<DefectList>
+			<Defect Type="Uninitialized Memory Read"/>
+		</DefectList>
+		<EndDateTime>Dec 30 19:33 CET</EndDateTime>
+		<EndTestTime>1767119584</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</DynamicAnalysis>
+</Site>

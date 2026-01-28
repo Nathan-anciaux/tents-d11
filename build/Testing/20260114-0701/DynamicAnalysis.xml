@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20260114-0701-Experimental"
+	Name="kyoshi-207"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="sicilia"
+	OSRelease="6.12.57+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.57-1~bpo12+1 (2025-11-17)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="158"
+	ModelName="Intel(R) Xeon(R) CPU E3-1240 v6 @ 3.70GHz"
+	ProcessorCacheSize="8192"
+	NumberOfLogicalCPU="8"
+	NumberOfPhysicalCPU="4"
+	TotalVirtualMemory="38154"
+	TotalPhysicalMemory="32032"
+	LogicalProcessorsPerPhysical="2"
+	ProcessorClockFrequency="3626.76"
+	>
+	<DynamicAnalysis Checker="Valgrind">
+		<StartDateTime>Jan 14 10:21 CET</StartDateTime>
+		<StartTestTime>1768382474</StartTestTime>
+		<TestList>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_maxjulienne_dummy</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_won</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_fill_grass</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_restart</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_is_neigh</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_default</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_default_solution</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_print</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_adjacent_square</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_nanciaux_dummy</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_set_square</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_set_expected_nb_tents_row</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_set_expected_nb_tents_col</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_square</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_expected_nb_tents_row</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_expected_nb_tents_col</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_expected_nb_tents_all</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_current_nb_tents_row</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_current_nb_tents_col</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_get_current_nb_tents_all</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_redo</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_undo</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_is_wrapping</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_nb_cols</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_nb_rows</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_new_empty_ext</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_new_ext</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_new</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_new_empty</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_copy</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_equal</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_delete</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_play_move</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_game_check_move</Test>
+			<Test>/autofs/unityaccount/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/test_edejardin_dummy</Test>
+		</TestList>
+		<DefectList/>
+		<EndDateTime>Jan 14 10:21 CET</EndDateTime>
+		<EndTestTime>1768382508</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</DynamicAnalysis>
+</Site>

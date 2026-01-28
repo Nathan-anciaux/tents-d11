@@ -1,0 +1,336 @@
+        -:    0:Source:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game.c
+        -:    0:Graph:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/game.c.gcno
+        -:    0:Data:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/game.c.gcda
+        -:    0:Runs:36
+        -:    1:// game.c
+        -:    2:#include "game.h"
+        -:    3:
+        -:    4:#include <assert.h>
+        -:    5:#include <stdio.h>
+        -:    6:#include <stdlib.h>
+        -:    7:
+        -:    8:#include "game_ext.h"
+        -:    9:#include "game_struct.h"
+        -:   10:
+    2171*:   11:static bool on_board(cgame g, int i, int j) { return i >= 0 && i < g->height && j >= 0 && j < g->width; }
+        -:   12:
+       88:   13:void game_delete(game g)
+        -:   14:// Deletes the game and frees the allocated memory
+        -:   15:{
+       88:   16:  if (!g) {
+    #####:   17:    return;
+        -:   18:  }
+       88:   19:  if (g->tab) free(g->tab);
+       88:   20:  if (g->elem) free(g->elem);
+       88:   21:  if (g->nb_tent_col_expected) free(g->nb_tent_col_expected);
+       88:   22:  if (g->nb_tent_row_expected) free(g->nb_tent_row_expected);
+       88:   23:  if (g->redo) delete_stack(g->redo);
+       88:   24:  if (g->undo) delete_stack(g->undo);
+       88:   25:  free(g);
+       88:   26:  return;
+        -:   27:}
+        -:   28:
+       65:   29:game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)
+        -:   30:// Creates a new game with default size and initializes it
+        -:   31:{
+       65:   32:  return game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, squares, nb_tents_row, nb_tents_col, false);
+        -:   33:}
+        -:   34:
+       22:   35:game game_new_empty(void)  // Attention ici on utilise l'implémentaion 1d du tableau
+        -:   36:// Creates a new empty game with defaut size
+        -:   37:{
+        -:   38:  // Allocation of the element to be completed and to use with game_new
+       22:   39:  square* tab = calloc(DEFAULT_SIZE * DEFAULT_SIZE, sizeof(square));
+       22:   40:  uint* expected_tent_row = calloc(DEFAULT_SIZE, sizeof(uint));
+       22:   41:  uint* expected_tent_col = calloc(DEFAULT_SIZE, sizeof(uint));
+        -:   42:
+       22:   43:  game g = game_new(tab, expected_tent_row, expected_tent_col);
+       22:   44:  free(tab);
+       22:   45:  free(expected_tent_row);
+       22:   46:  free(expected_tent_col);
+       22:   47:  return g;
+        -:   48:}
+        -:   49:
+        7:   50:game game_copy(cgame g)
+        -:   51:// 	Duplicates a game
+        -:   52:{
+        7:   53:  game g2 = game_new_ext(g->height, g->width, g->elem, g->nb_tent_row_expected, g->nb_tent_col_expected, g->wrapped);
+        7:   54:  if (!g2) {
+    #####:   55:    game_delete(g2);
+    #####:   56:    exit(EXIT_FAILURE);
+        -:   57:  }
+        7:   58:  return g2;
+        -:   59:}
+        -:   60:
+       24:   61:bool game_equal(cgame g1, cgame g2)
+        -:   62:// Tests if two games are equal
+        -:   63:{
+      24*:   64:  if (g1 == NULL && g2 == NULL) return true;
+      24*:   65:  if (g1 == NULL || g2 == NULL) return false;
+        -:   66:
+       24:   67:  if (g1->height != g2->height || g1->width != g2->width) {
+    #####:   68:    return false;
+        -:   69:  }
+        -:   70:
+       24:   71:  if (g1->wrapped != g2->wrapped) {
+    #####:   72:    return 0;
+        -:   73:  }
+      200:   74:  for (int i = 0; i < g1->height; i++) {
+     1602:   75:    for (int j = 0; j < g1->width; j++) {
+     1426:   76:      if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;
+        -:   77:    }
+        -:   78:  }
+        -:   79:
+      22*:   80:  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) return 0;
+       22:   81:  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) return 0;
+        -:   82:
+       36:   83:  for (int i = 0; i < g1->height; i++) {
+      32*:   84:    if (game_get_expected_nb_tents_row(g1, i) != game_get_expected_nb_tents_row(g2, i)) return 0;
+      32*:   85:    if (game_get_current_nb_tents_row(g1, i) != game_get_current_nb_tents_row(g2, i)) return 0;
+        -:   86:  }
+        -:   87:
+       36:   88:  for (int i = 0; i < g1->width; i++) {
+      32*:   89:    if (game_get_current_nb_tents_col(g1, i) != game_get_current_nb_tents_col(g2, i)) return 0;
+      32*:   90:    if (game_get_expected_nb_tents_col(g1, i) != game_get_expected_nb_tents_col(g2, i)) return 0;
+        -:   91:  }
+        4:   92:  return 1;
+        -:   93:}
+        -:   94:
+     2171:   95:void game_set_square(game g, uint i, uint j, square s)
+        -:   96:// Sets the value of a given square
+        -:   97:{
+     2171:   98:  if (on_board(g, i, j)) g->tab[i][j] = s;
+     2171:   99:  return;
+        -:  100:}
+        -:  101:
+    20958:  102:square game_get_square(cgame g, uint i, uint j)
+        -:  103:// Gets the value of a given square
+        -:  104:{
+   20958*:  105:  if (g == NULL) return 0;
+   20958*:  106:  if (j < 0 || i < 0 || i >= g->height || j >= g->width) exit(EXIT_FAILURE);
+    20958:  107:  return g->tab[i][j];
+        -:  108:}
+        -:  109:
+      141:  110:void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents)
+        -:  111:// Sets the expected number of tents in a given row.
+        -:  112:{
+      141:  113:  g->nb_tent_row_expected[i] = nb_tents;
+      141:  114:  return;
+        -:  115:}
+        -:  116:
+      140:  117:void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)
+        -:  118:// Sets the expected number of tents in a given column.
+        -:  119:{
+      140:  120:  g->nb_tent_col_expected[j] = nb_tents;
+      140:  121:  return;
+        -:  122:}
+        -:  123:
+      714:  124:uint game_get_expected_nb_tents_row(cgame g, uint i)
+        -:  125:// Gets the expected number of tents in a given row
+        -:  126:{
+     714*:  127:  assert(i < g->height);
+     714*:  128:  if (g == NULL) return 0;
+      714:  129:  return g->nb_tent_row_expected[i];
+        -:  130:}
+        -:  131:
+      320:  132:uint game_get_expected_nb_tents_col(cgame g, uint j)
+        -:  133:// Gets the expected number of tents in a given column
+        -:  134:{
+     320*:  135:  assert(j < g->width);
+     320*:  136:  if (g == NULL) return 0;
+      320:  137:  return g->nb_tent_col_expected[j];
+        -:  138:}
+        -:  139:
+       50:  140:uint game_get_expected_nb_tents_all(cgame g)
+        -:  141:// Gets the expected number of tents on the whole grid.
+        -:  142:{
+      50*:  143:  if (g == NULL) return 0;
+       50:  144:  uint u = 0;
+      450:  145:  for (int i = 0; i < game_nb_rows(g); i++) {
+      400:  146:    u = u + game_get_expected_nb_tents_row(g, i);
+        -:  147:  }
+       50:  148:  return u;
+        -:  149:}
+        -:  150:
+      194:  151:uint game_get_current_nb_tents_row(cgame g, uint i)
+        -:  152:// Gets the current number of tents in a given row.
+        -:  153:{
+     194*:  154:  assert(i < g->height);
+     194*:  155:  if (g == NULL) return 0;
+      194:  156:  if (i >= g->height) {
+    #####:  157:    return 0;
+        -:  158:  }
+        -:  159:
+      194:  160:  uint u = 0;
+     1746:  161:  for (int j = 0; j < g->width; j++) {
+     1552:  162:    if (game_get_square(g, i, j) == TENT) {
+       23:  163:      u++;
+        -:  164:    }
+        -:  165:  }
+      194:  166:  return u;
+        -:  167:}
+        -:  168:
+      214:  169:uint game_get_current_nb_tents_col(cgame g, uint j)
+        -:  170:// Gets the current number of tents in a given column.
+        -:  171:{
+     214*:  172:  assert(j < g->width);
+     214*:  173:  if (g == NULL) return 0;
+      214:  174:  if (j >= g->width) {
+    #####:  175:    return 0;
+        -:  176:  }
+      214:  177:  uint u = 0;
+     1926:  178:  for (int i = 0; i < g->height; i++) {
+     1712:  179:    if (game_get_square(g, i, j) == TENT) {
+       46:  180:      u++;
+        -:  181:    }
+        -:  182:  }
+      214:  183:  return u;
+        -:  184:}
+        -:  185:
+       73:  186:uint game_get_current_nb_tents_all(cgame g)
+        -:  187:// Gets the current number of tents on the whole grid.
+        -:  188:{
+      73*:  189:  if (g == NULL) return 0;
+       73:  190:  uint u = 0;
+      657:  191:  for (int i = 0; i < g->height; i++) {
+     5272:  192:    for (int j = 0; j < g->width; j++) {
+     4688:  193:      if (game_get_square(g, i, j) == TENT) {
+       23:  194:        u++;
+        -:  195:      }
+        -:  196:    }
+        -:  197:  }
+       73:  198:  return u;
+        -:  199:}
+        -:  200:
+      593:  201:void game_play_move(game g, uint i, uint j, square s)
+        -:  202:// Plays a move in a given square
+        -:  203:{
+      593:  204:  if (game_check_move(g, i, j, s)) {
+        -:  205:    // on reinitialise le redo
+      593:  206:    delete_stack(g->redo);
+      593:  207:    g->redo = create_stack();
+        -:  208:
+        -:  209:    // on met letat de l'ancien carré dans le undo
+      593:  210:    setsquare squareplayed = {i, j, game_get_square(g, i, j)};
+      593:  211:    push(squareplayed, g->undo);
+      593:  212:    game_set_square(g, i, j, s);
+        -:  213:  }
+      593:  214:  return;
+        -:  215:}
+        -:  216:
+      614:  217:bool game_check_move(cgame g, uint i, uint j, square s)
+        -:  218:// Checks if a given move in a square is legal
+        -:  219:{
+     614*:  220:  if (g == NULL) return 0;
+     614*:  221:  if (i >= g->height || j >= g->width) return false;
+     614*:  222:  if (s == TREE) return false;
+     614*:  223:  if (s == BIGTREE) return false;
+      614:  224:  if (game_get_square(g, i, j) == TREE) return false;
+     611*:  225:  if (game_get_square(g, i, j) == BIGTREE) return false;
+        -:  226:
+      611:  227:  return 1;
+        -:  228:}
+        -:  229:
+       18:  230:bool game_won(cgame g)
+        -:  231:// Checks if the game is won
+        -:  232:{
+      18*:  233:  if (g == NULL) return false;
+        -:  234:
+        -:  235:  // Rule 1
+      119:  236:  for (int i = 0; i < g->height; i++) {
+      917:  237:    for (int j = 0; j < g->width; j++) {
+      816:  238:      if (game_get_square(g, i, j) == TENT && game_is_neigh(g, i, j, TENT, true)) {
+        6:  239:        return false;
+        -:  240:      }
+        -:  241:    }
+        -:  242:  }
+        -:  243:
+        -:  244:  // Rule 2
+       74:  245:  for (int i = 0; i < g->width; i++) {
+       68:  246:    if (!(game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i))) {
+        6:  247:      return false;
+        -:  248:    }
+        -:  249:  }
+       54:  250:  for (int i = 0; i < g->height; i++) {
+       48:  251:    if (!(game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i))) {
+    #####:  252:      return false;
+        -:  253:    }
+        -:  254:  }
+        -:  255:
+        -:  256:  // rule 3
+        6:  257:  uint nb_trees = 0;
+        6:  258:  uint nb_tents = game_get_current_nb_tents_all(g);
+       54:  259:  for (int i = 0; i < g->height; i++) {
+      432:  260:    for (int j = 0; j < g->width; j++) {
+      384:  261:      square s = game_get_square(g, i, j);
+      384:  262:      if (s == TREE) {
+       13:  263:        nb_trees++;
+      371:  264:      } else if (s == BIGTREE) {
+        2:  265:        nb_trees += 2;
+        -:  266:      }
+        -:  267:    }
+        -:  268:  }
+        6:  269:  if (nb_trees != nb_tents) return false;
+        -:  270:
+        -:  271:  // Rule 4
+        -:  272:  // Check if bigtree has exactly 2 bigtree near it
+        4:  273:  int compteur = 0;
+       36:  274:  for (int i = 0; i < g->height; i++) {
+      288:  275:    for (int j = 0; j < g->width; j++) {
+      256:  276:      if (game_get_square(g, i, j) == TENT) {
+      15*:  277:        if (!game_is_neigh(g, i, j, TREE, false) && !game_is_neigh(g, i, j, BIGTREE, false)) return false;
+        -:  278:      }
+      256:  279:      if (game_get_square(g, i, j) == BIGTREE) {
+        1:  280:        compteur = game_nb_neigh(g, i, j, TENT, false);
+        1:  281:        if (compteur != 2) {
+    #####:  282:          return false;
+        -:  283:        }
+        -:  284:      }
+      256:  285:      compteur = 0;
+      256:  286:      square s = game_get_square(g, i, j);
+      256:  287:      if (s == TREE) {
+      13*:  288:        if (!game_is_neigh(g, i, j, TENT, false)) return false;
+        -:  289:      }
+        -:  290:    }
+        -:  291:  }
+        -:  292:
+        4:  293:  return true;
+        -:  294:}
+        -:  295:
+       12:  296:void game_fill_grass(game g)
+        -:  297:// Fills the board with grass
+        -:  298:{
+        -:  299:  // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more
+        -:  300:  // understandable and to use already done functions
+      12*:  301:  if (g == NULL) return;
+        -:  302:
+       12:  303:  int size = 0;
+      104:  304:  for (int i = 0; i < g->height; i++) {
+      756:  305:    for (int j = 0; j < g->width; j++) {
+      664:  306:      if (game_get_square(g, i, j) == EMPTY) {
+        -:  307:        // game_set_square(g,i,j,GRASS);
+      436:  308:        game_play_move(g, i, j, GRASS);
+      436:  309:        size++;
+        -:  310:      }
+        -:  311:    }
+        -:  312:  }
+       12:  313:  setsquare square_idx = {size, -20, GRASS};
+       12:  314:  push(square_idx, g->undo);
+       12:  315:  return;
+        -:  316:}
+        -:  317:
+       12:  318:void game_restart(game g)
+        -:  319:// Restarts a game.
+        -:  320:{
+        -:  321:  // Replace all squares with EMPTY if there are not TREE
+      12*:  322:  if (g == NULL) return;
+      104:  323:  for (int i = 0; i < g->height; i++) {
+      756:  324:    for (int j = 0; j < g->width; j++) {
+      664:  325:      if ((game_get_square(g, i, j) != TREE) && (game_get_square(g, i, j) != BIGTREE)) {
+      484:  326:        game_set_square(g, i, j, EMPTY);
+        -:  327:      }
+        -:  328:    }
+        -:  329:  }
+        -:  330:
+       12:  331:  return;
+        -:  332:}

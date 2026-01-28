@@ -1,0 +1,685 @@
+Start testing: Jan 21 09:24 CET
+----------------------------------------------------------
+1/36 Testing: test_maxjulienne_dummy
+1/36 Test: test_maxjulienne_dummy
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.1.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "dummy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_maxjulienne_dummy" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "dummy" finished: SUCCESS
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"test_maxjulienne_dummy" end time: Jan 21 09:24 CET
+"test_maxjulienne_dummy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/36 Testing: test_game_won
+2/36 Test: test_game_won
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.2.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_won"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_won" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_won" finished: SUCCESS
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_won" end time: Jan 21 09:24 CET
+"test_game_won" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/36 Testing: test_game_fill_grass
+3/36 Test: test_game_fill_grass
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.3.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_fill_grass"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_fill_grass" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_fill_grass" finished: SUCCESS
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_fill_grass" end time: Jan 21 09:24 CET
+"test_game_fill_grass" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/36 Testing: test_game_restart
+4/36 Test: test_game_restart
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.4.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_restart"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_restart" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_restart" finished: SUCCESS
+   01234567
+   --------
+0 |        | 0
+1 |        | 0
+2 |        | 0
+3 |        | 0
+4 |        | 0
+5 |        | 0
+6 |        | 0
+7 |        | 0
+   --------
+   00000000
+   01234567
+   --------
+0 |x    xx | 1
+1 |        | 2
+2 |      x | 1
+3 |x x     | 2
+4 |    x   | 2
+5 |  x     | 0
+6 |        | 1
+7 | xx  xx | 3
+   --------
+   30212121
+   01234567
+   --------
+0 |********| 0
+1 |********| 0
+2 |********| 0
+3 |********| 0
+4 |********| 0
+5 |********| 0
+6 |********| 0
+7 |********| 0
+   --------
+   00000000
+   01234567
+   --------
+0 |xxxxxxxx| 0
+1 |xxxxxxxx| 0
+2 |xxxxxxxx| 0
+3 |xxxxxxxx| 0
+4 |xxxxxxxx| 0
+5 |xxxxxxxx| 0
+6 |xxxxxxxx| 0
+7 |xxxxxxxx| 0
+   --------
+   00000000
+   01234567
+   --------
+0 |x#--*xx-| 1
+1 |*-----*-| 2
+2 |--*---x-| 1
+3 |x-x-*-*-| 2
+4 |*-*-x---| 2
+5 |--x-----| 0
+6 |-----*--| 1
+7 |*xx*-xx*| 3
+   --------
+   30212121
+   01
+   --
+0 | x| 1
+1 |  | 0
+2 |  | 0
+3 |  | 0
+4 |  | 0
+5 |  | 0
+   --
+   10
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_restart" end time: Jan 21 09:24 CET
+"test_game_restart" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/36 Testing: test_game_is_neigh
+5/36 Test: test_game_is_neigh
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.5.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_is_neigh"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_is_neigh" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_is_neigh" finished: SUCCESS
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_is_neigh" end time: Jan 21 09:24 CET
+"test_game_is_neigh" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/36 Testing: test_game_default
+6/36 Test: test_game_default
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.6.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_default" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_default" finished: SUCCESS
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_default" end time: Jan 21 09:24 CET
+"test_game_default" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/36 Testing: test_game_default_solution
+7/36 Test: test_game_default_solution
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.7.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default_solution"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_default_solution" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_default_solution" finished: SUCCESS
+   01234567
+   --------
+0 |x---*xx-| 1
+1 |*-----*-| 2
+2 |--*---x-| 1
+3 |x-x-*-*-| 2
+4 |*-*-x---| 2
+5 |--x-----| 0
+6 |-----*--| 1
+7 |*xx*-xx*| 3
+   --------
+   30212121
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_default_solution" end time: Jan 21 09:24 CET
+"test_game_default_solution" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/36 Testing: test_game_print
+8/36 Test: test_game_print
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.8.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_print"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_print" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_print" finished: SUCCESS
+   01234567
+   --------
+0 |x    xx | 1
+1 |        | 2
+2 |      x | 1
+3 |x x     | 2
+4 |    x   | 2
+5 |  x     | 0
+6 |        | 1
+7 | xx  xx | 3
+   --------
+   30212121
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_print" end time: Jan 21 09:24 CET
+"test_game_print" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/36 Testing: test_game_get_adjacent_square
+9/36 Test: test_game_get_adjacent_square
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.9.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_get_adjacent_square"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_adjacent_square" start time: Jan 21 09:24 CET
+Output:
+----------------------------------------------------------
+Test "game_get_adjacent_square" finished: SUCCESS
+   01234567
+   --------
+0 |x    xx | 1
+1 |        | 2
+2 |      x | 1
+3 |x x     | 2
+4 |    x   | 2
+5 |  x     | 0
+6 |        | 1
+7 | xx  xx | 3
+   --------
+   30212121
+<end of output>
+Test time =   0.49 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_adjacent_square" end time: Jan 21 09:25 CET
+"test_game_get_adjacent_square" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/36 Testing: test_game_nb_neigh
+10/36 Test: test_game_nb_neigh
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.10.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_nb_neigh"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_nb_neigh" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_nb_neigh" finished: SUCCESS
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_nb_neigh" end time: Jan 21 09:25 CET
+"test_game_nb_neigh" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/36 Testing: test_game_new_empty_ext
+11/36 Test: test_game_new_empty_ext
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.11.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_empty_ext"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new_empty_ext" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_new_empty_ext" finished: SUCCESS
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new_empty_ext" end time: Jan 21 09:25 CET
+"test_game_new_empty_ext" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/36 Testing: test_game_get_expected_nb_tents_all
+12/36 Test: test_game_get_expected_nb_tents_all
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.12.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_all"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_expected_nb_tents_all" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_get_expected_nb_tents_all" finished: SUCCESS
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_expected_nb_tents_all" end time: Jan 21 09:25 CET
+"test_game_get_expected_nb_tents_all" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/36 Testing: test_nanciaux_dummy
+13/36 Test: test_nanciaux_dummy
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.13.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "dummy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_nanciaux_dummy" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "dummy" finished: SUCCESS
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"test_nanciaux_dummy" end time: Jan 21 09:25 CET
+"test_nanciaux_dummy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/36 Testing: test_game_set_square
+14/36 Test: test_game_set_square
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.14.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_square"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_set_square" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_set_square" finished: SUCCESS
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_set_square" end time: Jan 21 09:25 CET
+"test_game_set_square" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/36 Testing: test_game_set_expected_nb_tents_row
+15/36 Test: test_game_set_expected_nb_tents_row
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.15.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_row"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_set_expected_nb_tents_row" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_set_expected_nb_tents_row" finished: SUCCESS
+<end of output>
+Test time =   0.45 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_set_expected_nb_tents_row" end time: Jan 21 09:25 CET
+"test_game_set_expected_nb_tents_row" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/36 Testing: test_game_set_expected_nb_tents_col
+16/36 Test: test_game_set_expected_nb_tents_col
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.16.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_col"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_set_expected_nb_tents_col" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_set_expected_nb_tents_col" finished: SUCCESS
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_set_expected_nb_tents_col" end time: Jan 21 09:25 CET
+"test_game_set_expected_nb_tents_col" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/36 Testing: test_game_get_square
+17/36 Test: test_game_get_square
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.17.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_square"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_square" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_get_square" finished: SUCCESS
+<end of output>
+Test time =   0.42 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_square" end time: Jan 21 09:25 CET
+"test_game_get_square" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/36 Testing: test_game_get_expected_nb_tents_row
+18/36 Test: test_game_get_expected_nb_tents_row
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.18.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_row"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_expected_nb_tents_row" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_get_expected_nb_tents_row" finished: SUCCESS
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_expected_nb_tents_row" end time: Jan 21 09:25 CET
+"test_game_get_expected_nb_tents_row" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/36 Testing: test_game_get_expected_nb_tents_col
+19/36 Test: test_game_get_expected_nb_tents_col
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.19.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_col"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_expected_nb_tents_col" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_get_expected_nb_tents_col" finished: SUCCESS
+<end of output>
+Test time =   0.44 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_expected_nb_tents_col" end time: Jan 21 09:25 CET
+"test_game_get_expected_nb_tents_col" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/36 Testing: test_game_get_current_nb_tents_row
+20/36 Test: test_game_get_current_nb_tents_row
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.20.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_row"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_current_nb_tents_row" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_get_current_nb_tents_row" finished: SUCCESS
+<end of output>
+Test time =   0.43 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_current_nb_tents_row" end time: Jan 21 09:25 CET
+"test_game_get_current_nb_tents_row" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/36 Testing: test_game_get_current_nb_tents_col
+21/36 Test: test_game_get_current_nb_tents_col
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.21.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_col"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_current_nb_tents_col" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_get_current_nb_tents_col" finished: SUCCESS
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_current_nb_tents_col" end time: Jan 21 09:25 CET
+"test_game_get_current_nb_tents_col" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/36 Testing: test_game_get_current_nb_tents_all
+22/36 Test: test_game_get_current_nb_tents_all
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.22.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_all"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_get_current_nb_tents_all" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_get_current_nb_tents_all" finished: SUCCESS
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_get_current_nb_tents_all" end time: Jan 21 09:25 CET
+"test_game_get_current_nb_tents_all" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/36 Testing: test_game_redo
+23/36 Test: test_game_redo
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.23.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_redo"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_redo" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_redo" finished: SUCCESS
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_redo" end time: Jan 21 09:25 CET
+"test_game_redo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/36 Testing: test_game_undo
+24/36 Test: test_game_undo
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.24.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_undo"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_undo" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_undo" finished: SUCCESS
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_undo" end time: Jan 21 09:25 CET
+"test_game_undo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/36 Testing: test_game_is_wrapping
+25/36 Test: test_game_is_wrapping
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.25.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_is_wrapping"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_is_wrapping" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_is_wrapping" finished: SUCCESS
+<end of output>
+Test time =   0.42 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_is_wrapping" end time: Jan 21 09:25 CET
+"test_game_is_wrapping" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/36 Testing: test_game_nb_cols
+26/36 Test: test_game_nb_cols
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.26.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_cols"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_nb_cols" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_nb_cols" finished: SUCCESS
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_nb_cols" end time: Jan 21 09:25 CET
+"test_game_nb_cols" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/36 Testing: test_game_nb_rows
+27/36 Test: test_game_nb_rows
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.27.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_rows"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_nb_rows" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_nb_rows" finished: SUCCESS
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_nb_rows" end time: Jan 21 09:25 CET
+"test_game_nb_rows" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/36 Testing: test_game_new_ext
+28/36 Test: test_game_new_ext
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.28.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_ext"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new_ext" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_new_ext" finished: SUCCESS
+<end of output>
+Test time =   0.41 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new_ext" end time: Jan 21 09:25 CET
+"test_game_new_ext" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/36 Testing: test_game_new
+29/36 Test: test_game_new
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.29.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_new" finished: SUCCESS 
+<end of output>
+Test time =   0.43 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new" end time: Jan 21 09:25 CET
+"test_game_new" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/36 Testing: test_game_new_empty
+30/36 Test: test_game_new_empty
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.30.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new_empty"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_new_empty" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_new_empty" finished: SUCCESS 
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_new_empty" end time: Jan 21 09:25 CET
+"test_game_new_empty" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/36 Testing: test_game_copy
+31/36 Test: test_game_copy
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.31.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_copy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_copy" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_copy" finished: SUCCESS 
+<end of output>
+Test time =   0.39 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_copy" end time: Jan 21 09:25 CET
+"test_game_copy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/36 Testing: test_game_equal
+32/36 Test: test_game_equal
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.32.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_equal"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_equal" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_equal" finished: SUCCESS 
+<end of output>
+Test time =   0.38 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_equal" end time: Jan 21 09:25 CET
+"test_game_equal" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/36 Testing: test_game_delete
+33/36 Test: test_game_delete
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.33.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_delete"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_delete" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_delete" finished: SUCCESS 
+<end of output>
+Test time =   0.37 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_delete" end time: Jan 21 09:25 CET
+"test_game_delete" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/36 Testing: test_game_play_move
+34/36 Test: test_game_play_move
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.34.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_play_move"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_play_move" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_play_move" finished: SUCCESS 
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_play_move" end time: Jan 21 09:25 CET
+"test_game_play_move" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/36 Testing: test_game_check_move
+35/36 Test: test_game_check_move
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.35.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_check_move"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_game_check_move" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "game_check_move" finished: SUCCESS 
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"test_game_check_move" end time: Jan 21 09:25 CET
+"test_game_check_move" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/36 Testing: test_edejardin_dummy
+36/36 Test: test_edejardin_dummy
+Command: "/usr/bin/valgrind" "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.36.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "dummy"
+Directory: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build
+"test_edejardin_dummy" start time: Jan 21 09:25 CET
+Output:
+----------------------------------------------------------
+Test "dummy" finished: SUCCESS 
+<end of output>
+Test time =   0.34 sec
+----------------------------------------------------------
+Test Passed.
+"test_edejardin_dummy" end time: Jan 21 09:25 CET
+"test_edejardin_dummy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jan 21 09:25 CET

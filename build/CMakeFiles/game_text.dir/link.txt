@@ -1,0 +1,1 @@
+/usr/bin/cc -std=c99 -g -Wall --coverage -g CMakeFiles/game_text.dir/game_text.c.o -o game_text   -L/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11  -Wl,-rpath,/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11 libgame.a

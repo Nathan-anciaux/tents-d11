@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20260117-1353-Experimental"
+	Name="kyoshi-207"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="boursouf"
+	OSRelease="6.12.43+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.43-1~bpo12+1 (2025-09-06)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="85"
+	ModelName="Intel(R) Xeon(R) Gold 6154 CPU @ 3.00GHz"
+	ProcessorCacheSize="16384"
+	NumberOfLogicalCPU="32"
+	NumberOfPhysicalCPU="32"
+	TotalVirtualMemory="32765"
+	TotalPhysicalMemory="128903"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2992.97"
+	>
+	<Testing>
+		<StartDateTime>Jan 17 14:57 CET</StartDateTime>
+		<StartTestTime>1768658239</StartTestTime>
+		<TestList>
+			<Test>./test_maxjulienne_dummy</Test>
+			<Test>./test_game_won</Test>
+			<Test>./test_game_fill_grass</Test>
+			<Test>./test_game_restart</Test>
+			<Test>./test_game_is_neigh</Test>
+			<Test>./test_game_default</Test>
+			<Test>./test_game_default_solution</Test>
+			<Test>./test_game_print</Test>
+			<Test>./test_game_get_adjacent_square</Test>
+			<Test>./test_game_nb_neigh</Test>
+			<Test>./test_game_new_empty_ext</Test>
+			<Test>./test_game_get_expected_nb_tents_all</Test>
+			<Test>./test_nanciaux_dummy</Test>
+			<Test>./test_game_set_square</Test>
+			<Test>./test_game_set_expected_nb_tents_row</Test>
+			<Test>./test_game_set_expected_nb_tents_col</Test>
+			<Test>./test_game_get_square</Test>
+			<Test>./test_game_get_expected_nb_tents_row</Test>
+			<Test>./test_game_get_expected_nb_tents_col</Test>
+			<Test>./test_game_get_current_nb_tents_row</Test>
+			<Test>./test_game_get_current_nb_tents_col</Test>
+			<Test>./test_game_get_current_nb_tents_all</Test>
+			<Test>./test_game_redo</Test>
+			<Test>./test_game_undo</Test>
+			<Test>./test_game_is_wrapping</Test>
+			<Test>./test_game_nb_cols</Test>
+			<Test>./test_game_nb_rows</Test>
+			<Test>./test_game_new_ext</Test>
+			<Test>./test_game_new</Test>
+			<Test>./test_game_new_empty</Test>
+			<Test>./test_game_copy</Test>
+			<Test>./test_game_equal</Test>
+			<Test>./test_game_delete</Test>
+			<Test>./test_game_play_move</Test>
+			<Test>./test_game_check_move</Test>
+			<Test>./test_edejardin_dummy</Test>
+		</TestList>
+		<Test Status="passed">
+			<Name>test_maxjulienne_dummy</Name>
+			<Path>.</Path>
+			<FullName>./test_maxjulienne_dummy</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.1.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "dummy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.19252</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.1.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "dummy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "dummy" finished: SUCCESS
+libgcov profiling error:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/game_aux.c.gcda:overwriting an existing profile data with a different checksum
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_won</Name>
+			<Path>.</Path>
+			<FullName>./test_game_won</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.2.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_won"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.09941</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.2.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_won"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_won" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_fill_grass</Name>
+			<Path>.</Path>
+			<FullName>./test_game_fill_grass</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.3.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_fill_grass"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.22139</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.3.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_fill_grass"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_fill_grass" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_restart</Name>
+			<Path>.</Path>
+			<FullName>./test_game_restart</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.4.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_restart"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.05572</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.4.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_restart"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_restart" finished: SUCCESS
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |                | 0
+1 |                | 0
+2 |                | 0
+3 |                | 0
+4 |                | 0
+5 |                | 0
+6 |                | 0
+7 |                | 0
+   _ _ _ _ _ _ _ _ 
+   0 0 0 0 0 0 0 0 
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X         X X   | 1
+1 |                | 2
+2 |            X   | 1
+3 |X   X           | 2
+4 |        X       | 2
+5 |    X           | 0
+6 |                | 1
+7 |  X X     X X   | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |* * * * * * * * | 0
+1 |* * * * * * * * | 0
+2 |* * * * * * * * | 0
+3 |* * * * * * * * | 0
+4 |* * * * * * * * | 0
+5 |* * * * * * * * | 0
+6 |* * * * * * * * | 0
+7 |* * * * * * * * | 0
+   _ _ _ _ _ _ _ _ 
+   0 0 0 0 0 0 0 0 
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X X X X X X X X | 0
+1 |X X X X X X X X | 0
+2 |X X X X X X X X | 0
+3 |X X X X X X X X | 0
+4 |X X X X X X X X | 0
+5 |X X X X X X X X | 0
+6 |X X X X X X X X | 0
+7 |X X X X X X X X | 0
+   _ _ _ _ _ _ _ _ 
+   0 0 0 0 0 0 0 0 
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X # - - * X X - | 1
+1 |* - - - - - * - | 2
+2 |- - * - - - X - | 1
+3 |X - X - * - * - | 2
+4 |* - * - X - - - | 2
+5 |- - X - - - - - | 0
+6 |- - - - - * - - | 1
+7 |* X X * - X X * | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+   0 1 
+   _ _ _ _ _ _ 
+0 |  X | 1
+1 |    | 0
+2 |    | 0
+3 |    | 0
+4 |    | 0
+5 |    | 0
+   _ _ _ _ _ _ 
+   1 0 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_is_neigh</Name>
+			<Path>.</Path>
+			<FullName>./test_game_is_neigh</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.5.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_is_neigh"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02696</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.5.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_is_neigh"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_is_neigh" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_default</Name>
+			<Path>.</Path>
+			<FullName>./test_game_default</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.6.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.03729</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.6.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_default" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_default_solution</Name>
+			<Path>.</Path>
+			<FullName>./test_game_default_solution</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.7.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default_solution"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.03024</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.7.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_default_solution"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_default_solution" finished: SUCCESS
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X - - - * X X - | 1
+1 |* - - - - - * - | 2
+2 |- - * - - - X - | 1
+3 |X - X - * - * - | 2
+4 |* - * - X - - - | 2
+5 |- - X - - - - - | 0
+6 |- - - - - * - - | 1
+7 |* X X * - X X * | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_print</Name>
+			<Path>.</Path>
+			<FullName>./test_game_print</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.8.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_print"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.0241</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.8.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_print"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_print" finished: SUCCESS
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X         X X   | 1
+1 |                | 2
+2 |            X   | 1
+3 |X   X           | 2
+4 |        X       | 2
+5 |    X           | 0
+6 |                | 1
+7 |  X X     X X   | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_adjacent_square</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_adjacent_square</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.9.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_get_adjacent_square"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.04058</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.9.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_get_adjacent_square"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_adjacent_square" finished: SUCCESS
+   0 1 2 3 4 5 6 7 
+   _ _ _ _ _ _ _ _ 
+0 |X         X X   | 1
+1 |                | 2
+2 |            X   | 1
+3 |X   X           | 2
+4 |        X       | 2
+5 |    X           | 0
+6 |                | 1
+7 |  X X     X X   | 3
+   _ _ _ _ _ _ _ _ 
+   3 0 2 1 2 1 2 1 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_nb_neigh</Name>
+			<Path>.</Path>
+			<FullName>./test_game_nb_neigh</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.10.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_nb_neigh"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.03127</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.10.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne" "game_nb_neigh"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_nb_neigh" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new_empty_ext</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_empty_ext</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.11.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_empty_ext"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02627</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.11.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_empty_ext"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new_empty_ext" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_expected_nb_tents_all</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_expected_nb_tents_all</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.12.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_all"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.06242</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.12.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_all"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_expected_nb_tents_all" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_nanciaux_dummy</Name>
+			<Path>.</Path>
+			<FullName>./test_nanciaux_dummy</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.13.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "dummy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.01766</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.13.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "dummy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "dummy" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_set_square</Name>
+			<Path>.</Path>
+			<FullName>./test_game_set_square</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.14.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_square"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.01707</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.14.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_square"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_set_square" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_set_expected_nb_tents_row</Name>
+			<Path>.</Path>
+			<FullName>./test_game_set_expected_nb_tents_row</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.15.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_row"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02472</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.15.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_row"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_set_expected_nb_tents_row" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_set_expected_nb_tents_col</Name>
+			<Path>.</Path>
+			<FullName>./test_game_set_expected_nb_tents_col</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.16.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_col"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02023</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.16.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_set_expected_nb_tents_col"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_set_expected_nb_tents_col" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_square</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_square</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.17.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_square"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02508</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.17.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_square"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_square" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_expected_nb_tents_row</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_expected_nb_tents_row</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.18.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_row"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02447</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.18.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_row"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_expected_nb_tents_row" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_expected_nb_tents_col</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_expected_nb_tents_col</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.19.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_col"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02713</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.19.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_expected_nb_tents_col"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_expected_nb_tents_col" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_current_nb_tents_row</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_current_nb_tents_row</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.20.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_row"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.01603</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.20.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_row"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_current_nb_tents_row" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_current_nb_tents_col</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_current_nb_tents_col</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.21.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_col"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02867</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.21.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_col"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_current_nb_tents_col" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_current_nb_tents_all</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_current_nb_tents_all</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.22.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_all"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.15424</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.22.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_get_current_nb_tents_all"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_current_nb_tents_all" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_redo</Name>
+			<Path>.</Path>
+			<FullName>./test_game_redo</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.23.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_redo"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.03853</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.23.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_redo"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_redo" finished: SUCCESS
+the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_undo</Name>
+			<Path>.</Path>
+			<FullName>./test_game_undo</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.24.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_undo"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.03802</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.24.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_undo"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_undo" finished: SUCCESS
+the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !the table is too short !
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_is_wrapping</Name>
+			<Path>.</Path>
+			<FullName>./test_game_is_wrapping</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.25.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_is_wrapping"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.0272</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.25.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_is_wrapping"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_is_wrapping" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_nb_cols</Name>
+			<Path>.</Path>
+			<FullName>./test_game_nb_cols</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.26.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_cols"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.01786</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.26.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_cols"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_nb_cols" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_nb_rows</Name>
+			<Path>.</Path>
+			<FullName>./test_game_nb_rows</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.27.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_rows"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.01512</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.27.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_nb_rows"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_nb_rows" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new_ext</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_ext</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.28.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_ext"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.03049</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.28.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux" "game_new_ext"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new_ext" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.29.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.03766</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.29.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new_empty</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_empty</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.30.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new_empty"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02089</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.30.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_new_empty"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new_empty" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_copy</Name>
+			<Path>.</Path>
+			<FullName>./test_game_copy</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.31.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_copy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02752</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.31.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_copy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_copy" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_equal</Name>
+			<Path>.</Path>
+			<FullName>./test_game_equal</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.32.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_equal"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.05463</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.32.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_equal"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_equal" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_delete</Name>
+			<Path>.</Path>
+			<FullName>./test_game_delete</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.33.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_delete"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02143</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.33.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_delete"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_delete" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_play_move</Name>
+			<Path>.</Path>
+			<FullName>./test_game_play_move</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.34.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_play_move"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.02743</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.34.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_play_move"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_play_move" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_check_move</Name>
+			<Path>.</Path>
+			<FullName>./test_game_check_move</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.35.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_check_move"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.04295</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.35.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "game_check_move"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_check_move" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_edejardin_dummy</Name>
+			<Path>.</Path>
+			<FullName>./test_edejardin_dummy</FullName>
+			<FullCommandLine>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.36.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "dummy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>1.01415</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/usr/bin/valgrind "--log-file=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/Temporary/MemoryChecker.36.log" "-q" "--tool=memcheck" "--leak-check=yes" "--show-reachable=yes" "--num-callers=50" "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin" "dummy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "dummy" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<EndDateTime>Jan 17 14:57 CET</EndDateTime>
+		<EndTestTime>1768658277</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

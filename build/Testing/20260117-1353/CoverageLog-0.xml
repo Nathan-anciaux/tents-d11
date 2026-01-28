@@ -1,0 +1,2844 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20260117-1353-Experimental"
+	Name="kyoshi-207"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="boursouf"
+	OSRelease="6.12.43+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.43-1~bpo12+1 (2025-09-06)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="85"
+	ModelName="Intel(R) Xeon(R) Gold 6154 CPU @ 3.00GHz"
+	ProcessorCacheSize="16384"
+	NumberOfLogicalCPU="32"
+	NumberOfPhysicalCPU="32"
+	TotalVirtualMemory="32765"
+	TotalPhysicalMemory="128903"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2992.97"
+	>
+	<CoverageLog>
+		<StartDateTime>Jan 17 15:17 CET</StartDateTime>
+		<StartTime>1768659459</StartTime>
+		<File Name="game.c" FullPath="./game.c">
+			<Report>
+				<Line Number="0" Count="-1">// game.c</Line>
+				<Line Number="1" Count="-1">#include "game.h"</Line>
+				<Line Number="2" Count="-1"></Line>
+				<Line Number="3" Count="-1">#include &lt;assert.h&gt;</Line>
+				<Line Number="4" Count="-1">#include &lt;stdio.h&gt;</Line>
+				<Line Number="5" Count="-1">#include &lt;stdlib.h&gt;</Line>
+				<Line Number="6" Count="-1"></Line>
+				<Line Number="7" Count="-1">#include "game_ext.h"</Line>
+				<Line Number="8" Count="-1">#include "game_struct.h"</Line>
+				<Line Number="9" Count="-1"></Line>
+				<Line Number="10" Count="1924">static bool on_board(cgame g, int i, int j) { return i &gt;= 0 &amp;&amp; i &lt; g-&gt;height &amp;&amp; j &gt;= 0 &amp;&amp; j &lt; g-&gt;width; }</Line>
+				<Line Number="11" Count="-1"></Line>
+				<Line Number="12" Count="88">void game_delete(game g)</Line>
+				<Line Number="13" Count="-1">// Deletes the game and frees the allocated memory</Line>
+				<Line Number="14" Count="-1">{</Line>
+				<Line Number="15" Count="88">  if (!g) {</Line>
+				<Line Number="16" Count="0">    return;</Line>
+				<Line Number="17" Count="-1">  }</Line>
+				<Line Number="18" Count="88">  if (g-&gt;tab) free(g-&gt;tab);</Line>
+				<Line Number="19" Count="88">  if (g-&gt;elem) free(g-&gt;elem);</Line>
+				<Line Number="20" Count="88">  if (g-&gt;nb_tent_col_expected) free(g-&gt;nb_tent_col_expected);</Line>
+				<Line Number="21" Count="88">  if (g-&gt;nb_tent_row_expected) free(g-&gt;nb_tent_row_expected);</Line>
+				<Line Number="22" Count="88">  if (g-&gt;redo) delete_stack(g-&gt;redo);</Line>
+				<Line Number="23" Count="88">  if (g-&gt;undo) delete_stack(g-&gt;undo);</Line>
+				<Line Number="24" Count="88">  free(g);</Line>
+				<Line Number="25" Count="88">  return;</Line>
+				<Line Number="26" Count="-1">}</Line>
+				<Line Number="27" Count="-1"></Line>
+				<Line Number="28" Count="65">game game_new(square* squares, uint* nb_tents_row, uint* nb_tents_col)</Line>
+				<Line Number="29" Count="-1">// Creates a new game with default size and initializes it</Line>
+				<Line Number="30" Count="-1">{</Line>
+				<Line Number="31" Count="65">  return game_new_ext(DEFAULT_SIZE, DEFAULT_SIZE, squares, nb_tents_row, nb_tents_col, false);</Line>
+				<Line Number="32" Count="-1">}</Line>
+				<Line Number="33" Count="-1"></Line>
+				<Line Number="34" Count="22">game game_new_empty(void)  // Attention ici on utilise l'implémentaion 1d du tableau</Line>
+				<Line Number="35" Count="-1">// Creates a new empty game with defaut size</Line>
+				<Line Number="36" Count="-1">{</Line>
+				<Line Number="37" Count="-1">  // Allocation of the element to be completed and to use with game_new</Line>
+				<Line Number="38" Count="22">  square* tab = calloc(DEFAULT_SIZE * DEFAULT_SIZE, sizeof(square));</Line>
+				<Line Number="39" Count="22">  uint* expected_tent_row = calloc(DEFAULT_SIZE, sizeof(uint));</Line>
+				<Line Number="40" Count="22">  uint* expected_tent_col = calloc(DEFAULT_SIZE, sizeof(uint));</Line>
+				<Line Number="41" Count="-1"></Line>
+				<Line Number="42" Count="22">  game g = game_new(tab, expected_tent_row, expected_tent_col);</Line>
+				<Line Number="43" Count="22">  free(tab);</Line>
+				<Line Number="44" Count="22">  free(expected_tent_row);</Line>
+				<Line Number="45" Count="22">  free(expected_tent_col);</Line>
+				<Line Number="46" Count="22">  return g;</Line>
+				<Line Number="47" Count="-1">}</Line>
+				<Line Number="48" Count="-1"></Line>
+				<Line Number="49" Count="7">game game_copy(cgame g)</Line>
+				<Line Number="50" Count="-1">// 	Duplicates a game</Line>
+				<Line Number="51" Count="-1">{</Line>
+				<Line Number="52" Count="7">  game g2 = game_new_ext(g-&gt;height, g-&gt;width, g-&gt;elem, g-&gt;nb_tent_row_expected, g-&gt;nb_tent_col_expected, g-&gt;wrapped);</Line>
+				<Line Number="53" Count="7">  if (!g2) {</Line>
+				<Line Number="54" Count="0">    game_delete(g2);</Line>
+				<Line Number="55" Count="0">    exit(EXIT_FAILURE);</Line>
+				<Line Number="56" Count="-1">  }</Line>
+				<Line Number="57" Count="7">  return g2;</Line>
+				<Line Number="58" Count="-1">}</Line>
+				<Line Number="59" Count="-1"></Line>
+				<Line Number="60" Count="24">bool game_equal(cgame g1, cgame g2)</Line>
+				<Line Number="61" Count="-1">// Tests if two games are equal</Line>
+				<Line Number="62" Count="-1">{</Line>
+				<Line Number="63" Count="-1"></Line>
+				<Line Number="64" Count="24">  if (g1 == NULL &amp;&amp; g2 == NULL) return true;</Line>
+				<Line Number="65" Count="24">  if (g1 == NULL || g2 == NULL) return false;</Line>
+				<Line Number="66" Count="-1"></Line>
+				<Line Number="67" Count="24">  if (g1-&gt;height != g2-&gt;height || g1-&gt;width != g2-&gt;width) {</Line>
+				<Line Number="68" Count="0">    return false;</Line>
+				<Line Number="69" Count="-1">  }</Line>
+				<Line Number="70" Count="-1"></Line>
+				<Line Number="71" Count="24">  if (g1-&gt;wrapped != g2-&gt;wrapped) {</Line>
+				<Line Number="72" Count="0">    return 0;</Line>
+				<Line Number="73" Count="-1">  }</Line>
+				<Line Number="74" Count="200">  for (int i = 0; i &lt; g1-&gt;height; i++) {</Line>
+				<Line Number="75" Count="1602">    for (int j = 0; j &lt; g1-&gt;width; j++) {</Line>
+				<Line Number="76" Count="1426">      if (game_get_square(g1, i, j) != game_get_square(g2, i, j)) return 0;</Line>
+				<Line Number="77" Count="-1">    }</Line>
+				<Line Number="78" Count="-1">  }</Line>
+				<Line Number="79" Count="-1"></Line>
+				<Line Number="80" Count="22">  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) return 0;</Line>
+				<Line Number="81" Count="22">  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) return 0;</Line>
+				<Line Number="82" Count="-1"></Line>
+				<Line Number="83" Count="36">  for (int i = 0; i &lt; g1-&gt;height; i++) {</Line>
+				<Line Number="84" Count="32">    if (game_get_expected_nb_tents_row(g1, i) != game_get_expected_nb_tents_row(g2, i)) return 0;</Line>
+				<Line Number="85" Count="32">    if (game_get_current_nb_tents_row(g1, i) != game_get_current_nb_tents_row(g2, i)) return 0;</Line>
+				<Line Number="86" Count="-1">  }</Line>
+				<Line Number="87" Count="-1"></Line>
+				<Line Number="88" Count="36">  for (int i = 0; i &lt; g1-&gt;width; i++) {</Line>
+				<Line Number="89" Count="32">    if (game_get_current_nb_tents_col(g1, i) != game_get_current_nb_tents_col(g2, i)) return 0;</Line>
+				<Line Number="90" Count="32">    if (game_get_expected_nb_tents_col(g1, i) != game_get_expected_nb_tents_col(g2, i)) return 0;</Line>
+				<Line Number="91" Count="-1">  }</Line>
+				<Line Number="92" Count="4">  return 1;</Line>
+				<Line Number="93" Count="-1">}</Line>
+				<Line Number="94" Count="-1"></Line>
+				<Line Number="95" Count="1924">void game_set_square(game g, uint i, uint j, square s)</Line>
+				<Line Number="96" Count="-1">// Sets the value of a given square</Line>
+				<Line Number="97" Count="-1">{</Line>
+				<Line Number="98" Count="1924">  if (on_board(g, i, j)) g-&gt;tab[i][j] = s;</Line>
+				<Line Number="99" Count="1924">  return;</Line>
+				<Line Number="100" Count="-1">}</Line>
+				<Line Number="101" Count="-1"></Line>
+				<Line Number="102" Count="20247">square game_get_square(cgame g, uint i, uint j)</Line>
+				<Line Number="103" Count="-1">// Gets the value of a given square</Line>
+				<Line Number="104" Count="-1">{</Line>
+				<Line Number="105" Count="20247">  if (g == NULL) return 0;</Line>
+				<Line Number="106" Count="20247">  if (j &lt; 0 || i &lt; 0 || i &gt;= g-&gt;height || j &gt;= g-&gt;width) exit(EXIT_FAILURE);</Line>
+				<Line Number="107" Count="20247">  return g-&gt;tab[i][j];</Line>
+				<Line Number="108" Count="-1">}</Line>
+				<Line Number="109" Count="-1"></Line>
+				<Line Number="110" Count="141">void game_set_expected_nb_tents_row(game g, uint i, uint nb_tents)</Line>
+				<Line Number="111" Count="-1">// Sets the expected number of tents in a given row.</Line>
+				<Line Number="112" Count="-1">{</Line>
+				<Line Number="113" Count="141">  g-&gt;nb_tent_row_expected[i] = nb_tents;</Line>
+				<Line Number="114" Count="141">  return;</Line>
+				<Line Number="115" Count="-1">}</Line>
+				<Line Number="116" Count="-1"></Line>
+				<Line Number="117" Count="140">void game_set_expected_nb_tents_col(game g, uint j, uint nb_tents)</Line>
+				<Line Number="118" Count="-1">// Sets the expected number of tents in a given column.</Line>
+				<Line Number="119" Count="-1">{</Line>
+				<Line Number="120" Count="140">  g-&gt;nb_tent_col_expected[j] = nb_tents;</Line>
+				<Line Number="121" Count="140">  return;</Line>
+				<Line Number="122" Count="-1">}</Line>
+				<Line Number="123" Count="-1"></Line>
+				<Line Number="124" Count="714">uint game_get_expected_nb_tents_row(cgame g, uint i)</Line>
+				<Line Number="125" Count="-1">// Gets the expected number of tents in a given row</Line>
+				<Line Number="126" Count="-1">{</Line>
+				<Line Number="127" Count="714">  assert(i &lt; g-&gt;height);</Line>
+				<Line Number="128" Count="714">  if (g == NULL) return 0;</Line>
+				<Line Number="129" Count="714">  return g-&gt;nb_tent_row_expected[i];</Line>
+				<Line Number="130" Count="-1">}</Line>
+				<Line Number="131" Count="-1"></Line>
+				<Line Number="132" Count="320">uint game_get_expected_nb_tents_col(cgame g, uint j)</Line>
+				<Line Number="133" Count="-1">// Gets the expected number of tents in a given column</Line>
+				<Line Number="134" Count="-1">{</Line>
+				<Line Number="135" Count="320">  assert(j &lt; g-&gt;width);</Line>
+				<Line Number="136" Count="320">  if (g == NULL) return 0;</Line>
+				<Line Number="137" Count="320">  return g-&gt;nb_tent_col_expected[j];</Line>
+				<Line Number="138" Count="-1">}</Line>
+				<Line Number="139" Count="-1"></Line>
+				<Line Number="140" Count="50">uint game_get_expected_nb_tents_all(cgame g)</Line>
+				<Line Number="141" Count="-1">// Gets the expected number of tents on the whole grid.</Line>
+				<Line Number="142" Count="-1">{</Line>
+				<Line Number="143" Count="50">  if (g == NULL) return 0;</Line>
+				<Line Number="144" Count="50">  uint u = 0;</Line>
+				<Line Number="145" Count="450">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="146" Count="400">    u = u + game_get_expected_nb_tents_row(g, i);</Line>
+				<Line Number="147" Count="-1">  }</Line>
+				<Line Number="148" Count="50">  return u;</Line>
+				<Line Number="149" Count="-1">}</Line>
+				<Line Number="150" Count="-1"></Line>
+				<Line Number="151" Count="194">uint game_get_current_nb_tents_row(cgame g, uint i)</Line>
+				<Line Number="152" Count="-1">// Gets the current number of tents in a given row.</Line>
+				<Line Number="153" Count="-1">{</Line>
+				<Line Number="154" Count="194">  assert(i &lt; g-&gt;height);</Line>
+				<Line Number="155" Count="194">  if (g == NULL) return 0;</Line>
+				<Line Number="156" Count="194">  if (i &gt;= g-&gt;height) {</Line>
+				<Line Number="157" Count="0">    return 0;</Line>
+				<Line Number="158" Count="-1">  }</Line>
+				<Line Number="159" Count="-1"></Line>
+				<Line Number="160" Count="194">  uint u = 0;</Line>
+				<Line Number="161" Count="1746">  for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="162" Count="1552">    if (game_get_square(g, i, j) == TENT) {</Line>
+				<Line Number="163" Count="23">      u++;</Line>
+				<Line Number="164" Count="-1">    }</Line>
+				<Line Number="165" Count="-1">  }</Line>
+				<Line Number="166" Count="194">  return u;</Line>
+				<Line Number="167" Count="-1">}</Line>
+				<Line Number="168" Count="-1"></Line>
+				<Line Number="169" Count="214">uint game_get_current_nb_tents_col(cgame g, uint j)</Line>
+				<Line Number="170" Count="-1">// Gets the current number of tents in a given column.</Line>
+				<Line Number="171" Count="-1">{</Line>
+				<Line Number="172" Count="214">  assert(j &lt; g-&gt;width);</Line>
+				<Line Number="173" Count="214">  if (g == NULL) return 0;</Line>
+				<Line Number="174" Count="214">  if (j &gt;= g-&gt;width) {</Line>
+				<Line Number="175" Count="0">    return 0;</Line>
+				<Line Number="176" Count="-1">  }</Line>
+				<Line Number="177" Count="214">  uint u = 0;</Line>
+				<Line Number="178" Count="1926">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="179" Count="1712">    if (game_get_square(g, i, j) == TENT) {</Line>
+				<Line Number="180" Count="46">      u++;</Line>
+				<Line Number="181" Count="-1">    }</Line>
+				<Line Number="182" Count="-1">  }</Line>
+				<Line Number="183" Count="214">  return u;</Line>
+				<Line Number="184" Count="-1">}</Line>
+				<Line Number="185" Count="-1"></Line>
+				<Line Number="186" Count="73">uint game_get_current_nb_tents_all(cgame g)</Line>
+				<Line Number="187" Count="-1">// Gets the current number of tents on the whole grid.</Line>
+				<Line Number="188" Count="-1">{</Line>
+				<Line Number="189" Count="73">  if (g == NULL) return 0;</Line>
+				<Line Number="190" Count="73">  uint u = 0;</Line>
+				<Line Number="191" Count="657">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="192" Count="5272">    for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="193" Count="4688">      if (game_get_square(g, i, j) == TENT) {</Line>
+				<Line Number="194" Count="23">        u++;</Line>
+				<Line Number="195" Count="-1">      }</Line>
+				<Line Number="196" Count="-1">    }</Line>
+				<Line Number="197" Count="-1">  }</Line>
+				<Line Number="198" Count="73">  return u;</Line>
+				<Line Number="199" Count="-1">}</Line>
+				<Line Number="200" Count="-1"></Line>
+				<Line Number="201" Count="593">void game_play_move(game g, uint i, uint j, square s)</Line>
+				<Line Number="202" Count="-1">// Plays a move in a given square</Line>
+				<Line Number="203" Count="-1">{</Line>
+				<Line Number="204" Count="593">  if (game_check_move(g, i, j, s)) {</Line>
+				<Line Number="205" Count="-1">    // on reinitialise le redo</Line>
+				<Line Number="206" Count="593">    delete_stack(g-&gt;redo);</Line>
+				<Line Number="207" Count="593">    g-&gt;redo = create_stack();</Line>
+				<Line Number="208" Count="-1"></Line>
+				<Line Number="209" Count="-1">    // on met letat de l'ancien carré dans le undo</Line>
+				<Line Number="210" Count="593">    setsquare squareplayed = {i, j, game_get_square(g, i, j)};</Line>
+				<Line Number="211" Count="593">    push(squareplayed, g-&gt;undo);</Line>
+				<Line Number="212" Count="593">    game_set_square(g, i, j, s);</Line>
+				<Line Number="213" Count="-1">  }</Line>
+				<Line Number="214" Count="593">  return;</Line>
+				<Line Number="215" Count="-1">}</Line>
+				<Line Number="216" Count="-1"></Line>
+				<Line Number="217" Count="614">bool game_check_move(cgame g, uint i, uint j, square s)</Line>
+				<Line Number="218" Count="-1">// Checks if a given move in a square is legal</Line>
+				<Line Number="219" Count="-1">{</Line>
+				<Line Number="220" Count="614">  if (g == NULL) return 0;</Line>
+				<Line Number="221" Count="614">  if (i &gt;= g-&gt;height || j &gt;= g-&gt;width) return false;</Line>
+				<Line Number="222" Count="614">  if (s == TREE) return false;</Line>
+				<Line Number="223" Count="614">  if (s == BIGTREE) return false;</Line>
+				<Line Number="224" Count="614">  if (game_get_square(g, i, j) == TREE) return false;</Line>
+				<Line Number="225" Count="611">  if (game_get_square(g, i, j) == BIGTREE) return false;</Line>
+				<Line Number="226" Count="-1"></Line>
+				<Line Number="227" Count="611">  return 1;</Line>
+				<Line Number="228" Count="-1">}</Line>
+				<Line Number="229" Count="-1"></Line>
+				<Line Number="230" Count="18">bool game_won(cgame g)</Line>
+				<Line Number="231" Count="-1">// Checks if the game is won</Line>
+				<Line Number="232" Count="-1">{</Line>
+				<Line Number="233" Count="18">  if (g == NULL) return false;</Line>
+				<Line Number="234" Count="-1"></Line>
+				<Line Number="235" Count="-1">  // Rule 1</Line>
+				<Line Number="236" Count="119">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="237" Count="917">    for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="238" Count="816">      if (game_get_square(g, i, j) == TENT &amp;&amp; game_is_neigh(g, i, j, TENT, true)) {</Line>
+				<Line Number="239" Count="6">        return false;</Line>
+				<Line Number="240" Count="-1">      }</Line>
+				<Line Number="241" Count="-1">    }</Line>
+				<Line Number="242" Count="-1">  }</Line>
+				<Line Number="243" Count="-1"></Line>
+				<Line Number="244" Count="-1">  // Rule 2</Line>
+				<Line Number="245" Count="74">  for (int i = 0; i &lt; g-&gt;width; i++) {</Line>
+				<Line Number="246" Count="68">    if (!(game_get_current_nb_tents_col(g, i) == game_get_expected_nb_tents_col(g, i))) {</Line>
+				<Line Number="247" Count="6">      return false;</Line>
+				<Line Number="248" Count="-1">    }</Line>
+				<Line Number="249" Count="-1">  }</Line>
+				<Line Number="250" Count="54">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="251" Count="48">    if (!(game_get_current_nb_tents_row(g, i) == game_get_expected_nb_tents_row(g, i))) {</Line>
+				<Line Number="252" Count="0">      return false;</Line>
+				<Line Number="253" Count="-1">    }</Line>
+				<Line Number="254" Count="-1">  }</Line>
+				<Line Number="255" Count="-1"></Line>
+				<Line Number="256" Count="-1">  // rule 3</Line>
+				<Line Number="257" Count="6">  uint nb_trees = 0;</Line>
+				<Line Number="258" Count="6">  uint nb_tents = game_get_current_nb_tents_all(g);</Line>
+				<Line Number="259" Count="54">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="260" Count="432">    for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="261" Count="384">      square s = game_get_square(g, i, j);</Line>
+				<Line Number="262" Count="384">      if (s == TREE) {</Line>
+				<Line Number="263" Count="13">        nb_trees++;</Line>
+				<Line Number="264" Count="371">      } else if (s == BIGTREE) {</Line>
+				<Line Number="265" Count="2">        nb_trees += 2;</Line>
+				<Line Number="266" Count="-1">      }</Line>
+				<Line Number="267" Count="-1">    }</Line>
+				<Line Number="268" Count="-1">  }</Line>
+				<Line Number="269" Count="6">  if (nb_trees != nb_tents) return false;</Line>
+				<Line Number="270" Count="-1"></Line>
+				<Line Number="271" Count="-1">  // test</Line>
+				<Line Number="272" Count="-1">  // Rule 4</Line>
+				<Line Number="273" Count="-1">  // on check si chaque bigtree est collé a exactement 2 tents</Line>
+				<Line Number="274" Count="4">  int compteur = 0;</Line>
+				<Line Number="275" Count="36">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="276" Count="288">    for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="277" Count="256">      if (game_get_square(g, i, j) == TENT) {</Line>
+				<Line Number="278" Count="15">        if (!game_is_neigh(g, i, j, TREE, false) &amp;&amp; !game_is_neigh(g, i, j, BIGTREE, false)) return false;</Line>
+				<Line Number="279" Count="-1">      }</Line>
+				<Line Number="280" Count="256">      if (game_get_square(g, i, j) == BIGTREE) {</Line>
+				<Line Number="281" Count="1">        compteur = game_nb_neigh(g, i, j, TENT, false);</Line>
+				<Line Number="282" Count="1">        if (compteur != 2) {</Line>
+				<Line Number="283" Count="0">          return false;</Line>
+				<Line Number="284" Count="-1">        }</Line>
+				<Line Number="285" Count="-1">      }</Line>
+				<Line Number="286" Count="256">      compteur = 0;</Line>
+				<Line Number="287" Count="256">      square s = game_get_square(g, i, j);</Line>
+				<Line Number="288" Count="256">      if (s == TREE) {</Line>
+				<Line Number="289" Count="13">        if (!game_is_neigh(g, i, j, TENT, false)) return false;</Line>
+				<Line Number="290" Count="-1">      }</Line>
+				<Line Number="291" Count="-1">    }</Line>
+				<Line Number="292" Count="-1">  }</Line>
+				<Line Number="293" Count="-1"></Line>
+				<Line Number="294" Count="4">  return true;</Line>
+				<Line Number="295" Count="-1">}</Line>
+				<Line Number="296" Count="-1"></Line>
+				<Line Number="297" Count="12">void game_fill_grass(game g)</Line>
+				<Line Number="298" Count="-1">// Fills the board with grass</Line>
+				<Line Number="299" Count="-1">{</Line>
+				<Line Number="300" Count="-1">  // Replace all squares that are EMPTY with GRASS. Here we do 2 loop to be more</Line>
+				<Line Number="301" Count="-1">  // understandable and to use already done functions</Line>
+				<Line Number="302" Count="12">  if (g == NULL) return;</Line>
+				<Line Number="303" Count="-1"></Line>
+				<Line Number="304" Count="12">  int size = 0;</Line>
+				<Line Number="305" Count="104">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="306" Count="756">    for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="307" Count="664">      if (game_get_square(g, i, j) == EMPTY) {</Line>
+				<Line Number="308" Count="-1">        // game_set_square(g,i,j,GRASS);</Line>
+				<Line Number="309" Count="436">        game_play_move(g, i, j, GRASS);</Line>
+				<Line Number="310" Count="436">        size++;</Line>
+				<Line Number="311" Count="-1">      }</Line>
+				<Line Number="312" Count="-1">    }</Line>
+				<Line Number="313" Count="-1">  }</Line>
+				<Line Number="314" Count="12">  setsquare square_idx = {size, -20, GRASS};</Line>
+				<Line Number="315" Count="12">  push(square_idx, g-&gt;undo);</Line>
+				<Line Number="316" Count="12">  return;</Line>
+				<Line Number="317" Count="-1">}</Line>
+				<Line Number="318" Count="-1"></Line>
+				<Line Number="319" Count="6">void game_restart(game g)</Line>
+				<Line Number="320" Count="-1">// Restarts a game.</Line>
+				<Line Number="321" Count="-1">{</Line>
+				<Line Number="322" Count="-1">  // Replace all squares with EMPTY if there are not TREE</Line>
+				<Line Number="323" Count="6">  if (g == NULL) return;</Line>
+				<Line Number="324" Count="52">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="325" Count="378">    for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="326" Count="332">      if ((game_get_square(g, i, j) != TREE) &amp;&amp; (game_get_square(g, i, j) != BIGTREE)) {</Line>
+				<Line Number="327" Count="242">        game_set_square(g, i, j, EMPTY);</Line>
+				<Line Number="328" Count="-1">      }</Line>
+				<Line Number="329" Count="-1">    }</Line>
+				<Line Number="330" Count="-1">  }</Line>
+				<Line Number="331" Count="-1"></Line>
+				<Line Number="332" Count="6">  return;</Line>
+				<Line Number="333" Count="-1">}</Line>
+			</Report>
+		</File>
+		<File Name="game_aux.c" FullPath="./game_aux.c">
+			<Report>
+				<Line Number="0" Count="-1">// game_aux.c</Line>
+				<Line Number="1" Count="-1">#include "game_aux.h"</Line>
+				<Line Number="2" Count="-1"></Line>
+				<Line Number="3" Count="-1">#include &lt;stdio.h&gt;</Line>
+				<Line Number="4" Count="-1">#include &lt;stdlib.h&gt;</Line>
+				<Line Number="5" Count="-1"></Line>
+				<Line Number="6" Count="-1">#include "game.h"</Line>
+				<Line Number="7" Count="-1">#include "game_struct.h"</Line>
+				<Line Number="8" Count="-1"></Line>
+				<Line Number="9" Count="52">static bool on_board(cgame g, int i, int j) { return i &gt;= 0 &amp;&amp; i &lt; g-&gt;height &amp;&amp; j &gt;= 0 &amp;&amp; j &lt; g-&gt;width; }</Line>
+				<Line Number="10" Count="-1"></Line>
+				<Line Number="11" Count="-1">typedef struct {</Line>
+				<Line Number="12" Count="-1">  int row;</Line>
+				<Line Number="13" Count="-1">  int col;</Line>
+				<Line Number="14" Count="-1">} coord;</Line>
+				<Line Number="15" Count="-1"></Line>
+				<Line Number="16" Count="52">static bool get_direction(direction d, int* di, int* dj)</Line>
+				<Line Number="17" Count="-1">{</Line>
+				<Line Number="18" Count="-1">  static const coord coordonnees[] = {{0, 0}, {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};</Line>
+				<Line Number="19" Count="-1"></Line>
+				<Line Number="20" Count="52">  *di = coordonnees[d].row;</Line>
+				<Line Number="21" Count="52">  *dj = coordonnees[d].col;</Line>
+				<Line Number="22" Count="52">  return 1;</Line>
+				<Line Number="23" Count="-1">}</Line>
+				<Line Number="24" Count="-1"></Line>
+				<Line Number="25" Count="104">void print_horizontal_border(int height)</Line>
+				<Line Number="26" Count="-1">// Auxiliary function to print an horizontal border</Line>
+				<Line Number="27" Count="-1">{</Line>
+				<Line Number="28" Count="104">  printf("   ");</Line>
+				<Line Number="29" Count="920">  for (int i = 0; i &lt; height; i++) {</Line>
+				<Line Number="30" Count="816">    printf("_ ");</Line>
+				<Line Number="31" Count="-1">  }</Line>
+				<Line Number="32" Count="104">  printf("\n");</Line>
+				<Line Number="33" Count="104">}</Line>
+				<Line Number="34" Count="-1"></Line>
+				<Line Number="35" Count="3120">void print_square(square s)</Line>
+				<Line Number="36" Count="-1">// Auxiliary function to print a square</Line>
+				<Line Number="37" Count="-1">{</Line>
+				<Line Number="38" Count="3120">  switch (s) {</Line>
+				<Line Number="39" Count="1677">    case EMPTY:</Line>
+				<Line Number="40" Count="1677">      printf("  ");</Line>
+				<Line Number="41" Count="1677">      break;</Line>
+				<Line Number="42" Count="692">    case TREE:</Line>
+				<Line Number="43" Count="692">      printf("X ");</Line>
+				<Line Number="44" Count="692">      break;</Line>
+				<Line Number="45" Count="431">    case TENT:</Line>
+				<Line Number="46" Count="431">      printf("* ");</Line>
+				<Line Number="47" Count="431">      break;</Line>
+				<Line Number="48" Count="316">    case GRASS:</Line>
+				<Line Number="49" Count="316">      printf("- ");</Line>
+				<Line Number="50" Count="316">      break;</Line>
+				<Line Number="51" Count="4">    case BIGTREE:</Line>
+				<Line Number="52" Count="4">      printf("# ");</Line>
+				<Line Number="53" Count="4">      break;</Line>
+				<Line Number="54" Count="-1">  }</Line>
+				<Line Number="55" Count="3120">}</Line>
+				<Line Number="56" Count="-1"></Line>
+				<Line Number="57" Count="52">void game_print(cgame g)</Line>
+				<Line Number="58" Count="-1">// Prints a game as text on the standard output stream.</Line>
+				<Line Number="59" Count="-1">{</Line>
+				<Line Number="60" Count="-1">  // Print of each column index</Line>
+				<Line Number="61" Count="52">  printf("   ");</Line>
+				<Line Number="62" Count="444">  for (int i = 0; i &lt; g-&gt;width; i++) {</Line>
+				<Line Number="63" Count="392">    printf("%d ", i);</Line>
+				<Line Number="64" Count="-1">  }</Line>
+				<Line Number="65" Count="52">  printf("\n");</Line>
+				<Line Number="66" Count="-1">  // Upper border</Line>
+				<Line Number="67" Count="52">  print_horizontal_border(g-&gt;height);</Line>
+				<Line Number="68" Count="-1">  // Print in the following order : line index, border, game, border, nb of</Line>
+				<Line Number="69" Count="-1">  // expected tent</Line>
+				<Line Number="70" Count="460">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="71" Count="408">    printf("%d |", i);</Line>
+				<Line Number="72" Count="3528">    for (int j = 0; j &lt; g-&gt;width; j++) {</Line>
+				<Line Number="73" Count="3120">      print_square(game_get_square(g, i, j));</Line>
+				<Line Number="74" Count="-1">    }</Line>
+				<Line Number="75" Count="-1"></Line>
+				<Line Number="76" Count="408">    printf("| %d", g-&gt;nb_tent_row_expected[i]);</Line>
+				<Line Number="77" Count="408">    printf("\n");</Line>
+				<Line Number="78" Count="-1">  }</Line>
+				<Line Number="79" Count="-1">  // lower border</Line>
+				<Line Number="80" Count="52">  print_horizontal_border(g-&gt;height);</Line>
+				<Line Number="81" Count="-1">  // Print of nb expected tents column</Line>
+				<Line Number="82" Count="52">  printf("   ");</Line>
+				<Line Number="83" Count="444">  for (int i = 0; i &lt; g-&gt;width; i++) {</Line>
+				<Line Number="84" Count="392">    printf("%d ", g-&gt;nb_tent_col_expected[i]);</Line>
+				<Line Number="85" Count="-1">  }</Line>
+				<Line Number="86" Count="52">  printf("\n");</Line>
+				<Line Number="87" Count="-1"></Line>
+				<Line Number="88" Count="52">  return;</Line>
+				<Line Number="89" Count="-1">}</Line>
+				<Line Number="90" Count="-1"></Line>
+				<Line Number="91" Count="97">game game_default(void)</Line>
+				<Line Number="92" Count="-1">// Creates the default game</Line>
+				<Line Number="93" Count="-1">{</Line>
+				<Line Number="94" Count="97">  uint expected_tent_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="95" Count="97">  uint expected_tent_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};</Line>
+				<Line Number="96" Count="97">  square tab[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="97" Count="-1">                  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,</Line>
+				<Line Number="98" Count="-1">                  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,</Line>
+				<Line Number="99" Count="-1">                  EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="100" Count="-1">                  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};</Line>
+				<Line Number="101" Count="-1"></Line>
+				<Line Number="102" Count="97">  game g = game_new(tab, expected_tent_row, expected_tent_col);</Line>
+				<Line Number="103" Count="-1"></Line>
+				<Line Number="104" Count="97">  return g;</Line>
+				<Line Number="105" Count="-1">}</Line>
+				<Line Number="106" Count="-1"></Line>
+				<Line Number="107" Count="52">game game_default_solution(void)</Line>
+				<Line Number="108" Count="-1">// Creates the default game solution.</Line>
+				<Line Number="109" Count="-1">{</Line>
+				<Line Number="110" Count="52">  square tab[DEFAULT_SIZE * DEFAULT_SIZE] = {</Line>
+				<Line Number="111" Count="-1">      TREE,  GRASS, GRASS, GRASS, TENT,  TREE,  TREE,  GRASS, TENT,  GRASS, GRASS, GRASS, GRASS, GRASS, TENT,  GRASS,</Line>
+				<Line Number="112" Count="-1">      GRASS, GRASS, TENT,  GRASS, GRASS, GRASS, TREE,  GRASS, TREE,  GRASS, TREE,  GRASS, TENT,  GRASS, TENT,  GRASS,</Line>
+				<Line Number="113" Count="-1">      TENT,  GRASS, TENT,  GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS,</Line>
+				<Line Number="114" Count="-1">      GRASS, GRASS, GRASS, GRASS, GRASS, TENT,  GRASS, GRASS, TENT,  TREE,  TREE,  TENT,  GRASS, TREE,  TREE,  TENT};</Line>
+				<Line Number="115" Count="-1"></Line>
+				<Line Number="116" Count="52">  uint expected_tent_row[DEFAULT_SIZE] = {1, 2, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="117" Count="52">  uint expected_tent_col[DEFAULT_SIZE] = {3, 0, 2, 1, 2, 1, 2, 1};</Line>
+				<Line Number="118" Count="-1"></Line>
+				<Line Number="119" Count="52">  game g = game_new(tab, expected_tent_row, expected_tent_col);</Line>
+				<Line Number="120" Count="-1"></Line>
+				<Line Number="121" Count="52">  return g;</Line>
+				<Line Number="122" Count="-1">}</Line>
+				<Line Number="123" Count="-1"></Line>
+				<Line Number="124" Count="52">bool game_get_adjacent_square(cgame g, uint i, uint j, direction d, uint* pi_next, uint* pj_next)</Line>
+				<Line Number="125" Count="-1">// Gets the coordinate of the adjacent square in a given direction.</Line>
+				<Line Number="126" Count="-1">{</Line>
+				<Line Number="127" Count="-1">  int row, col;</Line>
+				<Line Number="128" Count="52">  get_direction(d, &amp;row, &amp;col);</Line>
+				<Line Number="129" Count="52">  int new_row = (int)i + row;</Line>
+				<Line Number="130" Count="52">  int new_col = (int)j + col;</Line>
+				<Line Number="131" Count="-1"></Line>
+				<Line Number="132" Count="52">  if (!g-&gt;wrapped)</Line>
+				<Line Number="133" Count="52">    if (!on_board(g, new_row, new_col)) return 0;</Line>
+				<Line Number="134" Count="-1"></Line>
+				<Line Number="135" Count="-1">  // POUR WRAPPED</Line>
+				<Line Number="136" Count="-1">  // regarde la direction qu'on a et suivant celle ci si mon nbr de colonne /</Line>
+				<Line Number="137" Count="-1">  // ligne excede on va modulo ou revenir au debut quoi</Line>
+				<Line Number="138" Count="-1">  // franchement si c'est ça c'est vraiment facile i = -1 modulo 7 = 6 --&gt; la</Line>
+				<Line Number="139" Count="-1">  // derniere ligne et la même pour les colonne</Line>
+				<Line Number="140" Count="40">  *pi_next = (new_row + g-&gt;height) % g-&gt;height;</Line>
+				<Line Number="141" Count="40">  *pj_next = (new_col + g-&gt;width) % g-&gt;width;</Line>
+				<Line Number="142" Count="-1"></Line>
+				<Line Number="143" Count="40">  return 1;</Line>
+				<Line Number="144" Count="-1">}</Line>
+				<Line Number="145" Count="-1"></Line>
+				<Line Number="146" Count="16">uint game_nb_neigh(cgame g, uint i, uint j, square s, bool diag)</Line>
+				<Line Number="147" Count="-1">{</Line>
+				<Line Number="148" Count="16">  if (!game_is_neigh(g, i, j, s, diag))</Line>
+				<Line Number="149" Count="0">    return 0;</Line>
+				<Line Number="150" Count="-1">  else {</Line>
+				<Line Number="151" Count="16">    int val = 8;</Line>
+				<Line Number="152" Count="16">    uint nb_neigh = 0;</Line>
+				<Line Number="153" Count="16">    int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1};</Line>
+				<Line Number="154" Count="16">    if (diag) val = 16;</Line>
+				<Line Number="155" Count="-1"></Line>
+				<Line Number="156" Count="16">    int visitr[8] = {0};</Line>
+				<Line Number="157" Count="16">    int visitc[8] = {0};</Line>
+				<Line Number="158" Count="16">    int visit = 0;</Line>
+				<Line Number="159" Count="-1"></Line>
+				<Line Number="160" Count="96">    for (int k = 0; k &lt; val; k = k + 2) {</Line>
+				<Line Number="161" Count="80">      int r = -1, c = -1;</Line>
+				<Line Number="162" Count="80">      bool check = false;</Line>
+				<Line Number="163" Count="80">      if (!g-&gt;wrapped) {</Line>
+				<Line Number="164" Count="-1">        // on fait comme precedemment</Line>
+				<Line Number="165" Count="64">        if ((int)i + test[k] &gt;= 0 &amp;&amp; (int)i + test[k] &lt; g-&gt;height &amp;&amp; (int)j + test[k + 1] &gt;= 0 &amp;&amp;</Line>
+				<Line Number="166" Count="64">            (int)j + test[k + 1] &lt; g-&gt;width) {</Line>
+				<Line Number="167" Count="64">          r = (int)i + test[k];</Line>
+				<Line Number="168" Count="64">          c = (int)j + test[k + 1];</Line>
+				<Line Number="169" Count="64">          check = true;</Line>
+				<Line Number="170" Count="-1">        }</Line>
+				<Line Number="171" Count="-1">      } else {</Line>
+				<Line Number="172" Count="-1">        // on regarde avec les modulos pour que ce soit des cases dans le</Line>
+				<Line Number="173" Count="-1">        // plateau similaire a adjacent square</Line>
+				<Line Number="174" Count="16">        r = (((int)i + test[k]) % g-&gt;height + g-&gt;height) % g-&gt;height;</Line>
+				<Line Number="175" Count="16">        c = (((int)j + test[k + 1]) % g-&gt;width + g-&gt;width) % g-&gt;width;</Line>
+				<Line Number="176" Count="16">        check = true;</Line>
+				<Line Number="177" Count="-1">      }</Line>
+				<Line Number="178" Count="80">      if (check) {</Line>
+				<Line Number="179" Count="80">        bool deja_vu = false;</Line>
+				<Line Number="180" Count="264">        for (int p = 0; p &lt; visit; p++) {</Line>
+				<Line Number="181" Count="184">          if (visitr[p] == r &amp;&amp; visitc[p] == c) {</Line>
+				<Line Number="182" Count="0">            deja_vu = true;</Line>
+				<Line Number="183" Count="0">            break;</Line>
+				<Line Number="184" Count="-1">          }</Line>
+				<Line Number="185" Count="-1">        }</Line>
+				<Line Number="186" Count="80">        if (!deja_vu) {</Line>
+				<Line Number="187" Count="80">          if (game_get_square(g, r, c) == s) nb_neigh++;</Line>
+				<Line Number="188" Count="80">          visitr[visit] = r;</Line>
+				<Line Number="189" Count="80">          visitc[visit] = c;</Line>
+				<Line Number="190" Count="80">          visit++;</Line>
+				<Line Number="191" Count="-1">        }</Line>
+				<Line Number="192" Count="-1">      }</Line>
+				<Line Number="193" Count="-1">    }</Line>
+				<Line Number="194" Count="16">    return nb_neigh;</Line>
+				<Line Number="195" Count="-1">  }</Line>
+				<Line Number="196" Count="-1">}</Line>
+				<Line Number="197" Count="-1"></Line>
+				<Line Number="198" Count="563">bool game_is_neigh(cgame g, uint i, uint j, square s, bool diag)</Line>
+				<Line Number="199" Count="-1">// Determines if a neighboring square has a given value</Line>
+				<Line Number="200" Count="-1">{</Line>
+				<Line Number="201" Count="563">  int val = 8;</Line>
+				<Line Number="202" Count="563">  int test[] = {-1, 0, 1, 0, 0, -1, 0, 1, -1, -1, -1, 1, 1, -1, 1, 1};</Line>
+				<Line Number="203" Count="563">  if (diag) val = 16;</Line>
+				<Line Number="204" Count="3745">  for (int k = 0; k &lt; val; k = k + 2) {</Line>
+				<Line Number="205" Count="3374">    if (!g-&gt;wrapped) {</Line>
+				<Line Number="206" Count="-1">      // on fait comme precedemment</Line>
+				<Line Number="207" Count="3266">      if ((int)i + test[k] &gt;= 0 &amp;&amp; (int)i + test[k] &lt; g-&gt;height &amp;&amp; (int)j + test[k + 1] &gt;= 0 &amp;&amp;</Line>
+				<Line Number="208" Count="2609">          (int)j + test[k + 1] &lt; g-&gt;width)</Line>
+				<Line Number="209" Count="2551">        if (game_get_square(g, (int)i + test[k], (int)j + test[k + 1]) == s) return 1;</Line>
+				<Line Number="210" Count="-1">    } else {</Line>
+				<Line Number="211" Count="-1">      // on regarde avec les modulos pour que ce soit des cases dans le plateau</Line>
+				<Line Number="212" Count="-1">      // similaire a adjacent square</Line>
+				<Line Number="213" Count="108">      if (game_get_square(g, (((int)i + test[k]) % g-&gt;height + g-&gt;height) % g-&gt;height,</Line>
+				<Line Number="214" Count="108">                          (((int)j + test[k + 1]) % g-&gt;width + g-&gt;width) % g-&gt;width) == s)</Line>
+				<Line Number="215" Count="12">        return 1;</Line>
+				<Line Number="216" Count="-1">    }</Line>
+				<Line Number="217" Count="-1">  }</Line>
+				<Line Number="218" Count="371">  return 0;</Line>
+				<Line Number="219" Count="-1">}</Line>
+			</Report>
+		</File>
+		<File Name="game_ext.c" FullPath="./game_ext.c">
+			<Report>
+				<Line Number="0" Count="-1">#include "game_ext.h"</Line>
+				<Line Number="1" Count="-1"></Line>
+				<Line Number="2" Count="-1">#include &lt;stdio.h&gt;</Line>
+				<Line Number="3" Count="-1">#include &lt;stdlib.h&gt;</Line>
+				<Line Number="4" Count="-1">#include &lt;string.h&gt;</Line>
+				<Line Number="5" Count="-1"></Line>
+				<Line Number="6" Count="-1">#include "game_struct.h"</Line>
+				<Line Number="7" Count="-1"></Line>
+				<Line Number="8" Count="6049">static setsquare recup_val(stack* p)</Line>
+				<Line Number="9" Count="-1">{</Line>
+				<Line Number="10" Count="6049">  setsquare val = pop(p);</Line>
+				<Line Number="11" Count="6049">  push(val, p);</Line>
+				<Line Number="12" Count="6049">  return val;</Line>
+				<Line Number="13" Count="-1">}</Line>
+				<Line Number="14" Count="-1"></Line>
+				<Line Number="15" Count="2476">game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_row, uint* nb_tents_col, bool wrapped)</Line>
+				<Line Number="16" Count="-1">{</Line>
+				<Line Number="17" Count="-1">  // memory allocation for all g attribut's</Line>
+				<Line Number="18" Count="2476">  game g = calloc(1, (sizeof(struct game_s)));</Line>
+				<Line Number="19" Count="2476">  if (g == NULL) {</Line>
+				<Line Number="20" Count="0">    return NULL;</Line>
+				<Line Number="21" Count="-1">  }</Line>
+				<Line Number="22" Count="2476">  g-&gt;wrapped = wrapped;</Line>
+				<Line Number="23" Count="2476">  g-&gt;width = nb_cols;</Line>
+				<Line Number="24" Count="2476">  g-&gt;height = nb_rows;</Line>
+				<Line Number="25" Count="2476">  g-&gt;elem = malloc(g-&gt;width * g-&gt;height * sizeof(square));</Line>
+				<Line Number="26" Count="2476">  g-&gt;tab = malloc(g-&gt;height * sizeof(square*));</Line>
+				<Line Number="27" Count="2476">  g-&gt;nb_tent_col_expected = malloc(g-&gt;width * sizeof(uint));</Line>
+				<Line Number="28" Count="2476">  g-&gt;nb_tent_row_expected = malloc(g-&gt;height * sizeof(uint));</Line>
+				<Line Number="29" Count="2476">  g-&gt;undo = create_stack();</Line>
+				<Line Number="30" Count="2476">  g-&gt;redo = create_stack();</Line>
+				<Line Number="31" Count="-1"></Line>
+				<Line Number="32" Count="2476">  if (g-&gt;tab == NULL || g-&gt;nb_tent_col_expected == NULL || g-&gt;nb_tent_row_expected == NULL || g-&gt;elem == NULL ||</Line>
+				<Line Number="33" Count="2476">      g-&gt;redo == NULL || g-&gt;undo == NULL) {</Line>
+				<Line Number="34" Count="0">    game_delete(g);</Line>
+				<Line Number="35" Count="0">    return NULL;</Line>
+				<Line Number="36" Count="-1">  }</Line>
+				<Line Number="37" Count="-1"></Line>
+				<Line Number="38" Count="-1">  // Filling the table with all expected values (squares)</Line>
+				<Line Number="39" Count="2476">  if (squares != NULL) {</Line>
+				<Line Number="40" Count="157928">    for (uint i = 0; i &lt; g-&gt;width * g-&gt;height; i++) {</Line>
+				<Line Number="41" Count="155452">      g-&gt;elem[i] = squares[i];</Line>
+				<Line Number="42" Count="-1">    }</Line>
+				<Line Number="43" Count="-1">  } else {</Line>
+				<Line Number="44" Count="0">    for (uint i = 0; i &lt; g-&gt;width * g-&gt;height; i++) {</Line>
+				<Line Number="45" Count="0">      g-&gt;elem[i] = EMPTY;</Line>
+				<Line Number="46" Count="-1">    }</Line>
+				<Line Number="47" Count="-1">  }</Line>
+				<Line Number="48" Count="-1"></Line>
+				<Line Number="49" Count="21968">  for (uint i = 0; i &lt; g-&gt;width; i++) {</Line>
+				<Line Number="50" Count="19492">    g-&gt;nb_tent_col_expected[i] = nb_tents_col[i];</Line>
+				<Line Number="51" Count="-1">  }</Line>
+				<Line Number="52" Count="22051">  for (uint i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="53" Count="19575">    g-&gt;nb_tent_row_expected[i] = nb_tents_row[i];</Line>
+				<Line Number="54" Count="-1">  }</Line>
+				<Line Number="55" Count="-1">  // Filling</Line>
+				<Line Number="56" Count="22051">  for (int i = 0; i &lt; g-&gt;height; i++) {</Line>
+				<Line Number="57" Count="19575">    g-&gt;tab[i] = &amp;g-&gt;elem[i * g-&gt;width];</Line>
+				<Line Number="58" Count="-1">  }</Line>
+				<Line Number="59" Count="-1"></Line>
+				<Line Number="60" Count="2476">  return g;</Line>
+				<Line Number="61" Count="-1">}</Line>
+				<Line Number="62" Count="-1"></Line>
+				<Line Number="63" Count="151">game game_new_empty_ext(uint nb_row, uint nb_col, bool wrapping)</Line>
+				<Line Number="64" Count="151">{</Line>
+				<Line Number="65" Count="151">  square squares[nb_row * nb_col];</Line>
+				<Line Number="66" Count="151">  uint row_tent[nb_row];</Line>
+				<Line Number="67" Count="151">  uint col_tent[nb_col];</Line>
+				<Line Number="68" Count="10433">  for (int i = 0; i &lt; nb_row * nb_col; i++) {</Line>
+				<Line Number="69" Count="10282">    squares[i] = EMPTY;</Line>
+				<Line Number="70" Count="-1">  }</Line>
+				<Line Number="71" Count="1439">  for (int i = 0; i &lt; nb_col; i++) {</Line>
+				<Line Number="72" Count="1288">    col_tent[i] = 0;</Line>
+				<Line Number="73" Count="-1">  }</Line>
+				<Line Number="74" Count="1357">  for (int i = 0; i &lt; nb_row; i++) {</Line>
+				<Line Number="75" Count="1206">    row_tent[i] = 0;</Line>
+				<Line Number="76" Count="-1">  }</Line>
+				<Line Number="77" Count="151">  game g = game_new_ext(nb_row, nb_col, squares, row_tent, col_tent, wrapping);</Line>
+				<Line Number="78" Count="151">  if (g == NULL) {</Line>
+				<Line Number="79" Count="0">    return NULL;</Line>
+				<Line Number="80" Count="-1">  }</Line>
+				<Line Number="81" Count="151">  return g;</Line>
+				<Line Number="82" Count="-1">}</Line>
+				<Line Number="83" Count="-1"></Line>
+				<Line Number="84" Count="21339">uint game_nb_rows(cgame g) { return g-&gt;height; }</Line>
+				<Line Number="85" Count="-1"></Line>
+				<Line Number="86" Count="85981">uint game_nb_cols(cgame g) { return g-&gt;width; }</Line>
+				<Line Number="87" Count="-1"></Line>
+				<Line Number="88" Count="86">bool game_is_wrapping(cgame g) { return g-&gt;wrapped; }</Line>
+				<Line Number="89" Count="-1"></Line>
+				<Line Number="90" Count="4033">void game_undo(game g)</Line>
+				<Line Number="91" Count="-1">{</Line>
+				<Line Number="92" Count="4033">  if (!isempty_stack(g-&gt;undo)) {</Line>
+				<Line Number="93" Count="4033">    if ((int)recup_val(g-&gt;undo).col == -20 &amp;&amp; (int)recup_val(g-&gt;undo).square == GRASS) {</Line>
+				<Line Number="94" Count="0">      int nb_square = (int)recup_val(g-&gt;undo).row;</Line>
+				<Line Number="95" Count="0">      pop(g-&gt;undo);</Line>
+				<Line Number="96" Count="-1">      setsquare square;</Line>
+				<Line Number="97" Count="0">      for (int k = 0; k &lt; nb_square; k++) {</Line>
+				<Line Number="98" Count="0">        square = pop(g-&gt;undo);</Line>
+				<Line Number="99" Count="-1">        // j'undo en mettant l'ancien etat dans redo</Line>
+				<Line Number="100" Count="0">        setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};</Line>
+				<Line Number="101" Count="0">        game_set_square(g, square.row, square.col, square.square);</Line>
+				<Line Number="102" Count="0">        push(squareplayed, g-&gt;redo);</Line>
+				<Line Number="103" Count="-1">      }</Line>
+				<Line Number="104" Count="0">      setsquare square_idx = {nb_square, -20, GRASS};</Line>
+				<Line Number="105" Count="0">      push(square_idx, g-&gt;redo);</Line>
+				<Line Number="106" Count="-1">    } else {</Line>
+				<Line Number="107" Count="-1">      setsquare square;</Line>
+				<Line Number="108" Count="4033">      square = pop(g-&gt;undo);</Line>
+				<Line Number="109" Count="-1">      // j'undo en mettant l'ancien etat dans redo</Line>
+				<Line Number="110" Count="4033">      setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};</Line>
+				<Line Number="111" Count="4033">      game_set_square(g, square.row, square.col, square.square);</Line>
+				<Line Number="112" Count="4033">      push(squareplayed, g-&gt;redo);</Line>
+				<Line Number="113" Count="-1">    }</Line>
+				<Line Number="114" Count="-1">  }</Line>
+				<Line Number="115" Count="4033">  return;</Line>
+				<Line Number="116" Count="-1">}</Line>
+				<Line Number="117" Count="-1"></Line>
+				<Line Number="118" Count="2016">void game_redo(game g)</Line>
+				<Line Number="119" Count="-1">{</Line>
+				<Line Number="120" Count="2016">  if (!isempty_stack(g-&gt;redo)) {</Line>
+				<Line Number="121" Count="2016">    if ((int)recup_val(g-&gt;redo).col == -20 &amp;&amp; (int)recup_val(g-&gt;redo).square == GRASS) {</Line>
+				<Line Number="122" Count="0">      int nb_square = (int)recup_val(g-&gt;redo).row;</Line>
+				<Line Number="123" Count="0">      pop(g-&gt;redo);</Line>
+				<Line Number="124" Count="0">      for (int k = 0; k &lt; nb_square; k++) {</Line>
+				<Line Number="125" Count="-1">        setsquare square;</Line>
+				<Line Number="126" Count="0">        square = pop(g-&gt;redo);</Line>
+				<Line Number="127" Count="-1">        // j'edo en mettant l'ancien etat dans undo</Line>
+				<Line Number="128" Count="0">        setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};</Line>
+				<Line Number="129" Count="0">        game_set_square(g, square.row, square.col, square.square);</Line>
+				<Line Number="130" Count="0">        push(squareplayed, g-&gt;undo);</Line>
+				<Line Number="131" Count="-1">      }</Line>
+				<Line Number="132" Count="0">      setsquare square_idx = {nb_square, -20, GRASS};</Line>
+				<Line Number="133" Count="0">      push(square_idx, g-&gt;undo);</Line>
+				<Line Number="134" Count="-1">    } else {</Line>
+				<Line Number="135" Count="-1">      setsquare square;</Line>
+				<Line Number="136" Count="2016">      square = pop(g-&gt;redo);</Line>
+				<Line Number="137" Count="-1">      // j'undo en mettant l'ancien etat dans redo</Line>
+				<Line Number="138" Count="2016">      setsquare squareplayed = {square.row, square.col, game_get_square(g, square.row, square.col)};</Line>
+				<Line Number="139" Count="2016">      game_set_square(g, square.row, square.col, square.square);</Line>
+				<Line Number="140" Count="2016">      push(squareplayed, g-&gt;undo);</Line>
+				<Line Number="141" Count="-1">    }</Line>
+				<Line Number="142" Count="-1">  }</Line>
+				<Line Number="143" Count="2016">  return;</Line>
+				<Line Number="144" Count="-1">}</Line>
+			</Report>
+		</File>
+		<File Name="game_test_edejardin.c" FullPath="./game_test_edejardin.c">
+			<Report>
+				<Line Number="0" Count="-1">#include &lt;limits.h&gt;</Line>
+				<Line Number="1" Count="-1">#include &lt;stdbool.h&gt;</Line>
+				<Line Number="2" Count="-1">#include &lt;stdio.h&gt;</Line>
+				<Line Number="3" Count="-1">#include &lt;stdlib.h&gt;</Line>
+				<Line Number="4" Count="-1">#include &lt;string.h&gt;</Line>
+				<Line Number="5" Count="-1"></Line>
+				<Line Number="6" Count="-1">#include "game.h"</Line>
+				<Line Number="7" Count="-1">#include "game_aux.h"</Line>
+				<Line Number="8" Count="-1">#include "game_ext.h"</Line>
+				<Line Number="9" Count="-1">#include "game_struct.h"</Line>
+				<Line Number="10" Count="-1"></Line>
+				<Line Number="11" Count="-1">bool test_game_new(void);</Line>
+				<Line Number="12" Count="-1">bool test_game_new_empty(void);</Line>
+				<Line Number="13" Count="-1">bool test_game_copy(void);</Line>
+				<Line Number="14" Count="-1">bool test_game_equal(void);</Line>
+				<Line Number="15" Count="-1">bool test_game_delete(void);</Line>
+				<Line Number="16" Count="-1">bool test_game_play_move(void);</Line>
+				<Line Number="17" Count="-1">bool test_game_check_move(void);</Line>
+				<Line Number="18" Count="-1">int test_dummy(void);</Line>
+				<Line Number="19" Count="-1"></Line>
+				<Line Number="20" Count="26">int test_dummy() { return 1; }</Line>
+				<Line Number="21" Count="-1"></Line>
+				<Line Number="22" Count="-1">// ici je teste si les initialisationd e game_new sont pas deconnantes</Line>
+				<Line Number="23" Count="26">bool test_game_new(void)</Line>
+				<Line Number="24" Count="-1">{</Line>
+				<Line Number="25" Count="-1">  // on initialise le game_default en gros</Line>
+				<Line Number="26" Count="26">  uint tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="27" Count="26">  uint tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};</Line>
+				<Line Number="28" Count="26">  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="29" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,</Line>
+				<Line Number="30" Count="-1">                      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,</Line>
+				<Line Number="31" Count="-1">                      EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="32" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};</Line>
+				<Line Number="33" Count="-1"></Line>
+				<Line Number="34" Count="26">  game g_new = game_new(squares, tents_row, tents_col);</Line>
+				<Line Number="35" Count="26">  game g_ref = game_default();</Line>
+				<Line Number="36" Count="26">  if (g_new == NULL) {</Line>
+				<Line Number="37" Count="0">    game_delete(g_ref);</Line>
+				<Line Number="38" Count="0">    return 0;</Line>
+				<Line Number="39" Count="-1">  }</Line>
+				<Line Number="40" Count="26">  if (g_new == NULL || g_ref == NULL) {</Line>
+				<Line Number="41" Count="0">    game_delete(g_new);</Line>
+				<Line Number="42" Count="0">    return 0;</Line>
+				<Line Number="43" Count="-1">  }</Line>
+				<Line Number="44" Count="26">  if (!game_equal(g_new, g_ref)) {</Line>
+				<Line Number="45" Count="0">    game_delete(g_new);</Line>
+				<Line Number="46" Count="0">    game_delete(g_ref);</Line>
+				<Line Number="47" Count="0">    return 0;</Line>
+				<Line Number="48" Count="-1">  }</Line>
+				<Line Number="49" Count="26">  game_delete(g_ref);</Line>
+				<Line Number="50" Count="-1"></Line>
+				<Line Number="51" Count="-1">  // verifier si on peut enlever ça normalement oui</Line>
+				<Line Number="52" Count="26">  squares[0] = EMPTY;</Line>
+				<Line Number="53" Count="26">  tents_row[0] = 99;</Line>
+				<Line Number="54" Count="26">  tents_col[0] = 99;</Line>
+				<Line Number="55" Count="26">  if (game_get_square(g_new, 0, 0) != TREE) {</Line>
+				<Line Number="56" Count="0">    game_delete(g_new);</Line>
+				<Line Number="57" Count="0">    return 0;</Line>
+				<Line Number="58" Count="-1">  }</Line>
+				<Line Number="59" Count="26">  if (game_get_expected_nb_tents_row(g_new, 0) != 1) {</Line>
+				<Line Number="60" Count="0">    game_delete(g_new);</Line>
+				<Line Number="61" Count="0">    return 0;</Line>
+				<Line Number="62" Count="-1">  }</Line>
+				<Line Number="63" Count="26">  if (game_get_expected_nb_tents_col(g_new, 0) != 3) {</Line>
+				<Line Number="64" Count="0">    game_delete(g_new);</Line>
+				<Line Number="65" Count="0">    return 0;</Line>
+				<Line Number="66" Count="-1">  }</Line>
+				<Line Number="67" Count="26">  tents_row[0] = 1;</Line>
+				<Line Number="68" Count="26">  tents_col[0] = 3;</Line>
+				<Line Number="69" Count="-1"></Line>
+				<Line Number="70" Count="-1">  // on regarde si chaque ligne a le bon nombre de tentes</Line>
+				<Line Number="71" Count="234">  for (int i = 0; i &lt; game_nb_rows(g_new); i++) {</Line>
+				<Line Number="72" Count="208">    if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) {</Line>
+				<Line Number="73" Count="0">      game_delete(g_new);</Line>
+				<Line Number="74" Count="0">      return 0;</Line>
+				<Line Number="75" Count="-1">    }</Line>
+				<Line Number="76" Count="-1">  }</Line>
+				<Line Number="77" Count="-1"></Line>
+				<Line Number="78" Count="234">  for (int i = 0; i &lt; game_nb_cols(g_new); i++) {</Line>
+				<Line Number="79" Count="208">    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) {</Line>
+				<Line Number="80" Count="0">      game_delete(g_new);</Line>
+				<Line Number="81" Count="0">      return 0;</Line>
+				<Line Number="82" Count="-1">    }</Line>
+				<Line Number="83" Count="-1">  }</Line>
+				<Line Number="84" Count="-1"></Line>
+				<Line Number="85" Count="26">  game_delete(g_new);</Line>
+				<Line Number="86" Count="-1"></Line>
+				<Line Number="87" Count="-1">  // initialisation expres pas possible donc pas le game default</Line>
+				<Line Number="88" Count="26">  squares[0] = TREE;</Line>
+				<Line Number="89" Count="26">  tents_row[0] = 7;</Line>
+				<Line Number="90" Count="26">  tents_col[0] = 7;</Line>
+				<Line Number="91" Count="26">  g_new = game_new(squares, tents_row, tents_col);</Line>
+				<Line Number="92" Count="26">  g_ref = game_default();</Line>
+				<Line Number="93" Count="26">  if (g_new == NULL) {</Line>
+				<Line Number="94" Count="0">    game_delete(g_ref);</Line>
+				<Line Number="95" Count="0">    return 0;</Line>
+				<Line Number="96" Count="-1">  }</Line>
+				<Line Number="97" Count="26">  if (g_new == NULL || g_ref == NULL) {</Line>
+				<Line Number="98" Count="0">    game_delete(g_new);</Line>
+				<Line Number="99" Count="0">    return 0;</Line>
+				<Line Number="100" Count="-1">  }</Line>
+				<Line Number="101" Count="26">  if (game_equal(g_new, g_ref)) {</Line>
+				<Line Number="102" Count="0">    game_delete(g_new);</Line>
+				<Line Number="103" Count="0">    game_delete(g_ref);</Line>
+				<Line Number="104" Count="0">    return 0;</Line>
+				<Line Number="105" Count="-1">  }</Line>
+				<Line Number="106" Count="-1"></Line>
+				<Line Number="107" Count="-1">  // Attention j'ai fait l'implementation naive qui va empecher les nombres</Line>
+				<Line Number="108" Count="234">  for (int i = 0; i &lt; game_nb_rows(g_new); i++) {</Line>
+				<Line Number="109" Count="208">    if (tents_row[i] != game_get_expected_nb_tents_row(g_new, i)) {</Line>
+				<Line Number="110" Count="0">      game_delete(g_new);</Line>
+				<Line Number="111" Count="0">      game_delete(g_ref);</Line>
+				<Line Number="112" Count="0">      return 0;</Line>
+				<Line Number="113" Count="-1">    }</Line>
+				<Line Number="114" Count="-1">  }</Line>
+				<Line Number="115" Count="-1"></Line>
+				<Line Number="116" Count="234">  for (int i = 0; i &lt; game_nb_cols(g_new); i++) {</Line>
+				<Line Number="117" Count="208">    if (tents_col[i] != game_get_expected_nb_tents_col(g_new, i)) {</Line>
+				<Line Number="118" Count="0">      game_delete(g_new);</Line>
+				<Line Number="119" Count="0">      game_delete(g_ref);</Line>
+				<Line Number="120" Count="0">      return 0;</Line>
+				<Line Number="121" Count="-1">    }</Line>
+				<Line Number="122" Count="-1">  }</Line>
+				<Line Number="123" Count="-1"></Line>
+				<Line Number="124" Count="26">  game_delete(g_new);</Line>
+				<Line Number="125" Count="26">  game_delete(g_ref);</Line>
+				<Line Number="126" Count="26">  return 1;</Line>
+				<Line Number="127" Count="-1">}</Line>
+				<Line Number="128" Count="-1"></Line>
+				<Line Number="129" Count="26">bool test_game_new_empty(void)</Line>
+				<Line Number="130" Count="-1">{</Line>
+				<Line Number="131" Count="26">  game g = game_new_empty();</Line>
+				<Line Number="132" Count="26">  if (g == NULL) return 0;</Line>
+				<Line Number="133" Count="-1"></Line>
+				<Line Number="134" Count="-1">  // on regarde si c'est bien empty partout</Line>
+				<Line Number="135" Count="234">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="136" Count="1872">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="137" Count="1664">      if (game_get_square(g, i, j) != EMPTY) return 0;</Line>
+				<Line Number="138" Count="-1">    }</Line>
+				<Line Number="139" Count="-1">  }</Line>
+				<Line Number="140" Count="-1">  // on regarde si c'est bien 0 partout</Line>
+				<Line Number="141" Count="234">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="142" Count="208">    if (game_get_expected_nb_tents_row(g, i) != 0) return 0;</Line>
+				<Line Number="143" Count="-1">  }</Line>
+				<Line Number="144" Count="-1"></Line>
+				<Line Number="145" Count="234">  for (int i = 0; i &lt; game_nb_cols(g); i++) {</Line>
+				<Line Number="146" Count="208">    if (game_get_expected_nb_tents_col(g, i) != 0) return 0;</Line>
+				<Line Number="147" Count="-1">  }</Line>
+				<Line Number="148" Count="-1"></Line>
+				<Line Number="149" Count="26">  if (game_get_current_nb_tents_all(g) != 0) return 0;</Line>
+				<Line Number="150" Count="-1"></Line>
+				<Line Number="151" Count="26">  game_delete(g);</Line>
+				<Line Number="152" Count="26">  return 1;</Line>
+				<Line Number="153" Count="-1">}</Line>
+				<Line Number="154" Count="-1"></Line>
+				<Line Number="155" Count="-1">/*static bool check_null(game g)</Line>
+				<Line Number="156" Count="-1">{</Line>
+				<Line Number="157" Count="-1">  if (g == NULL) {</Line>
+				<Line Number="158" Count="-1">    game_delete(g);</Line>
+				<Line Number="159" Count="-1">    return 1;</Line>
+				<Line Number="160" Count="-1">  }</Line>
+				<Line Number="161" Count="-1">  return 0;</Line>
+				<Line Number="162" Count="-1">}*/</Line>
+				<Line Number="163" Count="-1"></Line>
+				<Line Number="164" Count="26">static void free_copy(game g1, game g2, game g3, game g1_copy, game g2_copy, game g3_copy)</Line>
+				<Line Number="165" Count="-1">{</Line>
+				<Line Number="166" Count="26">  game_delete(g1);</Line>
+				<Line Number="167" Count="26">  game_delete(g2);</Line>
+				<Line Number="168" Count="26">  game_delete(g3);</Line>
+				<Line Number="169" Count="26">  game_delete(g1_copy);</Line>
+				<Line Number="170" Count="26">  game_delete(g2_copy);</Line>
+				<Line Number="171" Count="26">  game_delete(g3_copy);</Line>
+				<Line Number="172" Count="26">  return;</Line>
+				<Line Number="173" Count="-1">}</Line>
+				<Line Number="174" Count="-1"></Line>
+				<Line Number="175" Count="-1">// je prend chaque possibilités de copies possible et je fais des equals</Line>
+				<Line Number="176" Count="26">bool test_game_copy()</Line>
+				<Line Number="177" Count="-1">{</Line>
+				<Line Number="178" Count="26">  game g1 = game_default();</Line>
+				<Line Number="179" Count="26">  game g1_copy = game_copy(g1);</Line>
+				<Line Number="180" Count="26">  game g2 = game_new_empty();</Line>
+				<Line Number="181" Count="26">  game g2_copy = game_copy(g2);</Line>
+				<Line Number="182" Count="26">  game g3 = game_default_solution();</Line>
+				<Line Number="183" Count="26">  game g3_copy = game_copy(g3);</Line>
+				<Line Number="184" Count="-1"></Line>
+				<Line Number="185" Count="234">  for (int i = 0; i &lt; game_nb_cols(g1); i++) {</Line>
+				<Line Number="186" Count="1872">    for (int j = 0; j &lt; game_nb_rows(g1); j++) {</Line>
+				<Line Number="187" Count="3328">      if (game_get_square(g1, i, j) != game_get_square(g1_copy, i, j) ||</Line>
+				<Line Number="188" Count="3328">          game_get_square(g2, i, j) != game_get_square(g2_copy, i, j) ||</Line>
+				<Line Number="189" Count="1664">          game_get_square(g3, i, j) != game_get_square(g3_copy, i, j)) {</Line>
+				<Line Number="190" Count="0">        free_copy(g1, g2, g3, g1_copy, g2_copy, g3_copy);</Line>
+				<Line Number="191" Count="0">        return 0;</Line>
+				<Line Number="192" Count="-1">      }</Line>
+				<Line Number="193" Count="-1">    }</Line>
+				<Line Number="194" Count="-1">  }</Line>
+				<Line Number="195" Count="-1"></Line>
+				<Line Number="196" Count="26">  if (g1 == g1_copy || g3 == g3_copy || g2 == g2_copy) {</Line>
+				<Line Number="197" Count="0">    free_copy(g1, g2, g3, g1_copy, g2_copy, g3_copy);</Line>
+				<Line Number="198" Count="0">    return 0;</Line>
+				<Line Number="199" Count="-1">  }</Line>
+				<Line Number="200" Count="-1"></Line>
+				<Line Number="201" Count="26">  free_copy(g1, g2, g3, g1_copy, g2_copy, g3_copy);</Line>
+				<Line Number="202" Count="26">  return 1;</Line>
+				<Line Number="203" Count="-1">}</Line>
+				<Line Number="204" Count="-1"></Line>
+				<Line Number="205" Count="26">static void free_equal(game g1, game g2)</Line>
+				<Line Number="206" Count="-1">{</Line>
+				<Line Number="207" Count="26">  game_delete(g1);</Line>
+				<Line Number="208" Count="26">  game_delete(g2);</Line>
+				<Line Number="209" Count="26">  return;</Line>
+				<Line Number="210" Count="-1">}</Line>
+				<Line Number="211" Count="-1"></Line>
+				<Line Number="212" Count="-1">//</Line>
+				<Line Number="213" Count="26">bool test_game_equal(void)</Line>
+				<Line Number="214" Count="-1">{</Line>
+				<Line Number="215" Count="26">  game g1 = game_default();</Line>
+				<Line Number="216" Count="26">  game g2 = game_default();</Line>
+				<Line Number="217" Count="26">  if (g1 == NULL) {</Line>
+				<Line Number="218" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="219" Count="0">    return 0;</Line>
+				<Line Number="220" Count="-1">  }</Line>
+				<Line Number="221" Count="26">  if (g2 == NULL) {</Line>
+				<Line Number="222" Count="0">    game_delete(g1);</Line>
+				<Line Number="223" Count="0">    game_delete(g2);</Line>
+				<Line Number="224" Count="0">    return 0;</Line>
+				<Line Number="225" Count="-1">  }</Line>
+				<Line Number="226" Count="26">  if (!game_equal(g1, g2)) {</Line>
+				<Line Number="227" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="228" Count="0">    return 0;</Line>
+				<Line Number="229" Count="-1">  }</Line>
+				<Line Number="230" Count="-1">  // on regarde l'egalité pour les nbr de tentes demandées</Line>
+				<Line Number="231" Count="26">  if (game_get_current_nb_tents_all(g1) != game_get_current_nb_tents_all(g2)) {</Line>
+				<Line Number="232" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="233" Count="0">    return 0;</Line>
+				<Line Number="234" Count="-1">  }</Line>
+				<Line Number="235" Count="26">  if (game_get_expected_nb_tents_all(g1) != game_get_expected_nb_tents_all(g2)) {</Line>
+				<Line Number="236" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="237" Count="0">    return 0;</Line>
+				<Line Number="238" Count="-1">  }</Line>
+				<Line Number="239" Count="26">  game g_copy = game_copy(g1);</Line>
+				<Line Number="240" Count="26">  if (g_copy == NULL) {</Line>
+				<Line Number="241" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="242" Count="0">    return 0;</Line>
+				<Line Number="243" Count="-1">  }</Line>
+				<Line Number="244" Count="26">  if (!game_equal(g1, g_copy)) {</Line>
+				<Line Number="245" Count="0">    game_delete(g_copy);</Line>
+				<Line Number="246" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="247" Count="0">    return 0;</Line>
+				<Line Number="248" Count="-1">  }</Line>
+				<Line Number="249" Count="26">  game_delete(g_copy);</Line>
+				<Line Number="250" Count="-1"></Line>
+				<Line Number="251" Count="26">  game g_fill = game_copy(g1);</Line>
+				<Line Number="252" Count="-1"></Line>
+				<Line Number="253" Count="26">  if (g_fill == NULL) {</Line>
+				<Line Number="254" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="255" Count="0">    return 0;</Line>
+				<Line Number="256" Count="-1">  }</Line>
+				<Line Number="257" Count="26">  game_fill_grass(g_fill);</Line>
+				<Line Number="258" Count="26">  game gf1 = game_copy(g_fill);</Line>
+				<Line Number="259" Count="-1"></Line>
+				<Line Number="260" Count="26">  if (gf1 == NULL) {</Line>
+				<Line Number="261" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="262" Count="0">    game_delete(gf1);</Line>
+				<Line Number="263" Count="0">    game_delete(g_fill);</Line>
+				<Line Number="264" Count="0">    return 0;</Line>
+				<Line Number="265" Count="-1">  }</Line>
+				<Line Number="266" Count="-1"></Line>
+				<Line Number="267" Count="26">  if (!game_equal(gf1, g_fill)) {</Line>
+				<Line Number="268" Count="0">    free_equal(g1, g2);</Line>
+				<Line Number="269" Count="0">    game_delete(g_fill);</Line>
+				<Line Number="270" Count="0">    game_delete(gf1);</Line>
+				<Line Number="271" Count="0">    return 0;</Line>
+				<Line Number="272" Count="-1">  }</Line>
+				<Line Number="273" Count="26">  uint test[3] = {TENT, EMPTY};</Line>
+				<Line Number="274" Count="78">  for (uint i = 0; i &lt; 2; i++) {</Line>
+				<Line Number="275" Count="52">    game_play_move(g_fill, 0, 4, test[i]);</Line>
+				<Line Number="276" Count="52">    if (game_equal(gf1, g_fill)) {</Line>
+				<Line Number="277" Count="0">      free_equal(g1, g2);</Line>
+				<Line Number="278" Count="0">      game_delete(g_fill);</Line>
+				<Line Number="279" Count="0">      game_delete(gf1);</Line>
+				<Line Number="280" Count="0">      return 0;</Line>
+				<Line Number="281" Count="-1">    }</Line>
+				<Line Number="282" Count="-1">  }</Line>
+				<Line Number="283" Count="-1"></Line>
+				<Line Number="284" Count="26">  game_delete(g_fill);</Line>
+				<Line Number="285" Count="26">  game_delete(gf1);</Line>
+				<Line Number="286" Count="-1"></Line>
+				<Line Number="287" Count="234">  for (uint i = 0; i &lt; game_nb_rows(g2); i++) {</Line>
+				<Line Number="288" Count="208">    game_set_expected_nb_tents_row(g2, i, 99);</Line>
+				<Line Number="289" Count="208">    if (game_equal(g2, g1)) {</Line>
+				<Line Number="290" Count="0">      free_equal(g1, g2);</Line>
+				<Line Number="291" Count="0">      return 0;</Line>
+				<Line Number="292" Count="-1">    }</Line>
+				<Line Number="293" Count="-1">  }</Line>
+				<Line Number="294" Count="-1"></Line>
+				<Line Number="295" Count="234">  for (uint i = 0; i &lt; game_nb_cols(g2); i++) {</Line>
+				<Line Number="296" Count="208">    game_set_expected_nb_tents_col(g2, i, 99);</Line>
+				<Line Number="297" Count="208">    if (game_equal(g2, g1)) {</Line>
+				<Line Number="298" Count="0">      free_equal(g1, g2);</Line>
+				<Line Number="299" Count="0">      return 0;</Line>
+				<Line Number="300" Count="-1">    }</Line>
+				<Line Number="301" Count="-1">  }</Line>
+				<Line Number="302" Count="-1"></Line>
+				<Line Number="303" Count="26">  free_equal(g1, g2);</Line>
+				<Line Number="304" Count="26">  return 1;</Line>
+				<Line Number="305" Count="-1">}</Line>
+				<Line Number="306" Count="-1"></Line>
+				<Line Number="307" Count="26">bool test_game_delete(void)</Line>
+				<Line Number="308" Count="-1">{</Line>
+				<Line Number="309" Count="26">  game g1 = game_default();</Line>
+				<Line Number="310" Count="26">  game g2 = game_new_empty();</Line>
+				<Line Number="311" Count="26">  game g3 = game_default();</Line>
+				<Line Number="312" Count="26">  game_play_move(g3, 0, 1, TENT);</Line>
+				<Line Number="313" Count="26">  game g4 = game_copy(g3);</Line>
+				<Line Number="314" Count="26">  if (g1 == NULL || g2 == NULL || g3 == NULL || g4 == NULL) return 0;</Line>
+				<Line Number="315" Count="-1"></Line>
+				<Line Number="316" Count="26">  game_delete(g1);</Line>
+				<Line Number="317" Count="26">  game_delete(g2);</Line>
+				<Line Number="318" Count="26">  game_delete(g3);</Line>
+				<Line Number="319" Count="26">  game_delete(g4);</Line>
+				<Line Number="320" Count="26">  return 1;</Line>
+				<Line Number="321" Count="-1">}</Line>
+				<Line Number="322" Count="-1"></Line>
+				<Line Number="323" Count="26">bool test_game_play_move(void)</Line>
+				<Line Number="324" Count="-1">{</Line>
+				<Line Number="325" Count="26">  game g = game_default();</Line>
+				<Line Number="326" Count="26">  if (g == NULL) return 0;</Line>
+				<Line Number="327" Count="-1"></Line>
+				<Line Number="328" Count="-1">  // le set de test pour chaque possibilité</Line>
+				<Line Number="329" Count="26">  int test[9] = {EMPTY, TENT, TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};</Line>
+				<Line Number="330" Count="-1">  int row0, col1, all;</Line>
+				<Line Number="331" Count="-1"></Line>
+				<Line Number="332" Count="-1">  bool interdit;</Line>
+				<Line Number="333" Count="260">  for (int i = 0; i &lt; 9; i++) {</Line>
+				<Line Number="334" Count="234">    square old = game_get_square(g, 0, 1);</Line>
+				<Line Number="335" Count="234">    square new = test[i];</Line>
+				<Line Number="336" Count="-1"></Line>
+				<Line Number="337" Count="234">    interdit = game_check_move(g, 0, 1, new);</Line>
+				<Line Number="338" Count="-1"></Line>
+				<Line Number="339" Count="234">    row0 = game_get_current_nb_tents_row(g, 0);</Line>
+				<Line Number="340" Count="234">    col1 = game_get_current_nb_tents_col(g, 1);</Line>
+				<Line Number="341" Count="234">    all = game_get_current_nb_tents_all(g);</Line>
+				<Line Number="342" Count="-1"></Line>
+				<Line Number="343" Count="234">    game_play_move(g, 0, 1, new);</Line>
+				<Line Number="344" Count="234">    if (interdit) {</Line>
+				<Line Number="345" Count="234">      if (game_get_square(g, 0, 1) != new) return 0;</Line>
+				<Line Number="346" Count="234">      int diff = (new == TENT) - (old == TENT);</Line>
+				<Line Number="347" Count="234">      if (game_get_current_nb_tents_row(g, 0) != row0 + diff) return 0;</Line>
+				<Line Number="348" Count="234">      if (game_get_current_nb_tents_col(g, 1) != col1 + diff) return 0;</Line>
+				<Line Number="349" Count="234">      if (game_get_current_nb_tents_all(g) != all + diff) return 0;</Line>
+				<Line Number="350" Count="-1">    }</Line>
+				<Line Number="351" Count="-1">  }</Line>
+				<Line Number="352" Count="-1"></Line>
+				<Line Number="353" Count="26">  game_delete(g);</Line>
+				<Line Number="354" Count="26">  return 1;</Line>
+				<Line Number="355" Count="-1">}</Line>
+				<Line Number="356" Count="-1"></Line>
+				<Line Number="357" Count="26">bool test_game_check_move(void)</Line>
+				<Line Number="358" Count="-1">{</Line>
+				<Line Number="359" Count="26">  game g = game_default();</Line>
+				<Line Number="360" Count="26">  if (g == NULL) return 0;</Line>
+				<Line Number="361" Count="26">  game g1 = game_default();</Line>
+				<Line Number="362" Count="26">  game_play_move(g1, 0, 1, GRASS);</Line>
+				<Line Number="363" Count="26">  int test_tents[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1};</Line>
+				<Line Number="364" Count="26">  int test[15] = {TENT, GRASS, EMPTY, TREE, TREE, TREE, EMPTY, TENT, TENT, EMPTY, GRASS, GRASS, TENT, GRASS, EMPTY};</Line>
+				<Line Number="365" Count="-1">  // je fais les tests arbre sur x et x sur arbres</Line>
+				<Line Number="366" Count="104">  for (int i = 0, j = 0; j &lt; 6 &amp;&amp; i &lt; 6; i++, j = j + 2) {</Line>
+				<Line Number="367" Count="78">    if (game_check_move(g1, test_tents[j], test_tents[j + 1], test[i])) {</Line>
+				<Line Number="368" Count="0">      game_delete(g);</Line>
+				<Line Number="369" Count="0">      game_delete(g1);</Line>
+				<Line Number="370" Count="0">      return 0;</Line>
+				<Line Number="371" Count="-1">    }</Line>
+				<Line Number="372" Count="-1">  }</Line>
+				<Line Number="373" Count="-1">  // je fais toutes les autres possibilités possibles</Line>
+				<Line Number="374" Count="260">  for (int i = 6; i &lt; 15; i++) {</Line>
+				<Line Number="375" Count="234">    if (!game_check_move(g, 0, 4, test[i])) {</Line>
+				<Line Number="376" Count="0">      game_delete(g);</Line>
+				<Line Number="377" Count="0">      game_delete(g1);</Line>
+				<Line Number="378" Count="0">      return 0;</Line>
+				<Line Number="379" Count="-1">    }</Line>
+				<Line Number="380" Count="-1">  }</Line>
+				<Line Number="381" Count="26">  game_delete(g);</Line>
+				<Line Number="382" Count="26">  game_delete(g1);</Line>
+				<Line Number="383" Count="26">  return 1;</Line>
+				<Line Number="384" Count="-1">}</Line>
+				<Line Number="385" Count="-1"></Line>
+				<Line Number="386" Count="0">void usage(int argc, char* argv[])</Line>
+				<Line Number="387" Count="-1">{</Line>
+				<Line Number="388" Count="0">  fprintf(stderr, "Usage: %s &lt;testname&gt; [&lt;...&gt;]\n", argv[0]);</Line>
+				<Line Number="389" Count="0">  exit(EXIT_FAILURE);</Line>
+				<Line Number="390" Count="-1">}</Line>
+				<Line Number="391" Count="-1"></Line>
+				<Line Number="392" Count="208">int main(int argc, char* argv[])</Line>
+				<Line Number="393" Count="-1">{</Line>
+				<Line Number="394" Count="208">  if (argc == 1) usage(argc, argv);</Line>
+				<Line Number="395" Count="208">  bool ok = 0;</Line>
+				<Line Number="396" Count="208">  if (strcmp("dummy", argv[1]) == 0) {</Line>
+				<Line Number="397" Count="26">    ok = test_dummy();</Line>
+				<Line Number="398" Count="-1">  }</Line>
+				<Line Number="399" Count="208">  if (strcmp("game_new", argv[1]) == 0) {</Line>
+				<Line Number="400" Count="26">    ok = test_game_new();</Line>
+				<Line Number="401" Count="-1">  }</Line>
+				<Line Number="402" Count="208">  if (strcmp("game_new_empty", argv[1]) == 0) {</Line>
+				<Line Number="403" Count="26">    ok = test_game_new_empty();</Line>
+				<Line Number="404" Count="-1">  }</Line>
+				<Line Number="405" Count="208">  if (strcmp("game_copy", argv[1]) == 0) {</Line>
+				<Line Number="406" Count="26">    ok = test_game_copy();</Line>
+				<Line Number="407" Count="-1">  }</Line>
+				<Line Number="408" Count="208">  if (strcmp("game_equal", argv[1]) == 0) {</Line>
+				<Line Number="409" Count="26">    ok = test_game_equal();</Line>
+				<Line Number="410" Count="-1">  }</Line>
+				<Line Number="411" Count="208">  if (strcmp("game_delete", argv[1]) == 0) {</Line>
+				<Line Number="412" Count="26">    ok = test_game_delete();</Line>
+				<Line Number="413" Count="-1">  }</Line>
+				<Line Number="414" Count="208">  if (strcmp("game_play_move", argv[1]) == 0) {</Line>
+				<Line Number="415" Count="26">    ok = test_game_play_move();</Line>
+				<Line Number="416" Count="-1">  }</Line>
+				<Line Number="417" Count="208">  if (strcmp("game_check_move", argv[1]) == 0) {</Line>
+				<Line Number="418" Count="26">    ok = test_game_check_move();</Line>
+				<Line Number="419" Count="-1">  }</Line>
+				<Line Number="420" Count="208">  if (ok) {</Line>
+				<Line Number="421" Count="208">    fprintf(stderr, "Test \"%s\" finished: SUCCESS \n", argv[1]);</Line>
+				<Line Number="422" Count="208">    return EXIT_SUCCESS;</Line>
+				<Line Number="423" Count="-1">  } else {</Line>
+				<Line Number="424" Count="0">    fprintf(stderr, "Test \"%s\" finished: FAILURE \n", argv[1]);</Line>
+				<Line Number="425" Count="0">    return EXIT_FAILURE;</Line>
+				<Line Number="426" Count="-1">  }</Line>
+				<Line Number="427" Count="-1">}</Line>
+			</Report>
+		</File>
+		<File Name="game_test_maxjulienne.c" FullPath="./game_test_maxjulienne.c">
+			<Report>
+				<Line Number="0" Count="-1">#include &lt;stdbool.h&gt;</Line>
+				<Line Number="1" Count="-1">#include &lt;stdio.h&gt;</Line>
+				<Line Number="2" Count="-1">#include &lt;stdlib.h&gt;</Line>
+				<Line Number="3" Count="-1">#include &lt;string.h&gt;</Line>
+				<Line Number="4" Count="-1"></Line>
+				<Line Number="5" Count="-1">#include "game.h"</Line>
+				<Line Number="6" Count="-1">#include "game_aux.h"</Line>
+				<Line Number="7" Count="-1">#include "game_ext.h"</Line>
+				<Line Number="8" Count="-1">#include "game_struct.h"</Line>
+				<Line Number="9" Count="-1"></Line>
+				<Line Number="10" Count="42">game create_game_rectangle()</Line>
+				<Line Number="11" Count="-1">{</Line>
+				<Line Number="12" Count="-1">  // Game rectangle</Line>
+				<Line Number="13" Count="42">  square squares[12] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};</Line>
+				<Line Number="14" Count="42">  uint nb_row[6] = {1, 0, 0, 0, 0, 0};</Line>
+				<Line Number="15" Count="42">  uint nb_col[2] = {1, 0};</Line>
+				<Line Number="16" Count="42">  game g = game_new_ext(6, 2, squares, nb_row, nb_col, true);</Line>
+				<Line Number="17" Count="42">  return g;</Line>
+				<Line Number="18" Count="-1">}</Line>
+				<Line Number="19" Count="-1"></Line>
+				<Line Number="20" Count="-1">// 1 = TRUE</Line>
+				<Line Number="21" Count="-1"></Line>
+				<Line Number="22" Count="14">int test_game_won()</Line>
+				<Line Number="23" Count="-1">{</Line>
+				<Line Number="24" Count="-1">  game g;</Line>
+				<Line Number="25" Count="-1">  int result;</Line>
+				<Line Number="26" Count="-1"></Line>
+				<Line Number="27" Count="14">  g = game_default_solution();</Line>
+				<Line Number="28" Count="14">  if (game_won(g) != 1) {</Line>
+				<Line Number="29" Count="0">    game_delete(g);</Line>
+				<Line Number="30" Count="0">    return 0;</Line>
+				<Line Number="31" Count="-1">  }</Line>
+				<Line Number="32" Count="14">  game_delete(g);</Line>
+				<Line Number="33" Count="-1">  // Sur jeu vide</Line>
+				<Line Number="34" Count="14">  g = game_new_empty();</Line>
+				<Line Number="35" Count="14">  result = game_won(g);</Line>
+				<Line Number="36" Count="14">  game_delete(g);</Line>
+				<Line Number="37" Count="14">  if (result != 1) {</Line>
+				<Line Number="38" Count="0">    return 0;</Line>
+				<Line Number="39" Count="-1">  }</Line>
+				<Line Number="40" Count="-1"></Line>
+				<Line Number="41" Count="-1">  // Cas de base</Line>
+				<Line Number="42" Count="14">  g = game_default();</Line>
+				<Line Number="43" Count="14">  result = game_won(g);</Line>
+				<Line Number="44" Count="14">  game_delete(g);</Line>
+				<Line Number="45" Count="14">  if (result != 0) {</Line>
+				<Line Number="46" Count="0">    return 0;</Line>
+				<Line Number="47" Count="-1">  }</Line>
+				<Line Number="48" Count="-1"></Line>
+				<Line Number="49" Count="-1">  // Tentes adjacentes : horizontale</Line>
+				<Line Number="50" Count="14">  g = game_default();</Line>
+				<Line Number="51" Count="14">  game_set_square(g, 1, 0, TENT);</Line>
+				<Line Number="52" Count="14">  game_set_square(g, 1, 1, TENT);</Line>
+				<Line Number="53" Count="14">  result = game_won(g);</Line>
+				<Line Number="54" Count="14">  if (result != 0) {</Line>
+				<Line Number="55" Count="0">    game_delete(g);</Line>
+				<Line Number="56" Count="0">    return 0;</Line>
+				<Line Number="57" Count="-1">  }</Line>
+				<Line Number="58" Count="14">  game_delete(g);</Line>
+				<Line Number="59" Count="-1"></Line>
+				<Line Number="60" Count="-1">  // Tentes adjacentes : Verticale</Line>
+				<Line Number="61" Count="14">  g = game_default();</Line>
+				<Line Number="62" Count="14">  game_set_square(g, 0, 1, TENT);</Line>
+				<Line Number="63" Count="14">  game_set_square(g, 1, 1, TENT);</Line>
+				<Line Number="64" Count="14">  result = game_won(g);</Line>
+				<Line Number="65" Count="14">  if (result != 0) {</Line>
+				<Line Number="66" Count="0">    game_delete(g);</Line>
+				<Line Number="67" Count="0">    return 0;</Line>
+				<Line Number="68" Count="-1">  }</Line>
+				<Line Number="69" Count="14">  game_delete(g);</Line>
+				<Line Number="70" Count="-1"></Line>
+				<Line Number="71" Count="-1">  // Tentes adjacentes : Diagonale</Line>
+				<Line Number="72" Count="14">  g = game_default();</Line>
+				<Line Number="73" Count="14">  game_set_square(g, 1, 1, TENT);</Line>
+				<Line Number="74" Count="14">  game_set_square(g, 2, 2, TENT);</Line>
+				<Line Number="75" Count="14">  result = game_won(g);</Line>
+				<Line Number="76" Count="14">  if (result != 0) {</Line>
+				<Line Number="77" Count="0">    game_delete(g);</Line>
+				<Line Number="78" Count="0">    return 0;</Line>
+				<Line Number="79" Count="-1">  }</Line>
+				<Line Number="80" Count="14">  game_delete(g);</Line>
+				<Line Number="81" Count="-1"></Line>
+				<Line Number="82" Count="-1">  // Règle 2</Line>
+				<Line Number="83" Count="14">  g = game_default_solution();</Line>
+				<Line Number="84" Count="14">  game_set_square(g, 1, 0, GRASS);</Line>
+				<Line Number="85" Count="14">  game_set_square(g, 0, 1, TENT);</Line>
+				<Line Number="86" Count="14">  result = game_won(g);</Line>
+				<Line Number="87" Count="14">  if (result != 0) {</Line>
+				<Line Number="88" Count="0">    game_delete(g);</Line>
+				<Line Number="89" Count="0">    return 0;</Line>
+				<Line Number="90" Count="-1">  }</Line>
+				<Line Number="91" Count="14">  game_delete(g);</Line>
+				<Line Number="92" Count="-1"></Line>
+				<Line Number="93" Count="-1">  // Règle 3 : nb tente != nb arbre</Line>
+				<Line Number="94" Count="14">  g = game_default_solution();</Line>
+				<Line Number="95" Count="14">  game_set_square(g, 1, 1, TENT);</Line>
+				<Line Number="96" Count="14">  result = game_won(g);</Line>
+				<Line Number="97" Count="14">  if (result != 0) {</Line>
+				<Line Number="98" Count="0">    game_delete(g);</Line>
+				<Line Number="99" Count="0">    return 0;</Line>
+				<Line Number="100" Count="-1">  }</Line>
+				<Line Number="101" Count="14">  game_delete(g);</Line>
+				<Line Number="102" Count="-1"></Line>
+				<Line Number="103" Count="-1">  // Sans doute à revoir</Line>
+				<Line Number="104" Count="14">  g = game_default_solution();</Line>
+				<Line Number="105" Count="14">  game_set_square(g, 0, 4, EMPTY);</Line>
+				<Line Number="106" Count="14">  result = game_won(g);</Line>
+				<Line Number="107" Count="14">  if (result != 0) {</Line>
+				<Line Number="108" Count="0">    game_delete(g);</Line>
+				<Line Number="109" Count="0">    return 0;</Line>
+				<Line Number="110" Count="-1">  }</Line>
+				<Line Number="111" Count="14">  game_delete(g);</Line>
+				<Line Number="112" Count="-1"></Line>
+				<Line Number="113" Count="14">  g = game_default_solution();</Line>
+				<Line Number="114" Count="14">  game_set_square(g, 0, 4, GRASS);</Line>
+				<Line Number="115" Count="14">  game_set_square(g, 0, 2, TENT);</Line>
+				<Line Number="116" Count="14">  result = game_won(g);</Line>
+				<Line Number="117" Count="14">  if (result != 0) {</Line>
+				<Line Number="118" Count="0">    game_delete(g);</Line>
+				<Line Number="119" Count="0">    return 0;</Line>
+				<Line Number="120" Count="-1">  }</Line>
+				<Line Number="121" Count="14">  game_delete(g);</Line>
+				<Line Number="122" Count="-1"></Line>
+				<Line Number="123" Count="14">  g = game_default_solution();</Line>
+				<Line Number="124" Count="14">  game_set_square(g, 1, 1, TENT);</Line>
+				<Line Number="125" Count="14">  if (game_won(g) != 0) {</Line>
+				<Line Number="126" Count="0">    game_delete(g);</Line>
+				<Line Number="127" Count="0">    return 0;</Line>
+				<Line Number="128" Count="-1">  }</Line>
+				<Line Number="129" Count="14">  game_delete(g);</Line>
+				<Line Number="130" Count="-1"></Line>
+				<Line Number="131" Count="14">  g = game_default_solution();</Line>
+				<Line Number="132" Count="14">  game_set_square(g, 0, 4, GRASS);</Line>
+				<Line Number="133" Count="14">  game_set_square(g, 1, 1, TENT);</Line>
+				<Line Number="134" Count="14">  if (game_won(g) != 0) {</Line>
+				<Line Number="135" Count="0">    game_delete(g);</Line>
+				<Line Number="136" Count="0">    return 0;</Line>
+				<Line Number="137" Count="-1">  }</Line>
+				<Line Number="138" Count="14">  game_delete(g);</Line>
+				<Line Number="139" Count="-1"></Line>
+				<Line Number="140" Count="14">  g = game_default_solution();</Line>
+				<Line Number="141" Count="14">  game_set_square(g, 0, 4, GRASS);</Line>
+				<Line Number="142" Count="14">  result = game_won(g);</Line>
+				<Line Number="143" Count="14">  if (result != 0) {</Line>
+				<Line Number="144" Count="0">    return 0;</Line>
+				<Line Number="145" Count="-1">  }</Line>
+				<Line Number="146" Count="14">  game_delete(g);</Line>
+				<Line Number="147" Count="-1"></Line>
+				<Line Number="148" Count="14">  g = game_new_empty();</Line>
+				<Line Number="149" Count="14">  game_set_square(g, 0, 4, TENT);</Line>
+				<Line Number="150" Count="14">  result = game_won(g);</Line>
+				<Line Number="151" Count="14">  if (result != 0) {</Line>
+				<Line Number="152" Count="0">    return 0;</Line>
+				<Line Number="153" Count="-1">  }</Line>
+				<Line Number="154" Count="14">  game_delete(g);</Line>
+				<Line Number="155" Count="-1"></Line>
+				<Line Number="156" Count="-1">  // Test sur bigtree -&gt; 2 tentes piles a coté d'un bigtree</Line>
+				<Line Number="157" Count="-1">  // Test normalement gagnant</Line>
+				<Line Number="158" Count="14">  g = game_new_empty();</Line>
+				<Line Number="159" Count="14">  game_set_square(g, 1, 1, BIGTREE);</Line>
+				<Line Number="160" Count="14">  game_set_square(g, 0, 1, TENT);</Line>
+				<Line Number="161" Count="14">  game_set_square(g, 2, 1, TENT);</Line>
+				<Line Number="162" Count="14">  game_set_expected_nb_tents_col(g, 1, 2);</Line>
+				<Line Number="163" Count="14">  game_set_expected_nb_tents_row(g, 2, 1);</Line>
+				<Line Number="164" Count="14">  game_set_expected_nb_tents_row(g, 0, 1);</Line>
+				<Line Number="165" Count="-1"></Line>
+				<Line Number="166" Count="14">  game_fill_grass(g);</Line>
+				<Line Number="167" Count="14">  result = game_won(g);</Line>
+				<Line Number="168" Count="14">  if (result != 1) {</Line>
+				<Line Number="169" Count="0">    game_delete(g);</Line>
+				<Line Number="170" Count="0">    return 0;</Line>
+				<Line Number="171" Count="-1">  }</Line>
+				<Line Number="172" Count="14">  game_delete(g);</Line>
+				<Line Number="173" Count="-1"></Line>
+				<Line Number="174" Count="-1">  // Test normalement perdant</Line>
+				<Line Number="175" Count="14">  g = game_new_empty();</Line>
+				<Line Number="176" Count="14">  game_set_square(g, 1, 1, BIGTREE);</Line>
+				<Line Number="177" Count="14">  game_set_square(g, 0, 1, TENT);</Line>
+				<Line Number="178" Count="14">  game_set_expected_nb_tents_col(g, 1, 1);</Line>
+				<Line Number="179" Count="14">  game_set_expected_nb_tents_row(g, 0, 1);</Line>
+				<Line Number="180" Count="14">  game_fill_grass(g);</Line>
+				<Line Number="181" Count="14">  result = game_won(g);</Line>
+				<Line Number="182" Count="14">  if (result != 0) {</Line>
+				<Line Number="183" Count="0">    game_delete(g);</Line>
+				<Line Number="184" Count="0">    return 0;</Line>
+				<Line Number="185" Count="-1">  }</Line>
+				<Line Number="186" Count="14">  game_delete(g);</Line>
+				<Line Number="187" Count="-1"></Line>
+				<Line Number="188" Count="-1">  // Test de wrapping</Line>
+				<Line Number="189" Count="-1">  // Test normalement gagnant</Line>
+				<Line Number="190" Count="14">  g = game_new_empty_ext(8, 8, true);</Line>
+				<Line Number="191" Count="14">  game_set_square(g, 0, 0, TREE);</Line>
+				<Line Number="192" Count="14">  game_set_square(g, 0, 7, TENT);</Line>
+				<Line Number="193" Count="14">  game_set_expected_nb_tents_col(g, 7, 1);</Line>
+				<Line Number="194" Count="14">  game_set_expected_nb_tents_row(g, 0, 1);</Line>
+				<Line Number="195" Count="-1"></Line>
+				<Line Number="196" Count="14">  game_fill_grass(g);</Line>
+				<Line Number="197" Count="14">  result = game_won(g);</Line>
+				<Line Number="198" Count="14">  if (result != 1) {</Line>
+				<Line Number="199" Count="0">    game_delete(g);</Line>
+				<Line Number="200" Count="0">    return 0;</Line>
+				<Line Number="201" Count="-1">  }</Line>
+				<Line Number="202" Count="14">  game_delete(g);</Line>
+				<Line Number="203" Count="-1"></Line>
+				<Line Number="204" Count="-1">  // Test normalement perdant</Line>
+				<Line Number="205" Count="14">  g = game_new_empty_ext(8, 8, true);</Line>
+				<Line Number="206" Count="14">  game_set_square(g, 0, 7, TENT);</Line>
+				<Line Number="207" Count="14">  game_set_expected_nb_tents_col(g, 7, 1);</Line>
+				<Line Number="208" Count="14">  game_set_expected_nb_tents_row(g, 0, 1);</Line>
+				<Line Number="209" Count="-1"></Line>
+				<Line Number="210" Count="14">  result = game_won(g);</Line>
+				<Line Number="211" Count="14">  if (result != 0) {</Line>
+				<Line Number="212" Count="0">    game_delete(g);</Line>
+				<Line Number="213" Count="0">    return 0;</Line>
+				<Line Number="214" Count="-1">  }</Line>
+				<Line Number="215" Count="14">  game_delete(g);</Line>
+				<Line Number="216" Count="14">  return 1;</Line>
+				<Line Number="217" Count="-1">}</Line>
+				<Line Number="218" Count="-1"></Line>
+				<Line Number="219" Count="112">int test_unique_game_fill_grass(game g)</Line>
+				<Line Number="220" Count="-1">{</Line>
+				<Line Number="221" Count="-1">  // Récup l'état initial du tableau</Line>
+				<Line Number="222" Count="112">  square* tab_init = malloc(g-&gt;width * g-&gt;height * sizeof(square));</Line>
+				<Line Number="223" Count="112">  if (!tab_init) {</Line>
+				<Line Number="224" Count="0">    return 0;</Line>
+				<Line Number="225" Count="-1">  }</Line>
+				<Line Number="226" Count="952">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="227" Count="6552">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="228" Count="5712">      tab_init[i * g-&gt;width + j] = game_get_square(g, i, j);</Line>
+				<Line Number="229" Count="-1">    }</Line>
+				<Line Number="230" Count="-1">  }</Line>
+				<Line Number="231" Count="112">  game_fill_grass(g);</Line>
+				<Line Number="232" Count="-1">  // Vérifie que les cases empty ont été remplacé par grass</Line>
+				<Line Number="233" Count="952">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="234" Count="6552">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="235" Count="5712">      if (tab_init[i * g-&gt;width + j] == EMPTY &amp;&amp; game_get_square(g, i, j) != GRASS) {</Line>
+				<Line Number="236" Count="0">        fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");</Line>
+				<Line Number="237" Count="0">        free(tab_init);</Line>
+				<Line Number="238" Count="0">        return 0;</Line>
+				<Line Number="239" Count="-1">      }</Line>
+				<Line Number="240" Count="-1"></Line>
+				<Line Number="241" Count="5712">      else if (tab_init[i * g-&gt;width + j] != EMPTY &amp;&amp; tab_init[i * g-&gt;width + j] != game_get_square(g, i, j)) {</Line>
+				<Line Number="242" Count="0">        fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");</Line>
+				<Line Number="243" Count="0">        free(tab_init);</Line>
+				<Line Number="244" Count="0">        return 0;</Line>
+				<Line Number="245" Count="-1">      }</Line>
+				<Line Number="246" Count="-1">    }</Line>
+				<Line Number="247" Count="-1">  }</Line>
+				<Line Number="248" Count="112">  free(tab_init);</Line>
+				<Line Number="249" Count="112">  return 1;</Line>
+				<Line Number="250" Count="-1">}</Line>
+				<Line Number="251" Count="-1"></Line>
+				<Line Number="252" Count="14">int test_game_fill_grass()</Line>
+				<Line Number="253" Count="-1">{</Line>
+				<Line Number="254" Count="-1">  // A tester : game vide, game normale, game remplie de tente, game remplie</Line>
+				<Line Number="255" Count="-1">  // d'arbre, game gagnée</Line>
+				<Line Number="256" Count="-1">  game tab[8];</Line>
+				<Line Number="257" Count="14">  tab[0] = game_new_empty();         // game vide</Line>
+				<Line Number="258" Count="14">  tab[1] = game_default();           // game normale</Line>
+				<Line Number="259" Count="14">  tab[2] = game_new_empty();         // game remplie de tente</Line>
+				<Line Number="260" Count="14">  tab[3] = game_new_empty();         // Game remplies d'arbres</Line>
+				<Line Number="261" Count="14">  tab[4] = game_default_solution();  // Game gagnée</Line>
+				<Line Number="262" Count="14">  tab[5] = create_game_rectangle();</Line>
+				<Line Number="263" Count="14">  tab[6] = game_new_empty();</Line>
+				<Line Number="264" Count="14">  tab[7] = create_game_rectangle();</Line>
+				<Line Number="265" Count="14">  game_set_square(tab[6], 0, 0, BIGTREE);</Line>
+				<Line Number="266" Count="14">  game_set_square(tab[6], 0, 1, GRASS);</Line>
+				<Line Number="267" Count="-1"></Line>
+				<Line Number="268" Count="126">  for (int i = 0; i &lt; game_nb_rows(tab[2]); i++) {</Line>
+				<Line Number="269" Count="1008">    for (int j = 0; j &lt; game_nb_cols(tab[2]); j++) {</Line>
+				<Line Number="270" Count="896">      game_set_square(tab[2], i, j, TENT);</Line>
+				<Line Number="271" Count="-1">    }</Line>
+				<Line Number="272" Count="-1">  }</Line>
+				<Line Number="273" Count="126">  for (int i = 0; i &lt; game_nb_rows(tab[3]); i++) {</Line>
+				<Line Number="274" Count="1008">    for (int j = 0; j &lt; game_nb_cols(tab[3]); j++) {</Line>
+				<Line Number="275" Count="896">      game_set_square(tab[3], i, j, TREE);</Line>
+				<Line Number="276" Count="-1">    }</Line>
+				<Line Number="277" Count="-1">  }</Line>
+				<Line Number="278" Count="14">  game_set_square(tab[7], 1, 1, BIGTREE);</Line>
+				<Line Number="279" Count="14">  int result = 1;</Line>
+				<Line Number="280" Count="126">  for (int i = 0; i &lt; 8; i++) {</Line>
+				<Line Number="281" Count="112">    if (test_unique_game_fill_grass(tab[i]) == 0) {</Line>
+				<Line Number="282" Count="0">      result = 0;</Line>
+				<Line Number="283" Count="-1">    }</Line>
+				<Line Number="284" Count="112">    game_delete(tab[i]);</Line>
+				<Line Number="285" Count="-1">  }</Line>
+				<Line Number="286" Count="14">  return result;</Line>
+				<Line Number="287" Count="-1">}</Line>
+				<Line Number="288" Count="-1"></Line>
+				<Line Number="289" Count="84">int test_unique_game_restart(game g)</Line>
+				<Line Number="290" Count="84">{</Line>
+				<Line Number="291" Count="84">  int tab_init[game_nb_rows(g)][game_nb_cols(g)];</Line>
+				<Line Number="292" Count="728">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="293" Count="5292">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="294" Count="4648">      tab_init[i][j] = game_get_square(g, i, j);</Line>
+				<Line Number="295" Count="-1">    }</Line>
+				<Line Number="296" Count="-1">  }</Line>
+				<Line Number="297" Count="84">  game_restart(g);</Line>
+				<Line Number="298" Count="-1">  // Vérifie que les cases ont été remplacé par empty sauf les arbres</Line>
+				<Line Number="299" Count="728">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="300" Count="5292">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="301" Count="4648">      if ((tab_init[i][j] != TREE &amp;&amp; tab_init[i][j] != BIGTREE) &amp;&amp; game_get_square(g, i, j) != EMPTY) {</Line>
+				<Line Number="302" Count="0">        fprintf(stderr, "Erreur : une case n'a pas été transformée en empty");</Line>
+				<Line Number="303" Count="0">        return 0;</Line>
+				<Line Number="304" Count="-1">      }</Line>
+				<Line Number="305" Count="-1"></Line>
+				<Line Number="306" Count="4648">      else if (tab_init[i][j] == TREE &amp;&amp; game_get_square(g, i, j) != TREE) {</Line>
+				<Line Number="307" Count="0">        fprintf(stderr, "Erreur : Un arbre a été supprimé");</Line>
+				<Line Number="308" Count="0">        return 0;</Line>
+				<Line Number="309" Count="4648">      } else if (tab_init[i][j] == BIGTREE &amp;&amp; game_get_square(g, i, j) != BIGTREE) {</Line>
+				<Line Number="310" Count="0">        fprintf(stderr, "Erreur : Un bigtree a été supprimé");</Line>
+				<Line Number="311" Count="0">        return 0;</Line>
+				<Line Number="312" Count="-1">      }</Line>
+				<Line Number="313" Count="-1">    }</Line>
+				<Line Number="314" Count="-1">  }</Line>
+				<Line Number="315" Count="84">  return 1;</Line>
+				<Line Number="316" Count="-1">}</Line>
+				<Line Number="317" Count="-1"></Line>
+				<Line Number="318" Count="14">int test_game_restart()</Line>
+				<Line Number="319" Count="-1">{</Line>
+				<Line Number="320" Count="-1">  // A tester : game vide, game normale, game remplie de tente, game remplie</Line>
+				<Line Number="321" Count="-1">  // d'arbre, game gagnante</Line>
+				<Line Number="322" Count="-1">  game tab[6];</Line>
+				<Line Number="323" Count="14">  tab[0] = game_new_empty();</Line>
+				<Line Number="324" Count="14">  tab[1] = game_default();</Line>
+				<Line Number="325" Count="14">  tab[2] = game_new_empty();</Line>
+				<Line Number="326" Count="14">  tab[3] = game_new_empty();</Line>
+				<Line Number="327" Count="14">  tab[4] = game_default_solution();</Line>
+				<Line Number="328" Count="14">  game_set_square(tab[4], 0, 1, BIGTREE);</Line>
+				<Line Number="329" Count="14">  tab[5] = create_game_rectangle();</Line>
+				<Line Number="330" Count="126">  for (int i = 0; i &lt; DEFAULT_SIZE; i++) {</Line>
+				<Line Number="331" Count="1008">    for (int j = 0; j &lt; DEFAULT_SIZE; j++) {</Line>
+				<Line Number="332" Count="896">      game_set_square(tab[2], i, j, TENT);</Line>
+				<Line Number="333" Count="896">      game_set_square(tab[3], i, j, TREE);</Line>
+				<Line Number="334" Count="-1">    }</Line>
+				<Line Number="335" Count="-1">  }</Line>
+				<Line Number="336" Count="-1"></Line>
+				<Line Number="337" Count="14">  int result = 1;</Line>
+				<Line Number="338" Count="98">  for (int i = 0; i &lt; 6; i++) {</Line>
+				<Line Number="339" Count="84">    game_print(tab[i]);</Line>
+				<Line Number="340" Count="84">    if (test_unique_game_restart(tab[i]) == 0) {</Line>
+				<Line Number="341" Count="0">      result = 0;</Line>
+				<Line Number="342" Count="-1">    }</Line>
+				<Line Number="343" Count="84">    game_delete(tab[i]);</Line>
+				<Line Number="344" Count="-1">  }</Line>
+				<Line Number="345" Count="14">  return result;</Line>
+				<Line Number="346" Count="-1">}</Line>
+				<Line Number="347" Count="-1"></Line>
+				<Line Number="348" Count="14">int test_game_is_neigh()</Line>
+				<Line Number="349" Count="-1">{</Line>
+				<Line Number="350" Count="14">  game g_default = game_default();  // valide la condition (ici un arbre dans</Line>
+				<Line Number="351" Count="-1">                                    // l'entourage de ..)</Line>
+				<Line Number="352" Count="14">  game g_solution = game_default_solution();</Line>
+				<Line Number="353" Count="-1"></Line>
+				<Line Number="354" Count="-1">  // Arbre adjacent (2,2)</Line>
+				<Line Number="355" Count="14">  if (game_is_neigh(g_default, 2, 2, TREE, false) != 1) {</Line>
+				<Line Number="356" Count="0">    fprintf(stderr,</Line>
+				<Line Number="357" Count="-1">            "Erreur : Vérifie en (2,1), renvoie false alors qu'il y a un arbre "</Line>
+				<Line Number="358" Count="-1">            "en (3,1)");</Line>
+				<Line Number="359" Count="0">    game_delete(g_default);</Line>
+				<Line Number="360" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="361" Count="0">    return 0;</Line>
+				<Line Number="362" Count="-1">  }</Line>
+				<Line Number="363" Count="-1">  // Arbre en diagonale</Line>
+				<Line Number="364" Count="14">  if (game_is_neigh(g_default, 2, 3, TREE, true) != 1) {</Line>
+				<Line Number="365" Count="0">    fprintf(stderr,</Line>
+				<Line Number="366" Count="-1">            "Erreur : Vérifie en (1,1), renvoie false alors qu'il y a un arbre "</Line>
+				<Line Number="367" Count="-1">            "en diagonale (1,1)");</Line>
+				<Line Number="368" Count="0">    game_delete(g_default);</Line>
+				<Line Number="369" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="370" Count="0">    return 0;</Line>
+				<Line Number="371" Count="-1">  }</Line>
+				<Line Number="372" Count="-1">  // si il y a un arbre uniquement en diagonale</Line>
+				<Line Number="373" Count="14">  if (game_is_neigh(g_default, 2, 3, TREE, false) != 0) {</Line>
+				<Line Number="374" Count="0">    fprintf(stderr,</Line>
+				<Line Number="375" Count="-1">            "Erreur : Vérifie en (2,3), renvoie true alors qu'il n'y a pas "</Line>
+				<Line Number="376" Count="-1">            "d'arbre (uniquement en diagonale)");</Line>
+				<Line Number="377" Count="0">    game_delete(g_default);</Line>
+				<Line Number="378" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="379" Count="0">    return 0;</Line>
+				<Line Number="380" Count="-1">  }</Line>
+				<Line Number="381" Count="-1">  // pas d'abre autours</Line>
+				<Line Number="382" Count="14">  if (game_is_neigh(g_default, 5, 7, TREE, false) != 0) {</Line>
+				<Line Number="383" Count="0">    fprintf(stderr,</Line>
+				<Line Number="384" Count="-1">            "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas "</Line>
+				<Line Number="385" Count="-1">            "d'arbre en voisinnage");</Line>
+				<Line Number="386" Count="0">    game_delete(g_default);</Line>
+				<Line Number="387" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="388" Count="0">    return 0;</Line>
+				<Line Number="389" Count="-1">  }</Line>
+				<Line Number="390" Count="-1">  // Pas d'abre autours meme en diagonale</Line>
+				<Line Number="391" Count="14">  if (game_is_neigh(g_default, 5, 7, TREE, true) != 0) {</Line>
+				<Line Number="392" Count="0">    fprintf(stderr,</Line>
+				<Line Number="393" Count="-1">            "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas "</Line>
+				<Line Number="394" Count="-1">            "d'abre en voisinnage (diagonale)");</Line>
+				<Line Number="395" Count="0">    game_delete(g_default);</Line>
+				<Line Number="396" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="397" Count="0">    return 0;</Line>
+				<Line Number="398" Count="-1">  }</Line>
+				<Line Number="399" Count="-1">  // en (0,0), sur un arbre mais rien autours</Line>
+				<Line Number="400" Count="14">  if (game_is_neigh(g_default, 0, 0, TREE, true) != 0) {</Line>
+				<Line Number="401" Count="0">    fprintf(stderr,</Line>
+				<Line Number="402" Count="-1">            "Erreur : Vérifie en (0,0), renvoie true alors qu'il n'y a pas "</Line>
+				<Line Number="403" Count="-1">            "d'abre en voisinnage");</Line>
+				<Line Number="404" Count="0">    game_delete(g_default);</Line>
+				<Line Number="405" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="406" Count="0">    return 0;</Line>
+				<Line Number="407" Count="-1">  }</Line>
+				<Line Number="408" Count="14">  if (game_is_neigh(g_solution, 1, 1, TENT, true) != 1) {</Line>
+				<Line Number="409" Count="0">    fprintf(stderr, "Erreur : n'a pas trouvé ses voisins tente");</Line>
+				<Line Number="410" Count="0">    game_delete(g_default);</Line>
+				<Line Number="411" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="412" Count="0">    return 0;</Line>
+				<Line Number="413" Count="-1">  }</Line>
+				<Line Number="414" Count="14">  if (game_is_neigh(g_default, 1, 1, TENT, false) != 0) {</Line>
+				<Line Number="415" Count="0">    fprintf(stderr, "Erreur : A trouvé un voisin tente alors qu'il ne devrait pas");</Line>
+				<Line Number="416" Count="0">    game_delete(g_default);</Line>
+				<Line Number="417" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="418" Count="0">    return 0;</Line>
+				<Line Number="419" Count="-1">  }</Line>
+				<Line Number="420" Count="-1">  // en (0,0), sur un arbre mais rien autours</Line>
+				<Line Number="421" Count="14">  if (game_is_neigh(g_solution, 0, 3, TENT, false) != 1) {</Line>
+				<Line Number="422" Count="0">    fprintf(stderr, "Erreur : n'a pas trouvé son voisin tente");</Line>
+				<Line Number="423" Count="0">    game_delete(g_default);</Line>
+				<Line Number="424" Count="0">    game_delete(g_solution);</Line>
+				<Line Number="425" Count="0">    return 0;</Line>
+				<Line Number="426" Count="-1">  }</Line>
+				<Line Number="427" Count="-1"></Line>
+				<Line Number="428" Count="14">  game_delete(g_solution);</Line>
+				<Line Number="429" Count="14">  game_delete(g_default);</Line>
+				<Line Number="430" Count="14">  return 1;</Line>
+				<Line Number="431" Count="-1">}</Line>
+				<Line Number="432" Count="-1"></Line>
+				<Line Number="433" Count="14">int test_game_default()</Line>
+				<Line Number="434" Count="-1">{</Line>
+				<Line Number="435" Count="14">  game g = game_default();</Line>
+				<Line Number="436" Count="14">  int arbre_place[12][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2},</Line>
+				<Line Number="437" Count="-1">                            {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};</Line>
+				<Line Number="438" Count="14">  if (game_get_expected_nb_tents_all(g) != 12) {</Line>
+				<Line Number="439" Count="0">    return 0;</Line>
+				<Line Number="440" Count="-1">  }</Line>
+				<Line Number="441" Count="-1">  // Vérifie si le nb de tente attendue sur chaque colonne est le bon</Line>
+				<Line Number="442" Count="28">  if (game_get_expected_nb_tents_col(g, 0) != 3 || game_get_expected_nb_tents_col(g, 1) != 0 ||</Line>
+				<Line Number="443" Count="42">      game_get_expected_nb_tents_col(g, 2) != 2 || game_get_expected_nb_tents_col(g, 3) != 1 ||</Line>
+				<Line Number="444" Count="42">      game_get_expected_nb_tents_col(g, 4) != 2 || game_get_expected_nb_tents_col(g, 5) != 1 ||</Line>
+				<Line Number="445" Count="28">      game_get_expected_nb_tents_col(g, 6) != 2 || game_get_expected_nb_tents_col(g, 7) != 1) {</Line>
+				<Line Number="446" Count="0">    return 0;</Line>
+				<Line Number="447" Count="-1">  }</Line>
+				<Line Number="448" Count="28">  if (game_get_expected_nb_tents_row(g, 0) != 1 || game_get_expected_nb_tents_row(g, 1) != 2 ||</Line>
+				<Line Number="449" Count="42">      game_get_expected_nb_tents_row(g, 2) != 1 || game_get_expected_nb_tents_row(g, 3) != 2 ||</Line>
+				<Line Number="450" Count="42">      game_get_expected_nb_tents_row(g, 4) != 2 || game_get_expected_nb_tents_row(g, 5) != 0 ||</Line>
+				<Line Number="451" Count="28">      game_get_expected_nb_tents_row(g, 6) != 1 || game_get_expected_nb_tents_row(g, 7) != 3) {</Line>
+				<Line Number="452" Count="0">    return 0;</Line>
+				<Line Number="453" Count="-1">  }</Line>
+				<Line Number="454" Count="14">  if (g == NULL) {</Line>
+				<Line Number="455" Count="0">    fprintf(stderr, "Erreur : game_default retourne NULL \n");</Line>
+				<Line Number="456" Count="0">    game_delete(g);</Line>
+				<Line Number="457" Count="0">    return 0;</Line>
+				<Line Number="458" Count="-1">  }</Line>
+				<Line Number="459" Count="126">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="460" Count="1008">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="461" Count="896">      int t = 0;</Line>
+				<Line Number="462" Count="11648">      for (int m = 0; m &lt; 12; m++) {</Line>
+				<Line Number="463" Count="10752">        if (arbre_place[m][0] == i &amp;&amp; arbre_place[m][1] == j) {</Line>
+				<Line Number="464" Count="168">          t = 1;</Line>
+				<Line Number="465" Count="-1">        }</Line>
+				<Line Number="466" Count="-1">      }</Line>
+				<Line Number="467" Count="896">      if (t == 1 &amp;&amp; game_get_square(g, i, j) != TREE) {</Line>
+				<Line Number="468" Count="0">        game_delete(g);</Line>
+				<Line Number="469" Count="0">        return 0;</Line>
+				<Line Number="470" Count="-1">      }</Line>
+				<Line Number="471" Count="896">      if (t == 0 &amp;&amp; game_get_square(g, i, j) != EMPTY) {</Line>
+				<Line Number="472" Count="0">        game_delete(g);</Line>
+				<Line Number="473" Count="0">        return 0;</Line>
+				<Line Number="474" Count="-1">      }</Line>
+				<Line Number="475" Count="-1">    }</Line>
+				<Line Number="476" Count="-1">  }</Line>
+				<Line Number="477" Count="-1"></Line>
+				<Line Number="478" Count="14">  game_delete(g);</Line>
+				<Line Number="479" Count="14">  return 1;</Line>
+				<Line Number="480" Count="-1">}</Line>
+				<Line Number="481" Count="-1"></Line>
+				<Line Number="482" Count="14">int test_game_default_solution()</Line>
+				<Line Number="483" Count="-1">{</Line>
+				<Line Number="484" Count="14">  game g = game_default_solution();</Line>
+				<Line Number="485" Count="14">  game_print((cgame)g);</Line>
+				<Line Number="486" Count="14">  if (g == NULL) {</Line>
+				<Line Number="487" Count="0">    fprintf(stderr, "Erreur : game_default retourne NULL \n");</Line>
+				<Line Number="488" Count="0">    return 0;</Line>
+				<Line Number="489" Count="-1">  }</Line>
+				<Line Number="490" Count="14">  int trees[][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2}, {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};</Line>
+				<Line Number="491" Count="14">  int size_trees = 12;</Line>
+				<Line Number="492" Count="14">  int size_tents = 12;</Line>
+				<Line Number="493" Count="14">  int tent[][2] = {{0, 4}, {1, 0}, {1, 6}, {2, 2}, {3, 4}, {3, 6}, {4, 0}, {4, 2}, {6, 5}, {7, 0}, {7, 3}, {7, 7}};</Line>
+				<Line Number="494" Count="14">  int grass[][2] = {{0, 1}, {0, 2}, {0, 3}, {0, 7}, {1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 7},</Line>
+				<Line Number="495" Count="-1">                    {2, 0}, {2, 1}, {2, 3}, {2, 4}, {2, 5}, {2, 7}, {3, 1}, {3, 3}, {3, 5}, {3, 7},</Line>
+				<Line Number="496" Count="-1">                    {4, 1}, {4, 3}, {4, 5}, {4, 6}, {4, 7}, {5, 0}, {5, 1}, {5, 3}, {5, 4}, {5, 5},</Line>
+				<Line Number="497" Count="-1">                    {5, 6}, {5, 7}, {6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4}, {6, 6}, {6, 7}, {7, 4}};</Line>
+				<Line Number="498" Count="14">  int size_grass = 40;</Line>
+				<Line Number="499" Count="182">  for (int i = 0; i &lt; size_trees; i++) {</Line>
+				<Line Number="500" Count="168">    if (game_get_square(g, trees[i][0], trees[i][1]) != TREE) {</Line>
+				<Line Number="501" Count="0">      game_delete(g);</Line>
+				<Line Number="502" Count="0">      return 0;</Line>
+				<Line Number="503" Count="-1">    }</Line>
+				<Line Number="504" Count="-1">  }</Line>
+				<Line Number="505" Count="182">  for (int i = 0; i &lt; size_tents; i++) {</Line>
+				<Line Number="506" Count="168">    if (game_get_square(g, tent[i][0], tent[i][1]) != TENT) {</Line>
+				<Line Number="507" Count="0">      game_delete(g);</Line>
+				<Line Number="508" Count="0">      return 0;</Line>
+				<Line Number="509" Count="-1">    }</Line>
+				<Line Number="510" Count="-1">  }</Line>
+				<Line Number="511" Count="574">  for (int i = 0; i &lt; size_grass; i++) {</Line>
+				<Line Number="512" Count="560">    if (game_get_square(g, grass[i][0], grass[i][1]) != GRASS) {</Line>
+				<Line Number="513" Count="0">      game_delete(g);</Line>
+				<Line Number="514" Count="0">      return 0;</Line>
+				<Line Number="515" Count="-1">    }</Line>
+				<Line Number="516" Count="-1">  }</Line>
+				<Line Number="517" Count="14">  game_delete(g);</Line>
+				<Line Number="518" Count="14">  return 1;</Line>
+				<Line Number="519" Count="-1">}</Line>
+				<Line Number="520" Count="-1"></Line>
+				<Line Number="521" Count="14">int test_game_print()</Line>
+				<Line Number="522" Count="-1">{</Line>
+				<Line Number="523" Count="14">  game g = game_default();</Line>
+				<Line Number="524" Count="14">  game_print((cgame)g);</Line>
+				<Line Number="525" Count="14">  game_delete(g);</Line>
+				<Line Number="526" Count="14">  return 1;</Line>
+				<Line Number="527" Count="-1">}</Line>
+				<Line Number="528" Count="-1"></Line>
+				<Line Number="529" Count="14">int test_game_get_adjacent_square()</Line>
+				<Line Number="530" Count="-1">{</Line>
+				<Line Number="531" Count="14">  game g = game_default();</Line>
+				<Line Number="532" Count="14">  game_print((cgame)g);</Line>
+				<Line Number="533" Count="-1">  uint pi_next;</Line>
+				<Line Number="534" Count="-1">  uint pj_next;</Line>
+				<Line Number="535" Count="14">  if (game_get_adjacent_square(g, 0, 0, UP_LEFT, &amp;pi_next, &amp;pj_next) != 0) {</Line>
+				<Line Number="536" Count="0">    game_delete(g);</Line>
+				<Line Number="537" Count="0">    return 0;</Line>
+				<Line Number="538" Count="-1">  }</Line>
+				<Line Number="539" Count="14">  if (game_get_adjacent_square(g, game_nb_rows(g) - 1, game_nb_cols(g) - 1, DOWN_RIGHT, &amp;pi_next, &amp;pj_next) != 0) {</Line>
+				<Line Number="540" Count="0">    game_delete(g);</Line>
+				<Line Number="541" Count="0">    return 0;</Line>
+				<Line Number="542" Count="-1">  }</Line>
+				<Line Number="543" Count="14">  if (game_get_adjacent_square(g, 1, 1, UP_LEFT, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 0 || pj_next != 0) {</Line>
+				<Line Number="544" Count="0">    game_delete(g);</Line>
+				<Line Number="545" Count="0">    return 0;</Line>
+				<Line Number="546" Count="-1">  }</Line>
+				<Line Number="547" Count="14">  if (game_get_adjacent_square(g, 3, 3, DOWN, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 4 || pj_next != 3) {</Line>
+				<Line Number="548" Count="0">    game_delete(g);</Line>
+				<Line Number="549" Count="0">    return 0;</Line>
+				<Line Number="550" Count="-1">  }</Line>
+				<Line Number="551" Count="14">  if (game_get_adjacent_square(g, 3, 3, DOWN_RIGHT, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 4 || pj_next != 4) {</Line>
+				<Line Number="552" Count="0">    game_delete(g);</Line>
+				<Line Number="553" Count="0">    return 0;</Line>
+				<Line Number="554" Count="-1">  }</Line>
+				<Line Number="555" Count="14">  if (game_get_adjacent_square(g, 3, 3, RIGHT, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 3 || pj_next != 4) {</Line>
+				<Line Number="556" Count="0">    game_delete(g);</Line>
+				<Line Number="557" Count="0">    return 0;</Line>
+				<Line Number="558" Count="-1">  }</Line>
+				<Line Number="559" Count="14">  if (game_get_adjacent_square(g, 3, 3, UP_RIGHT, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 2 || pj_next != 4) {</Line>
+				<Line Number="560" Count="0">    game_delete(g);</Line>
+				<Line Number="561" Count="0">    return 0;</Line>
+				<Line Number="562" Count="-1">  }</Line>
+				<Line Number="563" Count="14">  if (game_get_adjacent_square(g, 3, 3, UP, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 2 || pj_next != 3) {</Line>
+				<Line Number="564" Count="0">    game_delete(g);</Line>
+				<Line Number="565" Count="0">    return 0;</Line>
+				<Line Number="566" Count="-1">  }</Line>
+				<Line Number="567" Count="14">  if (game_get_adjacent_square(g, 3, 3, UP_LEFT, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 2 || pj_next != 2) {</Line>
+				<Line Number="568" Count="0">    game_delete(g);</Line>
+				<Line Number="569" Count="0">    return 0;</Line>
+				<Line Number="570" Count="-1">  }</Line>
+				<Line Number="571" Count="14">  if (game_get_adjacent_square(g, 3, 3, LEFT, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 3 || pj_next != 2) {</Line>
+				<Line Number="572" Count="0">    game_delete(g);</Line>
+				<Line Number="573" Count="0">    return 0;</Line>
+				<Line Number="574" Count="-1">  }</Line>
+				<Line Number="575" Count="14">  if (game_get_adjacent_square(g, 3, 3, DOWN_LEFT, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 4 || pj_next != 2) {</Line>
+				<Line Number="576" Count="0">    game_delete(g);</Line>
+				<Line Number="577" Count="0">    return 0;</Line>
+				<Line Number="578" Count="-1">  }</Line>
+				<Line Number="579" Count="14">  if (game_get_adjacent_square(g, 2, 2, HERE, &amp;pi_next, &amp;pj_next) != 1 || pi_next != 2 || pj_next != 2) {</Line>
+				<Line Number="580" Count="0">    game_delete(g);</Line>
+				<Line Number="581" Count="0">    return 0;</Line>
+				<Line Number="582" Count="-1">  }</Line>
+				<Line Number="583" Count="14">  if (game_get_adjacent_square(g, 0, 3, UP, &amp;pi_next, &amp;pj_next) != 0) {</Line>
+				<Line Number="584" Count="0">    game_delete(g);</Line>
+				<Line Number="585" Count="0">    return 0;</Line>
+				<Line Number="586" Count="-1">  }</Line>
+				<Line Number="587" Count="-1"></Line>
+				<Line Number="588" Count="14">  game_delete(g);</Line>
+				<Line Number="589" Count="14">  return 1;</Line>
+				<Line Number="590" Count="-1">}</Line>
+				<Line Number="591" Count="-1"></Line>
+				<Line Number="592" Count="5">int test_game_nb_neigh()</Line>
+				<Line Number="593" Count="-1">{</Line>
+				<Line Number="594" Count="5">  game g = game_new_empty_ext(8, 8, false);</Line>
+				<Line Number="595" Count="-1"></Line>
+				<Line Number="596" Count="5">  game_set_square(g, 1, 1, TREE);</Line>
+				<Line Number="597" Count="5">  game_set_square(g, 0, 1, TREE);</Line>
+				<Line Number="598" Count="5">  game_set_square(g, 2, 2, TREE);</Line>
+				<Line Number="599" Count="-1"></Line>
+				<Line Number="600" Count="5">  if (game_nb_neigh(g, 1, 1, TREE, false) != 1) {</Line>
+				<Line Number="601" Count="0">    game_delete(g);</Line>
+				<Line Number="602" Count="0">    return 0;</Line>
+				<Line Number="603" Count="-1">  }</Line>
+				<Line Number="604" Count="-1"></Line>
+				<Line Number="605" Count="5">  if (game_nb_neigh(g, 1, 1, TREE, true) != 2) {</Line>
+				<Line Number="606" Count="0">    game_delete(g);</Line>
+				<Line Number="607" Count="0">    return 0;</Line>
+				<Line Number="608" Count="-1">  }</Line>
+				<Line Number="609" Count="5">  game_delete(g);</Line>
+				<Line Number="610" Count="-1"></Line>
+				<Line Number="611" Count="5">  game g_wrap = game_new_empty_ext(8, 8, true);</Line>
+				<Line Number="612" Count="5">  game_set_square(g_wrap, 0, 0, TREE);</Line>
+				<Line Number="613" Count="5">  if (game_nb_neigh(g_wrap, 0, 7, TREE, false) != 1) {</Line>
+				<Line Number="614" Count="0">    game_delete(g_wrap);</Line>
+				<Line Number="615" Count="0">    return 0;</Line>
+				<Line Number="616" Count="-1">  }</Line>
+				<Line Number="617" Count="5">  game_delete(g_wrap);</Line>
+				<Line Number="618" Count="5">  return 1;</Line>
+				<Line Number="619" Count="-1">}</Line>
+				<Line Number="620" Count="-1"></Line>
+				<Line Number="621" Count="1">int test_game_new_empty_ext(void)</Line>
+				<Line Number="622" Count="-1">{</Line>
+				<Line Number="623" Count="1">  game g = game_new_empty_ext(10, 5, false);</Line>
+				<Line Number="624" Count="1">  if (g == NULL) {</Line>
+				<Line Number="625" Count="0">    game_delete(g);</Line>
+				<Line Number="626" Count="0">    return 0;</Line>
+				<Line Number="627" Count="-1">  }</Line>
+				<Line Number="628" Count="1">  if (game_nb_rows(g) != 10) {</Line>
+				<Line Number="629" Count="0">    game_delete(g);</Line>
+				<Line Number="630" Count="0">    return 0;</Line>
+				<Line Number="631" Count="-1">  }</Line>
+				<Line Number="632" Count="1">  if (game_nb_cols(g) != 5) {</Line>
+				<Line Number="633" Count="0">    game_delete(g);</Line>
+				<Line Number="634" Count="0">    return 0;</Line>
+				<Line Number="635" Count="-1">  }</Line>
+				<Line Number="636" Count="1">  if (game_is_wrapping(g) != false) {</Line>
+				<Line Number="637" Count="0">    game_delete(g);</Line>
+				<Line Number="638" Count="0">    return 0;</Line>
+				<Line Number="639" Count="-1">  }</Line>
+				<Line Number="640" Count="-1"></Line>
+				<Line Number="641" Count="11">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="642" Count="60">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="643" Count="50">      if (game_get_square(g, i, j) != EMPTY) {</Line>
+				<Line Number="644" Count="0">        game_delete(g);</Line>
+				<Line Number="645" Count="0">        return 0;</Line>
+				<Line Number="646" Count="-1">      }</Line>
+				<Line Number="647" Count="-1">    }</Line>
+				<Line Number="648" Count="10">    if (game_get_expected_nb_tents_row(g, i) != 0) {</Line>
+				<Line Number="649" Count="0">      game_delete(g);</Line>
+				<Line Number="650" Count="0">      return 0;</Line>
+				<Line Number="651" Count="-1">    }</Line>
+				<Line Number="652" Count="-1">  }</Line>
+				<Line Number="653" Count="6">  for (int i = 0; i &lt; game_nb_cols(g); i++) {</Line>
+				<Line Number="654" Count="5">    if (game_get_expected_nb_tents_col(g, i) != 0) {</Line>
+				<Line Number="655" Count="0">      game_delete(g);</Line>
+				<Line Number="656" Count="0">      return 0;</Line>
+				<Line Number="657" Count="-1">    }</Line>
+				<Line Number="658" Count="-1">  }</Line>
+				<Line Number="659" Count="1">  if (game_get_current_nb_tents_all(g) != 0) {</Line>
+				<Line Number="660" Count="0">    game_delete(g);</Line>
+				<Line Number="661" Count="0">    return 0;</Line>
+				<Line Number="662" Count="-1">  }</Line>
+				<Line Number="663" Count="1">  game_delete(g);</Line>
+				<Line Number="664" Count="-1"></Line>
+				<Line Number="665" Count="1">  game g2 = game_new_empty_ext(4, 8, true);</Line>
+				<Line Number="666" Count="1">  if (g2 == NULL) {</Line>
+				<Line Number="667" Count="0">    game_delete(g2);</Line>
+				<Line Number="668" Count="0">    return 0;</Line>
+				<Line Number="669" Count="-1">  }</Line>
+				<Line Number="670" Count="1">  if (game_nb_rows(g2) != 4) {</Line>
+				<Line Number="671" Count="0">    game_delete(g2);</Line>
+				<Line Number="672" Count="0">    return 0;</Line>
+				<Line Number="673" Count="-1">  }</Line>
+				<Line Number="674" Count="1">  if (game_nb_cols(g2) != 8) {</Line>
+				<Line Number="675" Count="0">    game_delete(g2);</Line>
+				<Line Number="676" Count="0">    return 0;</Line>
+				<Line Number="677" Count="-1">  }</Line>
+				<Line Number="678" Count="1">  if (game_is_wrapping(g2) != true) {</Line>
+				<Line Number="679" Count="0">    game_delete(g2);</Line>
+				<Line Number="680" Count="0">    return 0;</Line>
+				<Line Number="681" Count="-1">  }</Line>
+				<Line Number="682" Count="-1"></Line>
+				<Line Number="683" Count="1">  game_delete(g2);</Line>
+				<Line Number="684" Count="1">  return 1;</Line>
+				<Line Number="685" Count="-1">}</Line>
+				<Line Number="686" Count="-1"></Line>
+				<Line Number="687" Count="0">int test_game_get_expected_nb_tents_all()</Line>
+				<Line Number="688" Count="-1">{</Line>
+				<Line Number="689" Count="-1">  // TESTS SUR : un empty, en additionnant le nombre voulu pour chaque ligne et</Line>
+				<Line Number="690" Count="-1">  // chaque colonne</Line>
+				<Line Number="691" Count="-1"></Line>
+				<Line Number="692" Count="0">  game g_empty = game_new_empty();</Line>
+				<Line Number="693" Count="0">  game g = game_default();</Line>
+				<Line Number="694" Count="0">  if (game_get_expected_nb_tents_all(g_empty) != 0) {</Line>
+				<Line Number="695" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="696" Count="0">    return 0;</Line>
+				<Line Number="697" Count="-1">  }</Line>
+				<Line Number="698" Count="-1"></Line>
+				<Line Number="699" Count="0">  int a = 0;</Line>
+				<Line Number="700" Count="0">  for (int i = 0; i &lt; game_nb_cols(g); i++) {</Line>
+				<Line Number="701" Count="0">    a = a + game_get_expected_nb_tents_col(g, i);</Line>
+				<Line Number="702" Count="-1">  }</Line>
+				<Line Number="703" Count="-1"></Line>
+				<Line Number="704" Count="0">  if (a != game_get_expected_nb_tents_all(g)) {</Line>
+				<Line Number="705" Count="0">    game_delete(g);</Line>
+				<Line Number="706" Count="0">    return 0;</Line>
+				<Line Number="707" Count="-1">  }</Line>
+				<Line Number="708" Count="-1"></Line>
+				<Line Number="709" Count="0">  game_delete(g_empty);</Line>
+				<Line Number="710" Count="0">  game_delete(g);</Line>
+				<Line Number="711" Count="0">  return 1;</Line>
+				<Line Number="712" Count="-1">}</Line>
+				<Line Number="713" Count="-1"></Line>
+				<Line Number="714" Count="14">int test_dummy() { return 1; }</Line>
+				<Line Number="715" Count="-1"></Line>
+				<Line Number="716" Count="0">void usage(int argc, char* argv[])</Line>
+				<Line Number="717" Count="-1">{</Line>
+				<Line Number="718" Count="0">  fprintf(stderr, "Usage: %s &lt;testname&gt; [&lt;...&gt;]\n", argv[0]);</Line>
+				<Line Number="719" Count="0">  exit(EXIT_FAILURE);</Line>
+				<Line Number="720" Count="-1">}</Line>
+				<Line Number="721" Count="-1"></Line>
+				<Line Number="722" Count="133">int main(int argc, char* argv[])</Line>
+				<Line Number="723" Count="-1">{</Line>
+				<Line Number="724" Count="133">  if (argc == 1) usage(argc, argv);</Line>
+				<Line Number="725" Count="133">  bool ok = 0;</Line>
+				<Line Number="726" Count="133">  if (strcmp("dummy", argv[1]) == 0) {</Line>
+				<Line Number="727" Count="14">    ok = test_dummy();</Line>
+				<Line Number="728" Count="-1">  }</Line>
+				<Line Number="729" Count="133">  if (strcmp("game_won", argv[1]) == 0) {</Line>
+				<Line Number="730" Count="14">    ok = test_game_won();</Line>
+				<Line Number="731" Count="-1">  }</Line>
+				<Line Number="732" Count="133">  if (strcmp("game_fill_grass", argv[1]) == 0) {</Line>
+				<Line Number="733" Count="14">    ok = test_game_fill_grass();</Line>
+				<Line Number="734" Count="-1">  }</Line>
+				<Line Number="735" Count="133">  if (strcmp("game_restart", argv[1]) == 0) {</Line>
+				<Line Number="736" Count="14">    ok = test_game_restart();</Line>
+				<Line Number="737" Count="-1">  }</Line>
+				<Line Number="738" Count="133">  if (strcmp("game_is_neigh", argv[1]) == 0) {</Line>
+				<Line Number="739" Count="14">    ok = test_game_is_neigh();</Line>
+				<Line Number="740" Count="-1">  }</Line>
+				<Line Number="741" Count="133">  if (strcmp("game_default", argv[1]) == 0) {</Line>
+				<Line Number="742" Count="14">    ok = test_game_default();</Line>
+				<Line Number="743" Count="-1">  }</Line>
+				<Line Number="744" Count="133">  if (strcmp("game_default_solution", argv[1]) == 0) {</Line>
+				<Line Number="745" Count="14">    ok = test_game_default_solution();</Line>
+				<Line Number="746" Count="-1">  }</Line>
+				<Line Number="747" Count="133">  if (strcmp("game_print", argv[1]) == 0) {</Line>
+				<Line Number="748" Count="14">    ok = test_game_print();</Line>
+				<Line Number="749" Count="-1">  }</Line>
+				<Line Number="750" Count="133">  if (strcmp("game_get_adjacent_square", argv[1]) == 0) {</Line>
+				<Line Number="751" Count="14">    ok = test_game_get_adjacent_square();</Line>
+				<Line Number="752" Count="-1">  }</Line>
+				<Line Number="753" Count="133">  if (strcmp("game_get_expected_nb_tents_all", argv[1]) == 0) {</Line>
+				<Line Number="754" Count="0">    ok = test_game_get_expected_nb_tents_all();</Line>
+				<Line Number="755" Count="-1">  }</Line>
+				<Line Number="756" Count="133">  if (strcmp("game_new_empty_ext", argv[1]) == 0) {</Line>
+				<Line Number="757" Count="1">    ok = test_game_new_empty_ext();</Line>
+				<Line Number="758" Count="-1">  }</Line>
+				<Line Number="759" Count="133">  if (strcmp("game_nb_neigh", argv[1]) == 0) {</Line>
+				<Line Number="760" Count="5">    ok = test_game_nb_neigh();</Line>
+				<Line Number="761" Count="-1">  }</Line>
+				<Line Number="762" Count="133">  if (ok) {</Line>
+				<Line Number="763" Count="132">    fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);</Line>
+				<Line Number="764" Count="132">    return EXIT_SUCCESS;</Line>
+				<Line Number="765" Count="-1">  } else {</Line>
+				<Line Number="766" Count="1">    fprintf(stderr, "Test \"%s\" finished: FAILURE\n", argv[1]);</Line>
+				<Line Number="767" Count="1">    return EXIT_FAILURE;</Line>
+				<Line Number="768" Count="-1">  }</Line>
+				<Line Number="769" Count="-1">}</Line>
+			</Report>
+		</File>
+		<File Name="game_test_nanciaux.c" FullPath="./game_test_nanciaux.c">
+			<Report>
+				<Line Number="0" Count="-1">#include &lt;stdio.h&gt;</Line>
+				<Line Number="1" Count="-1">#include &lt;stdlib.h&gt;</Line>
+				<Line Number="2" Count="-1">#include &lt;string.h&gt;</Line>
+				<Line Number="3" Count="-1"></Line>
+				<Line Number="4" Count="-1">#include "game.h"</Line>
+				<Line Number="5" Count="-1">#include "game_aux.h"</Line>
+				<Line Number="6" Count="-1">#include "game_ext.h"</Line>
+				<Line Number="7" Count="-1"></Line>
+				<Line Number="8" Count="-1">bool test_game_redo();</Line>
+				<Line Number="9" Count="-1"></Line>
+				<Line Number="10" Count="-1">bool test_game_undo();</Line>
+				<Line Number="11" Count="-1"></Line>
+				<Line Number="12" Count="-1">bool test_game_is_wrapping();</Line>
+				<Line Number="13" Count="-1"></Line>
+				<Line Number="14" Count="-1">bool test_game_nb_cols();</Line>
+				<Line Number="15" Count="-1"></Line>
+				<Line Number="16" Count="-1">bool test_game_nb_rows();</Line>
+				<Line Number="17" Count="-1"></Line>
+				<Line Number="18" Count="-1">bool test_game_new_empty_ext();</Line>
+				<Line Number="19" Count="-1"></Line>
+				<Line Number="20" Count="-1">bool test_game_new_ext();</Line>
+				<Line Number="21" Count="-1"></Line>
+				<Line Number="22" Count="-1">bool test_game_set_square();</Line>
+				<Line Number="23" Count="-1"></Line>
+				<Line Number="24" Count="-1">bool test_game_set_expected_nb_tents_row();</Line>
+				<Line Number="25" Count="-1"></Line>
+				<Line Number="26" Count="-1">bool test_game_set_expected_nb_tents_col();</Line>
+				<Line Number="27" Count="-1"></Line>
+				<Line Number="28" Count="-1">bool test_game_get_square();</Line>
+				<Line Number="29" Count="-1"></Line>
+				<Line Number="30" Count="-1">bool test_game_get_expected_nb_tents_row();</Line>
+				<Line Number="31" Count="-1"></Line>
+				<Line Number="32" Count="-1">bool test_game_get_expected_nb_tents_col();</Line>
+				<Line Number="33" Count="-1"></Line>
+				<Line Number="34" Count="-1">bool test_game_get_expected_nb_tents_all();</Line>
+				<Line Number="35" Count="-1"></Line>
+				<Line Number="36" Count="-1">bool test_game_get_current_nb_tents_row();</Line>
+				<Line Number="37" Count="-1"></Line>
+				<Line Number="38" Count="-1">bool test_game_get_current_nb_tents_col();</Line>
+				<Line Number="39" Count="-1"></Line>
+				<Line Number="40" Count="-1">bool test_game_get_current_nb_tents_all();</Line>
+				<Line Number="41" Count="-1"></Line>
+				<Line Number="42" Count="-1">bool test_game_get_ajacent_square();</Line>
+				<Line Number="43" Count="-1"></Line>
+				<Line Number="44" Count="30">int test_dummy() { return 1; }</Line>
+				<Line Number="45" Count="-1"></Line>
+				<Line Number="46" Count="30">bool test_game_set_square()</Line>
+				<Line Number="47" Count="-1">{</Line>
+				<Line Number="48" Count="-1">  // test sur game empty</Line>
+				<Line Number="49" Count="30">  game g = game_new_empty();</Line>
+				<Line Number="50" Count="30">  if (g == NULL) {</Line>
+				<Line Number="51" Count="0">    return false;</Line>
+				<Line Number="52" Count="-1">  }</Line>
+				<Line Number="53" Count="30">  uint L[] = {TENT, GRASS, EMPTY, TREE};</Line>
+				<Line Number="54" Count="270">  for (uint i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="55" Count="2160">    for (uint j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="56" Count="9600">      for (uint k = 0; k &lt; 4; k++) {</Line>
+				<Line Number="57" Count="7680">        game_set_square(g, i, j, L[k]);</Line>
+				<Line Number="58" Count="7680">        if (game_get_square(g, i, j) != L[k]) {</Line>
+				<Line Number="59" Count="0">          game_delete(g);</Line>
+				<Line Number="60" Count="0">          return false;</Line>
+				<Line Number="61" Count="-1">        }</Line>
+				<Line Number="62" Count="-1">      }</Line>
+				<Line Number="63" Count="-1">    }</Line>
+				<Line Number="64" Count="-1">  }</Line>
+				<Line Number="65" Count="30">  game_delete(g);</Line>
+				<Line Number="66" Count="30">  return true;</Line>
+				<Line Number="67" Count="-1">}</Line>
+				<Line Number="68" Count="-1"></Line>
+				<Line Number="69" Count="30">bool test_game_set_expected_nb_tents_row()</Line>
+				<Line Number="70" Count="-1">{</Line>
+				<Line Number="71" Count="-1">  // test sur game empty</Line>
+				<Line Number="72" Count="30">  game g = game_new_empty();</Line>
+				<Line Number="73" Count="30">  if (g == NULL) {</Line>
+				<Line Number="74" Count="0">    return false;</Line>
+				<Line Number="75" Count="-1">  }</Line>
+				<Line Number="76" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="77" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="78" Count="1920">      game_set_expected_nb_tents_row(g, i, j);</Line>
+				<Line Number="79" Count="1920">      if (game_get_expected_nb_tents_row(g, i) != j) {</Line>
+				<Line Number="80" Count="0">        game_delete(g);</Line>
+				<Line Number="81" Count="0">        return false;</Line>
+				<Line Number="82" Count="-1">      }</Line>
+				<Line Number="83" Count="-1">    }</Line>
+				<Line Number="84" Count="-1">  }</Line>
+				<Line Number="85" Count="30">  game_delete(g);</Line>
+				<Line Number="86" Count="30">  return true;</Line>
+				<Line Number="87" Count="-1">}</Line>
+				<Line Number="88" Count="-1"></Line>
+				<Line Number="89" Count="30">bool test_game_set_expected_nb_tents_col()</Line>
+				<Line Number="90" Count="-1">{</Line>
+				<Line Number="91" Count="-1">  // test sur game empty</Line>
+				<Line Number="92" Count="30">  game g = game_new_empty();</Line>
+				<Line Number="93" Count="30">  if (g == NULL) {</Line>
+				<Line Number="94" Count="0">    return false;</Line>
+				<Line Number="95" Count="-1">  }</Line>
+				<Line Number="96" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="97" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="98" Count="1920">      game_set_expected_nb_tents_col(g, i, j);</Line>
+				<Line Number="99" Count="1920">      if (game_get_expected_nb_tents_col(g, i) != j) {</Line>
+				<Line Number="100" Count="0">        game_delete(g);</Line>
+				<Line Number="101" Count="0">        return false;</Line>
+				<Line Number="102" Count="-1">      }</Line>
+				<Line Number="103" Count="-1">    }</Line>
+				<Line Number="104" Count="-1">  }</Line>
+				<Line Number="105" Count="30">  game_delete(g);</Line>
+				<Line Number="106" Count="30">  return true;</Line>
+				<Line Number="107" Count="-1">}</Line>
+				<Line Number="108" Count="-1"></Line>
+				<Line Number="109" Count="30">bool test_game_get_square()</Line>
+				<Line Number="110" Count="-1">{</Line>
+				<Line Number="111" Count="-1">  // test sur game empty et sur new game</Line>
+				<Line Number="112" Count="30">  game g_empty = game_new_empty();</Line>
+				<Line Number="113" Count="30">  int L[] = {TENT, GRASS, EMPTY, TREE};</Line>
+				<Line Number="114" Count="30">  if (g_empty == NULL) {</Line>
+				<Line Number="115" Count="0">    return false;</Line>
+				<Line Number="116" Count="-1">  }</Line>
+				<Line Number="117" Count="270">  for (int i = 0; i &lt; game_nb_rows(g_empty); i++) {</Line>
+				<Line Number="118" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g_empty); j++) {</Line>
+				<Line Number="119" Count="9600">      for (int k = 0; k &lt; 4; k++) {</Line>
+				<Line Number="120" Count="7680">        game_set_square(g_empty, i, j, L[k]);</Line>
+				<Line Number="121" Count="7680">        if (game_get_square(g_empty, i, j) != L[k]) {</Line>
+				<Line Number="122" Count="0">          game_delete(g_empty);</Line>
+				<Line Number="123" Count="0">          return false;</Line>
+				<Line Number="124" Count="-1">        }</Line>
+				<Line Number="125" Count="-1">      }</Line>
+				<Line Number="126" Count="-1">    }</Line>
+				<Line Number="127" Count="-1">  }</Line>
+				<Line Number="128" Count="30">  uint nb_tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="129" Count="30">  uint nb_tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};</Line>
+				<Line Number="130" Count="30">  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="131" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,</Line>
+				<Line Number="132" Count="-1">                      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,</Line>
+				<Line Number="133" Count="-1">                      EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="134" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};</Line>
+				<Line Number="135" Count="30">  game g = game_new(squares, nb_tents_row, nb_tents_col);</Line>
+				<Line Number="136" Count="30">  if (g == NULL) {</Line>
+				<Line Number="137" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="138" Count="0">    return false;</Line>
+				<Line Number="139" Count="-1">  }</Line>
+				<Line Number="140" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="141" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="142" Count="1920">      int k = i * DEFAULT_SIZE + j;</Line>
+				<Line Number="143" Count="1920">      if (game_get_square(g, i, j) != squares[k]) {</Line>
+				<Line Number="144" Count="0">        game_delete(g);</Line>
+				<Line Number="145" Count="0">        game_delete(g_empty);</Line>
+				<Line Number="146" Count="0">        return false;</Line>
+				<Line Number="147" Count="-1">      }</Line>
+				<Line Number="148" Count="-1">    }</Line>
+				<Line Number="149" Count="-1">  }</Line>
+				<Line Number="150" Count="30">  game_delete(g);</Line>
+				<Line Number="151" Count="30">  game_delete(g_empty);</Line>
+				<Line Number="152" Count="30">  return true;</Line>
+				<Line Number="153" Count="-1">}</Line>
+				<Line Number="154" Count="-1"></Line>
+				<Line Number="155" Count="30">bool test_game_get_expected_nb_tents_row()</Line>
+				<Line Number="156" Count="-1">{</Line>
+				<Line Number="157" Count="-1">  // test sur game empty et sur new game</Line>
+				<Line Number="158" Count="30">  game g_empty = game_new_empty();</Line>
+				<Line Number="159" Count="30">  if (g_empty == NULL) {</Line>
+				<Line Number="160" Count="0">    return false;</Line>
+				<Line Number="161" Count="-1">  }</Line>
+				<Line Number="162" Count="270">  for (int i = 0; i &lt; game_nb_rows(g_empty); i++) {</Line>
+				<Line Number="163" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g_empty); j++) {</Line>
+				<Line Number="164" Count="1920">      game_set_expected_nb_tents_row(g_empty, i, j);</Line>
+				<Line Number="165" Count="1920">      if (game_get_expected_nb_tents_row(g_empty, i) != j) {</Line>
+				<Line Number="166" Count="0">        game_delete(g_empty);</Line>
+				<Line Number="167" Count="0">        return false;</Line>
+				<Line Number="168" Count="-1">      }</Line>
+				<Line Number="169" Count="-1">    }</Line>
+				<Line Number="170" Count="-1">  }</Line>
+				<Line Number="171" Count="30">  uint nb_tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="172" Count="30">  uint nb_tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};</Line>
+				<Line Number="173" Count="30">  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="174" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,</Line>
+				<Line Number="175" Count="-1">                      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,</Line>
+				<Line Number="176" Count="-1">                      EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="177" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};</Line>
+				<Line Number="178" Count="30">  game g = game_new(squares, nb_tents_row, nb_tents_col);</Line>
+				<Line Number="179" Count="30">  if (g == NULL) {</Line>
+				<Line Number="180" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="181" Count="0">    return false;</Line>
+				<Line Number="182" Count="-1">  }</Line>
+				<Line Number="183" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="184" Count="240">    if (game_get_expected_nb_tents_row(g, i) != nb_tents_row[i]) {</Line>
+				<Line Number="185" Count="0">      game_delete(g);</Line>
+				<Line Number="186" Count="0">      game_delete(g_empty);</Line>
+				<Line Number="187" Count="0">      return false;</Line>
+				<Line Number="188" Count="-1">    }</Line>
+				<Line Number="189" Count="-1">  }</Line>
+				<Line Number="190" Count="30">  game_delete(g);</Line>
+				<Line Number="191" Count="30">  game_delete(g_empty);</Line>
+				<Line Number="192" Count="30">  return true;</Line>
+				<Line Number="193" Count="-1">}</Line>
+				<Line Number="194" Count="-1"></Line>
+				<Line Number="195" Count="30">bool test_game_get_expected_nb_tents_col()</Line>
+				<Line Number="196" Count="-1">{</Line>
+				<Line Number="197" Count="-1">  // test sur game empty et sur new game</Line>
+				<Line Number="198" Count="30">  game g_empty = game_new_empty();</Line>
+				<Line Number="199" Count="30">  if (g_empty == NULL) {</Line>
+				<Line Number="200" Count="0">    return false;</Line>
+				<Line Number="201" Count="-1">  }</Line>
+				<Line Number="202" Count="270">  for (int i = 0; i &lt; game_nb_rows(g_empty); i++) {</Line>
+				<Line Number="203" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g_empty); j++) {</Line>
+				<Line Number="204" Count="1920">      game_set_expected_nb_tents_col(g_empty, i, j);</Line>
+				<Line Number="205" Count="1920">      if (game_get_expected_nb_tents_col(g_empty, i) != j) {</Line>
+				<Line Number="206" Count="0">        game_delete(g_empty);</Line>
+				<Line Number="207" Count="0">        return false;</Line>
+				<Line Number="208" Count="-1">      }</Line>
+				<Line Number="209" Count="-1">    }</Line>
+				<Line Number="210" Count="-1">  }</Line>
+				<Line Number="211" Count="30">  uint nb_tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="212" Count="30">  uint nb_tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};</Line>
+				<Line Number="213" Count="30">  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="214" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,</Line>
+				<Line Number="215" Count="-1">                      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,</Line>
+				<Line Number="216" Count="-1">                      EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="217" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};</Line>
+				<Line Number="218" Count="30">  game g = game_new(squares, nb_tents_row, nb_tents_col);</Line>
+				<Line Number="219" Count="30">  if (g == NULL) {</Line>
+				<Line Number="220" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="221" Count="0">    return false;</Line>
+				<Line Number="222" Count="-1">  }</Line>
+				<Line Number="223" Count="270">  for (int i = 0; i &lt; game_nb_cols(g); i++) {</Line>
+				<Line Number="224" Count="240">    if (game_get_expected_nb_tents_col(g, i) != nb_tents_col[i]) {</Line>
+				<Line Number="225" Count="0">      game_delete(g);</Line>
+				<Line Number="226" Count="0">      game_delete(g_empty);</Line>
+				<Line Number="227" Count="0">      return false;</Line>
+				<Line Number="228" Count="-1">    }</Line>
+				<Line Number="229" Count="-1">  }</Line>
+				<Line Number="230" Count="30">  game_delete(g);</Line>
+				<Line Number="231" Count="30">  game_delete(g_empty);</Line>
+				<Line Number="232" Count="30">  return true;</Line>
+				<Line Number="233" Count="-1">}</Line>
+				<Line Number="234" Count="-1"></Line>
+				<Line Number="235" Count="30">bool test_game_get_expected_nb_tents_all()</Line>
+				<Line Number="236" Count="-1">{</Line>
+				<Line Number="237" Count="-1">  // test sur game empty et sur new game et sur game default</Line>
+				<Line Number="238" Count="30">  game g_empty = game_new_empty();</Line>
+				<Line Number="239" Count="30">  game g = game_default();</Line>
+				<Line Number="240" Count="30">  if (g_empty == NULL) {</Line>
+				<Line Number="241" Count="0">    game_delete(g);</Line>
+				<Line Number="242" Count="0">    return false;</Line>
+				<Line Number="243" Count="-1">  }</Line>
+				<Line Number="244" Count="30">  if (g == NULL) {</Line>
+				<Line Number="245" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="246" Count="0">    return false;</Line>
+				<Line Number="247" Count="-1">  }</Line>
+				<Line Number="248" Count="30">  int s = 0;</Line>
+				<Line Number="249" Count="30">  if (game_get_expected_nb_tents_all(g_empty) != 0) {</Line>
+				<Line Number="250" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="251" Count="0">    game_delete(g);</Line>
+				<Line Number="252" Count="0">    return false;</Line>
+				<Line Number="253" Count="-1">  }</Line>
+				<Line Number="254" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="255" Count="240">    s = s + game_get_expected_nb_tents_row(g, i);</Line>
+				<Line Number="256" Count="-1">  }</Line>
+				<Line Number="257" Count="30">  if (game_get_expected_nb_tents_all(g) != s) {</Line>
+				<Line Number="258" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="259" Count="0">    game_delete(g);</Line>
+				<Line Number="260" Count="0">    return false;</Line>
+				<Line Number="261" Count="-1">  }</Line>
+				<Line Number="262" Count="30">  uint nb_tents_row[] = {1, 2, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="263" Count="30">  uint nb_tents_col[] = {3, 0, 2, 1, 2, 1, 2, 1};</Line>
+				<Line Number="264" Count="30">  square squares[] = {TREE,  EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="265" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY,</Line>
+				<Line Number="266" Count="-1">                      TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY,</Line>
+				<Line Number="267" Count="-1">                      EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="268" Count="-1">                      EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY};</Line>
+				<Line Number="269" Count="30">  game g_new = game_new(squares, nb_tents_row, nb_tents_col);</Line>
+				<Line Number="270" Count="30">  if (g_new == NULL) {</Line>
+				<Line Number="271" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="272" Count="0">    game_delete(g);</Line>
+				<Line Number="273" Count="0">    return false;</Line>
+				<Line Number="274" Count="-1">  }</Line>
+				<Line Number="275" Count="30">  s = 0;</Line>
+				<Line Number="276" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="277" Count="240">    s = s + game_get_expected_nb_tents_row(g_new, i);</Line>
+				<Line Number="278" Count="-1">  }</Line>
+				<Line Number="279" Count="30">  if (game_get_expected_nb_tents_all(g_new) != s) {</Line>
+				<Line Number="280" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="281" Count="0">    game_delete(g_new);</Line>
+				<Line Number="282" Count="0">    game_delete(g);</Line>
+				<Line Number="283" Count="0">    return false;</Line>
+				<Line Number="284" Count="-1">  }</Line>
+				<Line Number="285" Count="30">  game_delete(g_empty);</Line>
+				<Line Number="286" Count="30">  game_delete(g_new);</Line>
+				<Line Number="287" Count="30">  game_delete(g);</Line>
+				<Line Number="288" Count="30">  return true;</Line>
+				<Line Number="289" Count="-1">}</Line>
+				<Line Number="290" Count="-1"></Line>
+				<Line Number="291" Count="30">bool test_game_get_current_nb_tents_row()</Line>
+				<Line Number="292" Count="-1">{</Line>
+				<Line Number="293" Count="-1">  // test sur game default</Line>
+				<Line Number="294" Count="30">  game g = game_default();</Line>
+				<Line Number="295" Count="30">  int s = 0;</Line>
+				<Line Number="296" Count="30">  if (g == NULL) {</Line>
+				<Line Number="297" Count="0">    return false;</Line>
+				<Line Number="298" Count="-1">  }</Line>
+				<Line Number="299" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="300" Count="240">    s = 0;</Line>
+				<Line Number="301" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="302" Count="1920">      if (game_get_square(g, i, j) == TENT) {</Line>
+				<Line Number="303" Count="0">        s++;</Line>
+				<Line Number="304" Count="-1">      }</Line>
+				<Line Number="305" Count="1920">      if (game_get_current_nb_tents_row(g, i) != s) {</Line>
+				<Line Number="306" Count="0">        game_delete(g);</Line>
+				<Line Number="307" Count="0">        return false;</Line>
+				<Line Number="308" Count="-1">      }</Line>
+				<Line Number="309" Count="-1">    }</Line>
+				<Line Number="310" Count="-1">  }</Line>
+				<Line Number="311" Count="30">  game_delete(g);</Line>
+				<Line Number="312" Count="30">  return true;</Line>
+				<Line Number="313" Count="-1">}</Line>
+				<Line Number="314" Count="-1"></Line>
+				<Line Number="315" Count="30">bool test_game_get_current_nb_tents_col()</Line>
+				<Line Number="316" Count="-1">{</Line>
+				<Line Number="317" Count="-1">  // test sur game default</Line>
+				<Line Number="318" Count="30">  game g = game_default();</Line>
+				<Line Number="319" Count="30">  int s = 0;</Line>
+				<Line Number="320" Count="30">  if (g == NULL) {</Line>
+				<Line Number="321" Count="0">    return false;</Line>
+				<Line Number="322" Count="-1">  }</Line>
+				<Line Number="323" Count="270">  for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="324" Count="240">    s = 0;</Line>
+				<Line Number="325" Count="2160">    for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="326" Count="1920">      if (game_get_square(g, i, j) == TENT) {</Line>
+				<Line Number="327" Count="0">        s++;</Line>
+				<Line Number="328" Count="-1">      }</Line>
+				<Line Number="329" Count="1920">      if (game_get_current_nb_tents_col(g, j) != s) {</Line>
+				<Line Number="330" Count="0">        game_delete(g);</Line>
+				<Line Number="331" Count="0">        return false;</Line>
+				<Line Number="332" Count="-1">      }</Line>
+				<Line Number="333" Count="-1">    }</Line>
+				<Line Number="334" Count="-1">  }</Line>
+				<Line Number="335" Count="30">  game_delete(g);</Line>
+				<Line Number="336" Count="30">  return true;</Line>
+				<Line Number="337" Count="-1">}</Line>
+				<Line Number="338" Count="30">bool test_game_get_current_nb_tents_all()</Line>
+				<Line Number="339" Count="-1">{</Line>
+				<Line Number="340" Count="-1">  // test sur game default et game empty</Line>
+				<Line Number="341" Count="30">  game g = game_default();</Line>
+				<Line Number="342" Count="30">  game g_empty = game_new_empty();</Line>
+				<Line Number="343" Count="30">  int s = 0;</Line>
+				<Line Number="344" Count="30">  if (g == NULL) {</Line>
+				<Line Number="345" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="346" Count="0">    return false;</Line>
+				<Line Number="347" Count="-1">  }</Line>
+				<Line Number="348" Count="30">  if (g_empty == NULL) {</Line>
+				<Line Number="349" Count="0">    game_delete(g);</Line>
+				<Line Number="350" Count="0">    return false;</Line>
+				<Line Number="351" Count="-1">  }</Line>
+				<Line Number="352" Count="30">  if (game_get_current_nb_tents_all(g_empty) != 0) {</Line>
+				<Line Number="353" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="354" Count="0">    game_delete(g);</Line>
+				<Line Number="355" Count="0">    return false;</Line>
+				<Line Number="356" Count="-1">  }</Line>
+				<Line Number="357" Count="270">  for (int i = 0; i &lt; game_nb_rows(g); i++) {</Line>
+				<Line Number="358" Count="2160">    for (int j = 0; j &lt; game_nb_cols(g); j++) {</Line>
+				<Line Number="359" Count="1920">      if (game_get_square(g, i, j) == TENT) {</Line>
+				<Line Number="360" Count="0">        s++;</Line>
+				<Line Number="361" Count="-1">      }</Line>
+				<Line Number="362" Count="-1">    }</Line>
+				<Line Number="363" Count="-1">  }</Line>
+				<Line Number="364" Count="30">  if (game_get_current_nb_tents_all(g) != s) {</Line>
+				<Line Number="365" Count="0">    game_delete(g_empty);</Line>
+				<Line Number="366" Count="0">    game_delete(g);</Line>
+				<Line Number="367" Count="0">    return false;</Line>
+				<Line Number="368" Count="-1">  }</Line>
+				<Line Number="369" Count="30">  game_delete(g_empty);</Line>
+				<Line Number="370" Count="30">  game_delete(g);</Line>
+				<Line Number="371" Count="30">  return true;</Line>
+				<Line Number="372" Count="-1">}</Line>
+				<Line Number="373" Count="-1"></Line>
+				<Line Number="374" Count="30">bool test_game_new_ext()</Line>
+				<Line Number="375" Count="-1">{</Line>
+				<Line Number="376" Count="-1">  // initializing a default game</Line>
+				<Line Number="377" Count="30">  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="378" Count="30">  uint nb_rows = 8;</Line>
+				<Line Number="379" Count="30">  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};</Line>
+				<Line Number="380" Count="30">  uint nb_cols = 9;</Line>
+				<Line Number="381" Count="30">  bool wrap = true;</Line>
+				<Line Number="382" Count="30">  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="383" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="384" Count="-1">                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="385" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,</Line>
+				<Line Number="386" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="387" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};</Line>
+				<Line Number="388" Count="-1"></Line>
+				<Line Number="389" Count="30">  game g_new_ext = game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);</Line>
+				<Line Number="390" Count="30">  if (g_new_ext == NULL) {</Line>
+				<Line Number="391" Count="0">    return false;</Line>
+				<Line Number="392" Count="-1">  }</Line>
+				<Line Number="393" Count="-1"></Line>
+				<Line Number="394" Count="-1">  // dimension test</Line>
+				<Line Number="395" Count="30">  if (nb_rows != game_nb_rows(g_new_ext)) {</Line>
+				<Line Number="396" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="397" Count="0">    return false;</Line>
+				<Line Number="398" Count="-1">  }</Line>
+				<Line Number="399" Count="30">  if (nb_cols != game_nb_cols(g_new_ext)) {</Line>
+				<Line Number="400" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="401" Count="0">    return false;</Line>
+				<Line Number="402" Count="-1">  }</Line>
+				<Line Number="403" Count="-1"></Line>
+				<Line Number="404" Count="-1">  // wrapping test</Line>
+				<Line Number="405" Count="30">  if (wrap != game_is_wrapping(g_new_ext)) {</Line>
+				<Line Number="406" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="407" Count="0">    return false;</Line>
+				<Line Number="408" Count="-1">  }</Line>
+				<Line Number="409" Count="-1"></Line>
+				<Line Number="410" Count="-1">  // square test</Line>
+				<Line Number="411" Count="270">  for (int i = 0; i &lt; game_nb_rows(g_new_ext); i++) {</Line>
+				<Line Number="412" Count="2400">    for (int j = 0; j &lt; game_nb_cols(g_new_ext); j++) {</Line>
+				<Line Number="413" Count="2160">      if (game_get_square(g_new_ext, i, j) != squares[i * game_nb_cols(g_new_ext) + j]) {</Line>
+				<Line Number="414" Count="0">        game_delete(g_new_ext);</Line>
+				<Line Number="415" Count="0">        return false;</Line>
+				<Line Number="416" Count="-1">      }</Line>
+				<Line Number="417" Count="-1">    }</Line>
+				<Line Number="418" Count="-1">  }</Line>
+				<Line Number="419" Count="-1"></Line>
+				<Line Number="420" Count="-1">  // test data independence</Line>
+				<Line Number="421" Count="30">  squares[0] = EMPTY;</Line>
+				<Line Number="422" Count="30">  tents_row[0] = 99;</Line>
+				<Line Number="423" Count="30">  tents_col[0] = 99;</Line>
+				<Line Number="424" Count="30">  if (game_get_square(g_new_ext, 0, 0) != BIGTREE) {</Line>
+				<Line Number="425" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="426" Count="0">    return false;</Line>
+				<Line Number="427" Count="-1">  }</Line>
+				<Line Number="428" Count="30">  if (game_get_expected_nb_tents_row(g_new_ext, 0) != 1) {</Line>
+				<Line Number="429" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="430" Count="0">    return false;</Line>
+				<Line Number="431" Count="-1">  }</Line>
+				<Line Number="432" Count="30">  if (game_get_expected_nb_tents_col(g_new_ext, 0) != 4) {</Line>
+				<Line Number="433" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="434" Count="0">    return false;</Line>
+				<Line Number="435" Count="-1">  }</Line>
+				<Line Number="436" Count="30">  tents_row[0] = 1;</Line>
+				<Line Number="437" Count="30">  tents_col[0] = 4;</Line>
+				<Line Number="438" Count="30">  squares[0] = BIGTREE;</Line>
+				<Line Number="439" Count="-1"></Line>
+				<Line Number="440" Count="-1">  // checks if each row have correct nb of tents</Line>
+				<Line Number="441" Count="270">  for (int i = 0; i &lt; game_nb_rows(g_new_ext); i++) {</Line>
+				<Line Number="442" Count="240">    if (tents_row[i] != game_get_expected_nb_tents_row(g_new_ext, i)) {</Line>
+				<Line Number="443" Count="0">      game_delete(g_new_ext);</Line>
+				<Line Number="444" Count="0">      return false;</Line>
+				<Line Number="445" Count="-1">    }</Line>
+				<Line Number="446" Count="-1">  }</Line>
+				<Line Number="447" Count="-1"></Line>
+				<Line Number="448" Count="-1">  // checks if each col have correct nb of tents</Line>
+				<Line Number="449" Count="300">  for (int i = 0; i &lt; game_nb_cols(g_new_ext); i++) {</Line>
+				<Line Number="450" Count="270">    if (tents_col[i] != game_get_expected_nb_tents_col(g_new_ext, i)) {</Line>
+				<Line Number="451" Count="0">      game_delete(g_new_ext);</Line>
+				<Line Number="452" Count="0">      return false;</Line>
+				<Line Number="453" Count="-1">    }</Line>
+				<Line Number="454" Count="-1">  }</Line>
+				<Line Number="455" Count="-1"></Line>
+				<Line Number="456" Count="-1">  // test equal with a another game with different parameters (expected false)</Line>
+				<Line Number="457" Count="30">  tents_row[0] = 7;</Line>
+				<Line Number="458" Count="30">  tents_col[0] = 7;</Line>
+				<Line Number="459" Count="30">  game g_new_ext_false = game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);</Line>
+				<Line Number="460" Count="30">  if (g_new_ext_false == NULL) {</Line>
+				<Line Number="461" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="462" Count="0">    return false;</Line>
+				<Line Number="463" Count="-1">  }</Line>
+				<Line Number="464" Count="30">  if (game_equal(g_new_ext, g_new_ext_false)) {</Line>
+				<Line Number="465" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="466" Count="0">    game_delete(g_new_ext_false);</Line>
+				<Line Number="467" Count="0">    return false;</Line>
+				<Line Number="468" Count="-1">  }</Line>
+				<Line Number="469" Count="30">  game_delete(g_new_ext);</Line>
+				<Line Number="470" Count="30">  game_delete(g_new_ext_false);</Line>
+				<Line Number="471" Count="30">  return true;</Line>
+				<Line Number="472" Count="-1">}</Line>
+				<Line Number="473" Count="-1"></Line>
+				<Line Number="474" Count="30">bool test_game_redo()</Line>
+				<Line Number="475" Count="-1">{</Line>
+				<Line Number="476" Count="-1">  // initializing an empty game</Line>
+				<Line Number="477" Count="30">  uint nb_rows = 8;</Line>
+				<Line Number="478" Count="30">  uint nb_cols = 9;</Line>
+				<Line Number="479" Count="30">  bool wrap = true;</Line>
+				<Line Number="480" Count="30">  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);</Line>
+				<Line Number="481" Count="-1"></Line>
+				<Line Number="482" Count="30">  if (g_new_empty_ext == NULL) {</Line>
+				<Line Number="483" Count="0">    return false;</Line>
+				<Line Number="484" Count="-1">  }</Line>
+				<Line Number="485" Count="-1"></Line>
+				<Line Number="486" Count="-1">  // Game redo test</Line>
+				<Line Number="487" Count="270">  for (int i = 0; i &lt; nb_rows; i++) {</Line>
+				<Line Number="488" Count="2400">    for (int j = 0; j &lt; nb_cols; j++) {</Line>
+				<Line Number="489" Count="2160">      game_play_move(g_new_empty_ext, i, j, TENT);</Line>
+				<Line Number="490" Count="2160">      game_undo(g_new_empty_ext);</Line>
+				<Line Number="491" Count="2160">      game_redo(g_new_empty_ext);</Line>
+				<Line Number="492" Count="2160">      if (game_get_square(g_new_empty_ext, i, j) != TENT) {</Line>
+				<Line Number="493" Count="0">        game_delete(g_new_empty_ext);</Line>
+				<Line Number="494" Count="0">        return false;</Line>
+				<Line Number="495" Count="-1">      }</Line>
+				<Line Number="496" Count="2160">      game_set_square(g_new_empty_ext, i, j, EMPTY);</Line>
+				<Line Number="497" Count="-1">    }</Line>
+				<Line Number="498" Count="-1">  }</Line>
+				<Line Number="499" Count="30">  game_delete(g_new_empty_ext);</Line>
+				<Line Number="500" Count="30">  return true;</Line>
+				<Line Number="501" Count="-1">}</Line>
+				<Line Number="502" Count="-1"></Line>
+				<Line Number="503" Count="30">bool test_game_undo()</Line>
+				<Line Number="504" Count="-1">{</Line>
+				<Line Number="505" Count="-1">  // initializing an empty game</Line>
+				<Line Number="506" Count="30">  uint nb_rows = 8;</Line>
+				<Line Number="507" Count="30">  uint nb_cols = 9;</Line>
+				<Line Number="508" Count="30">  bool wrap = true;</Line>
+				<Line Number="509" Count="30">  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);</Line>
+				<Line Number="510" Count="-1"></Line>
+				<Line Number="511" Count="30">  if (g_new_empty_ext == NULL) {</Line>
+				<Line Number="512" Count="0">    return false;</Line>
+				<Line Number="513" Count="-1">  }</Line>
+				<Line Number="514" Count="-1"></Line>
+				<Line Number="515" Count="-1">  // Game undo test</Line>
+				<Line Number="516" Count="270">  for (int i = 0; i &lt; nb_rows; i++) {</Line>
+				<Line Number="517" Count="2400">    for (int j = 0; j &lt; nb_cols; j++) {</Line>
+				<Line Number="518" Count="2160">      game_play_move(g_new_empty_ext, i, j, TENT);</Line>
+				<Line Number="519" Count="2160">      game_undo(g_new_empty_ext);</Line>
+				<Line Number="520" Count="2160">      if (game_get_square(g_new_empty_ext, i, j) != EMPTY) {</Line>
+				<Line Number="521" Count="0">        game_delete(g_new_empty_ext);</Line>
+				<Line Number="522" Count="0">        return false;</Line>
+				<Line Number="523" Count="-1">      }</Line>
+				<Line Number="524" Count="-1">    }</Line>
+				<Line Number="525" Count="-1">  }</Line>
+				<Line Number="526" Count="30">  game_delete(g_new_empty_ext);</Line>
+				<Line Number="527" Count="30">  return true;</Line>
+				<Line Number="528" Count="-1">}</Line>
+				<Line Number="529" Count="-1"></Line>
+				<Line Number="530" Count="30">bool test_game_is_wrapping()</Line>
+				<Line Number="531" Count="-1">{</Line>
+				<Line Number="532" Count="-1">  // initializing a default game</Line>
+				<Line Number="533" Count="30">  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="534" Count="30">  uint nb_rows = 8;</Line>
+				<Line Number="535" Count="30">  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};</Line>
+				<Line Number="536" Count="30">  uint nb_cols = 9;</Line>
+				<Line Number="537" Count="30">  bool wrap = true;</Line>
+				<Line Number="538" Count="30">  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="539" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="540" Count="-1">                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="541" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,</Line>
+				<Line Number="542" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="543" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};</Line>
+				<Line Number="544" Count="-1"></Line>
+				<Line Number="545" Count="30">  game g_new_ext = game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);</Line>
+				<Line Number="546" Count="-1"></Line>
+				<Line Number="547" Count="30">  if (g_new_ext == NULL) {</Line>
+				<Line Number="548" Count="0">    return false;</Line>
+				<Line Number="549" Count="-1">  }</Line>
+				<Line Number="550" Count="-1"></Line>
+				<Line Number="551" Count="30">  if (!game_is_wrapping(g_new_ext)) {</Line>
+				<Line Number="552" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="553" Count="0">    return false;</Line>
+				<Line Number="554" Count="-1">  }</Line>
+				<Line Number="555" Count="-1"></Line>
+				<Line Number="556" Count="-1">  // Change le bool wrap</Line>
+				<Line Number="557" Count="30">  wrap = false;</Line>
+				<Line Number="558" Count="30">  game g_new_ext_2 = game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);</Line>
+				<Line Number="559" Count="-1"></Line>
+				<Line Number="560" Count="30">  if (g_new_ext_2 == NULL) {</Line>
+				<Line Number="561" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="562" Count="0">    return false;</Line>
+				<Line Number="563" Count="-1">  }</Line>
+				<Line Number="564" Count="-1"></Line>
+				<Line Number="565" Count="30">  if (game_is_wrapping(g_new_ext_2)) {</Line>
+				<Line Number="566" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="567" Count="0">    game_delete(g_new_ext_2);</Line>
+				<Line Number="568" Count="0">    return false;</Line>
+				<Line Number="569" Count="-1">  }</Line>
+				<Line Number="570" Count="30">  game_delete(g_new_ext);</Line>
+				<Line Number="571" Count="30">  game_delete(g_new_ext_2);</Line>
+				<Line Number="572" Count="30">  return true;</Line>
+				<Line Number="573" Count="-1">}</Line>
+				<Line Number="574" Count="-1"></Line>
+				<Line Number="575" Count="30">bool test_game_nb_cols()</Line>
+				<Line Number="576" Count="-1">{</Line>
+				<Line Number="577" Count="-1">  // initializing a default game</Line>
+				<Line Number="578" Count="30">  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="579" Count="30">  uint nb_rows = 8;</Line>
+				<Line Number="580" Count="30">  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};</Line>
+				<Line Number="581" Count="30">  uint nb_cols = 9;</Line>
+				<Line Number="582" Count="30">  bool wrap = true;</Line>
+				<Line Number="583" Count="30">  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="584" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="585" Count="-1">                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="586" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,</Line>
+				<Line Number="587" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="588" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};</Line>
+				<Line Number="589" Count="-1"></Line>
+				<Line Number="590" Count="30">  game g_new_ext = game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);</Line>
+				<Line Number="591" Count="-1"></Line>
+				<Line Number="592" Count="30">  if (g_new_ext == NULL) {</Line>
+				<Line Number="593" Count="0">    return false;</Line>
+				<Line Number="594" Count="-1">  }</Line>
+				<Line Number="595" Count="-1"></Line>
+				<Line Number="596" Count="30">  if (game_nb_cols(g_new_ext) != nb_cols) {</Line>
+				<Line Number="597" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="598" Count="0">    return false;</Line>
+				<Line Number="599" Count="-1">  }</Line>
+				<Line Number="600" Count="30">  game_delete(g_new_ext);</Line>
+				<Line Number="601" Count="30">  return true;</Line>
+				<Line Number="602" Count="-1">}</Line>
+				<Line Number="603" Count="-1"></Line>
+				<Line Number="604" Count="30">bool test_game_nb_rows()</Line>
+				<Line Number="605" Count="-1">{</Line>
+				<Line Number="606" Count="-1">  // initializing a default game</Line>
+				<Line Number="607" Count="30">  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};</Line>
+				<Line Number="608" Count="30">  uint nb_rows = 8;</Line>
+				<Line Number="609" Count="30">  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};</Line>
+				<Line Number="610" Count="30">  uint nb_cols = 9;</Line>
+				<Line Number="611" Count="30">  bool wrap = true;</Line>
+				<Line Number="612" Count="30">  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="613" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="614" Count="-1">                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="615" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,</Line>
+				<Line Number="616" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="617" Count="-1">                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};</Line>
+				<Line Number="618" Count="-1"></Line>
+				<Line Number="619" Count="30">  game g_new_ext = game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);</Line>
+				<Line Number="620" Count="30">  if (game_nb_rows(g_new_ext) != nb_rows) {</Line>
+				<Line Number="621" Count="0">    game_delete(g_new_ext);</Line>
+				<Line Number="622" Count="0">    return false;</Line>
+				<Line Number="623" Count="-1">  }</Line>
+				<Line Number="624" Count="30">  game_delete(g_new_ext);</Line>
+				<Line Number="625" Count="30">  return true;</Line>
+				<Line Number="626" Count="-1">}</Line>
+				<Line Number="627" Count="-1"></Line>
+				<Line Number="628" Count="29">bool test_game_new_empty_ext()</Line>
+				<Line Number="629" Count="-1">{</Line>
+				<Line Number="630" Count="-1">  // initializing an empty game</Line>
+				<Line Number="631" Count="29">  uint nb_rows = 8;</Line>
+				<Line Number="632" Count="29">  uint nb_cols = 9;</Line>
+				<Line Number="633" Count="29">  bool wrap = true;</Line>
+				<Line Number="634" Count="29">  game g_new_empty_ext = game_new_empty_ext(nb_rows, nb_cols, wrap);</Line>
+				<Line Number="635" Count="-1"></Line>
+				<Line Number="636" Count="29">  if (g_new_empty_ext == NULL) {</Line>
+				<Line Number="637" Count="0">    return false;</Line>
+				<Line Number="638" Count="-1">  }</Line>
+				<Line Number="639" Count="-1"></Line>
+				<Line Number="640" Count="-1">  // check if the tab tents row is empty</Line>
+				<Line Number="641" Count="261">  for (int i = 0; i &lt; nb_rows; i++) {</Line>
+				<Line Number="642" Count="232">    if (game_get_expected_nb_tents_row(g_new_empty_ext, i) != 0) {</Line>
+				<Line Number="643" Count="0">      game_delete(g_new_empty_ext);</Line>
+				<Line Number="644" Count="0">      return false;</Line>
+				<Line Number="645" Count="-1">    }</Line>
+				<Line Number="646" Count="-1">  }</Line>
+				<Line Number="647" Count="-1"></Line>
+				<Line Number="648" Count="-1">  // check if the tab tents col is empty</Line>
+				<Line Number="649" Count="290">  for (int j = 0; j &lt; nb_cols; j++) {</Line>
+				<Line Number="650" Count="261">    if (game_get_expected_nb_tents_col(g_new_empty_ext, j) != 0) {</Line>
+				<Line Number="651" Count="0">      game_delete(g_new_empty_ext);</Line>
+				<Line Number="652" Count="0">      return false;</Line>
+				<Line Number="653" Count="-1">    }</Line>
+				<Line Number="654" Count="-1">  }</Line>
+				<Line Number="655" Count="-1"></Line>
+				<Line Number="656" Count="-1">  // check if the game is empty</Line>
+				<Line Number="657" Count="261">  for (int i = 0; i &lt; nb_rows; i++) {</Line>
+				<Line Number="658" Count="2320">    for (int j = 0; j &lt; nb_cols; j++) {</Line>
+				<Line Number="659" Count="2088">      if (game_get_square(g_new_empty_ext, i, j) != 0) {</Line>
+				<Line Number="660" Count="0">        game_delete(g_new_empty_ext);</Line>
+				<Line Number="661" Count="0">        return false;</Line>
+				<Line Number="662" Count="-1">      }</Line>
+				<Line Number="663" Count="-1">    }</Line>
+				<Line Number="664" Count="-1">  }</Line>
+				<Line Number="665" Count="29">  game_delete(g_new_empty_ext);</Line>
+				<Line Number="666" Count="29">  return true;</Line>
+				<Line Number="667" Count="-1">}</Line>
+				<Line Number="668" Count="-1"></Line>
+				<Line Number="669" Count="539">int main(int argc, char* argv[])</Line>
+				<Line Number="670" Count="-1">{</Line>
+				<Line Number="671" Count="539">  bool ok = 0;</Line>
+				<Line Number="672" Count="539">  if (argc == 1) {</Line>
+				<Line Number="673" Count="0">    fprintf(stderr, "Usage: %s &lt;testname&gt; [&lt;...&gt;]\n", argv[0]);</Line>
+				<Line Number="674" Count="0">    exit(EXIT_FAILURE);</Line>
+				<Line Number="675" Count="-1">  }</Line>
+				<Line Number="676" Count="539">  if (strcmp("dummy", argv[1]) == 0) {</Line>
+				<Line Number="677" Count="30">    ok = test_dummy();</Line>
+				<Line Number="678" Count="-1">  }</Line>
+				<Line Number="679" Count="539">  if (strcmp("game_set_square", argv[1]) == 0) {</Line>
+				<Line Number="680" Count="30">    ok = test_game_set_square();</Line>
+				<Line Number="681" Count="-1">  }</Line>
+				<Line Number="682" Count="539">  if (strcmp("game_set_expected_nb_tents_row", argv[1]) == 0) {</Line>
+				<Line Number="683" Count="30">    ok = test_game_set_expected_nb_tents_row();</Line>
+				<Line Number="684" Count="-1">  }</Line>
+				<Line Number="685" Count="539">  if (strcmp("game_set_expected_nb_tents_col", argv[1]) == 0) {</Line>
+				<Line Number="686" Count="30">    ok = test_game_set_expected_nb_tents_col();</Line>
+				<Line Number="687" Count="-1">  }</Line>
+				<Line Number="688" Count="539">  if (strcmp("game_get_square", argv[1]) == 0) {</Line>
+				<Line Number="689" Count="30">    ok = test_game_get_square();</Line>
+				<Line Number="690" Count="-1">  }</Line>
+				<Line Number="691" Count="539">  if (strcmp("game_get_expected_nb_tents_row", argv[1]) == 0) {</Line>
+				<Line Number="692" Count="30">    ok = test_game_get_expected_nb_tents_row();</Line>
+				<Line Number="693" Count="-1">  }</Line>
+				<Line Number="694" Count="539">  if (strcmp("game_get_expected_nb_tents_col", argv[1]) == 0) {</Line>
+				<Line Number="695" Count="30">    ok = test_game_get_expected_nb_tents_col();</Line>
+				<Line Number="696" Count="-1">  }</Line>
+				<Line Number="697" Count="539">  if (strcmp("game_get_expected_nb_tents_all", argv[1]) == 0) {</Line>
+				<Line Number="698" Count="30">    ok = test_game_get_expected_nb_tents_all();</Line>
+				<Line Number="699" Count="-1">  }</Line>
+				<Line Number="700" Count="539">  if (strcmp("game_get_current_nb_tents_row", argv[1]) == 0) {</Line>
+				<Line Number="701" Count="30">    ok = test_game_get_current_nb_tents_row();</Line>
+				<Line Number="702" Count="-1">  }</Line>
+				<Line Number="703" Count="539">  if (strcmp("game_get_current_nb_tents_col", argv[1]) == 0) {</Line>
+				<Line Number="704" Count="30">    ok = test_game_get_current_nb_tents_col();</Line>
+				<Line Number="705" Count="-1">  }</Line>
+				<Line Number="706" Count="539">  if (strcmp("game_get_current_nb_tents_all", argv[1]) == 0) {</Line>
+				<Line Number="707" Count="30">    ok = test_game_get_current_nb_tents_all();</Line>
+				<Line Number="708" Count="-1">  }</Line>
+				<Line Number="709" Count="539">  if (strcmp("game_new_ext", argv[1]) == 0) {</Line>
+				<Line Number="710" Count="30">    ok = test_game_new_ext();</Line>
+				<Line Number="711" Count="-1">  }</Line>
+				<Line Number="712" Count="539">  if (strcmp("game_new_empty_ext", argv[1]) == 0) {</Line>
+				<Line Number="713" Count="29">    ok = test_game_new_empty_ext();</Line>
+				<Line Number="714" Count="-1">  }</Line>
+				<Line Number="715" Count="539">  if (strcmp("game_nb_rows", argv[1]) == 0) {</Line>
+				<Line Number="716" Count="30">    ok = test_game_nb_rows();</Line>
+				<Line Number="717" Count="-1">  }</Line>
+				<Line Number="718" Count="539">  if (strcmp("game_nb_cols", argv[1]) == 0) {</Line>
+				<Line Number="719" Count="30">    ok = test_game_nb_cols();</Line>
+				<Line Number="720" Count="-1">  }</Line>
+				<Line Number="721" Count="539">  if (strcmp("game_is_wrapping", argv[1]) == 0) {</Line>
+				<Line Number="722" Count="30">    ok = test_game_is_wrapping();</Line>
+				<Line Number="723" Count="-1">  }</Line>
+				<Line Number="724" Count="539">  if (strcmp("game_undo", argv[1]) == 0) {</Line>
+				<Line Number="725" Count="30">    ok = test_game_undo();</Line>
+				<Line Number="726" Count="-1">  }</Line>
+				<Line Number="727" Count="539">  if (strcmp("game_redo", argv[1]) == 0) {</Line>
+				<Line Number="728" Count="30">    ok = test_game_redo();</Line>
+				<Line Number="729" Count="-1">  }</Line>
+				<Line Number="730" Count="539">  if (ok) {</Line>
+				<Line Number="731" Count="539">    fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);</Line>
+				<Line Number="732" Count="539">    return EXIT_SUCCESS;</Line>
+				<Line Number="733" Count="-1">  } else {</Line>
+				<Line Number="734" Count="0">    fprintf(stderr, "Test \"%s\" finished: FAILURE\n", argv[1]);</Line>
+				<Line Number="735" Count="0">    return EXIT_FAILURE;</Line>
+				<Line Number="736" Count="-1">  }</Line>
+				<Line Number="737" Count="-1">}</Line>
+			</Report>
+		</File>
+		<File Name="game_text.c" FullPath="./game_text.c">
+			<Report>
+				<Line Number="0" Count="-1">#include &lt;stdio.h&gt;</Line>
+				<Line Number="1" Count="-1">#include &lt;stdlib.h&gt;</Line>
+				<Line Number="2" Count="-1"></Line>
+				<Line Number="3" Count="-1">#include "game.h"</Line>
+				<Line Number="4" Count="-1">#include "game_aux.h"</Line>
+				<Line Number="5" Count="-1">#include "game_ext.h"</Line>
+				<Line Number="6" Count="-1"></Line>
+				<Line Number="7" Count="-1">//</Line>
+				<Line Number="8" Count="-1"></Line>
+				<Line Number="9" Count="0">void print_help(void)</Line>
+				<Line Number="10" Count="-1">{</Line>
+				<Line Number="11" Count="0">  printf(</Line>
+				<Line Number="12" Count="-1">      "Liste commandes : \nt x y : mettre une tente en (x,y)\ng x y : mettre "</Line>
+				<Line Number="13" Count="-1">      "de l'herbe en (x,y)\ne x y : supprimer le contenu en (x,y)\nr = "</Line>
+				<Line Number="14" Count="-1">      "restart\nf  = remplir avec herbe\nq = quitter \n");</Line>
+				<Line Number="15" Count="-1"></Line>
+				<Line Number="16" Count="0">  return;</Line>
+				<Line Number="17" Count="-1">}</Line>
+				<Line Number="18" Count="-1"></Line>
+				<Line Number="19" Count="2">int main(void)</Line>
+				<Line Number="20" Count="-1">{</Line>
+				<Line Number="21" Count="-1">  // square squares[18] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,</Line>
+				<Line Number="22" Count="-1">  //                       EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};</Line>
+				<Line Number="23" Count="-1">  // uint nb_row[6] = {1, 0, 0, 0, 0, 0};</Line>
+				<Line Number="24" Count="-1">  // uint nb_col[3] = {1, 0, 0};</Line>
+				<Line Number="25" Count="-1">  // game g = game_new_ext(6, 3, squares, nb_row, nb_col, true);</Line>
+				<Line Number="26" Count="2">  game g = game_default();</Line>
+				<Line Number="27" Count="-1"></Line>
+				<Line Number="28" Count="2">  game_print((cgame)g);</Line>
+				<Line Number="29" Count="-1"></Line>
+				<Line Number="30" Count="-1">  char c;</Line>
+				<Line Number="31" Count="-1"></Line>
+				<Line Number="32" Count="18">  while (!game_won((cgame)g)) {</Line>
+				<Line Number="33" Count="16">    scanf(" %c", &amp;c);</Line>
+				<Line Number="34" Count="16">    if (c == 'h') {</Line>
+				<Line Number="35" Count="0">      print_help();</Line>
+				<Line Number="36" Count="-1">    }</Line>
+				<Line Number="37" Count="31">    if (c == 't' || c == 'g' || c == 'e') {</Line>
+				<Line Number="38" Count="-1">      int j, i;</Line>
+				<Line Number="39" Count="15">      scanf("%d %d", &amp;j, &amp;i);</Line>
+				<Line Number="40" Count="15">      if (c == 't') {</Line>
+				<Line Number="41" Count="15">        game_play_move(g, j, i, TENT);</Line>
+				<Line Number="42" Count="0">      } else if (c == 'g') {</Line>
+				<Line Number="43" Count="0">        game_play_move(g, j, i, GRASS);</Line>
+				<Line Number="44" Count="0">      } else if (c == 'e') {</Line>
+				<Line Number="45" Count="0">        game_play_move(g, j, i, EMPTY);</Line>
+				<Line Number="46" Count="-1">      }</Line>
+				<Line Number="47" Count="1">    } else if (c == 'y') {</Line>
+				<Line Number="48" Count="0">      game_redo(g);</Line>
+				<Line Number="49" Count="1">    } else if (c == 'z') {</Line>
+				<Line Number="50" Count="1">      game_undo(g);</Line>
+				<Line Number="51" Count="0">    } else if (c == 'r') {</Line>
+				<Line Number="52" Count="0">      game_restart(g);</Line>
+				<Line Number="53" Count="0">    } else if (c == 'f') {</Line>
+				<Line Number="54" Count="0">      game_fill_grass(g);</Line>
+				<Line Number="55" Count="0">    } else if (c == 'q') {</Line>
+				<Line Number="56" Count="0">      printf("shame \n");</Line>
+				<Line Number="57" Count="0">      game_delete(g);</Line>
+				<Line Number="58" Count="0">      return EXIT_SUCCESS;</Line>
+				<Line Number="59" Count="-1">    }</Line>
+				<Line Number="60" Count="16">    game_print((cgame)g);</Line>
+				<Line Number="61" Count="-1">  }</Line>
+				<Line Number="62" Count="2">  printf("congratulation\n");</Line>
+				<Line Number="63" Count="2">  game_delete(g);</Line>
+				<Line Number="64" Count="2">  return EXIT_SUCCESS;</Line>
+				<Line Number="65" Count="-1">}</Line>
+			</Report>
+		</File>
+		<File Name="stack_by_array.c" FullPath="./stack_by_array.c">
+			<Report>
+				<Line Number="0" Count="-1"></Line>
+				<Line Number="1" Count="-1">#include "stack.h"</Line>
+				<Line Number="2" Count="-1"></Line>
+				<Line Number="3" Count="-1">////////////////////////////////////////////////////////////////////////////////</Line>
+				<Line Number="4" Count="-1">// Fonctions auxiliaires ne pouvant pas être utilisées dans d'autres fichiers.//</Line>
+				<Line Number="5" Count="-1">// Elles ne sont PAS déclarées dans stack.h et sont déclarées "static". Cela  //</Line>
+				<Line Number="6" Count="-1">// signifie qu'elles ne peuvent être utilisées QUE dans ce fichier, stack.c.  //</Line>
+				<Line Number="7" Count="-1">////////////////////////////////////////////////////////////////////////////////</Line>
+				<Line Number="8" Count="-1"></Line>
+				<Line Number="9" Count="-1">// Double la taille du tableau utilisé dans la représentation.</Line>
+				<Line Number="10" Count="-1">// Cette fonction sera utilisée lorsque le tableau est plein et qu'on veut y</Line>
+				<Line Number="11" Count="-1">// ajouter une valeur.</Line>
+				<Line Number="12" Count="1883">static void grow_stack(stack* p)</Line>
+				<Line Number="13" Count="-1">{</Line>
+				<Line Number="14" Count="1883">  p-&gt;array = realloc(p-&gt;array, 2 * p-&gt;capacity * (sizeof(setsquare)));</Line>
+				<Line Number="15" Count="1883">  p-&gt;capacity *= 2;</Line>
+				<Line Number="16" Count="1883">  return;</Line>
+				<Line Number="17" Count="-1">}</Line>
+				<Line Number="18" Count="-1"></Line>
+				<Line Number="19" Count="-1">// Divise par deux la taille du tableau utilisé dans la représentation.</Line>
+				<Line Number="20" Count="-1">// Cette fonction sera utilisée lorsque le tableau est rempli à moins de 25%</Line>
+				<Line Number="21" Count="-1">// de sa capacité.</Line>
+				<Line Number="22" Count="8702">static void shrink_stack(stack* p)</Line>
+				<Line Number="23" Count="-1">{</Line>
+				<Line Number="24" Count="8702">  if (p-&gt;capacity == 1) {</Line>
+				<Line Number="25" Count="8702">    printf("the table is too short !");</Line>
+				<Line Number="26" Count="8702">    return;</Line>
+				<Line Number="27" Count="-1">  }</Line>
+				<Line Number="28" Count="0">  p-&gt;array = realloc(p-&gt;array, p-&gt;capacity / 2 * sizeof(setsquare));</Line>
+				<Line Number="29" Count="0">  p-&gt;capacity /= 2;</Line>
+				<Line Number="30" Count="0">  return;</Line>
+				<Line Number="31" Count="-1">}</Line>
+				<Line Number="32" Count="-1"></Line>
+				<Line Number="33" Count="-1">////////////////////////////////////////////////////////////////</Line>
+				<Line Number="34" Count="-1">// Fonctions à écrire, documentées dans le fichier d'en-tête. //</Line>
+				<Line Number="35" Count="-1">////////////////////////////////////////////////////////////////</Line>
+				<Line Number="36" Count="-1"></Line>
+				<Line Number="37" Count="23214">stack* create_stack(void)</Line>
+				<Line Number="38" Count="-1">{</Line>
+				<Line Number="39" Count="23214">  stack* p = malloc(sizeof(stack));</Line>
+				<Line Number="40" Count="23214">  p-&gt;capacity = 1;</Line>
+				<Line Number="41" Count="23214">  p-&gt;size_stack = 0;</Line>
+				<Line Number="42" Count="23214">  p-&gt;array = malloc((p-&gt;capacity) * sizeof(setsquare));</Line>
+				<Line Number="43" Count="23214">  return p;</Line>
+				<Line Number="44" Count="-1">}</Line>
+				<Line Number="45" Count="-1"></Line>
+				<Line Number="46" Count="23196">void delete_stack(stack* p)</Line>
+				<Line Number="47" Count="-1">{</Line>
+				<Line Number="48" Count="23196">  free(p-&gt;array);</Line>
+				<Line Number="49" Count="23196">  free(p);</Line>
+				<Line Number="50" Count="23196">  return;</Line>
+				<Line Number="51" Count="-1">}</Line>
+				<Line Number="52" Count="-1"></Line>
+				<Line Number="53" Count="19443">bool isempty_stack(stack* p) { return p-&gt;size_stack == 0; }</Line>
+				<Line Number="54" Count="-1"></Line>
+				<Line Number="55" Count="12962">setsquare pop(stack* p)</Line>
+				<Line Number="56" Count="-1">{</Line>
+				<Line Number="57" Count="12962">  if (isempty_stack(p)) {</Line>
+				<Line Number="58" Count="0">    fprintf(stderr, "the table is too short ! \n");</Line>
+				<Line Number="59" Count="0">    exit(EXIT_FAILURE);</Line>
+				<Line Number="60" Count="-1">  }</Line>
+				<Line Number="61" Count="12962">  p-&gt;size_stack--;</Line>
+				<Line Number="62" Count="12962">  setsquare result = p-&gt;array[p-&gt;size_stack];</Line>
+				<Line Number="63" Count="12962">  if ((p-&gt;size_stack * 100 / p-&gt;capacity) &lt; 25) {</Line>
+				<Line Number="64" Count="8702">    shrink_stack(p);</Line>
+				<Line Number="65" Count="-1">  }</Line>
+				<Line Number="66" Count="12962">  return result;</Line>
+				<Line Number="67" Count="-1">}</Line>
+				<Line Number="68" Count="-1"></Line>
+				<Line Number="69" Count="31250">void push(setsquare val, stack* p)</Line>
+				<Line Number="70" Count="-1">{</Line>
+				<Line Number="71" Count="31250">  if (p-&gt;capacity == p-&gt;size_stack) {</Line>
+				<Line Number="72" Count="1883">    grow_stack(p);</Line>
+				<Line Number="73" Count="-1">  }</Line>
+				<Line Number="74" Count="31250">  p-&gt;array[p-&gt;size_stack] = val;</Line>
+				<Line Number="75" Count="31250">  p-&gt;size_stack = p-&gt;size_stack + 1;</Line>
+				<Line Number="76" Count="31250">  return;</Line>
+				<Line Number="77" Count="-1">}</Line>
+			</Report>
+		</File>
+		<EndDateTime>Jan 17 15:17 CET</EndDateTime>
+		<EndTime>1768659459</EndTime>
+	</CoverageLog>
+</Site>

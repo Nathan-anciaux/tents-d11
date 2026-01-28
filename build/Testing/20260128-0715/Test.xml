@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20260128-0715-Experimental"
+	Name="sulu"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="sulu"
+	OSRelease="6.12.57+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.57-1~bpo12+1 (2025-11-17)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="183"
+	ModelName="Intel(R) Core(TM) i9-14900"
+	ProcessorCacheSize="36864"
+	NumberOfLogicalCPU="32"
+	NumberOfPhysicalCPU="24"
+	TotalVirtualMemory="39070"
+	TotalPhysicalMemory="63991"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="1527.2"
+	>
+	<Testing>
+		<StartDateTime>Jan 28 08:24 CET</StartDateTime>
+		<StartTestTime>1769585048</StartTestTime>
+		<TestList/>
+		<EndDateTime>Jan 28 08:24 CET</EndDateTime>
+		<EndTestTime>1769585048</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

@@ -1,0 +1,87 @@
+Performing coverage: 2502730861584
+Removing old coverage log: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/Testing/20260121-0713/CoverageLog-0.xml
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/game_aux.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_aux.c'
+Lines executed:97.39% of 115
+Creating 'game_aux.c.gcda##game_aux.c.gcov'
+
+Lines executed:97.39% of 115
+
+  Errors: 
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_aux.c
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/game.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game.c'
+Lines executed:94.80% of 173
+Creating 'game.c.gcda##game.c.gcov'
+
+Lines executed:94.80% of 173
+
+  Errors: 
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game.c
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/stack_by_array.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/stack_by_array.c'
+Lines executed:86.49% of 37
+Creating 'stack_by_array.c.gcda##stack_by_array.c.gcov'
+
+Lines executed:86.49% of 37
+
+  Errors: 
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/stack_by_array.c
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game.dir/game_ext.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_ext.c'
+Lines executed:72.84% of 81
+Creating 'game_ext.c.gcda##game_ext.c.gcov'
+
+Lines executed:72.84% of 81
+
+  Errors: 
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_ext.c
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_edejardin.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_edejardin.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_edejardin.dir/game_test_edejardin.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_test_edejardin.c'
+Lines executed:69.38% of 258
+Creating 'game_test_edejardin.c.gcda##game_test_edejardin.c.gcov'
+
+Lines executed:69.38% of 258
+
+  Errors: 
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_test_edejardin.c
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_maxjulienne.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_maxjulienne.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_maxjulienne.dir/game_test_maxjulienne.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_test_maxjulienne.c'
+Lines executed:61.39% of 518
+Creating 'game_test_maxjulienne.c.gcda##game_test_maxjulienne.c.gcov'
+
+Lines executed:61.39% of 518
+
+  Errors: 
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_test_maxjulienne.c
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_nanciaux.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_nanciaux.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_nanciaux.dir/game_test_nanciaux.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_test_nanciaux.c'
+Lines executed:71.26% of 428
+Creating 'game_test_nanciaux.c.gcda##game_test_nanciaux.c.gcov'
+
+Lines executed:71.26% of 428
+
+  Errors: 
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_test_nanciaux.c
+* Run coverage for: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_text.dir
+  Command: /usr/bin/gcov -l -o /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_text.dir /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_text.dir/game_text.c.gcda
+  Output: File '/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_text.c'
+Lines executed:0.00% of 34
+Creating 'game_text.c.gcda##game_text.c.gcov'
+
+Lines executed:0.00% of 34
+
+  Errors: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_text.dir/game_text.c.gcda:stamp mismatch with notes file
+
+  produced in source dir: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_text.c
+	Covered LOC:         1169
+	Not covered LOC:     475
+	Total LOC:           1644
+	Percentage Coverage: 71.11%

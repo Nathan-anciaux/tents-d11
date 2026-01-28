@@ -1,0 +1,802 @@
+        -:    0:Source:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_test_maxjulienne.c
+        -:    0:Graph:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_maxjulienne.dir/game_test_maxjulienne.c.gcno
+        -:    0:Data:/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles/game_test_maxjulienne.dir/game_test_maxjulienne.c.gcda
+        -:    0:Runs:10
+        -:    1:#include <stdbool.h>
+        -:    2:#include <stdio.h>
+        -:    3:#include <stdlib.h>
+        -:    4:#include <string.h>
+        -:    5:
+        -:    6:#include "game.h"
+        -:    7:#include "game_aux.h"
+        -:    8:#include "game_ext.h"
+        -:    9:#include "game_struct.h"
+        -:   10:
+        3:   11:game create_game_rectangle()
+        -:   12:{
+        -:   13:  // rectanglular game
+        3:   14:  square squares[12] = {EMPTY, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+        3:   15:  uint nb_row[6] = {1, 0, 0, 0, 0, 0};
+        3:   16:  uint nb_col[2] = {1, 0};
+        3:   17:  game g = game_new_ext(6, 2, squares, nb_row, nb_col, true);
+        3:   18:  return g;
+        -:   19:}
+        -:   20:
+        -:   21:// 1 = TRUE
+        -:   22:
+        1:   23:int test_game_won()
+        -:   24:{
+        -:   25:  game g;
+        -:   26:  int result;
+        -:   27:
+        1:   28:  g = game_default_solution();
+        1:   29:  if (game_won(g) != 1) {
+    #####:   30:    game_delete(g);
+    #####:   31:    return 0;
+        -:   32:  }
+        1:   33:  game_delete(g);
+        -:   34:  // Sur jeu vide
+        1:   35:  g = game_new_empty();
+        1:   36:  result = game_won(g);
+        1:   37:  game_delete(g);
+        1:   38:  if (result != 1) {
+    #####:   39:    return 0;
+        -:   40:  }
+        -:   41:
+        -:   42:  // base case
+        1:   43:  g = game_default();
+        1:   44:  result = game_won(g);
+        1:   45:  game_delete(g);
+        1:   46:  if (result != 0) {
+    #####:   47:    return 0;
+        -:   48:  }
+        -:   49:
+        -:   50:  // adjacents tents : horizontal
+        1:   51:  g = game_default();
+        1:   52:  game_set_square(g, 1, 0, TENT);
+        1:   53:  game_set_square(g, 1, 1, TENT);
+        1:   54:  result = game_won(g);
+        1:   55:  if (result != 0) {
+    #####:   56:    game_delete(g);
+    #####:   57:    return 0;
+        -:   58:  }
+        1:   59:  game_delete(g);
+        -:   60:
+        -:   61:  // adjacents tents: Vertical
+        1:   62:  g = game_default();
+        1:   63:  game_set_square(g, 0, 1, TENT);
+        1:   64:  game_set_square(g, 1, 1, TENT);
+        1:   65:  result = game_won(g);
+        1:   66:  if (result != 0) {
+    #####:   67:    game_delete(g);
+    #####:   68:    return 0;
+        -:   69:  }
+        1:   70:  game_delete(g);
+        -:   71:
+        -:   72:  // adjacents tents : Diagonal
+        1:   73:  g = game_default();
+        1:   74:  game_set_square(g, 1, 1, TENT);
+        1:   75:  game_set_square(g, 2, 2, TENT);
+        1:   76:  result = game_won(g);
+        1:   77:  if (result != 0) {
+    #####:   78:    game_delete(g);
+    #####:   79:    return 0;
+        -:   80:  }
+        1:   81:  game_delete(g);
+        -:   82:
+        -:   83:  // Règle 2
+        1:   84:  g = game_default_solution();
+        1:   85:  game_set_square(g, 1, 0, GRASS);
+        1:   86:  game_set_square(g, 0, 1, TENT);
+        1:   87:  result = game_won(g);
+        1:   88:  if (result != 0) {
+    #####:   89:    game_delete(g);
+    #####:   90:    return 0;
+        -:   91:  }
+        1:   92:  game_delete(g);
+        -:   93:
+        -:   94:  // Règle 3 : nb tente != nb arbre
+        1:   95:  g = game_default_solution();
+        1:   96:  game_set_square(g, 1, 1, TENT);
+        1:   97:  result = game_won(g);
+        1:   98:  if (result != 0) {
+    #####:   99:    game_delete(g);
+    #####:  100:    return 0;
+        -:  101:  }
+        1:  102:  game_delete(g);
+        -:  103:
+        -:  104:  // to be reviewed
+        1:  105:  g = game_default_solution();
+        1:  106:  game_set_square(g, 0, 4, EMPTY);
+        1:  107:  result = game_won(g);
+        1:  108:  if (result != 0) {
+    #####:  109:    game_delete(g);
+    #####:  110:    return 0;
+        -:  111:  }
+        1:  112:  game_delete(g);
+        -:  113:
+        1:  114:  g = game_default_solution();
+        1:  115:  game_set_square(g, 0, 4, GRASS);
+        1:  116:  game_set_square(g, 0, 2, TENT);
+        1:  117:  result = game_won(g);
+        1:  118:  if (result != 0) {
+    #####:  119:    game_delete(g);
+    #####:  120:    return 0;
+        -:  121:  }
+        1:  122:  game_delete(g);
+        -:  123:
+        1:  124:  g = game_default_solution();
+        1:  125:  game_set_square(g, 1, 1, TENT);
+        1:  126:  if (game_won(g) != 0) {
+    #####:  127:    game_delete(g);
+    #####:  128:    return 0;
+        -:  129:  }
+        1:  130:  game_delete(g);
+        -:  131:
+        1:  132:  g = game_default_solution();
+        1:  133:  game_set_square(g, 0, 4, GRASS);
+        1:  134:  game_set_square(g, 1, 1, TENT);
+        1:  135:  if (game_won(g) != 0) {
+    #####:  136:    game_delete(g);
+    #####:  137:    return 0;
+        -:  138:  }
+        1:  139:  game_delete(g);
+        -:  140:
+        1:  141:  g = game_default_solution();
+        1:  142:  game_set_square(g, 0, 4, GRASS);
+        1:  143:  result = game_won(g);
+        1:  144:  if (result != 0) {
+    #####:  145:    return 0;
+        -:  146:  }
+        1:  147:  game_delete(g);
+        -:  148:
+        1:  149:  g = game_new_empty();
+        1:  150:  game_set_square(g, 0, 4, TENT);
+        1:  151:  result = game_won(g);
+        1:  152:  if (result != 0) {
+    #####:  153:    return 0;
+        -:  154:  }
+        1:  155:  game_delete(g);
+        -:  156:
+        -:  157:  // Test on bigtree -> 2 tents right next to big tree
+        -:  158:  // Normally winning test
+        1:  159:  g = game_new_empty();
+        1:  160:  game_set_square(g, 1, 1, BIGTREE);
+        1:  161:  game_set_square(g, 0, 1, TENT);
+        1:  162:  game_set_square(g, 2, 1, TENT);
+        1:  163:  game_set_expected_nb_tents_col(g, 1, 2);
+        1:  164:  game_set_expected_nb_tents_row(g, 2, 1);
+        1:  165:  game_set_expected_nb_tents_row(g, 0, 1);
+        -:  166:
+        1:  167:  game_fill_grass(g);
+        1:  168:  result = game_won(g);
+        1:  169:  if (result != 1) {
+    #####:  170:    game_delete(g);
+    #####:  171:    return 0;
+        -:  172:  }
+        1:  173:  game_delete(g);
+        -:  174:
+        -:  175:  // normally failling test
+        1:  176:  g = game_new_empty();
+        1:  177:  game_set_square(g, 1, 1, BIGTREE);
+        1:  178:  game_set_square(g, 0, 1, TENT);
+        1:  179:  game_set_expected_nb_tents_col(g, 1, 1);
+        1:  180:  game_set_expected_nb_tents_row(g, 0, 1);
+        1:  181:  game_fill_grass(g);
+        1:  182:  result = game_won(g);
+        1:  183:  if (result != 0) {
+    #####:  184:    game_delete(g);
+    #####:  185:    return 0;
+        -:  186:  }
+        1:  187:  game_delete(g);
+        -:  188:
+        -:  189:  // wrapping test
+        -:  190:  // Normally winning test
+        1:  191:  g = game_new_empty_ext(8, 8, true);
+        1:  192:  game_set_square(g, 0, 0, TREE);
+        1:  193:  game_set_square(g, 0, 7, TENT);
+        1:  194:  game_set_expected_nb_tents_col(g, 7, 1);
+        1:  195:  game_set_expected_nb_tents_row(g, 0, 1);
+        -:  196:
+        1:  197:  game_fill_grass(g);
+        1:  198:  result = game_won(g);
+        1:  199:  if (result != 1) {
+    #####:  200:    game_delete(g);
+    #####:  201:    return 0;
+        -:  202:  }
+        1:  203:  game_delete(g);
+        -:  204:
+        -:  205:  // normally failling test
+        1:  206:  g = game_new_empty_ext(8, 8, true);
+        1:  207:  game_set_square(g, 0, 7, TENT);
+        1:  208:  game_set_expected_nb_tents_col(g, 7, 1);
+        1:  209:  game_set_expected_nb_tents_row(g, 0, 1);
+        -:  210:
+        1:  211:  result = game_won(g);
+        1:  212:  if (result != 0) {
+    #####:  213:    game_delete(g);
+    #####:  214:    return 0;
+        -:  215:  }
+        1:  216:  game_delete(g);
+        1:  217:  return 1;
+        -:  218:}
+        -:  219:
+        8:  220:int test_unique_game_fill_grass(game g)
+        -:  221:{
+        -:  222:  // initial tab recovery
+        8:  223:  square* tab_init = malloc(game_nb_rows(g) * game_nb_cols(g) * sizeof(square));
+        8:  224:  if (!tab_init) {
+    #####:  225:    return 0;
+        -:  226:  }
+       68:  227:  for (int i = 0; i < game_nb_rows(g); i++) {
+      468:  228:    for (int j = 0; j < game_nb_cols(g); j++) {
+      408:  229:      tab_init[i * game_nb_cols(g) + j] = game_get_square(g, i, j);
+        -:  230:    }
+        -:  231:  }
+        8:  232:  game_fill_grass(g);
+        -:  233:  // check if empty squares are replaced by grass
+       68:  234:  for (int i = 0; i < game_nb_rows(g); i++) {
+      468:  235:    for (int j = 0; j < game_nb_cols(g); j++) {
+      408:  236:      if (tab_init[i * game_nb_cols(g) + j] == EMPTY) {
+      199:  237:        if (game_get_square(g, i, j) != GRASS) {
+    #####:  238:          fprintf(stderr, "Erreur : une case EMPTY n'a pas été transformée en GRASS");
+    #####:  239:          free(tab_init);
+    #####:  240:          return 0;
+        -:  241:        }
+        -:  242:      }
+        -:  243:
+      209:  244:      else if (tab_init[i * game_nb_cols(g) + j] != game_get_square(g, i, j)) {
+    #####:  245:        fprintf(stderr, "Erreur : une case a été modifié alors qu'il ne fallait pas");
+    #####:  246:        free(tab_init);
+    #####:  247:        return 0;
+        -:  248:      }
+        -:  249:    }
+        -:  250:  }
+        8:  251:  free(tab_init);
+        8:  252:  return 1;
+        -:  253:}
+        -:  254:
+        1:  255:int test_game_fill_grass()
+        -:  256:{
+        -:  257:  // To try: empty game, normal game, game filled with tents, filled game with tree, game win
+        -:  258:  game tab[8];
+        1:  259:  tab[0] = game_new_empty();         // game empty
+        1:  260:  tab[1] = game_default();           // game normal
+        1:  261:  tab[2] = game_new_empty();         // game filled with tents
+        1:  262:  tab[3] = game_new_empty();         // Game rfilled with tree
+        1:  263:  tab[4] = game_default_solution();  // Game win
+        1:  264:  tab[5] = create_game_rectangle();
+        1:  265:  tab[6] = game_new_empty();
+        1:  266:  tab[7] = create_game_rectangle();
+        1:  267:  game_set_square(tab[6], 0, 0, BIGTREE);
+        1:  268:  game_set_square(tab[6], 0, 1, GRASS);
+        -:  269:
+        9:  270:  for (int i = 0; i < game_nb_rows(tab[2]); i++) {
+       72:  271:    for (int j = 0; j < game_nb_cols(tab[2]); j++) {
+       64:  272:      game_set_square(tab[2], i, j, TENT);
+        -:  273:    }
+        -:  274:  }
+        9:  275:  for (int i = 0; i < game_nb_rows(tab[3]); i++) {
+       72:  276:    for (int j = 0; j < game_nb_cols(tab[3]); j++) {
+       64:  277:      game_set_square(tab[3], i, j, TREE);
+        -:  278:    }
+        -:  279:  }
+        1:  280:  game_set_square(tab[7], 1, 1, BIGTREE);
+        1:  281:  int result = 1;
+        9:  282:  for (int i = 0; i < 8; i++) {
+        8:  283:    if (test_unique_game_fill_grass(tab[i]) == 0) {
+    #####:  284:      result = 0;
+        -:  285:    }
+        8:  286:    game_delete(tab[i]);
+        -:  287:  }
+        1:  288:  return result;
+        -:  289:}
+        -:  290:
+        6:  291:int test_unique_game_restart(game g)
+        6:  292:{
+        6:  293:  game_restart(g);
+        6:  294:  int tab_init[game_nb_rows(g)][game_nb_cols(g)];
+       52:  295:  for (int i = 0; i < game_nb_rows(g); i++) {
+      378:  296:    for (int j = 0; j < game_nb_cols(g); j++) {
+      332:  297:      tab_init[i][j] = game_get_square(g, i, j);
+        -:  298:    }
+        -:  299:  }
+        -:  300:
+        -:  301:  // see if tent are made empty (check the first possibility and break)
+        6:  302:  bool tentt = false;
+       14:  303:  for (int i = 0; i < game_nb_rows(g); i++) {
+       80:  304:    for (int j = 0; j < game_nb_cols(g); j++) {
+       72:  305:      if (game_get_square(g, i, j) == EMPTY) {
+        5:  306:        game_set_square(g, i, j, TENT);
+        5:  307:        tentt = true;
+        5:  308:        break;
+        -:  309:      }
+        -:  310:    }
+       13:  311:    if (tentt) {
+        5:  312:      break;
+        -:  313:    }
+        -:  314:  }
+        -:  315:
+        6:  316:  if (!tentt) {
+        9:  317:    for (int i = 0; i < game_nb_rows(g); i++) {
+       72:  318:      for (int j = 0; j < game_nb_cols(g); j++) {
+       64:  319:        if (game_get_square(g, i, j) == TENT) {
+    #####:  320:          game_set_square(g, i, j, EMPTY);
+    #####:  321:          tentt = true;
+    #####:  322:          break;
+        -:  323:        }
+        -:  324:      }
+        8:  325:      if (tentt) {
+    #####:  326:        break;
+        -:  327:      }
+        -:  328:    }
+        -:  329:  }
+        -:  330:
+        6:  331:  game_restart(g);
+        -:  332:
+        -:  333:  // Check that the squares have been replaced with empty except for the trees
+       52:  334:  for (int i = 0; i < game_nb_rows(g); i++) {
+      378:  335:    for (int j = 0; j < game_nb_cols(g); j++) {
+      332:  336:      if ((tab_init[i][j] != game_get_square(g, i, j))) {
+    #####:  337:        fprintf(stderr, "Erreur");
+    #####:  338:        return 0;
+        -:  339:      }
+        -:  340:    }
+        -:  341:  }
+        6:  342:  return 1;
+        -:  343:}
+        -:  344:
+        1:  345:int test_game_restart()
+        -:  346:{
+        -:  347:  // To try: empty game, normal game, game filled with tents, filled game with tree, game win
+        -:  348:  game tab[6];
+        1:  349:  tab[0] = game_new_empty();
+        1:  350:  tab[1] = game_default();
+        1:  351:  tab[2] = game_new_empty();
+        1:  352:  tab[3] = game_new_empty();
+        1:  353:  tab[4] = game_default_solution();
+        1:  354:  game_set_square(tab[4], 0, 1, BIGTREE);
+        1:  355:  tab[5] = create_game_rectangle();
+        9:  356:  for (int i = 0; i < game_nb_rows(tab[2]); i++) {
+       72:  357:    for (int j = 0; j < game_nb_cols(tab[2]); j++) {
+       64:  358:      game_set_square(tab[2], i, j, TENT);
+        -:  359:    }
+        -:  360:  }
+        9:  361:  for (int i = 0; i < game_nb_rows(tab[3]); i++) {
+       72:  362:    for (int j = 0; j < game_nb_cols(tab[3]); j++) {
+       64:  363:      game_set_square(tab[3], i, j, TREE);
+        -:  364:    }
+        -:  365:  }
+        1:  366:  int result = 1;
+        7:  367:  for (int i = 0; i < 6; i++) {
+        6:  368:    game_print(tab[i]);
+        6:  369:    if (test_unique_game_restart(tab[i]) == 0) {
+    #####:  370:      result = 0;
+        -:  371:    }
+        6:  372:    game_delete(tab[i]);
+        -:  373:  }
+        1:  374:  return result;
+        -:  375:}
+        -:  376:
+        1:  377:int test_game_is_neigh()
+        -:  378:{
+        1:  379:  game g_default = game_default();  // validates the condition (here a tree in
+        -:  380:                                    // the surroundings of ..)
+        1:  381:  game g_solution = game_default_solution();
+        -:  382:
+        -:  383:  // adjacent tree (2,2)
+        1:  384:  if (game_is_neigh(g_default, 2, 2, TREE, false) != 1) {
+    #####:  385:    fprintf(stderr,
+        -:  386:            "Erreur : Vérifie en (2,1), renvoie false alors qu'il y a un arbre "
+        -:  387:            "en (3,1)");
+    #####:  388:    game_delete(g_default);
+    #####:  389:    game_delete(g_solution);
+    #####:  390:    return 0;
+        -:  391:  }
+        -:  392:  // diagonal tree
+        1:  393:  if (game_is_neigh(g_default, 2, 3, TREE, true) != 1) {
+    #####:  394:    fprintf(stderr,
+        -:  395:            "Erreur : Vérifie en (1,1), renvoie false alors qu'il y a un arbre "
+        -:  396:            "en diagonale (1,1)");
+    #####:  397:    game_delete(g_default);
+    #####:  398:    game_delete(g_solution);
+    #####:  399:    return 0;
+        -:  400:  }
+        -:  401:  // if there is a tree only diagonally
+        1:  402:  if (game_is_neigh(g_default, 2, 3, TREE, false) != 0) {
+    #####:  403:    fprintf(stderr,
+        -:  404:            "Erreur : Vérifie en (2,3), renvoie true alors qu'il n'y a pas "
+        -:  405:            "d'arbre (uniquement en diagonale)");
+    #####:  406:    game_delete(g_default);
+    #####:  407:    game_delete(g_solution);
+    #####:  408:    return 0;
+        -:  409:  }
+        -:  410:  // no trees around
+        1:  411:  if (game_is_neigh(g_default, 5, 7, TREE, false) != 0) {
+    #####:  412:    fprintf(stderr,
+        -:  413:            "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas "
+        -:  414:            "d'arbre en voisinnage");
+    #####:  415:    game_delete(g_default);
+    #####:  416:    game_delete(g_solution);
+    #####:  417:    return 0;
+        -:  418:  }
+        -:  419:  // PNo trees around not even diagonally
+        1:  420:  if (game_is_neigh(g_default, 5, 7, TREE, true) != 0) {
+    #####:  421:    fprintf(stderr,
+        -:  422:            "Erreur : Vérifie en (5,7), renvoie true alors qu'il n'y a pas "
+        -:  423:            "d'abre en voisinnage (diagonale)");
+    #####:  424:    game_delete(g_default);
+    #####:  425:    game_delete(g_solution);
+    #####:  426:    return 0;
+        -:  427:  }
+        -:  428:  // in (0,0), on a tree but nothing around
+        1:  429:  if (game_is_neigh(g_default, 0, 0, TREE, true) != 0) {
+    #####:  430:    fprintf(stderr,
+        -:  431:            "Erreur : Vérifie en (0,0), renvoie true alors qu'il n'y a pas "
+        -:  432:            "d'abre en voisinnage");
+    #####:  433:    game_delete(g_default);
+    #####:  434:    game_delete(g_solution);
+    #####:  435:    return 0;
+        -:  436:  }
+        1:  437:  if (game_is_neigh(g_solution, 1, 1, TENT, true) != 1) {
+    #####:  438:    fprintf(stderr, "Erreur : n'a pas trouvé ses voisins tente");
+    #####:  439:    game_delete(g_default);
+    #####:  440:    game_delete(g_solution);
+    #####:  441:    return 0;
+        -:  442:  }
+        1:  443:  if (game_is_neigh(g_default, 1, 1, TENT, false) != 0) {
+    #####:  444:    fprintf(stderr, "Erreur : A trouvé un voisin tente alors qu'il ne devrait pas");
+    #####:  445:    game_delete(g_default);
+    #####:  446:    game_delete(g_solution);
+    #####:  447:    return 0;
+        -:  448:  }
+        -:  449:  // in (0,3), on a tree but nothing around
+        1:  450:  if (game_is_neigh(g_solution, 0, 3, TENT, false) != 1) {
+    #####:  451:    fprintf(stderr, "Erreur : n'a pas trouvé son voisin tente");
+    #####:  452:    game_delete(g_default);
+    #####:  453:    game_delete(g_solution);
+    #####:  454:    return 0;
+        -:  455:  }
+        -:  456:
+        1:  457:  game_delete(g_solution);
+        1:  458:  game_delete(g_default);
+        1:  459:  return 1;
+        -:  460:}
+        -:  461:
+        1:  462:int test_game_default()
+        -:  463:{
+        1:  464:  game g = game_default();
+        1:  465:  int arbre_place[12][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2},
+        -:  466:                            {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};
+        1:  467:  if (game_get_expected_nb_tents_all(g) != 12) {
+    #####:  468:    return 0;
+        -:  469:  }
+        -:  470:  // Check if the expected nb of tents in each column is correct
+        2:  471:  if (game_get_expected_nb_tents_col(g, 0) != 3 || game_get_expected_nb_tents_col(g, 1) != 0 ||
+        3:  472:      game_get_expected_nb_tents_col(g, 2) != 2 || game_get_expected_nb_tents_col(g, 3) != 1 ||
+        3:  473:      game_get_expected_nb_tents_col(g, 4) != 2 || game_get_expected_nb_tents_col(g, 5) != 1 ||
+        2:  474:      game_get_expected_nb_tents_col(g, 6) != 2 || game_get_expected_nb_tents_col(g, 7) != 1) {
+    #####:  475:    return 0;
+        -:  476:  }
+        2:  477:  if (game_get_expected_nb_tents_row(g, 0) != 1 || game_get_expected_nb_tents_row(g, 1) != 2 ||
+        3:  478:      game_get_expected_nb_tents_row(g, 2) != 1 || game_get_expected_nb_tents_row(g, 3) != 2 ||
+        3:  479:      game_get_expected_nb_tents_row(g, 4) != 2 || game_get_expected_nb_tents_row(g, 5) != 0 ||
+        2:  480:      game_get_expected_nb_tents_row(g, 6) != 1 || game_get_expected_nb_tents_row(g, 7) != 3) {
+    #####:  481:    return 0;
+        -:  482:  }
+        1:  483:  if (g == NULL) {
+    #####:  484:    fprintf(stderr, "Erreur : game_default retourne NULL \n");
+    #####:  485:    game_delete(g);
+    #####:  486:    return 0;
+        -:  487:  }
+        9:  488:  for (int i = 0; i < game_nb_rows(g); i++) {
+       72:  489:    for (int j = 0; j < game_nb_cols(g); j++) {
+       64:  490:      int t = 0;
+      832:  491:      for (int m = 0; m < 12; m++) {
+      768:  492:        if (arbre_place[m][0] == i && arbre_place[m][1] == j) {
+       12:  493:          t = 1;
+        -:  494:        }
+        -:  495:      }
+       64:  496:      if (t == 1 && game_get_square(g, i, j) != TREE) {
+    #####:  497:        game_delete(g);
+    #####:  498:        return 0;
+        -:  499:      }
+       64:  500:      if (t == 0 && game_get_square(g, i, j) != EMPTY) {
+    #####:  501:        game_delete(g);
+    #####:  502:        return 0;
+        -:  503:      }
+        -:  504:    }
+        -:  505:  }
+        -:  506:
+        1:  507:  game_delete(g);
+        1:  508:  return 1;
+        -:  509:}
+        -:  510:
+        1:  511:int test_game_default_solution()
+        -:  512:{
+        1:  513:  game g = game_default_solution();
+        1:  514:  game_print((cgame)g);
+        1:  515:  if (g == NULL) {
+    #####:  516:    fprintf(stderr, "Erreur : game_default retourne NULL \n");
+    #####:  517:    return 0;
+        -:  518:  }
+        1:  519:  int trees[][2] = {{0, 0}, {0, 5}, {0, 6}, {2, 6}, {3, 0}, {3, 2}, {4, 4}, {5, 2}, {7, 1}, {7, 2}, {7, 5}, {7, 6}};
+        1:  520:  int size_trees = 12;
+        1:  521:  int size_tents = 12;
+        1:  522:  int tent[][2] = {{0, 4}, {1, 0}, {1, 6}, {2, 2}, {3, 4}, {3, 6}, {4, 0}, {4, 2}, {6, 5}, {7, 0}, {7, 3}, {7, 7}};
+        1:  523:  int grass[][2] = {{0, 1}, {0, 2}, {0, 3}, {0, 7}, {1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}, {1, 7},
+        -:  524:                    {2, 0}, {2, 1}, {2, 3}, {2, 4}, {2, 5}, {2, 7}, {3, 1}, {3, 3}, {3, 5}, {3, 7},
+        -:  525:                    {4, 1}, {4, 3}, {4, 5}, {4, 6}, {4, 7}, {5, 0}, {5, 1}, {5, 3}, {5, 4}, {5, 5},
+        -:  526:                    {5, 6}, {5, 7}, {6, 0}, {6, 1}, {6, 2}, {6, 3}, {6, 4}, {6, 6}, {6, 7}, {7, 4}};
+        1:  527:  int size_grass = 40;
+       13:  528:  for (int i = 0; i < size_trees; i++) {
+       12:  529:    if (game_get_square(g, trees[i][0], trees[i][1]) != TREE) {
+    #####:  530:      game_delete(g);
+    #####:  531:      return 0;
+        -:  532:    }
+        -:  533:  }
+       13:  534:  for (int i = 0; i < size_tents; i++) {
+       12:  535:    if (game_get_square(g, tent[i][0], tent[i][1]) != TENT) {
+    #####:  536:      game_delete(g);
+    #####:  537:      return 0;
+        -:  538:    }
+        -:  539:  }
+       41:  540:  for (int i = 0; i < size_grass; i++) {
+       40:  541:    if (game_get_square(g, grass[i][0], grass[i][1]) != GRASS) {
+    #####:  542:      game_delete(g);
+    #####:  543:      return 0;
+        -:  544:    }
+        -:  545:  }
+        1:  546:  game_delete(g);
+        1:  547:  return 1;
+        -:  548:}
+        -:  549:
+        1:  550:int test_game_print()
+        -:  551:{
+        1:  552:  game g = game_default();
+        1:  553:  game_print((cgame)g);
+        1:  554:  game_delete(g);
+        1:  555:  return 1;
+        -:  556:}
+        -:  557:
+        1:  558:int test_game_get_adjacent_square()
+        -:  559:{
+        1:  560:  game g = game_default();
+        1:  561:  game_print((cgame)g);
+        -:  562:  uint pi_next;
+        -:  563:  uint pj_next;
+        1:  564:  if (game_get_adjacent_square(g, 0, 0, UP_LEFT, &pi_next, &pj_next) != 0) {
+    #####:  565:    game_delete(g);
+    #####:  566:    return 0;
+        -:  567:  }
+        1:  568:  if (game_get_adjacent_square(g, game_nb_rows(g) - 1, game_nb_cols(g) - 1, DOWN_RIGHT, &pi_next, &pj_next) != 0) {
+    #####:  569:    game_delete(g);
+    #####:  570:    return 0;
+        -:  571:  }
+        1:  572:  if (game_get_adjacent_square(g, 1, 1, UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 0 || pj_next != 0) {
+    #####:  573:    game_delete(g);
+    #####:  574:    return 0;
+        -:  575:  }
+        1:  576:  if (game_get_adjacent_square(g, 3, 3, DOWN, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 3) {
+    #####:  577:    game_delete(g);
+    #####:  578:    return 0;
+        -:  579:  }
+        1:  580:  if (game_get_adjacent_square(g, 3, 3, DOWN_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 4) {
+    #####:  581:    game_delete(g);
+    #####:  582:    return 0;
+        -:  583:  }
+        1:  584:  if (game_get_adjacent_square(g, 3, 3, RIGHT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next != 4) {
+    #####:  585:    game_delete(g);
+    #####:  586:    return 0;
+        -:  587:  }
+        1:  588:  if (game_get_adjacent_square(g, 3, 3, UP_RIGHT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 4) {
+    #####:  589:    game_delete(g);
+    #####:  590:    return 0;
+        -:  591:  }
+        1:  592:  if (game_get_adjacent_square(g, 3, 3, UP, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 3) {
+    #####:  593:    game_delete(g);
+    #####:  594:    return 0;
+        -:  595:  }
+        1:  596:  if (game_get_adjacent_square(g, 3, 3, UP_LEFT, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 2) {
+    #####:  597:    game_delete(g);
+    #####:  598:    return 0;
+        -:  599:  }
+        1:  600:  if (game_get_adjacent_square(g, 3, 3, LEFT, &pi_next, &pj_next) != 1 || pi_next != 3 || pj_next != 2) {
+    #####:  601:    game_delete(g);
+    #####:  602:    return 0;
+        -:  603:  }
+        1:  604:  if (game_get_adjacent_square(g, 3, 3, DOWN_LEFT, &pi_next, &pj_next) != 1 || pi_next != 4 || pj_next != 2) {
+    #####:  605:    game_delete(g);
+    #####:  606:    return 0;
+        -:  607:  }
+        1:  608:  if (game_get_adjacent_square(g, 2, 2, HERE, &pi_next, &pj_next) != 1 || pi_next != 2 || pj_next != 2) {
+    #####:  609:    game_delete(g);
+    #####:  610:    return 0;
+        -:  611:  }
+        1:  612:  if (game_get_adjacent_square(g, 0, 3, UP, &pi_next, &pj_next) != 0) {
+    #####:  613:    game_delete(g);
+    #####:  614:    return 0;
+        -:  615:  }
+        -:  616:
+        1:  617:  game_delete(g);
+        1:  618:  return 1;
+        -:  619:}
+        -:  620:
+        1:  621:int test_game_nb_neigh()
+        -:  622:{
+        1:  623:  game g = game_new_empty_ext(8, 8, false);
+        -:  624:
+        1:  625:  game_set_square(g, 1, 1, TREE);
+        1:  626:  game_set_square(g, 0, 1, TREE);
+        1:  627:  game_set_square(g, 2, 2, TREE);
+        -:  628:
+        1:  629:  if (game_nb_neigh(g, 1, 1, TREE, false) != 1) {
+    #####:  630:    game_delete(g);
+    #####:  631:    return 0;
+        -:  632:  }
+        -:  633:
+        1:  634:  if (game_nb_neigh(g, 1, 1, TREE, true) != 2) {
+    #####:  635:    game_delete(g);
+    #####:  636:    return 0;
+        -:  637:  }
+        1:  638:  game_delete(g);
+        -:  639:
+        1:  640:  game g_wrap = game_new_empty_ext(8, 8, true);
+        1:  641:  game_set_square(g_wrap, 0, 0, TREE);
+        1:  642:  if (game_nb_neigh(g_wrap, 0, 7, TREE, false) != 1) {
+    #####:  643:    game_delete(g_wrap);
+    #####:  644:    return 0;
+        -:  645:  }
+        1:  646:  game_delete(g_wrap);
+        1:  647:  return 1;
+        -:  648:}
+        -:  649:
+    #####:  650:int test_game_new_empty_ext(void)
+        -:  651:{
+    #####:  652:  game g = game_new_empty_ext(10, 5, false);
+    #####:  653:  if (g == NULL) {
+    #####:  654:    game_delete(g);
+    #####:  655:    return 0;
+        -:  656:  }
+    #####:  657:  if (game_nb_rows(g) != 10) {
+    #####:  658:    game_delete(g);
+    #####:  659:    return 0;
+        -:  660:  }
+    #####:  661:  if (game_nb_cols(g) != 5) {
+    #####:  662:    game_delete(g);
+    #####:  663:    return 0;
+        -:  664:  }
+    #####:  665:  if (game_is_wrapping(g) != false) {
+    #####:  666:    game_delete(g);
+    #####:  667:    return 0;
+        -:  668:  }
+        -:  669:
+    #####:  670:  for (int i = 0; i < game_nb_rows(g); i++) {
+    #####:  671:    for (int j = 0; j < game_nb_cols(g); j++) {
+    #####:  672:      if (game_get_square(g, i, j) != EMPTY) {
+    #####:  673:        game_delete(g);
+    #####:  674:        return 0;
+        -:  675:      }
+        -:  676:    }
+    #####:  677:    if (game_get_expected_nb_tents_row(g, i) != 0) {
+    #####:  678:      game_delete(g);
+    #####:  679:      return 0;
+        -:  680:    }
+        -:  681:  }
+    #####:  682:  for (int i = 0; i < game_nb_cols(g); i++) {
+    #####:  683:    if (game_get_expected_nb_tents_col(g, i) != 0) {
+    #####:  684:      game_delete(g);
+    #####:  685:      return 0;
+        -:  686:    }
+        -:  687:  }
+    #####:  688:  if (game_get_current_nb_tents_all(g) != 0) {
+    #####:  689:    game_delete(g);
+    #####:  690:    return 0;
+        -:  691:  }
+    #####:  692:  game_delete(g);
+        -:  693:
+    #####:  694:  game g2 = game_new_empty_ext(4, 8, true);
+    #####:  695:  if (g2 == NULL) {
+    #####:  696:    game_delete(g2);
+    #####:  697:    return 0;
+        -:  698:  }
+    #####:  699:  if (game_nb_rows(g2) != 4) {
+    #####:  700:    game_delete(g2);
+    #####:  701:    return 0;
+        -:  702:  }
+    #####:  703:  if (game_nb_cols(g2) != 8) {
+    #####:  704:    game_delete(g2);
+    #####:  705:    return 0;
+        -:  706:  }
+    #####:  707:  if (game_is_wrapping(g2) != true) {
+    #####:  708:    game_delete(g2);
+    #####:  709:    return 0;
+        -:  710:  }
+        -:  711:
+    #####:  712:  game_delete(g2);
+    #####:  713:  return 1;
+        -:  714:}
+        -:  715:
+    #####:  716:int test_game_get_expected_nb_tents_all()
+        -:  717:{
+        -:  718:  // TESTS ON: an empty game, by adding the desired number for each row and
+        -:  719:  // each column
+        -:  720:
+    #####:  721:  game g_empty = game_new_empty();
+    #####:  722:  game g = game_default();
+    #####:  723:  if (game_get_expected_nb_tents_all(g_empty) != 0) {
+    #####:  724:    game_delete(g_empty);
+    #####:  725:    return 0;
+        -:  726:  }
+        -:  727:
+    #####:  728:  int a = 0;
+    #####:  729:  for (int i = 0; i < game_nb_cols(g); i++) {
+    #####:  730:    a = a + game_get_expected_nb_tents_col(g, i);
+        -:  731:  }
+        -:  732:
+    #####:  733:  if (a != game_get_expected_nb_tents_all(g)) {
+    #####:  734:    game_delete(g);
+    #####:  735:    return 0;
+        -:  736:  }
+        -:  737:
+    #####:  738:  game_delete(g_empty);
+    #####:  739:  game_delete(g);
+    #####:  740:  return 1;
+        -:  741:}
+        -:  742:
+        1:  743:int test_dummy() { return 1; }
+        -:  744:
+    #####:  745:void usage(int argc, char* argv[])
+        -:  746:{
+    #####:  747:  fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
+    #####:  748:  exit(EXIT_FAILURE);
+        -:  749:}
+        -:  750:
+       10:  751:int main(int argc, char* argv[])
+        -:  752:{
+      10*:  753:  if (argc == 1) usage(argc, argv);
+       10:  754:  bool ok = 0;
+       10:  755:  if (strcmp("dummy", argv[1]) == 0) {
+        1:  756:    ok = test_dummy();
+        -:  757:  }
+       10:  758:  if (strcmp("game_won", argv[1]) == 0) {
+        1:  759:    ok = test_game_won();
+        -:  760:  }
+       10:  761:  if (strcmp("game_fill_grass", argv[1]) == 0) {
+        1:  762:    ok = test_game_fill_grass();
+        -:  763:  }
+       10:  764:  if (strcmp("game_restart", argv[1]) == 0) {
+        1:  765:    ok = test_game_restart();
+        -:  766:  }
+       10:  767:  if (strcmp("game_is_neigh", argv[1]) == 0) {
+        1:  768:    ok = test_game_is_neigh();
+        -:  769:  }
+       10:  770:  if (strcmp("game_default", argv[1]) == 0) {
+        1:  771:    ok = test_game_default();
+        -:  772:  }
+       10:  773:  if (strcmp("game_default_solution", argv[1]) == 0) {
+        1:  774:    ok = test_game_default_solution();
+        -:  775:  }
+       10:  776:  if (strcmp("game_print", argv[1]) == 0) {
+        1:  777:    ok = test_game_print();
+        -:  778:  }
+       10:  779:  if (strcmp("game_get_adjacent_square", argv[1]) == 0) {
+        1:  780:    ok = test_game_get_adjacent_square();
+        -:  781:  }
+       10:  782:  if (strcmp("game_get_expected_nb_tents_all", argv[1]) == 0) {
+    #####:  783:    ok = test_game_get_expected_nb_tents_all();
+        -:  784:  }
+       10:  785:  if (strcmp("game_new_empty_ext", argv[1]) == 0) {
+    #####:  786:    ok = test_game_new_empty_ext();
+        -:  787:  }
+       10:  788:  if (strcmp("game_nb_neigh", argv[1]) == 0) {
+        1:  789:    ok = test_game_nb_neigh();
+        -:  790:  }
+       10:  791:  if (ok) {
+       10:  792:    fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);
+       10:  793:    return EXIT_SUCCESS;
+        -:  794:  } else {
+    #####:  795:    fprintf(stderr, "Test \"%s\" finished: FAILURE\n", argv[1]);
+    #####:  796:    return EXIT_FAILURE;
+        -:  797:  }
+        -:  798:}

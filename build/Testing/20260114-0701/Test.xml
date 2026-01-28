@@ -1,0 +1,1011 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="Linux-cc"
+	BuildStamp="20260114-0701-Experimental"
+	Name="kyoshi-207"
+	Generator="ctest-3.31.6"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="data"
+	OSRelease="6.12.57+deb12-amd64"
+	OSVersion="#1 SMP PREEMPT_DYNAMIC Debian 6.12.57-1~bpo12+1 (2025-11-17)"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="183"
+	ModelName="Intel(R) Core(TM) i9-14900"
+	ProcessorCacheSize="36864"
+	NumberOfLogicalCPU="32"
+	NumberOfPhysicalCPU="24"
+	TotalVirtualMemory="39070"
+	TotalPhysicalMemory="63991"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="1380.53"
+	>
+	<Testing>
+		<StartDateTime>Jan 14 08:01 CET</StartDateTime>
+		<StartTestTime>1768374065</StartTestTime>
+		<TestList>
+			<Test>./test_maxjulienne_dummy</Test>
+			<Test>./test_game_won</Test>
+			<Test>./test_game_fill_grass</Test>
+			<Test>./test_game_restart</Test>
+			<Test>./test_game_is_neigh</Test>
+			<Test>./test_game_default</Test>
+			<Test>./test_game_default_solution</Test>
+			<Test>./test_game_print</Test>
+			<Test>./test_game_get_adjacent_square</Test>
+			<Test>./test_nanciaux_dummy</Test>
+			<Test>./test_game_set_square</Test>
+			<Test>./test_game_set_expected_nb_tents_row</Test>
+			<Test>./test_game_set_expected_nb_tents_col</Test>
+			<Test>./test_game_get_square</Test>
+			<Test>./test_game_get_expected_nb_tents_row</Test>
+			<Test>./test_game_get_expected_nb_tents_col</Test>
+			<Test>./test_game_get_expected_nb_tents_all</Test>
+			<Test>./test_game_get_current_nb_tents_row</Test>
+			<Test>./test_game_get_current_nb_tents_col</Test>
+			<Test>./test_game_get_current_nb_tents_all</Test>
+			<Test>./test_game_redo</Test>
+			<Test>./test_game_undo</Test>
+			<Test>./test_game_is_wrapping</Test>
+			<Test>./test_game_nb_cols</Test>
+			<Test>./test_game_nb_rows</Test>
+			<Test>./test_game_new_empty_ext</Test>
+			<Test>./test_game_new_ext</Test>
+			<Test>./test_game_new</Test>
+			<Test>./test_game_new_empty</Test>
+			<Test>./test_game_copy</Test>
+			<Test>./test_game_equal</Test>
+			<Test>./test_game_delete</Test>
+			<Test>./test_game_play_move</Test>
+			<Test>./test_game_check_move</Test>
+			<Test>./test_edejardin_dummy</Test>
+		</TestList>
+		<Test Status="passed">
+			<Name>test_maxjulienne_dummy</Name>
+			<Path>.</Path>
+			<FullName>./test_maxjulienne_dummy</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "dummy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0361362</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "dummy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "dummy" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_won</Name>
+			<Path>.</Path>
+			<FullName>./test_game_won</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_won"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0174362</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_won"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_won" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_fill_grass</Name>
+			<Path>.</Path>
+			<FullName>./test_game_fill_grass</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_fill_grass"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0157202</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_fill_grass"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_fill_grass" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_restart</Name>
+			<Path>.</Path>
+			<FullName>./test_game_restart</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_restart"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0221777</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_restart"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_restart" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_is_neigh</Name>
+			<Path>.</Path>
+			<FullName>./test_game_is_neigh</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_is_neigh"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0133324</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_is_neigh"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_is_neigh" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_default</Name>
+			<Path>.</Path>
+			<FullName>./test_game_default</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_default"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0165547</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_default"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_default" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_default_solution</Name>
+			<Path>.</Path>
+			<FullName>./test_game_default_solution</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_default_solution"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0141733</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_default_solution"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value encoding="base64" compression="gzip">eJxtj80KgzAQhO95isGjIJjEH+hV+gS2kJsIxjZg9RC95eHrupGWUoaQZGb5krlZvyJ59C/bDXbst2nt/DJtq1vmBKObnX/a4YL23jTXthUAckgoaBQoUaEGed2PRI5gkB1KYUDnACkkQhptjshWQiGcV9I5rRliYnROFwxJY5RFu2SI+eIH5KJi+/Mgs2uC0McYQ3uA/ttl9/TeWh29eYk3Rb1Bvg==</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_print</Name>
+			<Path>.</Path>
+			<FullName>./test_game_print</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_print"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0212499</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_print"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value encoding="base64" compression="gzip">eJxtj8sKwjAQRffzFZd+QR59gNviF6TC7Ipg1CwsYrvMx5s0DdrQCQnD4TCZO9h5QfW4vuz4/rhpqXB3k5uf9naCufT92RgCICChoFGjQYsOkY3FIQHPyMWIvYckGd6iPBSpPc62TkO4sOufzX+4SXhvC2qPvpTURcybnRfUh1kC0yG1WnOnS1+DDzqq====</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_adjacent_square</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_adjacent_square</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_get_adjacent_square"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0163488</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_maxjulienne "game_get_adjacent_square"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value encoding="base64" compression="gzip">eJxtj00KwjAQRvdzio+eoEn6A26LJ4hCdiHYsVawYFN3PbyJsWhLJyQMj8dkvhP7CVnnHmw7nqxr7+7Cw2T98+VGznDth97fuD1An5vmqDUByCEgoVCgRIUakdnNoRyzwVIGsZ8hSIR3UzMkyTVebJWGmI1d/Gzzh8uE13ZO1d6XguqIzddeFlS7WQJTIbX85E6X3jj2QEY=</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_nanciaux_dummy</Name>
+			<Path>.</Path>
+			<FullName>./test_nanciaux_dummy</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "dummy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0171451</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "dummy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "dummy" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_set_square</Name>
+			<Path>.</Path>
+			<FullName>./test_game_set_square</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_set_square"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0135221</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_set_square"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_set_square" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_set_expected_nb_tents_row</Name>
+			<Path>.</Path>
+			<FullName>./test_game_set_expected_nb_tents_row</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_set_expected_nb_tents_row"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0164417</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_set_expected_nb_tents_row"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_set_expected_nb_tents_row" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_set_expected_nb_tents_col</Name>
+			<Path>.</Path>
+			<FullName>./test_game_set_expected_nb_tents_col</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_set_expected_nb_tents_col"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0178856</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_set_expected_nb_tents_col"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_set_expected_nb_tents_col" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_square</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_square</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_square"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0137622</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_square"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_square" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_expected_nb_tents_row</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_expected_nb_tents_row</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_expected_nb_tents_row"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0192446</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_expected_nb_tents_row"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_expected_nb_tents_row" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_expected_nb_tents_col</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_expected_nb_tents_col</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_expected_nb_tents_col"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0161887</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_expected_nb_tents_col"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_expected_nb_tents_col" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_expected_nb_tents_all</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_expected_nb_tents_all</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_expected_nb_tents_all"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0162457</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_expected_nb_tents_all"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_expected_nb_tents_all" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_current_nb_tents_row</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_current_nb_tents_row</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_current_nb_tents_row"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0140555</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_current_nb_tents_row"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_current_nb_tents_row" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_current_nb_tents_col</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_current_nb_tents_col</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_current_nb_tents_col"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0151039</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_current_nb_tents_col"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_current_nb_tents_col" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_get_current_nb_tents_all</Name>
+			<Path>.</Path>
+			<FullName>./test_game_get_current_nb_tents_all</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_current_nb_tents_all"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0160514</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_get_current_nb_tents_all"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_get_current_nb_tents_all" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_redo</Name>
+			<Path>.</Path>
+			<FullName>./test_game_redo</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_redo"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0200744</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_redo"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value encoding="base64" compression="gzip">eJzt1D0OwjAMhuG9p/joASJATKwVJ0iZEEJp45JIbV3FLj+3J4VTIHV9bL+jaxJFeXcD3RJ5LtHFMUogf4Q9V9XJ2kIDQV3TE6JAmSGBk2Kz+uqr/7kbY4pLHfJkchm5w5eXr8CzTrPi6QSJBn6Qh8SxzRkFvVoiL7/lkCgne79c77b7A5p3Dphr8QEUFIYz====</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_undo</Name>
+			<Path>.</Path>
+			<FullName>./test_game_undo</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_undo"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0144056</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_undo"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value encoding="base64" compression="gzip">eJzt1D0OwjAMhuG9p/joASJATKwVJ0iZEEJp45JIbV3VDj+3J4VTIHV9bL+jaxJFeXcD3dLouUQXxyiB/BH2XFUnawsNBHVNT4gCZYYEnhWb1Vdf/c/dGFNc6pAnk8vIHb68fAVOOiXF0wlmGvhBHhLHNmcU9GqJvPyWw0w52fvlerfdH9C8c8Bciw9H44Y/====</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_is_wrapping</Name>
+			<Path>.</Path>
+			<FullName>./test_game_is_wrapping</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_is_wrapping"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0176458</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_is_wrapping"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_is_wrapping" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_nb_cols</Name>
+			<Path>.</Path>
+			<FullName>./test_game_nb_cols</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_nb_cols"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0242817</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_nb_cols"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_nb_cols" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_nb_rows</Name>
+			<Path>.</Path>
+			<FullName>./test_game_nb_rows</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_nb_rows"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0197718</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_nb_rows"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_nb_rows" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new_empty_ext</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_empty_ext</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_new_empty_ext"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0208513</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_new_empty_ext"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new_empty_ext" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new_ext</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_ext</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_new_ext"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.018207</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_nanciaux "game_new_ext"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new_ext" finished: SUCCESS
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_new"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0218576</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_new"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_new_empty</Name>
+			<Path>.</Path>
+			<FullName>./test_game_new_empty</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_new_empty"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0219509</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_new_empty"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_new_empty" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_copy</Name>
+			<Path>.</Path>
+			<FullName>./test_game_copy</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_copy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0202823</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_copy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_copy" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_equal</Name>
+			<Path>.</Path>
+			<FullName>./test_game_equal</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_equal"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0178588</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_equal"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_equal" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_delete</Name>
+			<Path>.</Path>
+			<FullName>./test_game_delete</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_delete"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0167211</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_delete"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_delete" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_play_move</Name>
+			<Path>.</Path>
+			<FullName>./test_game_play_move</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_play_move"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.017398</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_play_move"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_play_move" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_game_check_move</Name>
+			<Path>.</Path>
+			<FullName>./test_game_check_move</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_check_move"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.0167132</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "game_check_move"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "game_check_move" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<Test Status="passed">
+			<Name>test_edejardin_dummy</Name>
+			<Path>.</Path>
+			<FullName>./test_edejardin_dummy</FullName>
+			<FullCommandLine>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "dummy"</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.014462</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/game_test_edejardin "dummy"</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value>Test "dummy" finished: SUCCESS 
+</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<EndDateTime>Jan 14 08:01 CET</EndDateTime>
+		<EndTestTime>1768374066</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

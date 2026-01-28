@@ -142,13 +142,43 @@ CMakeFiles/game.dir/game_private.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game.dir/game_private.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_private.c -o CMakeFiles/game.dir/game_private.c.s
 
+CMakeFiles/game.dir/game_tools.c.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/game_tools.c.o: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools.c
+CMakeFiles/game.dir/game_tools.c.o: CMakeFiles/game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/game.dir/game_tools.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game.dir/game_tools.c.o -MF CMakeFiles/game.dir/game_tools.c.o.d -o CMakeFiles/game.dir/game_tools.c.o -c /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools.c
+
+CMakeFiles/game.dir/game_tools.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game.dir/game_tools.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools.c > CMakeFiles/game.dir/game_tools.c.i
+
+CMakeFiles/game.dir/game_tools.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game.dir/game_tools.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools.c -o CMakeFiles/game.dir/game_tools.c.s
+
+CMakeFiles/game.dir/game_tools_temp.c.o: CMakeFiles/game.dir/flags.make
+CMakeFiles/game.dir/game_tools_temp.c.o: /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools_temp.c
+CMakeFiles/game.dir/game_tools_temp.c.o: CMakeFiles/game.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/game.dir/game_tools_temp.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/game.dir/game_tools_temp.c.o -MF CMakeFiles/game.dir/game_tools_temp.c.o.d -o CMakeFiles/game.dir/game_tools_temp.c.o -c /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools_temp.c
+
+CMakeFiles/game.dir/game_tools_temp.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/game.dir/game_tools_temp.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools_temp.c > CMakeFiles/game.dir/game_tools_temp.c.i
+
+CMakeFiles/game.dir/game_tools_temp.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/game.dir/game_tools_temp.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools_temp.c -o CMakeFiles/game.dir/game_tools_temp.c.s
+
 # Object files for target game
 game_OBJECTS = \
 "CMakeFiles/game.dir/game.c.o" \
 "CMakeFiles/game.dir/game_aux.c.o" \
 "CMakeFiles/game.dir/game_ext.c.o" \
 "CMakeFiles/game.dir/queue.c.o" \
-"CMakeFiles/game.dir/game_private.c.o"
+"CMakeFiles/game.dir/game_private.c.o" \
+"CMakeFiles/game.dir/game_tools.c.o" \
+"CMakeFiles/game.dir/game_tools_temp.c.o"
 
 # External object files for target game
 game_EXTERNAL_OBJECTS =
@@ -158,9 +188,11 @@ libgame.a: CMakeFiles/game.dir/game_aux.c.o
 libgame.a: CMakeFiles/game.dir/game_ext.c.o
 libgame.a: CMakeFiles/game.dir/queue.c.o
 libgame.a: CMakeFiles/game.dir/game_private.c.o
+libgame.a: CMakeFiles/game.dir/game_tools.c.o
+libgame.a: CMakeFiles/game.dir/game_tools_temp.c.o
 libgame.a: CMakeFiles/game.dir/build.make
 libgame.a: CMakeFiles/game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C static library libgame.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C static library libgame.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/game.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/game.dir/link.txt --verbose=$(VERBOSE)
 

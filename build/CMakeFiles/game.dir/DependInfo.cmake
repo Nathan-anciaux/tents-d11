@@ -12,6 +12,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_aux.c" "CMakeFiles/game.dir/game_aux.c.o" "gcc" "CMakeFiles/game.dir/game_aux.c.o.d"
   "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_ext.c" "CMakeFiles/game.dir/game_ext.c.o" "gcc" "CMakeFiles/game.dir/game_ext.c.o.d"
   "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_private.c" "CMakeFiles/game.dir/game_private.c.o" "gcc" "CMakeFiles/game.dir/game_private.c.o.d"
+  "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools.c" "CMakeFiles/game.dir/game_tools.c.o" "gcc" "CMakeFiles/game.dir/game_tools.c.o.d"
+  "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools_temp.c" "CMakeFiles/game.dir/game_tools_temp.c.o" "gcc" "CMakeFiles/game.dir/game_tools_temp.c.o.d"
   "/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/queue.c" "CMakeFiles/game.dir/queue.c.o" "gcc" "CMakeFiles/game.dir/queue.c.o.d"
   )
 

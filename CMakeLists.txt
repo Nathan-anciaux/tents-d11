@@ -11,6 +11,8 @@ add_library(game STATIC
         game_ext.c
         queue.c
         game_private.c
+        game_tools.c
+        game_tools_temp.c
 )
 include(CTest)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

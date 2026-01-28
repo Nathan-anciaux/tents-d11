@@ -747,6 +747,54 @@ game_text.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/game_text.dir/build.make CMakeFiles/game_text.dir/game_text.c.s
 .PHONY : game_text.c.s
 
+game_tools.o: game_tools.c.o
+.PHONY : game_tools.o
+
+# target to build an object file
+game_tools.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/game_tools.c.o
+.PHONY : game_tools.c.o
+
+game_tools.i: game_tools.c.i
+.PHONY : game_tools.i
+
+# target to preprocess a source file
+game_tools.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/game_tools.c.i
+.PHONY : game_tools.c.i
+
+game_tools.s: game_tools.c.s
+.PHONY : game_tools.s
+
+# target to generate assembly for a file
+game_tools.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/game_tools.c.s
+.PHONY : game_tools.c.s
+
+game_tools_temp.o: game_tools_temp.c.o
+.PHONY : game_tools_temp.o
+
+# target to build an object file
+game_tools_temp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/game_tools_temp.c.o
+.PHONY : game_tools_temp.c.o
+
+game_tools_temp.i: game_tools_temp.c.i
+.PHONY : game_tools_temp.i
+
+# target to preprocess a source file
+game_tools_temp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/game_tools_temp.c.i
+.PHONY : game_tools_temp.c.i
+
+game_tools_temp.s: game_tools_temp.c.s
+.PHONY : game_tools_temp.s
+
+# target to generate assembly for a file
+game_tools_temp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/game.dir/build.make CMakeFiles/game.dir/game_tools_temp.c.s
+.PHONY : game_tools_temp.c.s
+
 queue.o: queue.c.o
 .PHONY : queue.o
 
@@ -837,6 +885,12 @@ help:
 	@echo "... game_text.o"
 	@echo "... game_text.i"
 	@echo "... game_text.s"
+	@echo "... game_tools.o"
+	@echo "... game_tools.i"
+	@echo "... game_tools.s"
+	@echo "... game_tools_temp.o"
+	@echo "... game_tools_temp.i"
+	@echo "... game_tools_temp.s"
 	@echo "... queue.o"
 	@echo "... queue.i"
 	@echo "... queue.s"

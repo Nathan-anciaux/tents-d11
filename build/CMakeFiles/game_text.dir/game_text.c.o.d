@@ -27,4 +27,14 @@ CMakeFiles/game_text.dir/game_text.c.o: \
  /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
  /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_aux.h \
- /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_ext.h
+ /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_ext.h \
+ /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools_temp.h \
+ /usr/include/assert.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+ /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_private.h \
+ /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/queue.h \
+ /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_struct.h \
+ /net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11/game_tools.h

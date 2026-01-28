@@ -33,10 +33,8 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
   int nb_direction = 9;
 
   while (nb_bigtrees > 0) {
-    printf("bigtrees restant : %d \n", nb_bigtrees);
     uint i = (((double)rand() * nb_rows) / RAND_MAX);
     uint j = (((double)rand() * nb_cols) / RAND_MAX);
-    printf("nb_col : %d, nb_row : %d\n", g->nb_cols, g->nb_rows);
 
     printf("i : %d, j : %d\n", i, j);
     game_set_square(g, i, j, BIGTREE);
@@ -56,19 +54,18 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
     uint d2 = (((double)rand() * nb_direction) / RAND_MAX);
     int i_offset2 = DIR2OFFSET2[d2][0];
     int j_offset2 = DIR2OFFSET2[d2][1];
-    int ii2 = i + i_offset;
-    int jj2 = j + j_offset;
+    int ii2 = i + i_offset2;
+    int jj2 = j + j_offset2;
     if (ii2 < 0 || ii2 >= (int)g->nb_rows) continue;
     if (jj2 < 0 || jj2 >= (int)g->nb_cols) continue;
     if ((ii2 < 0 || ii2 >= (int)g->nb_rows) || (jj2 < 0 || jj2 >= (int)g->nb_cols)) {
-      game_set_square(g, i, j, EMPTY);
-      game_set_square(g, ii2, jj2, EMPTY);
+      game_set_square(g, ii1, jj1, EMPTY);
       continue;
     } else {
       game_set_square(g, ii2, jj2, TENT);
+      printf("2 eme tente placée\n");
     }
-
-    game_set_square(g, 1, 1, TENT);
+    nb_bigtrees--;
     game_print(g);
     return g;
   }

@@ -58,10 +58,7 @@ static char char_to_square(char c){
 }
 
 game game_load(char* filename){
-    char filee[200];
-    sprintf(filee, "../saves/%s", filename);
-    FILE *file = fopen(filee, "r");
-
+    FILE *file = fopen(filename, "r");
     if (file ==NULL){
         fprintf(stderr, "Fichier inexistant %s\n", filename);
         return NULL;
@@ -107,9 +104,7 @@ game game_load(char* filename){
 }
 
 void game_save(cgame g, char* filename){
-    char filee[200];
-    sprintf(filee, "../saves/%s", filename);
-    FILE *file = fopen(filee, "w");
+    FILE *file = fopen(filename, "w");
     if (file == NULL)
         return; // la sauvegarde a échoué
 
@@ -128,9 +123,9 @@ void game_save(cgame g, char* filename){
     fprintf(file, "\n");
 
     // copy of every game's square with a space between each other
-    for (uint col=0; col < g->nb_cols; col++){
-        for (uint row=0; row < g->nb_rows; row++){
-            char c = game_get_square(g, col, row);
+    for (uint row=0; row < g->nb_rows; row++){
+        for (uint col=0; col < g->nb_cols; col++){
+            char c = game_get_square(g, row, col);
             fprintf(file, "%c ", square_to_char(c));
         }
         fprintf(file, "\n");

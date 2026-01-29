@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
       char tmp[200];
       char nom[205];
       scanf("%s", tmp);
-      sprintf(nom, "%s.txt", tmp);
+      sprintf(nom, "%s", tmp);
       game_save(g, nom);
     }
     game_print((cgame)g);

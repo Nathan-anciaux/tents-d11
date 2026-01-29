@@ -59,7 +59,7 @@ static char char_to_square(char c){
 
 game game_load(char* filename){
     char filee[200];
-    sprintf(filee, "../saves/%s.txt", filename);
+    sprintf(filee, "../saves/%s", filename);
     FILE *file = fopen(filee, "r");
 
     if (file ==NULL){

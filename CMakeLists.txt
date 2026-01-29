@@ -3,7 +3,7 @@ link_directories(${CMAKE_SOURCE_DIR})
 project(game_text C)
 enable_testing()
 
-set(CMAKE_C_FLAGS "-std=c99 -g -Wall --coverage")
+set(CMAKE_C_FLAGS "-std=c99 -g -Wall")
 
 add_library(game STATIC         
         game.c

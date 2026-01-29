@@ -16,7 +16,7 @@ void print_help(void)
   return;
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
   // square squares[18] = {EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
   //                       EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
@@ -24,15 +24,14 @@ int main(int argc, char *argv[])
   // uint nb_col[3] = {1, 0, 0};
   // game g = game_new_ext(6, 3, squares, nb_row, nb_col, true);
   char file[200];
-  if (argc > 1){
+  if (argc > 1) {
     sprintf(file, "../saves/%s", argv[1]);
-  }
-  else {
+  } else {
     sprintf(file, "../saves/default.txt");
   }
 
   game g = game_load(file);
-  if (g == NULL){
+  if (g == NULL) {
     printf("Erreur !\n");
     return EXIT_FAILURE;
   }
@@ -67,7 +66,7 @@ int main(int argc, char *argv[])
       printf("shame \n");
       game_delete(g);
       return EXIT_SUCCESS;
-    } else if (c == 's'){
+    } else if (c == 's') {
       char tmp[200];
       char nom[205];
       scanf("%s", tmp);

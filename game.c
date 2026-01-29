@@ -34,8 +34,7 @@ game game_new_empty(void) { return game_new_empty_ext(DEFAULT_SIZE, DEFAULT_SIZE
 
 game game_copy(cgame g)
 {
-  game gg = game_new_ext(g->nb_rows, g->nb_cols, g->squares, g->nb_tents_row, g->nb_tents_col,
-                         g->wrapping);
+  game gg = game_new_ext(g->nb_rows, g->nb_cols, g->squares, g->nb_tents_row, g->nb_tents_col, g->wrapping);
   return gg;
 }
 
@@ -246,8 +245,7 @@ bool game_won(cgame g)
     for (uint j = 0; j < g->nb_cols; j++) {
       // 4.a) for tents, check there is at least one neigh tree (or big tree).
       if (SQUARE(g, i, j) == TENT) {
-        if (!game_is_neigh(g, i, j, TREE, false) && !game_is_neigh(g, i, j, BIGTREE, false))
-          return false;
+        if (!game_is_neigh(g, i, j, TREE, false) && !game_is_neigh(g, i, j, BIGTREE, false)) return false;
       }
 
       // 4.b) for trees, check there is the correct number of neigh tents.

@@ -386,16 +386,17 @@ bool test_game_check_move(void)
   return 1;
 }
 
-bool test_game_save(void){
-  char *filename = "../saves/test_game_save1.txt";
+bool test_game_save(void)
+{
+  char* filename = "../saves/test_game_save1.txt";
   // test basic default game
   game g = game_default();
   game_save(g, filename);
   game gl = game_load(filename);
-  if (gl == NULL){
+  if (gl == NULL) {
     return false;
   }
-  if (!game_equal(g, gl)){
+  if (!game_equal(g, gl)) {
     game_delete(g);
     game_delete(gl);
     remove(filename);
@@ -406,7 +407,7 @@ bool test_game_save(void){
   game_play_move(g, 1, 1, TENT);
   game_save(g, filename);
   // test if differences
-  if (game_equal(g, gl)){
+  if (game_equal(g, gl)) {
     game_delete(g);
     game_delete(gl);
     remove(filename);
@@ -415,7 +416,7 @@ bool test_game_save(void){
   game_delete(gl);
   gl = game_load(filename);
   // test if no diffferences
-  if (gl == NULL || !game_equal(g, gl)){
+  if (gl == NULL || !game_equal(g, gl)) {
     game_delete(g);
     game_delete(gl);
     remove(filename);
@@ -427,71 +428,67 @@ bool test_game_save(void){
   remove(filename);
   // what if i play on a rectangle game?
   {
-  filename = "../saves/test_game_save2.txt";
-  uint tents_row[] = {3,1,2,1,1,2,1,2};
-  uint tents_col[] = {3,1,2,1,1,2,1,0,2};
-  square squares[] = {GRASS,  TREE, GRASS, GRASS, GRASS, GRASS,  TREE,  GRASS, GRASS, 
-                      GRASS, GRASS, TREE, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS,
-                      GRASS, GRASS, GRASS, GRASS, GRASS,  TREE, GRASS,  GRASS, TREE, 
-                      TREE, GRASS, GRASS, TREE, GRASS, GRASS, GRASS, GRASS, GRASS, 
-                      GRASS,  GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, TREE, GRASS, 
-                      GRASS,  TREE, GRASS, GRASS, GRASS, GRASS, GRASS, TREE, GRASS, 
-                      GRASS, GRASS, TREE, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS,
-                      TREE, GRASS, GRASS, GRASS,  GRASS,  GRASS, TREE, GRASS, GRASS};
-  game g2 = game_new_ext(8, 9, squares, tents_row, tents_col, false);
-  if (g2 == NULL){
-    return false;
-  }
-  game_save(g2, filename);
-  game gl2 = game_load(filename);
-  if (gl2 == NULL || !game_equal(g2, gl2)){
+    filename = "../saves/test_game_save2.txt";
+    uint tents_row[] = {3, 1, 2, 1, 1, 2, 1, 2};
+    uint tents_col[] = {3, 1, 2, 1, 1, 2, 1, 0, 2};
+    square squares[] = {GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, TREE,
+                        GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, TREE,
+                        GRASS, GRASS, TREE,  TREE,  GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS,
+                        GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, TREE,  GRASS,
+                        GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS,
+                        GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS};
+    game g2 = game_new_ext(8, 9, squares, tents_row, tents_col, false);
+    if (g2 == NULL) {
+      return false;
+    }
+    game_save(g2, filename);
+    game gl2 = game_load(filename);
+    if (gl2 == NULL || !game_equal(g2, gl2)) {
+      game_delete(g2);
+      game_delete(gl2);
+      remove(filename);
+      return false;
+    }
     game_delete(g2);
     game_delete(gl2);
     remove(filename);
-    return false;
-  }
-  game_delete(g2);
-  game_delete(gl2);
-  remove(filename);
   }
   // what if i play on a rectangle game?
   {
-  filename = "../saves/test_game_save3.txt";
-  uint tents_row[] = {3,1,2,1,1,2,1,2,1};
-  uint tents_col[] = {3,1,2,1,1,2,1,0};
-  square squares[] = {GRASS,  TREE, GRASS, GRASS, GRASS, GRASS,  TREE,  GRASS, 
-                      GRASS, GRASS, TREE, GRASS, GRASS, GRASS, GRASS, GRASS,
-                      GRASS, GRASS, GRASS, GRASS, GRASS,  TREE, GRASS,  GRASS, 
-                      TREE, GRASS, GRASS, TREE, GRASS, GRASS, GRASS, GRASS, 
-                      GRASS,  GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, TREE,
-                      GRASS,  TREE, GRASS, GRASS, GRASS, GRASS, GRASS, TREE, 
-                      GRASS, GRASS, TREE, GRASS, GRASS, GRASS, GRASS, GRASS,
-                      TREE, GRASS, GRASS, GRASS,  GRASS,  GRASS, TREE, GRASS,
-                      GRASS, GRASS, GRASS, GRASS,  GRASS,  GRASS, GRASS, GRASS};
-  game g3 = game_new_ext(9, 8, squares, tents_row, tents_col, false);
-  if (g3 == NULL){
-    return false;
-  }
-  game_save(g3, filename);
-  game gl3 = game_load(filename);
-  if (gl3 == NULL || !game_equal(g3, gl3)){
+    filename = "../saves/test_game_save3.txt";
+    uint tents_row[] = {3, 1, 2, 1, 1, 2, 1, 2, 1};
+    uint tents_col[] = {3, 1, 2, 1, 1, 2, 1, 0};
+    square squares[] = {GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, TREE,  GRASS,
+                        GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS,
+                        TREE,  GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS,
+                        GRASS, GRASS, GRASS, TREE,  GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS, TREE,
+                        GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS,
+                        GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS, GRASS};
+    game g3 = game_new_ext(9, 8, squares, tents_row, tents_col, false);
+    if (g3 == NULL) {
+      return false;
+    }
+    game_save(g3, filename);
+    game gl3 = game_load(filename);
+    if (gl3 == NULL || !game_equal(g3, gl3)) {
+      game_delete(g3);
+      game_delete(gl3);
+      remove(filename);
+      return false;
+    }
     game_delete(g3);
     game_delete(gl3);
     remove(filename);
-    return false;
-  }
-  game_delete(g3);
-  game_delete(gl3);
-  remove(filename);
   }
 
   return true;
 }
 
-bool test_game_load(void){
-  char *filename = "../saves/test_load1.txt";
-  FILE *f = fopen(filename, "w");
-  if (f == NULL){
+bool test_game_load(void)
+{
+  char* filename = "../saves/test_load1.txt";
+  FILE* f = fopen(filename, "w");
+  if (f == NULL) {
     return false;
   }
 
@@ -503,22 +500,23 @@ bool test_game_load(void){
   fclose(f);
 
   game g = game_load(filename);
-  if (g == NULL){
+  if (g == NULL) {
     remove(filename);
     return false;
   }
 
-  if (game_nb_rows(g) != 2 || game_nb_cols(g)!=2){
+  if (game_nb_rows(g) != 2 || game_nb_cols(g) != 2) {
     game_delete(g);
     remove(filename);
     return false;
   }
 
-  if (game_get_square(g, 0, 0) != GRASS || game_get_square(g, 0, 1) != GRASS || game_get_square(g, 1, 0) != TENT || game_get_square(g, 1, 1) != TREE){
+  if (game_get_square(g, 0, 0) != GRASS || game_get_square(g, 0, 1) != GRASS || game_get_square(g, 1, 0) != TENT ||
+      game_get_square(g, 1, 1) != TREE) {
     printf("probleme de carré");
     return false;
   }
-  if (game_get_expected_nb_tents_row(g, 1)!=1 || game_get_expected_nb_tents_col(g, 0) != 1){
+  if (game_get_expected_nb_tents_row(g, 1) != 1 || game_get_expected_nb_tents_col(g, 0) != 1) {
     printf("expected");
     return false;
   }
@@ -527,7 +525,7 @@ bool test_game_load(void){
   remove(filename);
 
   game g1 = game_load("../saves/existepas.txt");
-  if (g1 != NULL){
+  if (g1 != NULL) {
     return false;
   }
   return true;
@@ -581,4 +579,3 @@ int main(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 }
-

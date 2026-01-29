@@ -21,8 +21,7 @@
 /*                                 GAME EXT                                   */
 /* ************************************************************************** */
 
-game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_row,
-                  uint* nb_tents_col, bool wrapping)
+game game_new_ext(uint nb_rows, uint nb_cols, square* squares, uint* nb_tents_row, uint* nb_tents_col, bool wrapping)
 {
   game g = game_new_empty_ext(nb_rows, nb_cols, wrapping);
   assert(g);

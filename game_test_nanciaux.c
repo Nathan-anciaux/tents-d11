@@ -670,29 +670,39 @@ bool test_game_new_empty_ext()
   return true;
 }
 
-// bool test_game_random() {
+bool test_game_random()
+{
+  // test won on solved random game (wrapping off/on)
+  for (int i = 0; i < 2; i++) {
+    game gr = game_random(10, 10, i, 6, 4, true);
+    if (!game_won(gr)) {
+      return 0;
+    }
+    game_delete(gr);
+  }
 
-//   // tab to switch between game square / rectangle
-//   int tab[] = {10, 5};
+  // test won on not solved random game (wrapping off/on)
+  for (int i = 0; i < 2; i++) {
+    game gr = game_random(10, 10, i, 6, 4, false);
+    if (!game_won(gr)) {
+      return 0;
+    }
+    game_delete(gr);
+  }
 
-//   // test game is win (square / wrapping on)
-//   for (int bo = 0; bo < 2; bo++) {
-//     // for wrapping
-//     for (int squarerec = 0; squarerec < 2; squarerec++) {
-//       // square or rec
-//       for (int i = 0; i < 10; i++) {
-//         for (int j = 0; j < tab[squarerec]; j++) {
-//           game gr = game_random(10, tab[squarerec], bo, i, j, true);
-//           if (!game_won(gr)) {
-//             return 0;
-//           }
-//         }
-//       } 
-//     }
-//   }
-//   return 1;
-// }
-
+  // test not expected tents
+  game gr = game_random(10, 10, true, 6, 4, false);
+  for (int i = 0; i < game_nb_rows(gr); i++) {
+    for (int j = 0; j < game_nb_cols(gr); j++) {
+      if (game_get_square(gr, i, j) == TENT) {
+        return 0;
+        game_delete(gr);
+      }
+    }
+  }
+  game_delete(gr);
+  return 1;
+}
 
 int main(int argc, char* argv[])
 {
@@ -755,9 +765,9 @@ int main(int argc, char* argv[])
   if (strcmp("game_redo", argv[1]) == 0) {
     ok = test_game_redo();
   }
-  // if (strcmp("game_random", argv[1]) == 0) {
-  //   ok = test_game_random();
-  // }
+  if (strcmp("game_random", argv[1]) == 0) {
+    ok = test_game_random();
+  }
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);
     return EXIT_SUCCESS;

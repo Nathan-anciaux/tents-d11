@@ -486,6 +486,19 @@ bool test_game_save(void)
 
 bool test_game_load(void)
 {
+  char* df = "../saves/default.txt";
+  char* dfs = "../saves/default.sol";
+  game game_df = game_load(df);
+  game game_dfs = game_load(dfs);
+  if (game_df == NULL || game_dfs == NULL) {
+    return false;
+  }
+  if (!game_equal(game_df, game_default())) return false;
+  if (!game_equal(game_dfs, game_default_solution())) return false;
+  game_delete(game_df);
+  game_delete(game_dfs);
+  remove(df); remove(dfs);
+
   char* filename = "../saves/test_load1.txt";
   FILE* f = fopen(filename, "w");
   if (f == NULL) {

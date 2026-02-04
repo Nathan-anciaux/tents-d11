@@ -1,1 +1,0 @@
-/usr/bin/cc -std=c99 -g -Wall --coverage -g CMakeFiles/game_test_nanciaux.dir/game_test_nanciaux.c.o -o game_test_nanciaux   -L/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11  -Wl,-rpath,/net/cremi/maxjulienne/L2-S2/projet_technologique/projet/tents-d11 libgame.a

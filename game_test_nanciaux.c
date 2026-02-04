@@ -5,6 +5,7 @@
 #include "game.h"
 #include "game_aux.h"
 #include "game_ext.h"
+#include "game_tools.h"
 
 bool test_game_redo();
 
@@ -670,8 +671,28 @@ bool test_game_new_empty_ext()
 }
 
 bool test_game_random() {
-  
+
+  // tab to switch between game square / rectangle
+  int tab[] = {10, 5};
+
+  // test game is win (square / wrapping on)
+  for (int bo = 0; bo < 2; bo++) {
+    // for wrapping
+    for (int squarerec = 0; squarerec < 2; squarerec++) {
+      // square or rec
+      for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+          game gr = game_random(10, tab[squarerec], bo, i, j, true);
+          if (!game_won(gr)) {
+            return 0;
+          }
+        }
+      } 
+    }
+  }
+  return 1;
 }
+
 
 int main(int argc, char* argv[])
 {

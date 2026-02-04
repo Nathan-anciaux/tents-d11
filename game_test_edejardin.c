@@ -388,7 +388,7 @@ bool test_game_check_move(void)
 
 bool test_game_save(void)
 {
-  char* filename = "../saves/test_game_save1.txt";
+  char* filename = "saves/test_game_save1.txt";
   // test basic default game
   game g = game_default();
   game_save(g, filename);
@@ -428,7 +428,7 @@ bool test_game_save(void)
   remove(filename);
   // what if i play on a rectangle game?
   {
-    filename = "../saves/test_game_save2.txt";
+    filename = "saves/test_game_save2.txt";
     uint tents_row[] = {3, 1, 2, 1, 1, 2, 1, 2};
     uint tents_col[] = {3, 1, 2, 1, 1, 2, 1, 0, 2};
     square squares[] = {GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, TREE,
@@ -455,7 +455,7 @@ bool test_game_save(void)
   }
   // what if i play on a rectangle game?
   {
-    filename = "../saves/test_game_save3.txt";
+    filename = "saves/test_game_save3.txt";
     uint tents_row[] = {3, 1, 2, 1, 1, 2, 1, 2, 1};
     uint tents_col[] = {3, 1, 2, 1, 1, 2, 1, 0};
     square squares[] = {GRASS, TREE,  GRASS, GRASS, GRASS, GRASS, TREE,  GRASS, GRASS, GRASS, TREE,  GRASS,
@@ -486,8 +486,8 @@ bool test_game_save(void)
 
 bool test_game_load(void)
 {
-  char* df = "../saves/default.txt";
-  char* dfs = "../saves/default.sol";
+  char* df = "saves/default.txt";
+  char* dfs = "saves/default.sol";
   game game_df = game_load(df);
   game game_dfs = game_load(dfs);
   if (game_df == NULL || game_dfs == NULL) {
@@ -497,9 +497,51 @@ bool test_game_load(void)
   if (!game_equal(game_dfs, game_default_solution())) return false;
   game_delete(game_df);
   game_delete(game_dfs);
-  remove(df); remove(dfs);
 
-  char* filename = "../saves/test_load1.txt";
+  // test des board rectangle with et height
+  game game_rw = game_load("saves/test_gamerectw.txt");
+  int nb_row[] = {2, 2, 0, 4, 0, 2, 2, 2};
+  int nb_col[] = {1, 2, 0, 2, 2, 1, 2, 0, 4};
+  if (game_rw->nb_cols != 9 || game_rw->nb_rows != 8 ||game_rw->wrapping != false) return false;
+  for (int i = 0; i< game_rw->nb_rows; i++){
+    if (game_get_expected_nb_tents_row(game_rw, i) != nb_row[i]) return false;
+  }
+  for (int i = 0; i< game_rw->nb_cols; i++){
+    if (game_get_expected_nb_tents_col(game_rw, i) != nb_col[i]) return false;
+  }
+  game_delete(game_rw);
+
+  game game_rh = game_load("saves/test_gamerecth.txt");
+  int nb_roww[] = {2, 1, 2, 1, 3, 1, 1, 2, 1};
+  int nb_coll[] = {0, 3, 1, 1, 2, 2, 2, 3};
+  if (game_rh->nb_cols != 8 || game_rh->nb_rows != 9 ||game_rh->wrapping != false) return false;
+  for (int i = 0; i< game_rh->nb_rows; i++){
+    if (game_get_expected_nb_tents_row(game_rh, i) != nb_roww[i]) return false;
+  }
+  for (int i = 0; i< game_rh->nb_cols; i++){
+    if (game_get_expected_nb_tents_col(game_rh, i) != nb_coll[i]) return false;
+  }
+  game_delete(game_rh);
+
+  // test du wrapping
+  game game_wrap = game_load("saves/test_wrapping.txt");
+  int nb_rowww[] = {1, 2, 1, 2, 2, 0, 1, 3};
+  int nb_colll[] = {3, 0, 2, 1, 2, 1, 2, 1};
+  if (game_wrap->nb_cols != 8 || game_wrap->nb_rows != 8 ||game_wrap->wrapping != true) return false;
+  for (int i = 0; i< game_wrap->nb_rows; i++){
+    if (game_get_expected_nb_tents_row(game_wrap, i) != nb_rowww[i]) return false;
+  }
+  for (int i = 0; i< game_wrap->nb_cols; i++){
+    if (game_get_expected_nb_tents_col(game_wrap, i) != nb_colll[i]) return false;
+  }
+  game_delete(game_wrap);
+
+  // test bigtree
+  game game_big = game_load("saves/test_bigtree.txt");
+  if (game_get_square(game_big, 0, 5) != BIGTREE) return false;
+  game_delete(game_big);
+
+  char* filename = "saves/test_load1.txt";
   FILE* f = fopen(filename, "w");
   if (f == NULL) {
     return false;
@@ -537,7 +579,7 @@ bool test_game_load(void)
   game_delete(g);
   remove(filename);
 
-  game g1 = game_load("../saves/existepas.txt");
+  game g1 = game_load("saves/existepas.txt");
   if (g1 != NULL) {
     return false;
   }

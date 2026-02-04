@@ -17,6 +17,9 @@ add_library(game STATIC
 include(CTest)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+# folder copy
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/saves/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/saves/)
+
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game)
 
@@ -55,6 +58,7 @@ add_test(test_game_nb_cols ./game_test_nanciaux game_nb_cols)
 add_test(test_game_nb_rows ./game_test_nanciaux game_nb_rows)
 add_test(test_game_new_empty_ext ./game_test_nanciaux game_new_empty_ext)
 add_test(test_game_new_ext ./game_test_nanciaux game_new_ext)
+# add_test(test_game_random ./game_test_nanciaux game_random)
 
 add_executable(game_test_edejardin game_test_edejardin.c)
 target_link_libraries(game_test_edejardin game)

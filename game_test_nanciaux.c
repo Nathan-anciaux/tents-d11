@@ -5,6 +5,7 @@
 #include "game.h"
 #include "game_aux.h"
 #include "game_ext.h"
+#include "game_tools.h"
 
 bool test_game_redo();
 
@@ -41,6 +42,8 @@ bool test_game_get_current_nb_tents_col();
 bool test_game_get_current_nb_tents_all();
 
 bool test_game_get_ajacent_square();
+
+bool test_game_random();
 
 int test_dummy() { return 1; }
 
@@ -667,6 +670,30 @@ bool test_game_new_empty_ext()
   return true;
 }
 
+// bool test_game_random() {
+
+//   // tab to switch between game square / rectangle
+//   int tab[] = {10, 5};
+
+//   // test game is win (square / wrapping on)
+//   for (int bo = 0; bo < 2; bo++) {
+//     // for wrapping
+//     for (int squarerec = 0; squarerec < 2; squarerec++) {
+//       // square or rec
+//       for (int i = 0; i < 10; i++) {
+//         for (int j = 0; j < tab[squarerec]; j++) {
+//           game gr = game_random(10, tab[squarerec], bo, i, j, true);
+//           if (!game_won(gr)) {
+//             return 0;
+//           }
+//         }
+//       } 
+//     }
+//   }
+//   return 1;
+// }
+
+
 int main(int argc, char* argv[])
 {
   bool ok = 0;
@@ -728,6 +755,9 @@ int main(int argc, char* argv[])
   if (strcmp("game_redo", argv[1]) == 0) {
     ok = test_game_redo();
   }
+  // if (strcmp("game_random", argv[1]) == 0) {
+  //   ok = test_game_random();
+  // }
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);
     return EXIT_SUCCESS;

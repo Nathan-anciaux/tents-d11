@@ -676,6 +676,7 @@ bool test_game_random()
   for (int i = 0; i < 2; i++) {
     game gr = game_random(10, 10, i, 6, 4, true);
     if (!game_won(gr)) {
+      game_delete(gr);
       return 0;
     }
     game_delete(gr);
@@ -685,6 +686,7 @@ bool test_game_random()
   for (int i = 0; i < 2; i++) {
     game gr = game_random(10, 10, i, 6, 4, false);
     if (!game_won(gr)) {
+      game_delete(gr);
       return 0;
     }
     game_delete(gr);
@@ -695,12 +697,33 @@ bool test_game_random()
   for (int i = 0; i < game_nb_rows(gr); i++) {
     for (int j = 0; j < game_nb_cols(gr); j++) {
       if (game_get_square(gr, i, j) == TENT) {
-        return 0;
         game_delete(gr);
+        return 0;
       }
     }
   }
-  game_delete(gr);
+
+  // test infinity loop
+  game grloop = game_random(3, 3, true, 100, 100, false);
+  if (grloop == NULL) {
+    game_delete(grloop);
+    return 0;
+  }
+
+  int counter = 0;
+  for (int i = 0; i < game_nb_rows(grloop); i++) {
+    for (int j = 0; j < game_nb_rows(grloop); j++) {
+      if (game_get_square(grloop, i, j) == TENT) {
+        counter++;
+      }
+    }
+  }
+  if (counter == 9) {
+    game_delete(grloop);
+    return 0;
+  }
+  game_delete(grloop);
+
   return 1;
 }
 

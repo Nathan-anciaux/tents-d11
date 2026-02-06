@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "game.h"
 #include "game_aux.h"
@@ -25,16 +25,15 @@ int main(int argc, char* argv[])
   // uint nb_col[3] = {1, 0, 0};
   // game g = game_new_ext(6, 3, squares, nb_row, nb_col, true);
 
-  if (strstr(argv[0], "game_random") != NULL){
+  if (strstr(argv[0], "game_random") != NULL) {
     if (argc < 8) {
-    return EXIT_FAILURE;
-    } 
-  
+      return EXIT_FAILURE;
+    }
+
     game g = game_random(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), atoi(argv[5]), atoi(argv[6]));
     game_save(g, argv[7]);
     game_delete(g);
-  }
-  else {
+  } else {
     char file[200];
     if (argc > 1) {
       sprintf(file, "../saves/%s", argv[1]);

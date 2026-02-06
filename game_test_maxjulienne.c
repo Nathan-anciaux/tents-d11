@@ -11,7 +11,8 @@
 game create_game_rectangle()
 {
   // rectanglular game
-  square squares[18] = {TENT, TREE, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
+  square squares[18] = {TENT,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
+                        EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY};
   uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   uint nb_col[3] = {1, 0, 0};
   game g = game_new_ext(6, 3, squares, nb_row, nb_col, true);

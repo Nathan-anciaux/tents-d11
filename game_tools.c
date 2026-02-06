@@ -109,7 +109,7 @@ game game_load(char* filename)
 void game_save(cgame g, char* filename)
 {
   FILE* file = fopen(filename, "w");
-  if (file == NULL) return; // la sauvegarde a échoué
+  if (file == NULL) return;  // la sauvegarde a échoué
 
   // champs de game
   fprintf(file, "%u %u %u\n", g->nb_rows, g->nb_cols, g->wrapping);

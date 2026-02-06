@@ -502,11 +502,11 @@ bool test_game_load(void)
   game game_rw = game_load("saves/test_gamerectw.txt");
   int nb_row[] = {2, 2, 0, 4, 0, 2, 2, 2};
   int nb_col[] = {1, 2, 0, 2, 2, 1, 2, 0, 4};
-  if (game_rw->nb_cols != 9 || game_rw->nb_rows != 8 ||game_rw->wrapping != false) return false;
-  for (int i = 0; i< game_rw->nb_rows; i++){
+  if (game_rw->nb_cols != 9 || game_rw->nb_rows != 8 || game_rw->wrapping != false) return false;
+  for (int i = 0; i < game_rw->nb_rows; i++) {
     if (game_get_expected_nb_tents_row(game_rw, i) != nb_row[i]) return false;
   }
-  for (int i = 0; i< game_rw->nb_cols; i++){
+  for (int i = 0; i < game_rw->nb_cols; i++) {
     if (game_get_expected_nb_tents_col(game_rw, i) != nb_col[i]) return false;
   }
   game_delete(game_rw);
@@ -514,11 +514,11 @@ bool test_game_load(void)
   game game_rh = game_load("saves/test_gamerecth.txt");
   int nb_roww[] = {2, 1, 2, 1, 3, 1, 1, 2, 1};
   int nb_coll[] = {0, 3, 1, 1, 2, 2, 2, 3};
-  if (game_rh->nb_cols != 8 || game_rh->nb_rows != 9 ||game_rh->wrapping != false) return false;
-  for (int i = 0; i< game_rh->nb_rows; i++){
+  if (game_rh->nb_cols != 8 || game_rh->nb_rows != 9 || game_rh->wrapping != false) return false;
+  for (int i = 0; i < game_rh->nb_rows; i++) {
     if (game_get_expected_nb_tents_row(game_rh, i) != nb_roww[i]) return false;
   }
-  for (int i = 0; i< game_rh->nb_cols; i++){
+  for (int i = 0; i < game_rh->nb_cols; i++) {
     if (game_get_expected_nb_tents_col(game_rh, i) != nb_coll[i]) return false;
   }
   game_delete(game_rh);
@@ -527,11 +527,11 @@ bool test_game_load(void)
   game game_wrap = game_load("saves/test_wrapping.txt");
   int nb_rowww[] = {1, 2, 1, 2, 2, 0, 1, 3};
   int nb_colll[] = {3, 0, 2, 1, 2, 1, 2, 1};
-  if (game_wrap->nb_cols != 8 || game_wrap->nb_rows != 8 ||game_wrap->wrapping != true) return false;
-  for (int i = 0; i< game_wrap->nb_rows; i++){
+  if (game_wrap->nb_cols != 8 || game_wrap->nb_rows != 8 || game_wrap->wrapping != true) return false;
+  for (int i = 0; i < game_wrap->nb_rows; i++) {
     if (game_get_expected_nb_tents_row(game_wrap, i) != nb_rowww[i]) return false;
   }
-  for (int i = 0; i< game_wrap->nb_cols; i++){
+  for (int i = 0; i < game_wrap->nb_cols; i++) {
     if (game_get_expected_nb_tents_col(game_wrap, i) != nb_colll[i]) return false;
   }
   game_delete(game_wrap);

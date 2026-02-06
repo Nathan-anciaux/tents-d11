@@ -12,7 +12,6 @@ add_library(game STATIC
         queue.c
         game_private.c
         game_tools.c
-        game_tools_temp.c
 )
 include(CTest)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -22,6 +21,8 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/saves/ DESTINATION ${CMAKE_CURRENT_BINARY_
 
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game)
+add_executable(game_random game_text.c)
+target_link_libraries(game_random game)
 
 add_executable(game_test_maxjulienne game_test_maxjulienne.c)
 target_link_libraries(game_test_maxjulienne game)

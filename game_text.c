@@ -26,12 +26,16 @@ int main(int argc, char* argv[])
   // game g = game_new_ext(6, 3, squares, nb_row, nb_col, true);
 
   if (strstr(argv[0], "game_random") != NULL) {
-    if (argc < 8) {
+    if (argc < 7) {
       return EXIT_FAILURE;
     }
 
     game g = game_random(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), atoi(argv[5]), atoi(argv[6]));
-    game_save(g, argv[7]);
+    if (argc == 8) {
+      printf("sauvegarde\n");
+      game_save(g, argv[7]);
+    }
+    game_print(g);
     game_delete(g);
   } else {
     char file[200];

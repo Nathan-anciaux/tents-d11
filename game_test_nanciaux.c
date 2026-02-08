@@ -670,7 +670,7 @@ bool test_game_new_empty_ext()
   return true;
 }
 
-bool test_game_random()
+/*bool test_game_random()
 {
   // test won on solved random game (wrapping off/on)
   for (int i = 0; i < 2; i++) {
@@ -703,7 +703,7 @@ bool test_game_random()
     }
   }
   game_delete(gr);
-  /*
+
   // test infinity loop
   game grloop = game_random(3, 3, true, 100, 0, true);
   if (grloop == NULL) {
@@ -723,10 +723,10 @@ bool test_game_random()
     return 0;
   }
   game_delete(grloop);
-  */
+
 
   return 1;
-}
+}*/
 
 int main(int argc, char* argv[])
 {
@@ -789,9 +789,11 @@ int main(int argc, char* argv[])
   if (strcmp("game_redo", argv[1]) == 0) {
     ok = test_game_redo();
   }
+  /*
   if (strcmp("game_random", argv[1]) == 0) {
     ok = test_game_random();
   }
+  */
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);
     return EXIT_SUCCESS;

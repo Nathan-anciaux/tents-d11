@@ -490,11 +490,32 @@ bool test_game_load(void)
   char* dfs = "saves/default.sol";
   game game_df = game_load(df);
   game game_dfs = game_load(dfs);
-  if (game_df == NULL || game_dfs == NULL) {
+  if (game_df == NULL) {
+    game_delete(game_df);
+    game_delete(game_dfs);
     return false;
   }
-  if (!game_equal(game_df, game_default())) return false;
-  if (!game_equal(game_dfs, game_default_solution())) return false;
+  if (game_dfs == NULL) {
+    game_delete(game_dfs);
+    game_delete(game_df);
+    return false;
+  }
+  game default_g = game_default();
+  if (!game_equal(game_df, default_g)) {
+    game_delete(game_df);
+    game_delete(game_dfs);
+    game_delete(default_g);
+    return false;
+  }
+  game_delete(default_g);
+  game default_sol_g = game_default_solution();
+  if (!game_equal(game_dfs, default_sol_g)) {
+    game_delete(game_df);
+    game_delete(game_dfs);
+    game_delete(default_g);
+    return false;
+  }
+  game_delete(default_sol_g);
   game_delete(game_df);
   game_delete(game_dfs);
 
@@ -504,10 +525,16 @@ bool test_game_load(void)
   int nb_col[] = {1, 2, 0, 2, 2, 1, 2, 0, 4};
   if (game_rw->nb_cols != 9 || game_rw->nb_rows != 8 || game_rw->wrapping != false) return false;
   for (int i = 0; i < game_rw->nb_rows; i++) {
-    if (game_get_expected_nb_tents_row(game_rw, i) != nb_row[i]) return false;
+    if (game_get_expected_nb_tents_row(game_rw, i) != nb_row[i]) {
+      game_delete(game_rw);
+      return false;
+    }
   }
   for (int i = 0; i < game_rw->nb_cols; i++) {
-    if (game_get_expected_nb_tents_col(game_rw, i) != nb_col[i]) return false;
+    if (game_get_expected_nb_tents_col(game_rw, i) != nb_col[i]) {
+      game_delete(game_rw);
+      return false;
+    }
   }
   game_delete(game_rw);
 
@@ -516,10 +543,16 @@ bool test_game_load(void)
   int nb_coll[] = {0, 3, 1, 1, 2, 2, 2, 3};
   if (game_rh->nb_cols != 8 || game_rh->nb_rows != 9 || game_rh->wrapping != false) return false;
   for (int i = 0; i < game_rh->nb_rows; i++) {
-    if (game_get_expected_nb_tents_row(game_rh, i) != nb_roww[i]) return false;
+    if (game_get_expected_nb_tents_row(game_rh, i) != nb_roww[i]) {
+      game_delete(game_rh);
+      return false;
+    }
   }
   for (int i = 0; i < game_rh->nb_cols; i++) {
-    if (game_get_expected_nb_tents_col(game_rh, i) != nb_coll[i]) return false;
+    if (game_get_expected_nb_tents_col(game_rh, i) != nb_coll[i]) {
+      game_delete(game_rh);
+      return false;
+    }
   }
   game_delete(game_rh);
 
@@ -529,16 +562,25 @@ bool test_game_load(void)
   int nb_colll[] = {3, 0, 2, 1, 2, 1, 2, 1};
   if (game_wrap->nb_cols != 8 || game_wrap->nb_rows != 8 || game_wrap->wrapping != true) return false;
   for (int i = 0; i < game_wrap->nb_rows; i++) {
-    if (game_get_expected_nb_tents_row(game_wrap, i) != nb_rowww[i]) return false;
+    if (game_get_expected_nb_tents_row(game_wrap, i) != nb_rowww[i]) {
+      game_delete(game_wrap);
+      return false;
+    }
   }
   for (int i = 0; i < game_wrap->nb_cols; i++) {
-    if (game_get_expected_nb_tents_col(game_wrap, i) != nb_colll[i]) return false;
+    if (game_get_expected_nb_tents_col(game_wrap, i) != nb_colll[i]) {
+      game_delete(game_wrap);
+      return false;
+    }
   }
   game_delete(game_wrap);
 
   // test bigtree
   game game_big = game_load("saves/test_bigtree.txt");
-  if (game_get_square(game_big, 0, 5) != BIGTREE) return false;
+  if (game_get_square(game_big, 0, 5) != BIGTREE) {
+    game_delete(game_big);
+    return false;
+  }
   game_delete(game_big);
 
   char* filename = "saves/test_load1.txt";
@@ -568,11 +610,13 @@ bool test_game_load(void)
 
   if (game_get_square(g, 0, 0) != GRASS || game_get_square(g, 0, 1) != GRASS || game_get_square(g, 1, 0) != TENT ||
       game_get_square(g, 1, 1) != TREE) {
-    printf("probleme de carré");
+    game_delete(g);
+    remove(filename);
     return false;
   }
   if (game_get_expected_nb_tents_row(g, 1) != 1 || game_get_expected_nb_tents_col(g, 0) != 1) {
-    printf("expected");
+    game_delete(g);
+    remove(filename);
     return false;
   }
 

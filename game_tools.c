@@ -202,8 +202,8 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
 
     // On vérifie les conditions pour pouvoir jouer
     if (wrapping) {
-      ii1 = (ii1 % (int)nb_rows + (int)nb_rows) % (int)nb_rows;
-      jj1 = (jj1 % (int)nb_cols + (int)nb_cols) % (int)nb_cols;
+      ii1 = (ii1 % nb_rows + nb_rows) % nb_rows;
+      jj1 = (jj1 % nb_cols + nb_cols) % nb_cols;
     } else {
       if ((ii1 < 0 || ii1 >= (int)g->nb_rows) || (jj1 < 0 || jj1 >= (int)g->nb_cols) ||
           game_get_square(g, ii1, jj1) != GRASS) {
@@ -211,7 +211,8 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
         continue;
       }
     }
-    if (game_check_move_special(g, ii1, jj1, TENT)) {  // Si c'est légal on joue la tente
+    if (game_check_move_special(g, ii1, jj1, TENT) &&
+        (game_get_square(g, ii1, jj1) == GRASS)) {  // Si c'est légal on joue la tente
 
       game_play_move(g, ii1, jj1, TENT);
     } else {
@@ -219,7 +220,16 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
       continue;
     }
     //-- On place la seconde tente
-    uint d2 = rand() % nb_direction;  // On prend une direction aléatoire
+    uint d2;
+
+    if (d1 == UP)
+      d2 = DOWN;
+    else if (d1 == DOWN)
+      d2 = UP;
+    else if (d1 == LEFT)
+      d2 = RIGHT;
+    else
+      d2 = LEFT;
 
     int ii2 = i + DIR2OFFSET2[d2][0];
     int jj2 = j + DIR2OFFSET2[d2][1];  // On converti la direction en coordonnées ii1 et jj1
@@ -236,9 +246,9 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
         continue;
       }
     }
-    if (game_check_move_special(g, ii2, jj2,
-                                TENT)) {  // Si c'est légal on joue la tente, c'est que les 2 sont valides -> on
-                                          // ajoute le nombre de tentes voulues
+    if (game_check_move_special(g, ii2, jj2, TENT) &&
+        (game_get_square(g, ii2, jj2) == GRASS)) {  // Si c'est légal on joue la tente, c'est que les 2 sont valides ->
+                                                    // on ajoute le nombre de tentes voulues
       game_play_move(g, ii2, jj2, TENT);
       game_set_expected_nb_tents_col(g, jj1, game_get_expected_nb_tents_col(g, jj1) + 1);
       game_set_expected_nb_tents_row(g, ii1, game_get_expected_nb_tents_row(g, ii1) + 1);
@@ -275,8 +285,8 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
 
     // On vérifie les conditions pour pouvoir jouer
     if (wrapping) {
-      ii1 = (ii1 % (int)nb_rows + (int)nb_rows) % (int)nb_rows;
-      jj1 = (jj1 % (int)nb_cols + (int)nb_cols) % (int)nb_cols;
+      ii1 = (ii1 % nb_rows + nb_rows) % nb_rows;
+      jj1 = (jj1 % nb_cols + nb_cols) % nb_cols;
     } else {
       if ((ii1 < 0 || ii1 >= (int)g->nb_rows) || (jj1 < 0 || jj1 >= (int)g->nb_cols) ||
           game_get_square(g, ii1, jj1) != GRASS) {
@@ -284,9 +294,9 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
         continue;
       }
     }
-    if (game_check_move_special(g, ii1, jj1,
-                                TENT)) {  // Si c'est légal on joue la tente, c'est que les 2 sont valides -> on
-                                          // ajoute le nombre de tentes voulues
+    if (game_check_move_special(g, ii1, jj1, TENT) &&
+        game_get_square(g, ii1, jj1) == GRASS) {  // Si c'est légal on joue la tente, c'est que les 2 sont valides -> on
+                                                  // ajoute le nombre de tentes voulues
       game_play_move(g, ii1, jj1, TENT);
       game_set_expected_nb_tents_col(g, jj1, game_get_expected_nb_tents_col(g, jj1) + 1);
       game_set_expected_nb_tents_row(g, ii1, game_get_expected_nb_tents_row(g, ii1) + 1);

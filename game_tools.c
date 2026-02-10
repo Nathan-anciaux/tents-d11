@@ -270,3 +270,11 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
 // On place un bigtree sur une case ou y'a rien. On place la première tente à une co aléatoire autours de lui VIDE. on
 // place une deuxième tente aléatoie autours de lui la ou c'est VIDE. On ajoute le nb_tent_expected. Si la game est
 // gagnant, on continue, sinon on clear tout
+
+bool game_solve(game g) { return 0; }
+
+uint game_nb_solutions(cgame g)
+{
+  uint u = 0;
+  return u;
+}

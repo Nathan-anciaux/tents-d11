@@ -155,10 +155,6 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
   game g = game_new_empty_ext(nb_rows, nb_cols, wrapping);
   game_fill_grass(g);
 
-  if (nb_bigtrees + nb_trees > (nb_rows * nb_cols) / 2) {
-    exit(EXIT_FAILURE);
-  }
-
   // direction all_direcion[] = {UP, DOWN, LEFT, RIGHT};
   int nb_direction = 4;
 

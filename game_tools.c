@@ -177,7 +177,6 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
         (game_get_square(g, ii1, jj1) !=
          GRASS)) {  // si les coordonnées sont en dehors des bornes ou que c'est pas sur un empty
       g = g_copy;
-      game_delete(g_copy);
       continue;
     } else {
       game_set_expected_nb_tents_col(
@@ -201,7 +200,6 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
     if ((ii2 < 0 || ii2 >= (int)g->nb_rows) || (jj2 < 0 || jj2 >= (int)g->nb_cols) ||
         (game_get_square(g, ii2, jj2) != GRASS)) {  // si c'est en dehors des bornes ou égal aux premières coordonnées
       g = g_copy;
-      game_delete(g_copy);
       continue;
     } else {
       game_set_expected_nb_tents_col(
@@ -214,7 +212,6 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
 
     if (!game_won(g)) {  // SI la game n'est pas gagnante, on nettoie tout
       g = g_copy;
-      game_delete(g_copy);
       continue;
     } else {
       nb_bigtrees--;
@@ -239,7 +236,6 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
         (game_get_square(g, ii1, jj1) !=
          GRASS)) {  // si les coordonnées sont en dehors des bornes ou que c'est pas sur un empty
       g = g_copy;
-      game_delete(g_copy);
       continue;
     } else {
       game_set_expected_nb_tents_col(
@@ -251,7 +247,6 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
 
     if (!game_won(g)) {  // SI la game n'est pas gagnante, on nettoie tout
       g = g_copy;
-      game_delete(g_copy);
       continue;
     } else {
       nb_trees--;

@@ -202,8 +202,8 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
 
     // On vérifie les conditions pour pouvoir jouer
     if (wrapping) {
-      ii1 = (ii1 % nb_rows + nb_rows) % nb_rows;
-      jj1 = (jj1 % nb_cols + nb_cols) % nb_cols;
+      ii1 = (ii1 % (int)nb_rows + (int)nb_rows) % (int)nb_rows;
+      jj1 = (jj1 % (int)nb_cols + (int)nb_cols) % (int)nb_cols;
     } else {
       if ((ii1 < 0 || ii1 >= (int)g->nb_rows) || (jj1 < 0 || jj1 >= (int)g->nb_cols) ||
           game_get_square(g, ii1, jj1) != GRASS) {
@@ -275,8 +275,8 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
 
     // On vérifie les conditions pour pouvoir jouer
     if (wrapping) {
-      ii1 = (ii1 % nb_rows + nb_rows) % nb_rows;
-      jj1 = (jj1 % nb_cols + nb_cols) % nb_cols;
+      ii1 = (ii1 % (int)nb_rows + (int)nb_rows) % (int)nb_rows;
+      jj1 = (jj1 % (int)nb_cols + (int)nb_cols) % (int)nb_cols;
     } else {
       if ((ii1 < 0 || ii1 >= (int)g->nb_rows) || (jj1 < 0 || jj1 >= (int)g->nb_cols) ||
           game_get_square(g, ii1, jj1) != GRASS) {

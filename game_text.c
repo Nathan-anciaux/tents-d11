@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "game.h"
 #include "game_aux.h"
@@ -24,7 +25,7 @@ int main(int argc, char* argv[])
   // uint nb_row[6] = {1, 0, 0, 0, 0, 0};
   // uint nb_col[3] = {1, 0, 0};
   // game g = game_new_ext(6, 3, squares, nb_row, nb_col, true);
-
+  srand(time(NULL));
   if (strstr(argv[0], "game_random") != NULL) {
     if (argc < 7) {
       return EXIT_FAILURE;

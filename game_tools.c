@@ -322,14 +322,194 @@ game game_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint 
   return g;
 }
 
-// On place un bigtree sur une case ou y'a rien. On place la première tente à une co aléatoire autours de lui VIDE. on
-// place une deuxième tente aléatoie autours de lui la ou c'est VIDE. On ajoute le nb_tent_expected. Si la game est
-// gagnant, on continue, sinon on clear tout
+int NB_DIR = 8;
 
-bool game_solve(game g) { return 0; }
+int DIR2OFFSET2_solve[8][2] = {
+    {-1, 0}, {1, 0}, {0, -1}, {0, 1}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1},
+};
 
-uint game_nb_solutions(cgame g)
+// --------------------------------------
+// Version rapide mais pas finie de solve (il manque les bigtree), la logique est bonne ça marche
+
+bool game_solve_rec(game g, int pos, int tree_co[][2], int nb_tree)
 {
-  uint u = 0;
-  return u;
+  // printf("pos : %d, nb_tree : %d\n", pos, nb_tree);
+  if (pos >= nb_tree) {
+    if (game_won(g)) {
+      printf("la game est won\n");
+      return true;
+    }
+
+    else {
+      printf("la game pas est won\n");
+      return false;
+    }
+  }
+
+  int i = tree_co[pos][0];  // indice ligne
+  int j = tree_co[pos][1];  // indice colonne
+  // printf("tente en : i : %d, j : %d\n", i, j);
+  //  Si il n'y a pas de tente, on place
+  if (game_nb_neigh(g, i, j, TENT, true) == 0) {
+    // On parcours toute les directions
+    for (int d = 0; d < NB_DIR; d++) {
+      printf("d : %d\n", d);
+      // On récupère les coordonnées ou potentiellement poser la tente
+      int ii = (i + DIR2OFFSET2_solve[d][0] + game_nb_rows(g)) % game_nb_rows(g);
+      int jj = (j + DIR2OFFSET2_solve[d][1] + game_nb_cols(g)) % game_nb_cols(g);
+
+      printf("on place en : ii : %d, jj : %d\n", ii, jj);
+      //  Si il n'y a pas d'arbre sur ces coordonnées ou de tente à coté et qu'il reste de la place dans la colonne /
+      //  ligne
+      if (game_get_square(g, ii, jj) != TREE && game_get_square(g, ii, jj) != TENT &&
+          game_nb_neigh(g, ii, jj, TENT, true) == 0) {
+        // On place la tente
+        game_set_square(g, ii, jj, TENT);
+        game_print(g);
+        // Si la game est gagnante, on arrete
+        if (game_solve_rec(g, pos + 1, tree_co, nb_tree)) {
+          printf("gagnante !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+          game_print(g);
+          return true;
+        }
+
+        // On met de l'herbe et on commence une nouvelle branche
+        game_set_square(g, ii, jj, GRASS);
+      }
+    }
+  } else {
+    // Si il y a deja une tente, on avance
+    return game_solve_rec(g, pos + 1, tree_co, nb_tree);
+  }
+  return false;
 }
+
+bool game_solve(game g)
+{
+  // Pour moi on compte d'abord le nombre de tentes voulues puis on récupère les coordonnées de chaque arbre. Ensuiteon
+  // bruteforce toutes les possibilité autours des arbres.
+  game gc = game_copy(g);  // On copie g pour ne pas la modifier
+  game_fill_grass(g);
+  int nb_row = game_nb_rows(g);
+  int nb_col = game_nb_cols(g);
+  int nb_game_win = 0;
+  int nb_tents_wanted = 0;  // Récupère le nombre de tentes voulues en tout
+  for (int i = 0; i < nb_col; i++) {
+    nb_tents_wanted = nb_tents_wanted + game_get_expected_nb_tents_col(g, i);
+  }
+  int nb_tree = 0;  // on récupère le nombre total d'arbre et de bigtree pour pouvoir constuire notre liste
+  int nb_bigtree = 0;
+  for (int i = 0; i < nb_row; i++) {
+    for (int j = 0; j < nb_col; j++) {
+      if (game_get_square(g, i, j) == TREE) {
+        nb_tree++;
+      }
+      if (game_get_square(g, i, j) == BIGTREE) {
+        nb_bigtree++;
+      }
+    }
+  }
+  // On récupère les coordonnées de tous les tree et tous les bigtree
+  int tree_co[nb_tree][2];
+  int tree_co_index = 0;
+  int bigtree_co[nb_bigtree][2];
+  int bigtree_co_index = 0;
+  for (int i = 0; i < nb_row; i++) {
+    for (int j = 0; j < nb_col; j++) {
+      if (game_get_square(g, i, j) == TREE) {
+        tree_co[tree_co_index][0] = i;
+        tree_co[tree_co_index][1] = j;
+        tree_co_index++;
+      }
+      if (game_get_square(g, i, j) == BIGTREE) {
+        bigtree_co[bigtree_co_index][0] = i;
+        bigtree_co[bigtree_co_index][1] = j;
+        bigtree_co_index++;
+      }
+    }
+  }
+  return game_solve_rec(g, 0, tree_co, nb_tree);
+}
+
+// Le reste marche bof, c'est du brutforce pur
+
+// uint game_nb_solutions_rec(game g, int pos, int* nb_sol)
+// {
+//   int i = pos / game_nb_cols(g);  // indice ligne
+//   int j = pos % game_nb_cols(g);  // indice colonne
+
+//   if ((i == game_nb_rows(g) && i == game_nb_cols(g)) ||
+//       game_get_current_nb_tents_all(g) >= game_get_expected_nb_tents_all(g)) {
+//     if (game_won(g)) {
+//       game_print(g);
+//       (*nb_sol)++;
+//       return true;
+//     }
+//     return false;
+//   }
+
+//   bool a = false;
+//   bool b = false;
+
+//   if (((game_get_square(g, i, j) != TREE && game_get_square(g, i, j) != BIGTREE)) &&
+//       game_get_current_nb_tents_col(g, j) < game_get_expected_nb_tents_col(g, j) &&
+//       game_get_current_nb_tents_row(g, i) < game_get_expected_nb_tents_row(g, i)) {
+//     game_set_square(g, i, j, TENT);
+//     a = game_nb_solutions_rec(g, pos + 1, nb_sol);
+
+//     game_set_square(g, i, j, GRASS);
+//     b = game_nb_solutions_rec(g, pos + 1, nb_sol);
+//   } else {
+//     a = game_nb_solutions_rec(g, pos + 1, nb_sol);
+//   }
+//   return a || b;
+// }
+
+// uint game_nb_solutions(cgame g)
+// {
+//   int nb_sol = 0;
+//   bool res = game_nb_solutions_rec(g, 0, &nb_sol);
+//   printf("%d solutions\n", nb_sol);
+//   return nb_sol;
+// }
+
+// bool game_solve_rec(game g, int pos, int* nb_try)
+// {
+//   // game_print(g);
+//   (*nb_try)++;
+//   int i = pos / game_nb_cols(g);  // indice ligne
+//   int j = pos % game_nb_cols(g);  // indice colonne
+
+//   if ((pos == game_nb_rows(g) * game_nb_cols(g)) ||
+//       game_get_current_nb_tents_all(g) >= game_get_expected_nb_tents_all(g)) {
+//     game_fill_grass(g);
+//     if (game_won(g)) {
+//       return true;
+//     }
+//     return false;
+//   }
+
+//   bool a = false;
+//   bool b = false;
+//   if (((game_get_square(g, i, j) != TREE && game_get_square(g, i, j) != BIGTREE)) &&
+//       game_get_current_nb_tents_col(g, j) < game_get_expected_nb_tents_col(g, j) &&
+//       game_get_current_nb_tents_row(g, i) < game_get_expected_nb_tents_row(g, i)) {
+//     game_set_square(g, i, j, TENT);
+//     a = game_solve_rec(g, pos + 1, nb_try);
+//     if (a) return a;
+//     game_set_square(g, i, j, GRASS);
+//     b = game_solve_rec(g, pos + 1, nb_try);
+//     if (b) return b;
+//   } else {
+//     a = game_solve_rec(g, pos + 1, nb_try);
+//   }
+//   return a || b;
+// }
+
+// bool game_solve(game g)
+// {
+//   int nb_appel = 0;
+//   bool res = game_solve_rec(g, 0, &nb_appel);
+//   printf("%d appels\n", nb_appel);
+//   return res;
+// }

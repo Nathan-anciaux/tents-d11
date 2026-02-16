@@ -18,12 +18,18 @@ void genWords(int len, int* word, unsigned long* count)
     for (int b = 0; b <= 1; b++)
       for (int c = 0; c <= 1; c++)
         for (int d = 0; d <= 1; d++) {
-          word[0] = a;
-          word[1] = b;
-          word[2] = c;
-          word[3] = d;
-          (*count)++;
-          printWord(word, len);
+          for (int e = 0; e <= 1; e++) {
+            for (int f = 0; f <= 1; f++) {
+              word[0] = a;
+              word[1] = b;
+              word[2] = c;
+              word[3] = d;
+              word[4] = e;
+              word[5] = f;
+              (*count)++;
+              printWord(word, len);
+            }
+          }
         }
 }
 

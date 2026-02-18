@@ -67,7 +67,7 @@ game game_load(char* filename)
   // if NULL we try to put "saves/" in front of the path
   if (file == NULL) {
     char path_saves[512];
-    snprint(path_saves, sizeof(path_saves), "saves/%s", filename);
+    snprintf(path_saves, sizeof(path_saves), "saves/%s", filename);
     file = fopen(path_saves, "r");
   }
   // else

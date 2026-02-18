@@ -331,6 +331,7 @@ int DIR2OFFSET2_solve[8][2] = {
 // --------------------------------------
 // Version rapide mais pas finie de solve (il manque les bigtree), la logique est bonne ça marche
 
+/*
 bool game_solve_rec(game g, int pos, int tree_co[][2], int nb_tree)
 {
   // printf("pos : %d, nb_tree : %d\n", pos, nb_tree);
@@ -430,7 +431,7 @@ bool game_solve(game g)
   }
   return game_solve_rec(g, 0, tree_co, nb_tree);
 }
-
+*/
 // Le reste marche bof, c'est du brutforce pur
 
 // uint game_nb_solutions_rec(game g, int pos, int* nb_sol)

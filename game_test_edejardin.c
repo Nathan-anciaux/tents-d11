@@ -583,7 +583,7 @@ bool test_game_load(void)
   }
   game_delete(game_big);
 
-  char* filename = "saves/test_load1.txt";
+  char* filename = "test_load1.txt";
   FILE* f = fopen(filename, "w");
   if (f == NULL) {
     return false;
@@ -598,6 +598,7 @@ bool test_game_load(void)
 
   game g = game_load(filename);
   if (g == NULL) {
+    game_delete(g);
     remove(filename);
     return false;
   }

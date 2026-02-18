@@ -62,7 +62,9 @@ int main(int argc, char* argv[])
     char c;
 
     while (!game_won((cgame)g)) {
-      scanf(" %c", &c);
+      if (scanf(" %c", &c) != 1) {
+        break;
+      }
       if (c == 'h') {
         print_help();
       }

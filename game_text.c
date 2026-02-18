@@ -99,7 +99,9 @@ int main(int argc, char* argv[])
       }
       game_print((cgame)g);
     }
-    printf("congratulation\n");
+    if (game_won((cgame)g)) {
+      printf("congratulation\n");
+    }
     game_delete(g);
   }
 

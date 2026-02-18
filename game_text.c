@@ -32,7 +32,6 @@ int main(int argc, char* argv[])
   // // game_print(g);
   // printf("la game a une solution : %d\n", gs);
 
-  
   if (strstr(argv[0], "game_random") != NULL) {
     if (argc < 7) {
       return EXIT_FAILURE;

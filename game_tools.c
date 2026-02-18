@@ -72,7 +72,7 @@ game game_load(char* filename)
   }
   // else
   if (file == NULL) {
-    fprintf(stderr, "Fichier inexistant %s\n", filename);
+    // fprintf(stderr, "Fichier inexistant %s\n", filename);
     return NULL;
   }
 
@@ -111,6 +111,7 @@ game game_load(char* filename)
   fclose(file);
   // creating the game
   game g = game_new_ext(row, col, squares, nb_row, nb_col, wrap);
+
   return g;
 }
 

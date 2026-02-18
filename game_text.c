@@ -47,9 +47,9 @@ int main(int argc, char* argv[])
   } else {
     char file[200];
     if (argc > 1) {
-      sprintf(file, "saves/%s", argv[1]);
+      sprintf(file, "%s", argv[1]);
     } else {
-      sprintf(file, "saves/default.txt");
+      sprintf(file, "default.txt");
     }
 
     game g = game_load(file);

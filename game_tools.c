@@ -63,6 +63,14 @@ static char char_to_square(char c)
 game game_load(char* filename)
 {
   FILE* file = fopen(filename, "r");
+
+  // if NULL we try to put "saves/" in front of the path
+  if (file == NULL) {
+    char path_saves[512];
+    snprint(path_saves, sizeof(path_saves), "saves/%s", filename);
+    file = fopen(path_saves, "r");
+  }
+  // else
   if (file == NULL) {
     fprintf(stderr, "Fichier inexistant %s\n", filename);
     return NULL;
@@ -331,8 +339,7 @@ int DIR2OFFSET2_solve[8][2] = {
 // --------------------------------------
 // Version rapide mais pas finie de solve (il manque les bigtree), la logique est bonne ça marche
 
-/*
-bool game_solve_rec(game g, int pos, int tree_co[][2], int nb_tree)
+/*bool game_solve_rec(game g, int pos, int tree_co[][2], int nb_tree)
 {
   // printf("pos : %d, nb_tree : %d\n", pos, nb_tree);
   if (pos >= nb_tree) {

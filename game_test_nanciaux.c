@@ -741,6 +741,7 @@ bool test_game_solve()
       }
     }
   }
+  return 1;
 }
 
 int main(int argc, char* argv[])

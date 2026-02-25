@@ -32,13 +32,13 @@ int main(int argc, char* argv[])
   // // game_print(g);
   // printf("la game a une solution : %d\n", gs);
 
-  srand(time(NULL));
+  /*srand(time(NULL));
   game g = game_random(6, 6, 1, 2, 1, 0);
   game_print(g);
   bool gs = game_solve(g);
   // game_print(g);
   printf("la game a une solution : %d\n", gs);
-
+  */
   if (strstr(argv[0], "game_random") != NULL) {
     if (argc < 7) {
       return EXIT_FAILURE;
@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
   }
   else if (strstr(argv[0], "game_solve") != NULL) {
     if (argc < 3) {
+      
       return EXIT_FAILURE;
     }
     else if (argc == 3){
@@ -78,14 +79,9 @@ int main(int argc, char* argv[])
         char* filename = argv[3];
         FILE* f = fopen(filename, "w");
         fprintf(f, "%d\n", compteur);
+        fclose(f);
       }
     }
-    if (argc == 8) {
-      printf("sauvegarde\n");
-      game_save(g, argv[7]);
-    }
-    game_print(g);
-    game_delete(g);
   }
   else {
     char file[200];

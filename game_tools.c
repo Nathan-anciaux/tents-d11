@@ -529,5 +529,5 @@ bool game_solve(game g)
 }
 
 uint game_nb_solutions(cgame g){
-  return EXIT_SUCCESS;
+  return 1;
 }

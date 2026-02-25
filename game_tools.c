@@ -390,11 +390,11 @@ bool game_solve_rec(game g, int pos, int tree_co[][2], int nb_tree)
   }
   return false;
 }
-
+*/
 bool game_solve(game g)
+
 {
-  // Pour moi on compte d'abord le nombre de tentes voulues puis on récupère les coordonnées de chaque arbre.
-  // Ensuite on
+  // Pour moi on compte d'abord le nombre de tentes voulues puis on récupère les coordonnées de chaque arbre. Ensuiteon
   // bruteforce toutes les possibilité autours des arbres.
   game gc = game_copy(g);  // On copie g pour ne pas la modifier
   game_fill_grass(g);
@@ -436,22 +436,62 @@ bool game_solve(game g)
       }
     }
   }
-  printf("nb_tree : %d\n", nb_tree);
   return game_solve_rec(g, 0, tree_co, nb_tree);
 }
-
+*/
 // Le reste marche bof, c'est du brutforce pur
 
-// uint game_nb_solutions_rec(game g, int pos, int* nb_sol)
-// {
-//   int i = pos / game_nb_cols(g);  // indice ligne
-//   int j = pos % game_nb_cols(g);  // indice colonne
+  // uint game_nb_solutions_rec(game g, int pos, int* nb_sol)
+  // {
+  //   int i = pos / game_nb_cols(g);  // indice ligne
+  //   int j = pos % game_nb_cols(g);  // indice colonne
 
-//   if ((i == game_nb_rows(g) && i == game_nb_cols(g)) ||
+  //   if ((i == game_nb_rows(g) && i == game_nb_cols(g)) ||
+  //       game_get_current_nb_tents_all(g) >= game_get_expected_nb_tents_all(g)) {
+  //     if (game_won(g)) {
+  //       game_print(g);
+  //       (*nb_sol)++;
+  //       return true;
+  //     }
+  //     return false;
+  //   }
+
+  //   bool a = false;
+  //   bool b = false;
+
+  //   if (((game_get_square(g, i, j) != TREE && game_get_square(g, i, j) != BIGTREE)) &&
+  //       game_get_current_nb_tents_col(g, j) < game_get_expected_nb_tents_col(g, j) &&
+  //       game_get_current_nb_tents_row(g, i) < game_get_expected_nb_tents_row(g, i)) {
+  //     game_set_square(g, i, j, TENT);
+  //     a = game_nb_solutions_rec(g, pos + 1, nb_sol);
+
+  //     game_set_square(g, i, j, GRASS);
+  //     b = game_nb_solutions_rec(g, pos + 1, nb_sol);
+  //   } else {
+  //     a = game_nb_solutions_rec(g, pos + 1, nb_sol);
+  //   }
+  //   return a || b;
+  // }
+
+  // uint game_nb_solutions(cgame g)
+  // {
+  //   int nb_sol = 0;
+  //   bool res = game_nb_solutions_rec(g, 0, &nb_sol);
+  //   printf("%d solutions\n", nb_sol);
+  //   return nb_sol;
+  // }
+
+  // bool game_solve_rec(game g, int pos, int* nb_try)
+  // {
+  //   // game_print(g);
+  //   (*nb_try)++;
+  //   int i = pos / game_nb_cols(g);  // indice ligne
+  //   int j = pos % game_nb_cols(g);  // indice colonne
+
+//   if ((pos == game_nb_rows(g) * game_nb_cols(g)) ||
 //       game_get_current_nb_tents_all(g) >= game_get_expected_nb_tents_all(g)) {
+//     game_fill_grass(g);
 //     if (game_won(g)) {
-//       game_print(g);
-//       (*nb_sol)++;
 //       return true;
 //     }
 //     return false;
@@ -459,64 +499,10 @@ bool game_solve(game g)
 
 //   bool a = false;
 //   bool b = false;
-
 //   if (((game_get_square(g, i, j) != TREE && game_get_square(g, i, j) != BIGTREE)) &&
 //       game_get_current_nb_tents_col(g, j) < game_get_expected_nb_tents_col(g, j) &&
 //       game_get_current_nb_tents_row(g, i) < game_get_expected_nb_tents_row(g, i)) {
 //     game_set_square(g, i, j, TENT);
-//     a = game_nb_solutions_rec(g, pos + 1, nb_sol);
-
-//     game_set_square(g, i, j, GRASS);
-//     b = game_nb_solutions_rec(g, pos + 1, nb_sol);
-//   } else {
-//     a = game_nb_solutions_rec(g, pos + 1, nb_sol);
-//   }
-//   return a || b;
-// }
-
-// uint game_nb_solutions(cgame g)
-// {
-//   int nb_sol = 0;
-//   bool res = game_nb_solutions_rec(g, 0, &nb_sol);
-//   printf("%d solutions\n", nb_sol);
-//   return nb_sol;
-// }
-
-// bool game_solve_rec(game g, int pos, int* nb_try)
-// {
-//   // game_print(g);
-//   (*nb_try)++;
-//   int i = pos / game_nb_cols(g);  // indice ligne
-//   int j = pos % game_nb_cols(g);  // indice colonne
-
-//   if (game_won(g)) {
-//     game_fill_grass(g);
-//     game_print(g);
-//     return true;
-//   }
-
-//   // si on arrive a la fin du tableau ou que le nombre de tente posé est le bon alors on fill_grass et on return
-//   if ((pos == game_nb_rows(g) * game_nb_cols(g)) ||
-//       game_get_current_nb_tents_all(g) >= game_get_expected_nb_tents_all(g)) {
-//     if (game_won(g)) {
-//       game_fill_grass(g);
-//       game_print(g);
-//       return true;
-//     }
-//     return false;
-//   }
-
-//   bool a = false;
-//   bool b = false;
-
-//   // Si ce n'est pas un arbre ou un bigtree et qu'il reste de la place dans la colonne et dans la ligne et que c'est
-//   // legal on place une tente et on fait la recursion. Si la game est deja gagnante on arrete l'execution
-//   if (((game_get_square(g, i, j) != TREE && game_get_square(g, i, j) != BIGTREE)) &&
-//       game_get_current_nb_tents_col(g, j) < game_get_expected_nb_tents_col(g, j) &&
-//       game_get_current_nb_tents_row(g, i) < game_get_expected_nb_tents_row(g, i) &&
-//       game_check_move_special(g, i, j, TENT)) {
-//     game_set_square(g, i, j, TENT);
-//     game_print(g);
 //     a = game_solve_rec(g, pos + 1, nb_try);
 //     if (a) return a;
 //     game_set_square(g, i, j, GRASS);
@@ -528,10 +514,16 @@ bool game_solve(game g)
 //   return a || b;
 // }
 
-// bool game_solve(game g)
-// {
-//   int nb_appel = 0;
-//   bool res = game_solve_rec(g, 0, &nb_appel);
-//   printf("%d appels\n", nb_appel);
-//   return res;
-// }
+  // bool game_solve(game g)
+  // {
+  //   int nb_appel = 0;
+  //   bool res = game_solve_rec(g, 0, &nb_appel);
+  //   printf("%d appels\n", nb_appel);
+  //   return res;
+  // }
+  return 0;
+}
+
+uint game_nb_solutions(cgame g){
+  return 1;
+}

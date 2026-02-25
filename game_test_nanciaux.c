@@ -45,6 +45,8 @@ bool test_game_get_ajacent_square();
 
 bool test_game_random();
 
+bool test_game_solve();
+
 int test_dummy() { return 1; }
 
 bool test_game_set_square()
@@ -703,7 +705,7 @@ bool test_game_random()
     }
   }
   game_delete(gr);
-  /*
+
   // test infinity loop
   game grloop = game_random(3, 3, true, 100, 0, true);
   if (grloop == NULL) {
@@ -723,9 +725,22 @@ bool test_game_random()
     return 0;
   }
   game_delete(grloop);
-  */
 
   return 1;
+}
+
+bool test_game_solve()
+{
+  // empty game test
+  game emptgame = game_new_empty();
+  game_solve(emptgame);
+  for (int i = 0; i < game_nb_rows(emptgame); i++) {
+    for (int j = 0; j < game_nb_cols(emptgame); j++) {
+      if (game_get_square(emptgame, i, j) != EMPTY) {
+        return 0;
+      }
+    }
+  }
 }
 
 int main(int argc, char* argv[])
@@ -791,6 +806,9 @@ int main(int argc, char* argv[])
   }
   if (strcmp("game_random", argv[1]) == 0) {
     ok = test_game_random();
+  }
+  if (strcmp("game_solve", argv[1]) == 0) {
+    ok = test_game_solve();
   }
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS\n", argv[1]);

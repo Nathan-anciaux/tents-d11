@@ -35,9 +35,9 @@ int main(int argc, char* argv[])
   srand(time(NULL));
   game g = game_random(6, 6, 1, 2, 1, 0);
   game_print(g);
-  bool gs = game_solve(g);
-  // game_print(g);
-  printf("la game a une solution : %d\n", gs);
+  // bool gs = game_solve(g);
+  //  game_print(g);
+  // printf("la game a une solution : %d\n", gs);
 
   // if (strstr(argv[0], "game_random") != NULL) {
   //   if (argc < 7) {

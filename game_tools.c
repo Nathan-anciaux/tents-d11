@@ -394,6 +394,9 @@ bool game_solve_rec(game g, int pos, int tree_co[][2], int nb_tree)
 bool game_solve(game g)
 
 {
+  if (game_won(g)) {
+    return 1;
+  }
   // Pour moi on compte d'abord le nombre de tentes voulues puis on récupère les coordonnées de chaque arbre. Ensuiteon
   // bruteforce toutes les possibilité autours des arbres.
   game gc = game_copy(g);  // On copie g pour ne pas la modifier

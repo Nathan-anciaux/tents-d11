@@ -341,7 +341,6 @@ int DIR2OFFSET2_solve[4][2] = {
 };
 
 // --------------------------------------
-// Version rapide mais pas finie de solve (il manque les bigtree), la logique est bonne ça marche
 
 bool game_solve_rec(game g, int pos, int all_tree_co[][2], int total_tree)
 {

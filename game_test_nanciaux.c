@@ -763,8 +763,9 @@ bool test_game_solve()
   game_solve(defgame);
   if (!game_won(defgame)) {
     game_delete(defgame);
-      return 0;
-    }
+    return 0;
+  }
+  
   game_delete(defgame);
   return 1;
 }

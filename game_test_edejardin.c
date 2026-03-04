@@ -631,6 +631,29 @@ bool test_game_load(void)
   return true;
 }
 
+bool test_game_nbsol(void){
+  game g2sol = game_load("saves/sample_3x3.txt");
+  int val = game_nb_solutions(g2sol);
+  if (val != 2){
+    printf("ici 1");
+    return false;
+  }
+
+  game g1sol = game_load("saves/sample_2x3.txt");
+  int val1 = game_nb_solutions(g1sol);
+  if (val1 != 1) {
+    printf("ici");
+    return false;}
+
+  game g0sol = game_load("saves/sample_0sol.txt");
+  int val2 = game_nb_solutions(g0sol);
+  if (val2 != 0) {
+    printf("ici 3");
+    return false;}
+
+  return true;
+}
+
 void usage(int argc, char* argv[])
 {
   fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
@@ -670,6 +693,9 @@ int main(int argc, char* argv[])
   }
   if (strcmp("game_load", argv[1]) == 0) {
     ok = test_game_load();
+  }
+  if (strcmp("game_nbsol", argv[1]) == 0) {
+    ok = test_game_nbsol();
   }
   if (ok) {
     fprintf(stderr, "Test \"%s\" finished: SUCCESS \n", argv[1]);

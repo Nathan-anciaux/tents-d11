@@ -51,30 +51,24 @@ int main(int argc, char* argv[])
     }
     game_print(g);
     game_delete(g);
-  }
-  else if (strstr(argv[0], "game_solve") != NULL) {
+  } else if (strstr(argv[0], "game_solve") != NULL) {
     if (argc < 3) {
-      
       return EXIT_FAILURE;
-    }
-    else if (argc == 3){
+    } else if (argc == 3) {
       game g = game_load(argv[2]);
-      if (strcmp(argv[1], "-s") == 0){
+      if (strcmp(argv[1], "-s") == 0) {
         game_solve(g);
         game_print(g);
-      }
-      else if (strcmp(argv[1], "-c") == 0){
+      } else if (strcmp(argv[1], "-c") == 0) {
         int compteur = game_nb_solutions(g);
         printf("%d\n", compteur);
       }
-    }
-    else if (argc == 4){
+    } else if (argc == 4) {
       game g = game_load(argv[2]);
-      if (strcmp(argv[1], "-s") == 0){
+      if (strcmp(argv[1], "-s") == 0) {
         game_solve(g);
         game_save(g, argv[3]);
-      }
-      else if (strcmp(argv[1], "-c") == 0){
+      } else if (strcmp(argv[1], "-c") == 0) {
         int compteur = game_nb_solutions(g);
         char* filename = argv[3];
         FILE* f = fopen(filename, "w");
@@ -82,8 +76,7 @@ int main(int argc, char* argv[])
         fclose(f);
       }
     }
-  }
-  else {
+  } else {
     char file[200];
     if (argc > 1) {
       sprintf(file, "%s", argv[1]);

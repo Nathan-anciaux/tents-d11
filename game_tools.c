@@ -511,7 +511,7 @@ static uint game_nbsolve_rec(game g, int pos, int all_tree_co[][2], int total_tr
   int count = 0;
   int i = all_tree_co[pos][0];  // indice ligne
   int j = all_tree_co[pos][1];  // indice colonne
-                            //  Si il n'y a pas de tente, on place
+                                //  Si il n'y a pas de tente, on place
   // On parcours toute les directions
   // CAS CLASSIC TREE ====================================================
   if (game_get_square(g, i, j) == TREE) {
@@ -519,7 +519,7 @@ static uint game_nbsolve_rec(game g, int pos, int all_tree_co[][2], int total_tr
       //  On récupère les coordonnées ou potentiellement poser la tente
       int ii = i + DIR2OFFSET2_solve[d][0];
       int jj = j + DIR2OFFSET2_solve[d][1];
-      if (game_is_wrapping(g)){
+      if (game_is_wrapping(g)) {
         int ii = (ii + game_nb_rows(g)) % game_nb_rows(g);
         int jj = (jj + game_nb_cols(g)) % game_nb_cols(g);
       }
@@ -527,7 +527,7 @@ static uint game_nbsolve_rec(game g, int pos, int all_tree_co[][2], int total_tr
       // printf("on place en : ii : %d, jj : %d\n", ii, jj);
       //   Si il n'y a pas d'arbre sur ces coordonnées ou de tente à coté et qu'il reste de la place dans la colonne /
       //   ligne
-      if (ii >=0 && ii < game_nb_rows(g) && jj >= 0 && jj< game_nb_cols(g)){
+      if (ii >= 0 && ii < game_nb_rows(g) && jj >= 0 && jj < game_nb_cols(g)) {
         if (game_get_square(g, ii, jj) == EMPTY || game_get_square(g, ii, jj) == GRASS) {
           if (game_nb_neigh(g, ii, jj, TENT, true) == 0 &&
               game_get_current_nb_tents_col(g, jj) < game_get_expected_nb_tents_col(g, jj) &&

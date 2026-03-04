@@ -631,10 +631,11 @@ bool test_game_load(void)
   return true;
 }
 
-bool test_game_nbsol(void){
+bool test_game_nbsol(void)
+{
   game g2sol = game_load("saves/sample_3x3.txt");
   int val = game_nb_solutions(g2sol);
-  if (val != 2){
+  if (val != 2) {
     printf("ici 1");
     return false;
   }
@@ -643,13 +644,15 @@ bool test_game_nbsol(void){
   int val1 = game_nb_solutions(g1sol);
   if (val1 != 1) {
     printf("ici");
-    return false;}
+    return false;
+  }
 
   game g0sol = game_load("saves/sample_0sol.txt");
   int val2 = game_nb_solutions(g0sol);
   if (val2 != 0) {
     printf("ici 3");
-    return false;}
+    return false;
+  }
 
   return true;
 }

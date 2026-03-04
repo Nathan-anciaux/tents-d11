@@ -757,7 +757,6 @@ bool test_game_solve()
   }
   game_delete(emptgameext);
 
-
   // default game
   game defgame = game_default();
   game_solve(defgame);
@@ -765,7 +764,7 @@ bool test_game_solve()
     game_delete(defgame);
     return 0;
   }
-  
+
   game_delete(defgame);
   return 1;
 }

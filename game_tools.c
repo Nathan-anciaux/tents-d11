@@ -598,7 +598,7 @@ bool game_solve(game g)
 //   return 0;
 // }
 
-static bool game_nbsolve_rec(game g, int pos, int tree_co[][2], int nb_tree)
+static uint game_nbsolve_rec(game g, int pos, int tree_co[][2], int nb_tree)
 {
   // printf("pos : %d, nb_tree : %d\n", pos, nb_tree);
 

@@ -757,35 +757,15 @@ bool test_game_solve()
   }
   game_delete(emptgameext);
 
-  // classic game test
-  uint tents_row[] = {1, 3, 1, 2, 2, 0, 1, 3};
-  uint nb_rows = 8;
-  uint tents_col[] = {4, 0, 2, 1, 2, 1, 2, 1, 0};
-  uint nb_cols = 9;
-  bool wrap = true;
-  square squares[] = {BIGTREE, EMPTY, EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      TREE,    EMPTY, EMPTY, TREE,  EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TREE,
-                      EMPTY,   EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
-                      EMPTY,   EMPTY, EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY, TREE,  TREE,  EMPTY, EMPTY};
-
-  game g_new_ext = game_new_ext(nb_rows, nb_cols, squares, tents_row, tents_col, wrap);
-  game_solve(g_new_ext);
-  if (!game_won(g_new_ext)) {
-    game_delete(g_new_ext);
-    return 0;
-  }
-  game_delete(g_new_ext);
 
   // default game
-  // game defgame = game_default();
-  // game_solve(defgame);
-  // if (!game_won(defgame)) {
-  //  game_delete(defgame);
-  //  return 0;
-  //}
-  // game_delete(defgame);
+  game defgame = game_default();
+  game_solve(defgame);
+  if (!game_won(defgame)) {
+    game_delete(defgame);
+      return 0;
+    }
+  game_delete(defgame);
   return 1;
 }
 

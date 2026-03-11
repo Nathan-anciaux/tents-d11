@@ -728,7 +728,6 @@ bool test_game_random()
 
   return 1;
 }
-
 bool test_game_solve()
 {
   // empty game test
@@ -764,8 +763,17 @@ bool test_game_solve()
     game_delete(defgame);
     return 0;
   }
-
   game_delete(defgame);
+
+  game g = game_load("saves/sample_default_big.txt");
+  game_solve(g);
+  if (!game_won(g)) {
+    game_delete(g);
+    return 0;
+  } else {
+    game_delete(g);
+  }
+
   return 1;
 }
 

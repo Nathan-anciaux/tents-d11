@@ -20,6 +20,7 @@ target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 # folder copy
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/saves/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/saves/)
+file(COPY res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game)

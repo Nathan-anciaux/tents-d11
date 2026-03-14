@@ -9,8 +9,19 @@
 
 /* **************************************************************** */
 
+#define BACKGROUND "res/background.png"
+#define FONT "res/arial.ttf"
+#define GRAPH_TENT "res/tent.png"
+#define GRAPH_TREE "res/tree.png"
+#define GRAPH_BIGTREE "res/bigtree.png"
+
+/* **************************************************************** */
+
 struct Env_t {
-  /* PUT YOUR VARIABLES HERE */
+  SDL_Texture* background;
+  SDL_Texture* tent;
+  SDL_Texture* tree;
+  SDL_Texture* bigtree;
 };
 
 /* **************************************************************** */
@@ -19,14 +30,49 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 {
   Env* env = malloc(sizeof(struct Env_t));
 
-  /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
+  PRINT("Right help to show commands.\n");
+  PRINT("Press ESC to quit.\n");
+  w
+
+      /* get current window size */
+      int w,
+      h;
+  SDL_GetWindowSize(win, &w, &h);
+
+  /* init background texture from PNG image */
+  env->background = IMG_LoadTexture(ren, BACKGROUND);
+  if (!env->background) ERROR("IMG_LoadTexture: %s\n", BACKGROUND);
+
+  /* init tent texture from PNG image */
+  env->tent = IMG_LoadTexture(ren, GRAPH_TENT);
+  if (!env->tent) ERROR("IMG_LoadTexture: %s\n", GRAPH_TENT);
+
+  /* init tree texture from PNG image */
+  env->tree = IMG_LoadTexture(ren, GRAPH_TREE);
+  if (!env->tree) ERROR("IMG_LoadTexture: %s\n", GRAPH_TREE);
+
+  /* init bigtree texture from PNG image */
+  env->bigtree = IMG_LoadTexture(ren, GRAPH_BIGTREE);
+  if (!env->bigtree) ERROR("IMG_LoadTexture: %s\n", GRAPH_BIGTREE);
+
+  /* init text texture using Arial font */
+  SDL_Color color = {0, 0, 255, 255}; /* blue color in RGBA */
+  TTF_Font* font = TTF_OpenFont(FONT, FONTSIZE);
+  if (!font) ERROR("TTF_OpenFont: %s\n", FONT);
+  TTF_SetFontStyle(font, TTF_STYLE_BOLD);                                // TTF_STYLE_ITALIC | TTF_STYLE_NORMAL
+  SDL_Surface* surf = TTF_RenderText_Blended(font, "TENT GAME", color);  // blended rendering for ultra nice text
+  env->text = SDL_CreateTextureFromSurface(ren, surf);
+  SDL_FreeSurface(surf);
+  TTF_CloseFont(font);
 
   return env;
 }
 
 /* **************************************************************** */
 
-void render(SDL_Window* win, SDL_Renderer* ren, Env* env) { /* PUT YOUR CODE HERE TO RENDER TEXTURES, ... */ }
+void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
+{ /* PUT YOUR CODE HERE TO RENDER TEXTURES, ... */
+}
 
 /* **************************************************************** */
 

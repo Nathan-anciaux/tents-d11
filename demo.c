@@ -18,6 +18,7 @@
 #define TENT "res/tent.png"
 #define BIGTREE "res/bigtree.png"
 #define TREE "res/tree.png"
+#define BATON "res/baton.png"
 
 /* **************************************************************** */
 
@@ -28,6 +29,7 @@ struct Env_t {
   SDL_Texture* tree;
   SDL_Texture* bigtree;
   SDL_Texture* text;
+  SDL_Texture* baton;
 //   int bomb_x, bomb_y;
 //   int mario_x, mario_y;
 };
@@ -67,6 +69,10 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
   /* init TENT texture from PNG image */
   env->tree = IMG_LoadTexture(ren, TREE);
   if (!env->tree) ERROR("IMG_LoadTexture: %s\n", TREE);
+  
+  /* init TENT texture from PNG image */
+  env->baton = IMG_LoadTexture(ren, BATON);
+  if (!env->tree) ERROR("IMG_LoadTexture: %s\n", BATON);
 
   /* init text texture using Arial font */
     // ça sert juste a écrire le hello world moche au milieu
@@ -86,7 +92,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
 
 /* PUT YOUR CODE HERE TO RENDER TEXTURES, ... */
 void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
-  SDL_Rect rect;
+  // SDL_Rect rect;
 
   /* get current window size */
   int w, h;
@@ -107,57 +113,116 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
   int x = (w - grille_w) / 2;
   int y = (h - grille_h) / 2;
 
-  SDL_Rect bg_grille = {x, y, grille_w, grille_h};
-  SDL_SetRenderDrawColor(ren, 255, 255, 255, 128);
-  SDL_RenderFillRect(ren, &bg_grille);
+  int epaisseur = taille_case * 1;
+  if (epaisseur <4) epaisseur = 4;
+  int gap = taille_case * 0.45;
+  int taille_baton = taille_case + gap;
 
-  // Dessin des cases
-  SDL_SetRenderDrawColor(ren, 0, 0, 0, 255); // Blanc pour les lignes
-  for (int i = 0; i < nb_cases_h; i++) {
-    for (int j = 0; j < nb_cases_w; j++) {
-        SDL_Rect cell;
-        cell.x = x + (j * taille_case);
-        cell.y = y + (i * taille_case);
-        cell.w = taille_case;
-        cell.h = taille_case;
-        
-        // je dessine des rectangles
-        SDL_RenderDrawRect(ren, &cell);
+  int off = epaisseur /1.8;
+
+  for (int i = 0; i < nb_cases_h; i++){
+    for(int j=0; j<= nb_cases_w; j++){
+        SDL_Rect rect_vert = {
+            x+(j*taille_case) - off,
+            y+(i*taille_case) - (gap /2 ),
+            epaisseur,
+            taille_baton
+        };
+
+        SDL_RenderCopy(ren, env->baton, NULL, &rect_vert);
     }
   }
 
-  /* render text texture */
-  SDL_QueryTexture(env->text, NULL, NULL, &rect.w, &rect.h);
-  rect.x = w / 2 - rect.w / 2;
-  rect.y = h / 2 - rect.h / 2;
-  SDL_RenderCopy(ren, env->text, NULL, &rect);
+  for (int i = 0; i <= nb_cases_h; i++){
+    for(int j = 0; j< nb_cases_w; j++){
+        SDL_Rect rect_horiz;
+        rect_horiz.w = epaisseur;
+        rect_horiz.h = taille_baton;
+        rect_horiz.x = x + (j * taille_case) + (taille_case / 2) - off;
+        rect_horiz.y = y + (i * taille_case) - (taille_baton / 2);
 
-  /* render mario texture */
-  SDL_QueryTexture(env->mario, NULL, NULL, &rect.w, &rect.h);
-  rect.x = env->mario_x - rect.w / 2;
-  rect.y = env->mario_y - rect.h / 2;
-  SDL_RenderCopy(ren, env->mario, NULL, &rect);
+        SDL_RenderCopyEx(ren, env->baton, NULL, &rect_horiz, 90.0,NULL, SDL_FLIP_NONE);
+    }
+  }
+
+//   SDL_Rect bg_grille = {x, y, grille_w, grille_h};
+//   SDL_SetRenderDrawColor(ren, 255, 255, 255, 20);
+//   SDL_RenderFillRect(ren, &bg_grille);
+
+  // Dessin des cases
+
+//   SDL_SetRenderDrawColor(ren, 0, 0, 0, 255); // noir pour les lignes
+//   for (int i = 0; i < nb_cases_h; i++) {
+//     for (int j = 0; j <= nb_cases_w; j++) {
+//         SDL_Rect cell;
+//         cell.x = x + (j * taille_case);
+//         cell.y = y + (i * taille_case);
+//         cell.w = taille_case;
+//         cell.h = taille_case;
+        
+//         // je dessine des rectangles
+//         int epaisseur = taille_case * 0.8;
+//         int gap = taille_case * 0.01;
+//         int taille_baton = taille_case - (2*gap);
+
+//         SDL_Rect rect_gauche = {cell.x, cell.y + gap, epaisseur, taille_baton};
+//         SDL_RenderCopy(ren, env->baton, NULL, &rect_gauche);
+
+//         SDL_Rect rect_droite = {cell.x + cell.w - epaisseur, cell.y + gap, epaisseur, taille_baton};
+//         SDL_RenderCopyEx(ren, env->baton, NULL, &rect_droite, 0, NULL, SDL_FLIP_HORIZONTAL);
+
+//         SDL_Rect rect_haut;
+//         rect_haut.w = epaisseur;
+//         rect_haut.h = taille_baton;
+//         rect_haut.x = (cell.x + taille_case / 2) - (rect_haut.w / 2);
+//         rect_haut.y = (cell.y + epaisseur / 2) - (rect_haut.h / 2);
+//         SDL_RenderCopyEx(ren, env->baton, NULL, &rect_haut, 90, NULL, SDL_FLIP_NONE);
+
+//         SDL_Rect rect_bas;
+//         rect_bas.w = epaisseur;
+//         rect_bas.h = taille_baton;
+//         rect_bas.x = (cell.x + taille_case / 2) - (rect_bas.w / 2);
+//         rect_bas.y = (cell.y + cell.x - epaisseur / 2) - (rect_bas.h / 2);
+//         SDL_RenderCopyEx(ren, env->baton, NULL, &rect_bas, -90, NULL, SDL_FLIP_NONE);
+
+
+        
+
+//     }
+//   }
+
+   /* render text texture */
+//   SDL_QueryTexture(env->text, NULL, NULL, &rect.w, &rect.h);
+//   rect.x = w / 2 - rect.w / 2;
+//   rect.y = h / 2 - rect.h / 2;
+//   SDL_RenderCopy(ren, env->text, NULL, &rect);
+
+  /* render tent texture */
+//   SDL_QueryTexture(env->tent, NULL, NULL, &rect.w, &rect.h);
+//   rect.x = env->mario_x - rect.w / 2;
+//   rect.y = env->mario_y - rect.h / 2;
+//   SDL_RenderCopy(ren, env->mario, NULL, &rect);
 
   /* render bomb texture */
-  SDL_QueryTexture(env->bomb, NULL, NULL, &rect.w, &rect.h);
-  rect.x = env->bomb_x - rect.w / 2;
-  rect.y = env->bomb_y - rect.h / 2;
-  SDL_RenderCopy(ren, env->bomb, NULL, &rect);
+//   SDL_QueryTexture(env->bomb, NULL, NULL, &rect.w, &rect.h);
+//   rect.x = env->bomb_x - rect.w / 2;
+//   rect.y = env->bomb_y - rect.h / 2;
+//   SDL_RenderCopy(ren, env->bomb, NULL, &rect);
 
   /* render a triangle with lines */
-  SDL_SetRenderDrawColor(ren, 255, 0, 0, SDL_ALPHA_OPAQUE); /* red */
-  SDL_RenderDrawLine(ren, 320, 200, 300, 240);
-  SDL_RenderDrawLine(ren, 300, 240, 340, 240);
-  SDL_RenderDrawLine(ren, 340, 240, 320, 200);
+//   SDL_SetRenderDrawColor(ren, 255, 0, 0, SDL_ALPHA_OPAQUE); /* red */
+//   SDL_RenderDrawLine(ren, 320, 200, 300, 240);
+//   SDL_RenderDrawLine(ren, 300, 240, 340, 240);
+//   SDL_RenderDrawLine(ren, 340, 240, 320, 200);
 
   /* render a circle with points */
-  const float pi = 3.14159265358979323846264338327950288419716939937510;
-  float step = 2 * pi / 300; /* smoothing */
-  for (float theta = 0.0; theta <= 2 * pi; theta += step) {
-    int x1 = 400 + 50 * cosf(theta) + 0.5;
-    int y1 = 400 + 50 * sinf(theta) + 0.5;
-    SDL_RenderDrawPoint(ren, x1, y1);
-  }
+//   const float pi = 3.14159265358979323846264338327950288419716939937510;
+//   float step = 2 * pi / 300; /* smoothing */
+//   for (float theta = 0.0; theta <= 2 * pi; theta += step) {
+//     int x1 = 400 + 50 * cosf(theta) + 0.5;
+//     int y1 = 400 + 50 * sinf(theta) + 0.5;
+//     SDL_RenderDrawPoint(ren, x1, y1);
+//   }
 }
 
 /* **************************************************************** */
@@ -172,38 +237,38 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
     return true;
   }
   /* Android events */
-#ifdef __ANDROID__
-  else if (e->type == SDL_FINGERDOWN) {
-    env->mario_x = e->tfinger.x * w; /* tfinger.x, normalized in [0..1] */
-    env->mario_y = e->tfinger.y * h; /* tfinger.y, normalized in [0..1] */
-  }
-  /* other events */
-#else
-  else if (e->type == SDL_MOUSEBUTTONDOWN) {
-    SDL_Point mouse;
-    SDL_GetMouseState(&mouse.x, &mouse.y);
-    env->mario_x = mouse.x;
-    env->mario_y = mouse.y;
-  } else if (e->type == SDL_KEYDOWN) {
-    switch (e->key.keysym.sym) {
-      case SDLK_LEFT:
-        env->bomb_x -= 10;
-        break;
-      case SDLK_RIGHT:
-        env->bomb_x += 10;
-        break;
-      case SDLK_UP:
-        env->bomb_y -= 10;
-        break;
-      case SDLK_DOWN:
-        env->bomb_y += 10;
-        break;
-      case SDLK_ESCAPE:
-        return true;
-        break;
-    }
-  }
-#endif
+// #ifdef __ANDROID__
+//   else if (e->type == SDL_FINGERDOWN) {
+//     env->mario_x = e->tfinger.x * w; /* tfinger.x, normalized in [0..1] */
+//     env->mario_y = e->tfinger.y * h; /* tfinger.y, normalized in [0..1] */
+//   }
+//   /* other events */
+// #else
+//   else if (e->type == SDL_MOUSEBUTTONDOWN) {
+//     SDL_Point mouse;
+//     SDL_GetMouseState(&mouse.x, &mouse.y);
+//     env->mario_x = mouse.x;
+//     env->mario_y = mouse.y;
+//   } else if (e->type == SDL_KEYDOWN) {
+//     switch (e->key.keysym.sym) {
+//       case SDLK_LEFT:
+//         env->bomb_x -= 10;
+//         break;
+//       case SDLK_RIGHT:
+//         env->bomb_x += 10;
+//         break;
+//       case SDLK_UP:
+//         env->bomb_y -= 10;
+//         break;
+//       case SDLK_DOWN:
+//         env->bomb_y += 10;
+//         break;
+//       case SDLK_ESCAPE:
+//         return true;
+//         break;
+//     }
+//   }
+// #endif
 
   return false; /* don't quit */
 }
@@ -213,9 +278,10 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
 /* PUT YOUR CODE HERE TO CLEAN MEMORY */
 void clean(SDL_Window* win, SDL_Renderer* ren, Env* env) {
   SDL_DestroyTexture(env->background);
-  SDL_DestroyTexture(env->mario);
-  SDL_DestroyTexture(env->bomb);
-  SDL_DestroyTexture(env->text);
+  SDL_DestroyTexture(env->tent);
+  SDL_DestroyTexture(env->tree);
+  SDL_DestroyTexture(env->bigtree);
+  SDL_DestroyTexture(env->baton);
 
   free(env);
 }

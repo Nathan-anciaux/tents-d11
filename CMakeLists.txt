@@ -22,6 +22,19 @@ target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/saves/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/saves/)
 file(COPY res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+## find SDL2
+include(sdl2.cmake)
+message(STATUS "SDL2 include dir: ${SDL2_ALL_ISNC}")
+message(STATUS "SDL2 all libraries: ${SDL2_ALL_LIBS}")
+
+## compilation rules
+include_directories(${SDL2_ALL_INC})
+add_executable(demo main.c demo.c)
+target_link_libraries(demo ${SDL2_ALL_LIBS} m)
+
+## copy useful ressources in the build directory
+file(COPY res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 add_executable(game_text game_text.c)
 target_link_libraries(game_text game)
 add_executable(game_random game_text.c)

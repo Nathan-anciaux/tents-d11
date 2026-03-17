@@ -30,7 +30,7 @@ message(STATUS "SDL2 all libraries: ${SDL2_ALL_LIBS}")
 ## compilation rules
 include_directories(${SDL2_ALL_INC})
 add_executable(demo main.c demo.c)
-target_link_libraries(demo ${SDL2_ALL_LIBS} m)
+target_link_libraries(demo game ${SDL2_ALL_LIBS} m)
 
 ## copy useful ressources in the build directory
 file(COPY res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

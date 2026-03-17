@@ -10,15 +10,25 @@
 #include <stdlib.h>
 #include "model.h"
 
+/* ***************** implémentation du jeu ************************ */
+
+#include "game.h"
+#include "game_tools.h"
+#include "game_struct.h"
+#include "game_private.h"
+#include "game_ext.h"
+#include "game_aux.h"
+
 /* **************************************************************** */
 
 #define FONT "res/arial.ttf"
 #define FONTSIZE 36
-#define BACKGROUND "res/background.png"
-#define TENT "res/tent.png"
-#define BIGTREE "res/bigtree.png"
-#define TREE "res/tree.png"
-#define BATON "res/baton.png"
+#define RES_BACKGROUND "res/background.png"
+#define RES_TENT "res/tent.png"
+#define RES_BIGTREE "res/bigtree.png"
+#define RES_TREE "res/tree.png"
+#define RES_BATON "res/baton.png"
+#define RES_HERBE "res/HERBE.png"
 
 /* **************************************************************** */
 
@@ -28,8 +38,10 @@ struct Env_t {
   SDL_Texture* tent;
   SDL_Texture* tree;
   SDL_Texture* bigtree;
+  SDL_Texture* herbe;
   SDL_Texture* text;
   SDL_Texture* baton;
+  game g;
 //   int bomb_x, bomb_y;
 //   int mario_x, mario_y;
 };
@@ -55,25 +67,30 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
 //   env->mario_y = 3 * h / 4;
 
   /* init background texture from PNG image */
-  env->background = IMG_LoadTexture(ren, BACKGROUND);
-  if (!env->background) ERROR("IMG_LoadTexture: %s\n", BACKGROUND);
+  env->background = IMG_LoadTexture(ren, RES_BACKGROUND);
+  if (!env->background) ERROR("IMG_LoadTexture: %s\n", RES_BACKGROUND);
 
   /* init tent texture from PNG image */
-  env->tent = IMG_LoadTexture(ren, TENT);
-  if (!env->tent) ERROR("IMG_LoadTexture: %s\n", TENT);
+  env->tent = IMG_LoadTexture(ren, RES_TENT);
+  if (!env->tent) ERROR("IMG_LoadTexture: %s\n", RES_TENT);
 
   /* init bigtree texture from PNG image */
-  env->bigtree = IMG_LoadTexture(ren, BIGTREE);
-  if (!env->bigtree) ERROR("IMG_LoadTexture: %s\n", BIGTREE);
+  env->bigtree = IMG_LoadTexture(ren, RES_BIGTREE);
+  if (!env->bigtree) ERROR("IMG_LoadTexture: %s\n", RES_BIGTREE);
 
   /* init TENT texture from PNG image */
-  env->tree = IMG_LoadTexture(ren, TREE);
-  if (!env->tree) ERROR("IMG_LoadTexture: %s\n", TREE);
+  env->tree = IMG_LoadTexture(ren, RES_TREE);
+  if (!env->tree) ERROR("IMG_LoadTexture: %s\n", RES_TREE);
+
+  /* init GRASS texture from PNG image */
+  env->herbe = IMG_LoadTexture(ren, RES_HERBE);
+  if (!env->herbe) ERROR("IMG_LoadTexture: %s\n", RES_HERBE);
   
-  /* init TENT texture from PNG image */
-  env->baton = IMG_LoadTexture(ren, BATON);
-  if (!env->tree) ERROR("IMG_LoadTexture: %s\n", BATON);
+  /* init BATON texture from PNG image */
+  env->baton = IMG_LoadTexture(ren, RES_BATON);
+  if (!env->baton) ERROR("IMG_LoadTexture: %s\n", RES_BATON);
 
+  env->g = game_load("saves/sample_5x5.txt");
   /* init text texture using Arial font */
     // ça sert juste a écrire le hello world moche au milieu
 //   SDL_Color color = {0, 0, 255, 255}; /* blue color in RGBA */
@@ -104,7 +121,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
   
   // pas de code en dur donc je met des variables pour chosisir
   int nb_cases_w = 5;
-  int nb_cases_h = 6;
+  int nb_cases_h = 5;
   float marge = 0.05;
   int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
   int grille_w = nb_cases_w * taille_case;
@@ -122,28 +139,57 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
 
   for (int i = 0; i < nb_cases_h; i++){
     for(int j=0; j<= nb_cases_w; j++){
-        SDL_Rect rect_vert = {
+        SDL_Rect place = {
             x+(j*taille_case) - off,
             y+(i*taille_case) - (gap /2 ),
             epaisseur,
             taille_baton
         };
 
-        SDL_RenderCopy(ren, env->baton, NULL, &rect_vert);
+        SDL_RenderCopy(ren, env->baton, NULL, &place);
     }
   }
 
   for (int i = 0; i <= nb_cases_h; i++){
     for(int j = 0; j< nb_cases_w; j++){
-        SDL_Rect rect_horiz;
-        rect_horiz.w = epaisseur;
-        rect_horiz.h = taille_baton;
-        rect_horiz.x = x + (j * taille_case) + (taille_case / 2) - off;
-        rect_horiz.y = y + (i * taille_case) - (taille_baton / 2);
+        SDL_Rect place;
+        place.w = epaisseur;
+        place.h = taille_baton;
+        place.x = x + (j * taille_case) + (taille_case / 2) - off;
+        place.y = y + (i * taille_case) - (taille_baton / 2);
 
-        SDL_RenderCopyEx(ren, env->baton, NULL, &rect_horiz, 90.0,NULL, SDL_FLIP_NONE);
+        SDL_RenderCopyEx(ren, env->baton, NULL, &place, 90.0,NULL, SDL_FLIP_NONE);
     }
   }
+
+    int marge_case = taille_case *0.1;
+    for (int i = 0; i<nb_cases_w ;i++){
+      for (int j = 0; j<nb_cases_h ;j++){
+        SDL_Rect place;
+        place.x = x + (j * taille_case) + marge_case;
+        place.y = y + (i * taille_case) + marge_case;
+        place.w = taille_case - (2 * marge_case);
+        place.h = taille_case - (2 * marge_case);
+
+        switch (game_get_square(env->g, i, j)){
+          case TREE:
+            SDL_RenderCopy(ren, env->tree, NULL, &place);
+            break;
+          case TENT:
+            SDL_RenderCopy(ren, env->tent, NULL, &place);
+            break;
+          case GRASS:
+            SDL_RenderCopy(ren, env->herbe, NULL, &place);
+            break;
+          case BIGTREE:
+            SDL_RenderCopy(ren, env->bigtree, NULL, &place);
+            break;
+          default:
+            break;
+        }
+      }
+    }
+
 
 //   SDL_Rect bg_grille = {x, y, grille_w, grille_h};
 //   SDL_SetRenderDrawColor(ren, 255, 255, 255, 20);
@@ -232,6 +278,16 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
 
+  int nb_cases_w = 5;
+  int nb_cases_h = 5;
+  float marge = 0.05;
+  int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
+  int grille_w = nb_cases_w * taille_case;
+  int grille_h = nb_cases_h * taille_case;
+
+  int x = (w - grille_w) / 2;
+  int y = (h - grille_h) / 2;
+
   /* generic events */
   if (e->type == SDL_QUIT) {
     return true;
@@ -244,30 +300,39 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
 //   }
 //   /* other events */
 // #else
-//   else if (e->type == SDL_MOUSEBUTTONDOWN) {
-//     SDL_Point mouse;
-//     SDL_GetMouseState(&mouse.x, &mouse.y);
-//     env->mario_x = mouse.x;
-//     env->mario_y = mouse.y;
-//   } else if (e->type == SDL_KEYDOWN) {
-//     switch (e->key.keysym.sym) {
-//       case SDLK_LEFT:
-//         env->bomb_x -= 10;
-//         break;
-//       case SDLK_RIGHT:
-//         env->bomb_x += 10;
-//         break;
-//       case SDLK_UP:
-//         env->bomb_y -= 10;
-//         break;
-//       case SDLK_DOWN:
-//         env->bomb_y += 10;
-//         break;
-//       case SDLK_ESCAPE:
-//         return true;
-//         break;
-//     }
-//   }
+  else if (e->type == SDL_MOUSEBUTTONDOWN) {
+    SDL_Point mouse;
+    SDL_GetMouseState(&mouse.x, &mouse.y);
+    if (mouse.x >= x && mouse.x < x + grille_w && mouse.y >= y && mouse.y < y + grille_h){
+      int j = (mouse.x - x) / taille_case;
+      int i = (mouse.y - y) / taille_case;
+      if (e->button.button == SDL_BUTTON_LEFT){
+        game_play_move(env->g, i, j, TENT);
+      }
+      else if (e->button.button == SDL_BUTTON_RIGHT){
+        game_play_move(env->g, i, j, GRASS);
+      }
+    }
+  } 
+  // else if (e->type == SDL_KEYDOWN) {
+  //   switch (e->key.keysym.sym) {
+  //     case SDLK_LEFT:
+  //       env->bomb_x -= 10;
+  //       break;
+  //     case SDLK_RIGHT:
+  //       env->bomb_x += 10;
+  //       break;
+  //     case SDLK_UP:
+  //       env->bomb_y -= 10;
+  //       break;
+  //     case SDLK_DOWN:
+  //       env->bomb_y += 10;
+  //       break;
+  //     case SDLK_ESCAPE:
+  //       return true;
+  //       break;
+  //   }
+  // }
 // #endif
 
   return false; /* don't quit */

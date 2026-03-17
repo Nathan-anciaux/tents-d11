@@ -29,6 +29,8 @@
 #define RES_TREE "res/tree.png"
 #define RES_BATON "res/baton.png"
 #define RES_HERBE "res/HERBE.png"
+#define RES_WINNER "res/congratulation.png"
+#define RES_ACCUEIL "res/accueil.png"
 
 /* **************************************************************** */
 
@@ -41,6 +43,9 @@ struct Env_t {
   SDL_Texture* herbe;
   SDL_Texture* text;
   SDL_Texture* baton;
+  SDL_Texture* winner;
+  SDL_Texture* accueil;
+  int back;
   game g;
 //   int bomb_x, bomb_y;
 //   int mario_x, mario_y;
@@ -90,7 +95,16 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
   env->baton = IMG_LoadTexture(ren, RES_BATON);
   if (!env->baton) ERROR("IMG_LoadTexture: %s\n", RES_BATON);
 
+  /* init Winner texture from PNG image */
+  env->winner = IMG_LoadTexture(ren, RES_WINNER);
+  if (!env->winner) ERROR("IMG_LoadTexture: %s\n", RES_WINNER);
+
+  /* init ACCUEIL texture from PNG image */
+  env->accueil = IMG_LoadTexture(ren, RES_ACCUEIL);
+  if (!env->accueil) ERROR("IMG_LoadTexture: %s\n", RES_ACCUEIL);
+
   env->g = game_load("saves/sample_5x5.txt");
+  env->back = 1;
   /* init text texture using Arial font */
     // ça sert juste a écrire le hello world moche au milieu
 //   SDL_Color color = {0, 0, 255, 255}; /* blue color in RGBA */
@@ -118,49 +132,49 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
   /* render background texture */
   SDL_RenderCopy(ren, env->background, NULL, NULL); /* stretch it */
 
-  
-  // pas de code en dur donc je met des variables pour chosisir
-  int nb_cases_w = 5;
-  int nb_cases_h = 5;
-  float marge = 0.05;
-  int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
-  int grille_w = nb_cases_w * taille_case;
-  int grille_h = nb_cases_h * taille_case;
+  if (env->back == 1){
+    // pas de code en dur donc je met des variables pour chosisir
+    int nb_cases_w = 5;
+    int nb_cases_h = 5;
+    float marge = 0.05;
+    int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
+    int grille_w = nb_cases_w * taille_case;
+    int grille_h = nb_cases_h * taille_case;
 
-  int x = (w - grille_w) / 2;
-  int y = (h - grille_h) / 2;
+    int x = (w - grille_w) / 2;
+    int y = (h - grille_h) / 2;
 
-  int epaisseur = taille_case * 1;
-  if (epaisseur <4) epaisseur = 4;
-  int gap = taille_case * 0.45;
-  int taille_baton = taille_case + gap;
+    int epaisseur = taille_case * 1;
+    if (epaisseur <4) epaisseur = 4;
+    int gap = taille_case * 0.45;
+    int taille_baton = taille_case + gap;
 
-  int off = epaisseur /1.8;
+    int off = epaisseur /1.8;
 
-  for (int i = 0; i < nb_cases_h; i++){
-    for(int j=0; j<= nb_cases_w; j++){
-        SDL_Rect place = {
-            x+(j*taille_case) - off,
-            y+(i*taille_case) - (gap /2 ),
-            epaisseur,
-            taille_baton
-        };
+    for (int i = 0; i < nb_cases_h; i++){
+      for(int j=0; j<= nb_cases_w; j++){
+          SDL_Rect place = {
+              x+(j*taille_case) - off,
+              y+(i*taille_case) - (gap /2 ),
+              epaisseur,
+              taille_baton
+          };
 
-        SDL_RenderCopy(ren, env->baton, NULL, &place);
+          SDL_RenderCopy(ren, env->baton, NULL, &place);
+      }
     }
-  }
 
-  for (int i = 0; i <= nb_cases_h; i++){
-    for(int j = 0; j< nb_cases_w; j++){
-        SDL_Rect place;
-        place.w = epaisseur;
-        place.h = taille_baton;
-        place.x = x + (j * taille_case) + (taille_case / 2) - off;
-        place.y = y + (i * taille_case) - (taille_baton / 2);
+    for (int i = 0; i <= nb_cases_h; i++){
+      for(int j = 0; j< nb_cases_w; j++){
+          SDL_Rect place;
+          place.w = epaisseur;
+          place.h = taille_baton;
+          place.x = x + (j * taille_case) + (taille_case / 2) - off;
+          place.y = y + (i * taille_case) - (taille_baton / 2);
 
-        SDL_RenderCopyEx(ren, env->baton, NULL, &place, 90.0,NULL, SDL_FLIP_NONE);
+          SDL_RenderCopyEx(ren, env->baton, NULL, &place, 90.0,NULL, SDL_FLIP_NONE);
+      }
     }
-  }
 
     int marge_case = taille_case *0.1;
     for (int i = 0; i<nb_cases_w ;i++){
@@ -189,6 +203,26 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
         }
       }
     }
+    if (game_won(env->g)){
+      SDL_Rect place;
+      int w1, h1;
+      SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
+      place.w = w * 0.5;
+      place.h = place.w * h1 / w1;
+      place.x = (w / 2) - (place.w /2);
+      place.y = (h / 2) - (place.h/2);
+      SDL_RenderCopy(ren, env->winner, NULL, &place);
+    }
+}
+
+if (env->back == 0){
+  SDL_Rect place;
+  place.x = 0;
+  place.y = 0;
+  place.w = w;
+  place.h = h;
+  SDL_RenderCopy(ren, env->accueil, NULL, &place);
+}
 
 
 //   SDL_Rect bg_grille = {x, y, grille_w, grille_h};
@@ -303,7 +337,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
   else if (e->type == SDL_MOUSEBUTTONDOWN) {
     SDL_Point mouse;
     SDL_GetMouseState(&mouse.x, &mouse.y);
-    if (mouse.x >= x && mouse.x < x + grille_w && mouse.y >= y && mouse.y < y + grille_h){
+    if (!game_won(env->g)){
+      if (mouse.x >= x && mouse.x < x + grille_w && mouse.y >= y && mouse.y < y + grille_h){
       int j = (mouse.x - x) / taille_case;
       int i = (mouse.y - y) / taille_case;
       if (e->button.button == SDL_BUTTON_LEFT){
@@ -312,6 +347,29 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
       else if (e->button.button == SDL_BUTTON_RIGHT){
         game_play_move(env->g, i, j, GRASS);
       } 
+    }
+    }
+    else {
+      if (e->button.button == SDL_BUTTON_LEFT){
+        SDL_Rect place;
+        int w1, h1;
+        SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
+        place.w = w * 0.5;
+        place.h = place.w * h1 / w1;
+        place.x = (w / 2) - (place.w /2);
+        place.y = (h / 2) - (place.h/2);
+
+        SDL_Rect bouton_retour;
+        bouton_retour.w = place.w * 0.26;
+        bouton_retour.h = place.h * 0.15;
+        bouton_retour.x = place.x + (place.w * 0.37);
+        bouton_retour.y = place.y + (place.h * 0.78) - 1.4 * (bouton_retour.h/1.8);
+
+        if (mouse.x >= bouton_retour.x && mouse.x <= bouton_retour.x + bouton_retour.w && mouse.y >= bouton_retour.y && mouse.y <= bouton_retour.y + bouton_retour.h){
+          // revenir à l'écran d'accueil
+          env->back = 0;
+        }
+      }
     }
   } 
   // else if (e->type == SDL_KEYDOWN) {
@@ -347,6 +405,9 @@ void clean(SDL_Window* win, SDL_Renderer* ren, Env* env) {
   SDL_DestroyTexture(env->tree);
   SDL_DestroyTexture(env->bigtree);
   SDL_DestroyTexture(env->baton);
+  SDL_DestroyTexture(env->herbe);
+  SDL_DestroyTexture(env->winner);
+  SDL_DestroyTexture(env->accueil);
 
   free(env);
 }

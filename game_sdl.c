@@ -326,14 +326,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
   if (e->type == SDL_QUIT) {
     return true;
   }
-  /* Android events */
-// #ifdef __ANDROID__
-//   else if (e->type == SDL_FINGERDOWN) {
-//     env->mario_x = e->tfinger.x * w; /* tfinger.x, normalized in [0..1] */
-//     env->mario_y = e->tfinger.y * h; /* tfinger.y, normalized in [0..1] */
-//   }
-//   /* other events */
-// #else
   else if (e->type == SDL_MOUSEBUTTONDOWN) {
     SDL_Point mouse;
     SDL_GetMouseState(&mouse.x, &mouse.y);
@@ -342,11 +334,16 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
       int j = (mouse.x - x) / taille_case;
       int i = (mouse.y - y) / taille_case;
       if (e->button.button == SDL_BUTTON_LEFT){
-        game_play_move(env->g, i, j, TENT);
+        if (game_check_move(env->g,i,j,TENT)){
+          if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
+            game_play_move(env->g, i, j, TENT);
+          }
+        }
+      } else if (e->button.button == SDL_BUTTON_RIGHT) {
+        if (game_check_move(env->g,i,j,GRASS)){
+          game_play_move(env->g, i, j, GRASS);
+        }
       }
-      else if (e->button.button == SDL_BUTTON_RIGHT){
-        game_play_move(env->g, i, j, GRASS);
-      } 
     }
     }
     else {

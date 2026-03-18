@@ -3,21 +3,21 @@
 #include <SDL.h>
 #include <SDL_image.h>  // required to load transparent texture from PNG
 #include <SDL_ttf.h>    // required to use TTF fonts
-
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "model.h"
 
 /* ***************** implémentation du jeu ************************ */
 
 #include "game.h"
-#include "game_tools.h"
-#include "game_struct.h"
-#include "game_private.h"
-#include "game_ext.h"
 #include "game_aux.h"
+#include "game_ext.h"
+#include "game_private.h"
+#include "game_struct.h"
+#include "game_tools.h"
 
 /* **************************************************************** */
 
@@ -37,6 +37,18 @@
 /* **************************************************************** */
 
 /* PUT YOUR VARIABLES HERE */
+typedef struct Frame {
+  int x;
+  int y;
+  int height;
+  int width;
+  double height_proportion;
+  double width_proportion;
+  SDL_Rect rect;
+  struct Frame* parent;
+
+} Frame;
+
 struct Env_t {
   SDL_Texture* background;
   SDL_Texture* tent;
@@ -49,16 +61,58 @@ struct Env_t {
   SDL_Texture* baton;
   SDL_Texture* winner;
   SDL_Texture* accueil;
+  Frame** frame_list;
+  int nb_frame;
   int back;
   game g;
-//   int bomb_x, bomb_y;
-//   int mario_x, mario_y;
+  //   int bomb_x, bomb_y;
+  //   int mario_x, mario_y;
 };
 
 /* **************************************************************** */
+Frame* init_frame(int x, int y, int w, int h, double height_proportion, double width_proportion, Frame* parent)
+{
+  Frame* f = malloc(sizeof(Frame));
+  f->x = x;
+  f->y = y;
+
+  if (parent == NULL) {  // Si il n'y a pas de parent, alors le parent est la fenetre
+    f->height = h * height_proportion;
+    f->width = w * width_proportion;
+  } else {
+    f->height = parent->height * height_proportion;
+    f->width = parent->width * width_proportion;
+  }
+  SDL_Rect r = {x, y, f->width, f->height};
+  f->height_proportion = height_proportion;
+  f->width_proportion = width_proportion;
+  f->rect = r;
+  f->parent = parent;
+  return f;
+}
+
+void update_frame(SDL_Window* win, SDL_Renderer* ren, Env* env, int w, int h)
+{
+  for (int i = 0; i < env->nb_frame; i++) {
+    Frame* f = env->frame_list[i];
+
+    if (f->parent == NULL) {  // Si il n'y a pas de parent, alors le parent est la fenetre
+      f->height = h * f->height_proportion;
+      f->width = w * f->width_proportion;
+    } else {
+      f->height = f->parent->height * f->height_proportion;
+      f->width = f->parent->width * f->width_proportion;
+    }
+    SDL_Rect r = {f->x, f->y, f->width, f->height};
+    f->rect = r;
+    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+    SDL_RenderDrawRect(ren, &f->rect);
+  }
+}
 
 /* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
-Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
+Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
+{
   Env* env = malloc(sizeof(struct Env_t));
 
   PRINT("Move the bomb with keyboard arrows and move Mario with mouse.\n");
@@ -70,10 +124,10 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
 
   /* init positions */
   // pas utile dans notre cas je pense a part pour la creation du tableau de la game
-//   env->bomb_x = w / 2;
-//   env->bomb_y = h / 4;
-//   env->mario_x = w / 2;
-//   env->mario_y = 3 * h / 4;
+  //   env->bomb_x = w / 2;
+  //   env->bomb_y = h / 4;
+  //   env->mario_x = w / 2;
+  //   env->mario_y = 3 * h / 4;
 
   /* init background texture from PNG image */
   env->background = IMG_LoadTexture(ren, RES_BACKGROUND);
@@ -102,7 +156,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
   /* init GRASS texture from PNG image */
   env->herbe = IMG_LoadTexture(ren, RES_HERBE);
   if (!env->herbe) ERROR("IMG_LoadTexture: %s\n", RES_HERBE);
-  
+
   /* init BATON texture from PNG image */
   env->baton = IMG_LoadTexture(ren, RES_BATON);
   if (!env->baton) ERROR("IMG_LoadTexture: %s\n", RES_BATON);
@@ -117,16 +171,19 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
 
   env->g = game_load("saves/sample_5x5.txt");
   env->back = 1;
+
+  env->nb_frame = 2;
+  env->frame_list = malloc(sizeof(Frame*) * env->nb_frame);
+  env->frame_list[0] = init_frame(w / 20, h / 20, w, h, 0.9, 0.9, NULL);
+  env->frame_list[1] = init_frame(w / 15, h / 15, w, h, 0.5, 0.5, env->frame_list[0]);
   /* init text texture using Arial font */
-    // ça sert juste a écrire le hello world moche au milieu
-//   SDL_Color color = {0, 0, 255, 255}; /* blue color in RGBA */
-//   TTF_Font* font = TTF_OpenFont(FONT, FONTSIZE);
-//   if (!font) ERROR("TTF_OpenFont: %s\n", FONT);
-//   TTF_SetFontStyle(font, TTF_STYLE_BOLD);                                   // TTF_STYLE_ITALIC | TTF_STYLE_NORMAL
-//   SDL_Surface* surf = TTF_RenderText_Blended(font, "Hello World!", color);  // blended rendering for ultra nice text
-//   env->text = SDL_CreateTextureFromSurface(ren, surf);
-//   SDL_FreeSurface(surf);
-//   TTF_CloseFont(font);
+  // ça sert juste a écrire le hello world moche au milieu
+  //   SDL_Color color = {0, 0, 255, 255}; /* blue color in RGBA */
+  //   TTF_Font* font = TTF_OpenFont(FONT, FONTSIZE);
+  //   if (!font) ERROR("TTF_OpenFont: %s\n", FONT);
+  //   TTF_SetFontStyle(font, TTF_STYLE_BOLD);                                   // TTF_STYLE_ITALIC | TTF_STYLE_NORMAL
+  //   SDL_Surface* surf = TTF_RenderText_Blended(font, "Hello World!", color);  // blended rendering for ultra nice
+  //   text env->text = SDL_CreateTextureFromSurface(ren, surf); SDL_FreeSurface(surf); TTF_CloseFont(font);
 
   return env;
 }
@@ -134,7 +191,8 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
 /* **************************************************************** */
 
 /* PUT YOUR CODE HERE TO RENDER TEXTURES, ... */
-void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
+void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
+{
   // SDL_Rect rect;
 
   /* get current window size */
@@ -144,12 +202,12 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
   /* render background texture */
   SDL_RenderCopy(ren, env->background, NULL, NULL); /* stretch it */
 
-  if (env->back == 1){
+  if (env->back == 1) {
     // pas de code en dur donc je met des variables pour chosisir
     int nb_cases_w = env->g->nb_cols;
     int nb_cases_h = env->g->nb_rows;
     float marge = 0.05;
-    int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
+    int taille_case = (fmin(h, w)) / ((nb_cases_h + nb_cases_w) / 2) - fmin(h, w) * marge;  // marge a adapter
     int grille_w = nb_cases_w * taille_case;
     int grille_h = nb_cases_h * taille_case;
 
@@ -157,64 +215,62 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
     int y = (h - grille_h) / 2;
 
     int epaisseur = taille_case * 1;
-    if (epaisseur <4) epaisseur = 4;
+    if (epaisseur < 4) epaisseur = 4;
     int gap = taille_case * 0.45;
     int taille_baton = taille_case + gap;
 
-    int off = epaisseur /1.8;
+    int off = epaisseur / 1.8;
 
-    for (int i = 0; i < nb_cases_h; i++){
-      for(int j=0; j<= nb_cases_w; j++){
-          SDL_Rect place = {
-              x+(j*taille_case) - off,
-              y+(i*taille_case) - (gap /2 ),
-              epaisseur,
-              taille_baton
-          };
+    for (int i = 0; i < nb_cases_h; i++) {
+      for (int j = 0; j <= nb_cases_w; j++) {
+        SDL_Rect place = {x + (j * taille_case) - off, y + (i * taille_case) - (gap / 2), epaisseur, taille_baton};
 
-          SDL_RenderCopy(ren, env->baton, NULL, &place);
+        SDL_RenderCopy(ren, env->baton, NULL, &place);
       }
     }
 
-    for (int i = 0; i <= nb_cases_h; i++){
-      for(int j = 0; j< nb_cases_w; j++){
-          SDL_Rect place;
-          place.w = epaisseur;
-          place.h = taille_baton;
-          place.x = x + (j * taille_case) + (taille_case / 2) - off;
-          place.y = y + (i * taille_case) - (taille_baton / 2);
+    for (int i = 0; i <= nb_cases_h; i++) {
+      for (int j = 0; j < nb_cases_w; j++) {
+        SDL_Rect place;
+        place.w = epaisseur;
+        place.h = taille_baton;
+        place.x = x + (j * taille_case) + (taille_case / 2) - off;
+        place.y = y + (i * taille_case) - (taille_baton / 2);
 
-          SDL_RenderCopyEx(ren, env->baton, NULL, &place, 90.0,NULL, SDL_FLIP_NONE);
+        SDL_RenderCopyEx(ren, env->baton, NULL, &place, 90.0, NULL, SDL_FLIP_NONE);
       }
     }
 
-    int marge_case = taille_case *0.1;
-    for (int i = 0; i<nb_cases_h ;i++){
-      for (int j = 0; j<nb_cases_w ;j++){
+    update_frame(win, ren, env, w, h);
+
+    int marge_case = taille_case * 0.1;
+    for (int i = 0; i < nb_cases_h; i++) {
+      for (int j = 0; j < nb_cases_w; j++) {
         SDL_Rect place;
         place.x = x + (j * taille_case) + marge_case;
         place.y = y + (i * taille_case) + marge_case;
         place.w = taille_case - (2 * marge_case);
         place.h = taille_case - (2 * marge_case);
 
-        switch (game_get_square(env->g, i, j)){
+        switch (game_get_square(env->g, i, j)) {
           case TREE:
             SDL_RenderCopy(ren, env->tree, NULL, &place);
             break;
           case TENT:
-          if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
-            if (game_is_neigh(env->g,i,j,TENT,true)) {
-              SDL_RenderCopy(ren, env->warning, NULL, &place);
+            if ((game_get_current_nb_tents_col(env->g, j) <= game_get_expected_nb_tents_col(env->g, j)) &&
+                (game_get_current_nb_tents_row(env->g, i) <= game_get_expected_nb_tents_row(env->g, i))) {
+              if (game_is_neigh(env->g, i, j, TENT, true)) {
+                SDL_RenderCopy(ren, env->warning, NULL, &place);
+              } else {
+                SDL_RenderCopy(ren, env->tent, NULL, &place);
+              }
             } else {
-              SDL_RenderCopy(ren, env->tent, NULL, &place);
+              if (game_is_neigh(env->g, i, j, TENT, true)) {
+                SDL_RenderCopy(ren, env->warning, NULL, &place);
+              } else {
+                SDL_RenderCopy(ren, env->red_tent, NULL, &place);
+              }
             }
-          } else {
-            if (game_is_neigh(env->g,i,j,TENT,true)) {
-              SDL_RenderCopy(ren, env->warning, NULL, &place);
-            } else {
-              SDL_RenderCopy(ren, env->red_tent, NULL, &place);
-            }
-          }
             break;
           case GRASS:
             SDL_RenderCopy(ren, env->herbe, NULL, &place);
@@ -227,41 +283,40 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
         }
       }
     }
-    if (game_won(env->g)){
+    if (game_won(env->g)) {
       SDL_Rect place;
       int w1, h1;
       SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
       place.w = w * 0.5;
       place.h = place.w * h1 / w1;
-      place.x = (w / 2) - (place.w /2);
-      place.y = (h / 2) - (place.h/2);
+      place.x = (w / 2) - (place.w / 2);
+      place.y = (h / 2) - (place.h / 2);
       SDL_RenderCopy(ren, env->winner, NULL, &place);
     }
-}
+  }
 
-if (env->back == 0){
-  SDL_Rect place;
-  place.x = 0;
-  place.y = 0;
-  place.w = w;
-  place.h = h;
-  SDL_RenderCopy(ren, env->accueil, NULL, &place);
+  if (env->back == 0) {
+    SDL_Rect place;
+    place.x = 0;
+    place.y = 0;
+    place.w = w;
+    place.h = h;
+    SDL_RenderCopy(ren, env->accueil, NULL, &place);
+  }
 }
-}
-
-
 
 /* **************************************************************** */
 
 /* PUT YOUR CODE HERE TO PROCESS EVENTS */
-bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
+bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
+{
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
 
   int nb_cases_w = env->g->nb_cols;
   int nb_cases_h = env->g->nb_rows;
   float marge = 0.05;
-  int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
+  int taille_case = (fmin(h, w)) / ((nb_cases_h + nb_cases_w) / 2) - fmin(h, w) * marge;  // marge a adapter
   int grille_w = nb_cases_w * taille_case;
   int grille_h = nb_cases_h * taille_case;
 
@@ -271,56 +326,51 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
   /* generic events */
   if (e->type == SDL_QUIT) {
     return true;
-  }
-  else if (e->type == SDL_MOUSEBUTTONDOWN) {
+  } else if (e->type == SDL_MOUSEBUTTONDOWN) {
     SDL_Point mouse;
     SDL_GetMouseState(&mouse.x, &mouse.y);
-    if (!game_won(env->g)){
-      if (mouse.x >= x && mouse.x < x + grille_w && mouse.y >= y && mouse.y < y + grille_h){
-      int j = (mouse.x - x) / taille_case;
-      int i = (mouse.y - y) / taille_case;
-      if (e->button.button == SDL_BUTTON_LEFT){
-        if (game_get_square(env->g, i, j) == TENT){
-          game_play_move(env->g,i,j, EMPTY);
-        }
-        else if (game_check_move(env->g,i,j,TENT)){
+    if (!game_won(env->g)) {
+      if (mouse.x >= x && mouse.x < x + grille_w && mouse.y >= y && mouse.y < y + grille_h) {
+        int j = (mouse.x - x) / taille_case;
+        int i = (mouse.y - y) / taille_case;
+        if (e->button.button == SDL_BUTTON_LEFT) {
+          if (game_get_square(env->g, i, j) == TENT) {
+            game_play_move(env->g, i, j, EMPTY);
+          } else if (game_check_move(env->g, i, j, TENT)) {
             game_play_move(env->g, i, j, TENT);
+          }
+        } else if (e->button.button == SDL_BUTTON_RIGHT) {
+          if (game_get_square(env->g, i, j) == GRASS) {
+            game_play_move(env->g, i, j, EMPTY);
+          } else if (game_check_move(env->g, i, j, GRASS)) {
+            game_play_move(env->g, i, j, GRASS);
+          }
         }
-      } else if (e->button.button == SDL_BUTTON_RIGHT) {
-        if (game_get_square(env->g, i, j) == GRASS){
-          game_play_move(env->g,i,j, EMPTY);
-        }
-        else if (game_check_move(env->g,i,j,GRASS)){
-          game_play_move(env->g, i, j, GRASS);
-        }
-      } 
-    }
-    }
-    else {
-      if (e->button.button == SDL_BUTTON_LEFT){
+      }
+    } else {
+      if (e->button.button == SDL_BUTTON_LEFT) {
         SDL_Rect place;
         int w1, h1;
         SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
         place.w = w * 0.5;
         place.h = place.w * h1 / w1;
-        place.x = (w / 2) - (place.w /2);
-        place.y = (h / 2) - (place.h/2);
+        place.x = (w / 2) - (place.w / 2);
+        place.y = (h / 2) - (place.h / 2);
 
         SDL_Rect bouton_retour;
         bouton_retour.w = place.w * 0.26;
         bouton_retour.h = place.h * 0.15;
         bouton_retour.x = place.x + (place.w * 0.37);
-        bouton_retour.y = place.y + (place.h * 0.78) - 1.4 * (bouton_retour.h/1.8);
+        bouton_retour.y = place.y + (place.h * 0.78) - 1.4 * (bouton_retour.h / 1.8);
 
-        if (mouse.x >= bouton_retour.x && mouse.x <= bouton_retour.x + bouton_retour.w && mouse.y >= bouton_retour.y && mouse.y <= bouton_retour.y + bouton_retour.h){
+        if (mouse.x >= bouton_retour.x && mouse.x <= bouton_retour.x + bouton_retour.w && mouse.y >= bouton_retour.y &&
+            mouse.y <= bouton_retour.y + bouton_retour.h) {
           // revenir à l'écran d'accueil
           env->back = 0;
         }
       }
     }
-
-
-  } 
+  }
   // else if (e->type == SDL_KEYDOWN) {
   //   switch (e->key.keysym.sym) {
   //     case SDLK_LEFT:
@@ -340,16 +390,16 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
   //       break;
   //   }
   // }
-// #endif
+  // #endif
 
   return false; /* don't quit */
 }
 
-
 /* **************************************************************** */
 
 /* PUT YOUR CODE HERE TO CLEAN MEMORY */
-void clean(SDL_Window* win, SDL_Renderer* ren, Env* env) {
+void clean(SDL_Window* win, SDL_Renderer* ren, Env* env)
+{
   SDL_DestroyTexture(env->background);
   SDL_DestroyTexture(env->tent);
   SDL_DestroyTexture(env->tree);

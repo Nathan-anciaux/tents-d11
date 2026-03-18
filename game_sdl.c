@@ -331,6 +331,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
 
   return false; /* don't quit */
 }
+}
 
 /* **************************************************************** */
 

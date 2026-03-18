@@ -140,8 +140,8 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
 
   if (env->back == 1){
     // pas de code en dur donc je met des variables pour chosisir
-    int nb_cases_w = 5;
-    int nb_cases_h = 5;
+    int nb_cases_w = env->g->nb_cols;
+    int nb_cases_h = env->g->nb_rows;
     float marge = 0.05;
     int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
     int grille_w = nb_cases_w * taille_case;
@@ -183,8 +183,8 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
     }
 
     int marge_case = taille_case *0.1;
-    for (int i = 0; i<nb_cases_w ;i++){
-      for (int j = 0; j<nb_cases_h ;j++){
+    for (int i = 0; i<nb_cases_h ;i++){
+      for (int j = 0; j<nb_cases_w ;j++){
         SDL_Rect place;
         place.x = x + (j * taille_case) + marge_case;
         place.y = y + (i * taille_case) + marge_case;
@@ -244,8 +244,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
 
-  int nb_cases_w = 5;
-  int nb_cases_h = 5;
+  int nb_cases_w = env->g->nb_cols;
+  int nb_cases_h = env->g->nb_rows;
   float marge = 0.05;
   int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
   int grille_w = nb_cases_w * taille_case;
@@ -266,11 +266,18 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
       int j = (mouse.x - x) / taille_case;
       int i = (mouse.y - y) / taille_case;
       if (e->button.button == SDL_BUTTON_LEFT){
-        if (game_check_move(env->g,i,j,TENT)){
+        if (game_get_square(env->g, i, j) == TENT){
+          game_play_move(env->g,i,j, EMPTY);
+        }
+        else if (game_check_move(env->g,i,j,TENT)){
+          if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
             game_play_move(env->g, i, j, TENT);
         }
       } else if (e->button.button == SDL_BUTTON_RIGHT) {
-        if (game_check_move(env->g,i,j,GRASS)){
+        if (game_get_square(env->g, i, j) == GRASS){
+          game_play_move(env->g,i,j, EMPTY);
+        }
+        else if (game_check_move(env->g,i,j,GRASS)){
           game_play_move(env->g, i, j, GRASS);
         }
       }
@@ -298,6 +305,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
         }
       }
     }
+
+
   } 
   // else if (e->type == SDL_KEYDOWN) {
   //   switch (e->key.keysym.sym) {

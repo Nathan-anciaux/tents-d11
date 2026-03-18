@@ -25,9 +25,10 @@
 #define FONTSIZE 36
 #define RES_BACKGROUND "res/background.png"
 #define RES_TENT "res/tent.png"
-#define RES_RED_TENT "res/rien.png"
+#define RES_RED_TENT "res/red_tent.png"
 #define RES_BIGTREE "res/bigtree.png"
 #define RES_TREE "res/tree.png"
+#define RES_WARNING "res/warning.png"
 #define RES_BATON "res/baton.png"
 #define RES_HERBE "res/HERBE.png"
 #define RES_WINNER "res/congratulation.png"
@@ -42,6 +43,7 @@ struct Env_t {
   SDL_Texture* red_tent;
   SDL_Texture* tree;
   SDL_Texture* bigtree;
+  SDL_Texture* warning;
   SDL_Texture* herbe;
   SDL_Texture* text;
   SDL_Texture* baton;
@@ -84,6 +86,10 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
   /* init red tent texture from PNG image */
   env->red_tent = IMG_LoadTexture(ren, RES_RED_TENT);
   if (!env->red_tent) ERROR("IMG_LoadTexture: %s\n", RES_RED_TENT);
+
+  /* init warning texture from PNG image */
+  env->warning = IMG_LoadTexture(ren, RES_WARNING);
+  if (!env->warning) ERROR("IMG_LoadTexture: %s\n", RES_WARNING);
 
   /* init bigtree texture from PNG image */
   env->bigtree = IMG_LoadTexture(ren, RES_BIGTREE);
@@ -197,9 +203,17 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
             break;
           case TENT:
           if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
-            SDL_RenderCopy(ren, env->tent, NULL, &place);
+            if (game_is_neigh(env->g,i,j,TENT,true)) {
+              SDL_RenderCopy(ren, env->warning, NULL, &place);
+            } else {
+              SDL_RenderCopy(ren, env->tent, NULL, &place);
+            }
           } else {
-            SDL_RenderCopy(ren, env->red_tent, NULL, &place);
+            if (game_is_neigh(env->g,i,j,TENT,true)) {
+              SDL_RenderCopy(ren, env->warning, NULL, &place);
+            } else {
+              SDL_RenderCopy(ren, env->red_tent, NULL, &place);
+            }
           }
             break;
           case GRASS:
@@ -270,7 +284,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
           game_play_move(env->g,i,j, EMPTY);
         }
         else if (game_check_move(env->g,i,j,TENT)){
-          if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
             game_play_move(env->g, i, j, TENT);
         }
       } else if (e->button.button == SDL_BUTTON_RIGHT) {
@@ -280,7 +293,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
         else if (game_check_move(env->g,i,j,GRASS)){
           game_play_move(env->g, i, j, GRASS);
         }
-      }
+      } 
     }
     }
     else {
@@ -331,7 +344,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
 
   return false; /* don't quit */
 }
-}
+
 
 /* **************************************************************** */
 
@@ -340,6 +353,7 @@ void clean(SDL_Window* win, SDL_Renderer* ren, Env* env) {
   SDL_DestroyTexture(env->background);
   SDL_DestroyTexture(env->tent);
   SDL_DestroyTexture(env->tree);
+  SDL_DestroyTexture(env->red_tent);
   SDL_DestroyTexture(env->bigtree);
   SDL_DestroyTexture(env->baton);
   SDL_DestroyTexture(env->herbe);

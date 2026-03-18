@@ -25,6 +25,7 @@
 #define FONTSIZE 36
 #define RES_BACKGROUND "res/background.png"
 #define RES_TENT "res/tent.png"
+#define RES_RED_TENT "res/rien.png"
 #define RES_BIGTREE "res/bigtree.png"
 #define RES_TREE "res/tree.png"
 #define RES_BATON "res/baton.png"
@@ -38,6 +39,7 @@
 struct Env_t {
   SDL_Texture* background;
   SDL_Texture* tent;
+  SDL_Texture* red_tent;
   SDL_Texture* tree;
   SDL_Texture* bigtree;
   SDL_Texture* herbe;
@@ -78,6 +80,10 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[]) {
   /* init tent texture from PNG image */
   env->tent = IMG_LoadTexture(ren, RES_TENT);
   if (!env->tent) ERROR("IMG_LoadTexture: %s\n", RES_TENT);
+
+  /* init red tent texture from PNG image */
+  env->red_tent = IMG_LoadTexture(ren, RES_RED_TENT);
+  if (!env->red_tent) ERROR("IMG_LoadTexture: %s\n", RES_RED_TENT);
 
   /* init bigtree texture from PNG image */
   env->bigtree = IMG_LoadTexture(ren, RES_BIGTREE);
@@ -190,7 +196,11 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env) {
             SDL_RenderCopy(ren, env->tree, NULL, &place);
             break;
           case TENT:
+          if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
             SDL_RenderCopy(ren, env->tent, NULL, &place);
+          } else {
+            SDL_RenderCopy(ren, env->red_tent, NULL, &place);
+          }
             break;
           case GRASS:
             SDL_RenderCopy(ren, env->herbe, NULL, &place);
@@ -223,87 +233,9 @@ if (env->back == 0){
   place.h = h;
   SDL_RenderCopy(ren, env->accueil, NULL, &place);
 }
-
-
-//   SDL_Rect bg_grille = {x, y, grille_w, grille_h};
-//   SDL_SetRenderDrawColor(ren, 255, 255, 255, 20);
-//   SDL_RenderFillRect(ren, &bg_grille);
-
-  // Dessin des cases
-
-//   SDL_SetRenderDrawColor(ren, 0, 0, 0, 255); // noir pour les lignes
-//   for (int i = 0; i < nb_cases_h; i++) {
-//     for (int j = 0; j <= nb_cases_w; j++) {
-//         SDL_Rect cell;
-//         cell.x = x + (j * taille_case);
-//         cell.y = y + (i * taille_case);
-//         cell.w = taille_case;
-//         cell.h = taille_case;
-        
-//         // je dessine des rectangles
-//         int epaisseur = taille_case * 0.8;
-//         int gap = taille_case * 0.01;
-//         int taille_baton = taille_case - (2*gap);
-
-//         SDL_Rect rect_gauche = {cell.x, cell.y + gap, epaisseur, taille_baton};
-//         SDL_RenderCopy(ren, env->baton, NULL, &rect_gauche);
-
-//         SDL_Rect rect_droite = {cell.x + cell.w - epaisseur, cell.y + gap, epaisseur, taille_baton};
-//         SDL_RenderCopyEx(ren, env->baton, NULL, &rect_droite, 0, NULL, SDL_FLIP_HORIZONTAL);
-
-//         SDL_Rect rect_haut;
-//         rect_haut.w = epaisseur;
-//         rect_haut.h = taille_baton;
-//         rect_haut.x = (cell.x + taille_case / 2) - (rect_haut.w / 2);
-//         rect_haut.y = (cell.y + epaisseur / 2) - (rect_haut.h / 2);
-//         SDL_RenderCopyEx(ren, env->baton, NULL, &rect_haut, 90, NULL, SDL_FLIP_NONE);
-
-//         SDL_Rect rect_bas;
-//         rect_bas.w = epaisseur;
-//         rect_bas.h = taille_baton;
-//         rect_bas.x = (cell.x + taille_case / 2) - (rect_bas.w / 2);
-//         rect_bas.y = (cell.y + cell.x - epaisseur / 2) - (rect_bas.h / 2);
-//         SDL_RenderCopyEx(ren, env->baton, NULL, &rect_bas, -90, NULL, SDL_FLIP_NONE);
-
-
-        
-
-//     }
-//   }
-
-   /* render text texture */
-//   SDL_QueryTexture(env->text, NULL, NULL, &rect.w, &rect.h);
-//   rect.x = w / 2 - rect.w / 2;
-//   rect.y = h / 2 - rect.h / 2;
-//   SDL_RenderCopy(ren, env->text, NULL, &rect);
-
-  /* render tent texture */
-//   SDL_QueryTexture(env->tent, NULL, NULL, &rect.w, &rect.h);
-//   rect.x = env->mario_x - rect.w / 2;
-//   rect.y = env->mario_y - rect.h / 2;
-//   SDL_RenderCopy(ren, env->mario, NULL, &rect);
-
-  /* render bomb texture */
-//   SDL_QueryTexture(env->bomb, NULL, NULL, &rect.w, &rect.h);
-//   rect.x = env->bomb_x - rect.w / 2;
-//   rect.y = env->bomb_y - rect.h / 2;
-//   SDL_RenderCopy(ren, env->bomb, NULL, &rect);
-
-  /* render a triangle with lines */
-//   SDL_SetRenderDrawColor(ren, 255, 0, 0, SDL_ALPHA_OPAQUE); /* red */
-//   SDL_RenderDrawLine(ren, 320, 200, 300, 240);
-//   SDL_RenderDrawLine(ren, 300, 240, 340, 240);
-//   SDL_RenderDrawLine(ren, 340, 240, 320, 200);
-
-  /* render a circle with points */
-//   const float pi = 3.14159265358979323846264338327950288419716939937510;
-//   float step = 2 * pi / 300; /* smoothing */
-//   for (float theta = 0.0; theta <= 2 * pi; theta += step) {
-//     int x1 = 400 + 50 * cosf(theta) + 0.5;
-//     int y1 = 400 + 50 * sinf(theta) + 0.5;
-//     SDL_RenderDrawPoint(ren, x1, y1);
-//   }
 }
+
+
 
 /* **************************************************************** */
 
@@ -335,9 +267,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
       int i = (mouse.y - y) / taille_case;
       if (e->button.button == SDL_BUTTON_LEFT){
         if (game_check_move(env->g,i,j,TENT)){
-          if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
             game_play_move(env->g, i, j, TENT);
-          }
         }
       } else if (e->button.button == SDL_BUTTON_RIGHT) {
         if (game_check_move(env->g,i,j,GRASS)){

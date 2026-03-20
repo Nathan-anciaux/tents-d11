@@ -207,7 +207,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   if(!env->font) ERROR("TTF_OpenFont: %s\n", FONT);
   TTF_SetFontStyle(env->font, TTF_STYLE_BOLD);
 
-  env->g = game_load("saves/sample_5x5.txt");
+  env->g = game_new_empty();
   env->back = 0;
 
   env->nb_frame = 2;
@@ -335,10 +335,21 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
       place.w = w * 0.5;
       place.h = place.w * h1 / w1;
-      place.x = (w / 2) - (place.w / 2);
+      place.x = (w) - (place.w);
       place.y = (h / 2) - (place.h / 2);
       SDL_RenderCopy(ren, env->winner, NULL, &place);
+
+      SDL_Rect retour = {w * 0.7, h* 0.56, w * 0.1, h*0.1};
+      SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+      SDL_RenderDrawRect(ren, &retour);
     }
+    SDL_Rect solveur = {w * 0.9, h* 0.9, w * 0.1, h*0.1};
+    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+    SDL_RenderDrawRect(ren, &solveur);
+
+    SDL_Rect restart = {w * 0.9, h* 0, w * 0.1, h*0.1};
+    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+    SDL_RenderDrawRect(ren, &restart);
   }
 
   if (env->back == 0){
@@ -347,10 +358,22 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     place.y = 0;
     place.w = w;
     place.h = h;
+    SDL_Rect wrap = {w * 0.9, h* 0.9, w * 0.1, h*0.1};
+    SDL_Rect bigtree = {w * 0.01, h* 0.9, w * 0.1, h*0.1};
+    SDL_Rect play = {w * 0.01, h* 0.01, w * 0.1, h*0.1};
+    // SDL_Rect load = {w * 0.9, h* 0.01, w * 0.1, h*0.1};
+    SDL_Rect col = {w * 0.3, h* 0.5, w * 0.1, h*0.1};
+    SDL_Rect row = {w * 0.6, h* 0.5, w * 0.1, h*0.1};
     if (env->bigtree_case && env->wrap_case) SDL_RenderCopy(ren, env->accueil_wrap_bigtree, NULL, &place);
     else if (env->bigtree_case) SDL_RenderCopy(ren, env->accueil_bigtree, NULL, &place);
     else if (env->wrap_case) SDL_RenderCopy(ren, env->accueil_wrap, NULL, &place);
     else SDL_RenderCopy(ren, env->accueil_clean, NULL, NULL);
+    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+    SDL_RenderDrawRect(ren, &col);
+    SDL_RenderDrawRect(ren, &row);
+    SDL_RenderDrawRect(ren, &play);
+    SDL_RenderDrawRect(ren, &bigtree);
+    SDL_RenderDrawRect(ren, &wrap);
     
     /* --------  on affiche le text --------*/
     if (env->text_col != NULL){
@@ -391,16 +414,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
 
-  int nb_cases_w = env->g->nb_cols;
-  int nb_cases_h = env->g->nb_rows;
-  float marge = 0.05;
-  int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
-  int grille_w = nb_cases_w * taille_case;
-  int grille_h = nb_cases_h * taille_case;
-
-  int x = (w - grille_w) / 2;
-  int y = (h - grille_h) / 2;
-
   /* generic events */
   if (e->type == SDL_QUIT) {
     return true;
@@ -429,7 +442,19 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
         env->write_col = false;
       }
       else if (mouse.x >= play.x && mouse.x <= play.x + play.w && mouse.y >= play.y && mouse.y <= play.y + play.h) {
-        env->back = 1;
+        // je regarde si on a mit des colonnes et des lignes
+        if (strlen(env->input_col) > 0 && strlen(env->input_row)>0){
+          int col = atoi(env->input_col);
+          int row = atoi(env->input_row);
+          if (col >=2 && row>=2){
+            int nb_tree = col * row / 5;
+            int nb_bigtree = 0;
+            if (env->bigtree_case) nb_bigtree = rand() % 2 + 1;
+            env->g = game_random(row, col, env->wrap_case, nb_tree, nb_bigtree, false);
+            env->back = 1;
+          }
+          else printf("error");
+        }
         }
       }
       else{
@@ -438,6 +463,17 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
       }
     }
     else if (env->back == 1){
+      SDL_Rect restart = {w * 0.9, 0, w * 0.1, h*0.1};
+      SDL_Rect solveur = {w * 0.9, h* 0.9, w * 0.1, h*0.1};
+      int nb_cases_w = env->g->nb_cols;
+      int nb_cases_h = env->g->nb_rows;
+      float marge = 0.05;
+      int taille_case = (fmin(h, w))/((nb_cases_h + nb_cases_w) /2) - fmin(h, w)*marge; // marge a adapter
+      int grille_w = nb_cases_w * taille_case;
+      int grille_h = nb_cases_h * taille_case;
+
+      int x = (w - grille_w) / 2;
+      int y = (h - grille_h) / 2;
       if (game_won(env->g)){
         if (e->button.button == SDL_BUTTON_LEFT){
           SDL_Rect place;
@@ -448,10 +484,20 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
           place.x = (w / 2) - (place.w /2);
           place.y = (h / 2) - (place.h/2);
 
+          env->bigtree_case = false;
+          env->wrap_case = false;
+          env->input_col[0] = '\0';
+          env->input_row[0] = '\0';
+          
+          SDL_DestroyTexture(env->text_col);
+          env->text_col = NULL;
+          SDL_DestroyTexture(env->text_row);
+          env->text_row = NULL;
+
           SDL_Rect bouton_retour;
           bouton_retour.w = place.w * 0.26;
           bouton_retour.h = place.h * 0.15;
-          bouton_retour.x = place.x + (place.w * 0.37);
+          bouton_retour.x = w - place.w + (place.w * 0.37);
           bouton_retour.y = place.y + (place.h * 0.78) - 1.4 * (bouton_retour.h/1.8);
 
           if (mouse.x >= bouton_retour.x && mouse.x <= bouton_retour.x + bouton_retour.w && mouse.y >= bouton_retour.y && mouse.y <= bouton_retour.y + bouton_retour.h){
@@ -464,26 +510,33 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
       }
       else {
         if (mouse.x >= x && mouse.x < x + grille_w && mouse.y >= y && mouse.y < y + grille_h){
-        int j = (mouse.x - x) / taille_case;
-        int i = (mouse.y - y) / taille_case;
-        if (e->button.button == SDL_BUTTON_LEFT){
-          if (game_get_square(env->g, i, j) == TENT){
-            game_play_move(env->g,i,j, EMPTY);
-          }
-          else if (game_check_move(env->g,i,j,TENT)){
-            if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
-              game_play_move(env->g, i, j, TENT);
+          int j = (mouse.x - x) / taille_case;
+          int i = (mouse.y - y) / taille_case;
+          if (e->button.button == SDL_BUTTON_LEFT){
+            if (game_get_square(env->g, i, j) == TENT){
+              game_play_move(env->g,i,j, EMPTY);
+            }
+            else if (game_check_move(env->g,i,j,TENT)){
+              if ((game_get_current_nb_tents_col(env->g,j) <= game_get_expected_nb_tents_col(env->g,j)) && (game_get_current_nb_tents_row(env->g,i) <= game_get_expected_nb_tents_row(env->g,i))) {
+                game_play_move(env->g, i, j, TENT);
+              }
+            }
+          } else if (e->button.button == SDL_BUTTON_RIGHT) {
+            if (game_get_square(env->g, i, j) == GRASS){
+              game_play_move(env->g,i,j, EMPTY);
+            }
+            else if (game_check_move(env->g,i,j,GRASS)){
+              game_play_move(env->g, i, j, GRASS);
             }
           }
-        } else if (e->button.button == SDL_BUTTON_RIGHT) {
-          if (game_get_square(env->g, i, j) == GRASS){
-            game_play_move(env->g,i,j, EMPTY);
-          }
-          else if (game_check_move(env->g,i,j,GRASS)){
-            game_play_move(env->g, i, j, GRASS);
-          }
         }
-      }
+        else if (mouse.x >= solveur.x && mouse.x <= solveur.x + solveur.w && mouse.y >= solveur.y && mouse.y <= solveur.y + solveur.h){
+          game_restart(env->g);
+          game_solve(env->g);
+        }
+        else if (mouse.x >= restart.x && mouse.x <= restart.x + restart.w && mouse.y >= restart.y && mouse.y <= restart.y + restart.h){
+          game_restart(env->g);
+        }
       }
     }
   }

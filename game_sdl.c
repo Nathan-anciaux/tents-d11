@@ -137,8 +137,9 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 {
   Env* env = malloc(sizeof(struct Env_t));
 
-  PRINT("Move the bomb with keyboard arrows and move Mario with mouse.\n");
-  PRINT("Press ESC to quit. Enjoy this SDL2 sample!\n");
+  PRINT("Jeu créé par Evan, Maxence et Nathan.\n");
+  PRINT("Sélectionne la taille de ta grille et clic sur play pour commencer a jouer.\n");
+  PRINT("Press ESC to quit. Enjoy this Tents and trees game!\n");
 
   /* get current window size */
   int w, h;
@@ -236,6 +237,48 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 
 /* **************************************************************** */
 
+// static void update_numero(SDL_Renderer* ren, TTF_Font* font, const char* input, SDL_Texture** texture){
+//   SDL_Color color = {0, 0, 0, 255};
+//   if (*texture != NULL){
+//     SDL_DestroyTexture(*texture);
+//     *texture = NULL; 
+//   }
+//   if (strlen(input) > 0){
+//     SDL_Surface* test = TTF_RenderText_Blended(font, input, color);
+//     *texture = SDL_CreateTextureFromSurface(ren, test);
+//     SDL_FreeSurface(test);
+//   }
+// }
+
+static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int taille_case, bool col, int x, int y){
+  SDL_Color color = {255,255,255,255};
+  for (int k = 0; k<nb_case ;k++){
+    int expected;
+    if (col) expected = game_get_expected_nb_tents_col(env->g, k);
+    else expected = game_get_expected_nb_tents_row(env->g, k);
+    char num[10];
+    sprintf(num, "%d",expected);
+    SDL_Surface* test = TTF_RenderText_Blended(env->font, num, color);
+    if (test!=NULL){
+      SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, test);
+      
+      SDL_Rect number;
+      SDL_QueryTexture(texture, NULL, NULL, &number.w, &number.h);
+      if (col) {
+        number.x = x + (k * taille_case) + (taille_case /2) - number.w /2;
+        number.y = y - number.h - taille_case * 0.1;
+      }
+      else{
+        number.x = x - number.w - taille_case * 0.1;
+        number.y = y + (k * taille_case) + (taille_case /2) - number.h /2;
+      }
+      SDL_RenderCopy(ren, texture, NULL, &number);
+      SDL_DestroyTexture(texture);
+    }
+    SDL_FreeSurface(test);
+  }
+}
+
 /* PUT YOUR CODE HERE TO RENDER TEXTURES, ... */
 void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
 {
@@ -286,8 +329,11 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
         SDL_RenderCopyEx(ren, env->baton, NULL, &place, 90.0, NULL, SDL_FLIP_NONE);
       }
     }
-
     update_frame(win, ren, env, w, h);
+
+    update_number(ren, env, nb_cases_w, taille_case, 1, x, y);
+    update_number(ren, env, nb_cases_h, taille_case, 0, x, y);
+
 
     int marge_case = taille_case * 0.1;
     for (int i = 0; i < nb_cases_h; i++) {
@@ -329,6 +375,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
         }
       }
     }
+
     if (game_won(env->g)) {
       SDL_Rect place;
       int w1, h1;
@@ -450,6 +497,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
             int nb_tree = col * row / 5;
             int nb_bigtree = 0;
             if (env->bigtree_case) nb_bigtree = rand() % 2 + 1;
+            if (env->g != NULL) game_delete(env->g);
             env->g = game_random(row, col, env->wrap_case, nb_tree, nb_bigtree, false);
             env->back = 1;
           }
@@ -504,7 +552,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
             // revenir à l'écran d'accueil
             // env->g = game_default();
             env->back = 0;
-            game_restart(env->g);
           }
         }
       }

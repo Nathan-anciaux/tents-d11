@@ -256,26 +256,39 @@ static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int taille_c
     int expected;
     if (col) expected = game_get_expected_nb_tents_col(env->g, k);
     else expected = game_get_expected_nb_tents_row(env->g, k);
-    char num[10];
-    sprintf(num, "%d",expected);
+    char num[16];
+    char i[16];
+    sprintf(num, "%d",expected); sprintf(i, "%d",k);
     SDL_Surface* test = TTF_RenderText_Blended(env->font, num, color);
+    SDL_Surface* test1 = TTF_RenderText_Blended(env->font, i, color);
     if (test!=NULL){
       SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, test);
+      SDL_Texture* texture1 = SDL_CreateTextureFromSurface(ren, test1);
       
+      SDL_Rect number_ex;
       SDL_Rect number;
-      SDL_QueryTexture(texture, NULL, NULL, &number.w, &number.h);
+      SDL_QueryTexture(texture, NULL, NULL, &number_ex.w, &number_ex.h);
+      SDL_QueryTexture(texture1, NULL, NULL, &number.w, &number.h);
       if (col) {
         number.x = x + (k * taille_case) + (taille_case /2) - number.w /2;
         number.y = y - number.h - taille_case * 0.1;
+
+        number_ex.x = x + (k * taille_case) + (taille_case /2) - number.w /2;
+        number_ex.y = y + (nb_case * taille_case) + (taille_case /2) - number.h /2;
       }
       else{
         number.x = x - number.w - taille_case * 0.1;
         number.y = y + (k * taille_case) + (taille_case /2) - number.h /2;
+
+        number_ex.x = x + (nb_case * taille_case) + (taille_case /2) - number_ex.w /2;
+        number_ex.y = y + (k * taille_case) + (taille_case /2) - number_ex.h /2;        
       }
-      SDL_RenderCopy(ren, texture, NULL, &number);
-      SDL_DestroyTexture(texture);
+      SDL_RenderCopy(ren, texture1, NULL, &number);
+      SDL_RenderCopy(ren, texture, NULL, &number_ex);
+      SDL_DestroyTexture(texture);SDL_DestroyTexture(texture1);
     }
     SDL_FreeSurface(test);
+    SDL_FreeSurface(test1);
   }
 }
 
@@ -395,8 +408,11 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     SDL_RenderDrawRect(ren, &solveur);
 
     SDL_Rect restart = {w * 0.9, h* 0, w * 0.1, h*0.1};
-    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+    SDL_Rect undo = {w * 0, h* 0.9, w * 0.1, h*0.1};
+    SDL_Rect redo = {w * 0.2, h* 0.9, w * 0.1, h*0.1};
     SDL_RenderDrawRect(ren, &restart);
+    SDL_RenderDrawRect(ren, &undo);
+    SDL_RenderDrawRect(ren, &redo);
   }
 
   if (env->back == 0){
@@ -513,6 +529,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
     else if (env->back == 1){
       SDL_Rect restart = {w * 0.9, 0, w * 0.1, h*0.1};
       SDL_Rect solveur = {w * 0.9, h* 0.9, w * 0.1, h*0.1};
+      SDL_Rect undo = {w * 0, h* 0.9, w * 0.1, h*0.1};
+      SDL_Rect redo = {w * 0.2, h* 0.9, w * 0.1, h*0.1};
       int nb_cases_w = env->g->nb_cols;
       int nb_cases_h = env->g->nb_rows;
       float marge = 0.05;
@@ -583,6 +601,14 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
         }
         else if (mouse.x >= restart.x && mouse.x <= restart.x + restart.w && mouse.y >= restart.y && mouse.y <= restart.y + restart.h){
           game_restart(env->g);
+        }
+        else if (mouse.x >= undo.x && mouse.x <= undo.x + undo.w && mouse.y >= undo.y && mouse.y <= undo.y + undo.h){
+          game_print(env->g);
+          game_undo(env->g);
+          game_print(env->g);
+        }
+        else if (mouse.x >= redo.x && mouse.x <= redo.x + redo.w && mouse.y >= redo.y && mouse.y <= redo.y + redo.h){
+          game_redo(env->g);
         }
       }
     }

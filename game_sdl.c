@@ -33,6 +33,12 @@
 #define RES_HERBE "res/HERBE.png"
 #define RES_WINNER "res/congratulation.png"
 
+#define RES_RESTART "res/restart.png"
+#define RES_REDO "res/redo.png"
+#define RES_UNDO "res/undo.png"
+#define RES_SOLVE "res/solve.png"
+#define RES_RETOUR "res/retour.png"
+
 /* **************************************************************** */
 
 #define RES_ACCUEIL_BACK "res/menu/accueil.png"
@@ -73,6 +79,13 @@ struct Env_t {
   game g;
   //   int bomb_x, bomb_y;
   //   int mario_x, mario_y;
+
+  /* bouton */
+  SDL_Texture* retour;
+  SDL_Texture* restart;
+  SDL_Texture* undo;
+  SDL_Texture* redo;
+  SDL_Texture* solve;
 
   /* menu */
   char input_col[256];
@@ -191,7 +204,24 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   env->winner = IMG_LoadTexture(ren, RES_WINNER);
   if (!env->winner) ERROR("IMG_LoadTexture: %s\n", RES_WINNER);
 
-  /* init ACCUEIL texture from PNG image */
+  /*------  Import des boutons du jeu -------*/
+  env->restart = IMG_LoadTexture(ren, RES_RESTART);
+  if (!env->restart) ERROR("IMG_LoadTexture: %s\n", RES_RESTART);
+
+  env->undo = IMG_LoadTexture(ren, RES_UNDO);
+  if (!env->undo) ERROR("IMG_LoadTexture: %s\n", RES_UNDO);
+
+  env->redo = IMG_LoadTexture(ren, RES_REDO);
+  if (!env->redo) ERROR("IMG_LoadTexture: %s\n", RES_REDO);
+
+  env->solve = IMG_LoadTexture(ren, RES_SOLVE);
+  if (!env->solve) ERROR("IMG_LoadTexture: %s\n", RES_SOLVE);
+  
+  /* init Winner texture from PNG image */
+  env->retour = IMG_LoadTexture(ren, RES_RETOUR);
+  if (!env->retour) ERROR("IMG_LoadTexture: %s\n", RES_RETOUR);
+
+  /* ------- init ACCUEIL texture from PNG image --------------*/
   env->accueil_clean = IMG_LoadTexture(ren, RES_ACCUEIL_CLEAN);
   if (!env->accueil_clean) ERROR("IMG_LoadTexture: %s\n", RES_ACCUEIL_CLEAN);
 
@@ -404,14 +434,19 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_RenderDrawRect(ren, &retour);
     }
     SDL_Rect solveur = {w * 0.9, h* 0.9, w * 0.1, h*0.1};
-    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-    SDL_RenderDrawRect(ren, &solveur);
-
+    SDL_Rect retour = {w * 0, h* 0, w * 0.1, h*0.1};
     SDL_Rect restart = {w * 0.9, h* 0, w * 0.1, h*0.1};
     SDL_Rect undo = {w * 0, h* 0.9, w * 0.1, h*0.1};
     SDL_Rect redo = {w * 0.2, h* 0.9, w * 0.1, h*0.1};
+    SDL_RenderCopy(ren, env->retour, NULL, &retour);
+    SDL_RenderDrawRect(ren, &retour);
+    SDL_RenderCopy(ren, env->solve, NULL, &solveur);
+    SDL_RenderDrawRect(ren, &solveur);
+    SDL_RenderCopy(ren, env->restart, NULL, &restart);
     SDL_RenderDrawRect(ren, &restart);
+    SDL_RenderCopy(ren, env->undo, NULL, &undo);
     SDL_RenderDrawRect(ren, &undo);
+    SDL_RenderCopy(ren, env->redo, NULL, &redo);
     SDL_RenderDrawRect(ren, &redo);
   }
 
@@ -527,6 +562,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
       }
     }
     else if (env->back == 1){
+      SDL_Rect retour = {w * 0, h* 0, w * 0.1, h*0.1};
       SDL_Rect restart = {w * 0.9, 0, w * 0.1, h*0.1};
       SDL_Rect solveur = {w * 0.9, h* 0.9, w * 0.1, h*0.1};
       SDL_Rect undo = {w * 0, h* 0.9, w * 0.1, h*0.1};
@@ -601,6 +637,18 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e) {
         }
         else if (mouse.x >= restart.x && mouse.x <= restart.x + restart.w && mouse.y >= restart.y && mouse.y <= restart.y + restart.h){
           game_restart(env->g);
+        }
+        else if (mouse.x >= retour.x && mouse.x <= retour.x + retour.w && mouse.y >= retour.y && mouse.y <= retour.y + retour.h){
+          env->back = 0;
+          env->bigtree_case = false;
+          env->wrap_case = false;
+          env->input_col[0] = '\0';
+          env->input_row[0] = '\0';
+          
+          SDL_DestroyTexture(env->text_col);
+          env->text_col = NULL;
+          SDL_DestroyTexture(env->text_row);
+          env->text_row = NULL;
         }
         else if (mouse.x >= undo.x && mouse.x <= undo.x + undo.w && mouse.y >= undo.y && mouse.y <= undo.y + undo.h){
           game_print(env->g);

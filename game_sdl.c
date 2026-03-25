@@ -49,6 +49,10 @@
 
 /* **************************************************************** */
 
+#define RES_LOAD_GAME "res/menu/load_game.png"
+
+/* **************************************************************** */
+
 /* PUT YOUR VARIABLES HERE */
 typedef struct Frame {
   int x;
@@ -77,8 +81,6 @@ struct Env_t {
   int nb_frame;
   int back;
   game g;
-  //   int bomb_x, bomb_y;
-  //   int mario_x, mario_y;
 
   /* bouton */
   SDL_Texture* retour;
@@ -101,6 +103,12 @@ struct Env_t {
   bool bigtree_case;
   bool wrap_case;
   TTF_Font* font;
+
+  /* load */
+  SDL_Texture* load_game;
+  SDL_Texture* text_load;
+  char input_load[256];
+  bool write_load;
 };
 
 /* **************************************************************** */
@@ -173,13 +181,6 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 
   env->wrap_case = false;
   env->bigtree_case = false;
-
-  /* init positions */
-  // pas utile dans notre cas je pense a part pour la creation du tableau de la game
-  //   env->bomb_x = w / 2;
-  //   env->bomb_y = h / 4;
-  //   env->mario_x = w / 2;
-  //   env->mario_y = 3 * h / 4;
 
   /* init background texture from PNG image */
   env->background = IMG_LoadTexture(ren, RES_BACKGROUND);
@@ -268,6 +269,16 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 
   update_text(ren, env->font, env->input_col, &env->text_col);
   update_text(ren, env->font, env->input_row, &env->text_row);
+
+  /* ------- init LOAD texture from PNG image -------- */
+
+  env->load_game = IMG_LoadTexture(ren, RES_LOAD_GAME);
+  if (!env->load_game) ERROR("IMG_LoadTexture: %s\n", RES_LOAD_GAME);
+
+  strcpy(env->input_load, "");
+  env->write_load = false;
+  env->text_load = NULL;
+
 
   /* init text texture using Arial font */
   // ça sert juste a écrire le hello world moche au milieu
@@ -511,6 +522,31 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_RenderCopy(ren, env->text_row, NULL, &dest);
     }
   }
+
+  if (env->back == 2) {
+    SDL_Rect place;
+    place.x = 0;
+    place.y = 0;
+    place.w = w;
+    place.h = h;
+
+    SDL_RenderCopy(ren, env->load_game, NULL, &place);
+
+    SDL_Rect charger = {w * 0.6, h * 0.45, w * 0.1, h * 0.08};
+    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+    SDL_RenderDrawRect(ren, &charger);
+
+    SDL_Rect input_box = {w * 0.44, h * 0.45, w * 0.15, h * 0.08};
+    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+    SDL_RenderDrawRect(ren, &input_box);
+
+    if (env->text_load != NULL) {
+      SDL_Rect dest;
+      SDL_QueryTexture(env->text_load, NULL, NULL, &dest.w, &dest.h);
+      dest.x = input_box.x + 10;
+      dest.y = input_box.y + (input_box.h - dest.h) / 2;
+    }
+  }
 }
 
 /* **************************************************************** */
@@ -568,16 +604,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
             printf("error");
 
         } else if (mouse.x >= load.x && mouse.x <= load.x + load.w && mouse.y >= load.y && mouse.y <= load.y + load.h) {
-          game loaded_game = game_load("default.txt");
-          if (loaded_game != NULL) {
-            if (env->g != NULL) {
-              game_delete(env->g);
-            }
-            env->g = loaded_game;
-            env->back = 1;
-          } else {
-            printf("Error : the game could not be loaded");
-          }
+          env->back = 2;
         }
       } else {
         env->is_typing = false;
@@ -636,11 +663,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           if (e->button.button == SDL_BUTTON_LEFT) {
             if (game_get_square(env->g, i, j) == TENT) {
               game_play_move(env->g, i, j, EMPTY);
-            } else if (game_check_move(env->g, i, j, TENT)) {
-              if ((game_get_current_nb_tents_col(env->g, j) <= game_get_expected_nb_tents_col(env->g, j)) &&
-                  (game_get_current_nb_tents_row(env->g, i) <= game_get_expected_nb_tents_row(env->g, i))) {
+            } else if (game_check_move(env->g, i, j, TENT)) { 
                 game_play_move(env->g, i, j, TENT);
-              }
             }
           } else if (e->button.button == SDL_BUTTON_RIGHT) {
             if (game_get_square(env->g, i, j) == GRASS) {
@@ -673,6 +697,46 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         } else if (mouse.x >= redo.x && mouse.x <= redo.x + redo.w && mouse.y >= redo.y && mouse.y <= redo.y + redo.h) {
           game_redo(env->g);
         }
+      }
+    } else if (env->back == 2) {
+      SDL_Rect retour = {w * 0.41, h * 0.76, w * 0.18, h * 0.08};
+      SDL_Rect charger = {w * 0.3, h * 0.73, w * 0.12, h * 0.04};
+      SDL_Rect input_box = {w * 0.44, h * 0.45, w * 0.15, h * 0.08};
+
+      if (e->button.button == SDL_BUTTON_LEFT) {
+        if (mouse.x >= retour.x && mouse.x <= retour.x + retour.w && mouse.y >= retour.y &&
+                   mouse.y <= retour.y + retour.h) {
+          env->back = 0;
+          env->bigtree_case = false;
+          env->wrap_case = false;
+          strcpy(env->input_col, "8");
+          strcpy(env->input_row, "8");
+
+          update_text(ren, env->font, env->input_col, &env->text_col);
+          update_text(ren, env->font, env->input_row, &env->text_row);
+        }
+      } else if (mouse.x >= input_box.x && mouse.x <= input_box.x + input_box.w && mouse.y >= input_box.y &&
+                   mouse.y <= input_box.y + input_box.h) {
+        env->is_typing = true;
+        SDL_StartTextInput();
+        env->write_load = true;
+      } else if (mouse.x >= charger.x && mouse.x <= charger.x + charger.w && mouse.y >= charger.y &&
+                   mouse.y <= charger.y + charger.h) {
+        if (strlen(env->input_load) > 0) {
+          if (env->g != NULL) { game_delete(env->g);}
+          env->g = game_load(env->input_load);
+          if (env->g != NULL) { 
+            env->back = 1;
+          } else {
+            printf("impossible load %s", env->input_load);
+            env->g = game_default();
+          }
+        }
+      }
+      else {
+        env->is_typing = false;
+        SDL_StopTextInput();
+        env->write_load = false;
       }
     }
   } else if (e->type == SDL_TEXTINPUT && env->is_typing) {

@@ -55,10 +55,10 @@
 
 /* PUT YOUR VARIABLES HERE */
 typedef struct Frame {
-  int x;
-  int y;
-  int height;
-  int width;
+  double x;
+  double y;
+  double height;
+  double width;
   double height_proportion;
   double width_proportion;
   SDL_Rect rect;
@@ -112,11 +112,9 @@ struct Env_t {
 };
 
 /* **************************************************************** */
-Frame* init_frame(int x, int y, int w, int h, double height_proportion, double width_proportion, Frame* parent)
+Frame* init_frame(double x, double y, int w, int h, double height_proportion, double width_proportion, Frame* parent)
 {
   Frame* f = malloc(sizeof(Frame));
-  f->x = x;
-  f->y = y;
 
   if (parent == NULL) {  // Si il n'y a pas de parent, alors le parent est la fenetre
     f->height = h * height_proportion;
@@ -125,6 +123,8 @@ Frame* init_frame(int x, int y, int w, int h, double height_proportion, double w
     f->height = parent->height * height_proportion;
     f->width = parent->width * width_proportion;
   }
+  f->x = x;
+  f->y = y;
   SDL_Rect r = {x, y, f->width, f->height};
   f->height_proportion = height_proportion;
   f->width_proportion = width_proportion;
@@ -138,16 +138,29 @@ void update_frame(SDL_Window* win, SDL_Renderer* ren, Env* env, int w, int h)
   for (int i = 0; i < env->nb_frame; i++) {
     Frame* f = env->frame_list[i];
 
+    int real_x;
+    int real_y;
     if (f->parent == NULL) {  // Si il n'y a pas de parent, alors le parent est la fenetre
       f->height = h * f->height_proportion;
       f->width = w * f->width_proportion;
+      real_x = (int)(f->x * w);
+      real_y = (int)(f->y * h);
     } else {
       f->height = f->parent->height * f->height_proportion;
       f->width = f->parent->width * f->width_proportion;
+      real_x = (int)(f->x * f->parent->width);
+      real_y = (int)(f->y * f->parent->height);
     }
-    SDL_Rect r = {f->x, f->y, f->width, f->height};
+
+    if (f->parent != NULL) {
+      real_x += f->parent->rect.x;
+      real_y += f->parent->rect.y;
+    }
+
+    SDL_Rect r = {real_x, real_y, f->width, f->height};
     f->rect = r;
-    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
+
+    SDL_SetRenderDrawColor(ren, 0, 0, 255, 255);
     SDL_RenderDrawRect(ren, &f->rect);
   }
 }
@@ -255,10 +268,23 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   env->g = game_new_empty();
   env->back = 0;
 
-  env->nb_frame = 2;
+  /*GESTION DES FRAMES*/
+  env->nb_frame = 7;
   env->frame_list = malloc(sizeof(Frame*) * env->nb_frame);
-  env->frame_list[0] = init_frame(w / 20, h / 20, w, h, 0.9, 0.9, NULL);
-  env->frame_list[1] = init_frame(w / 15, h / 15, w, h, 0.5, 0.5, env->frame_list[0]);
+  // frame_list[0] = fenetre
+  env->frame_list[0] = init_frame(0, 0, w, h, 1, 1, NULL);
+
+  env->frame_list[1] = init_frame(0.9, 0, w, h, 0.5, 0.1, env->frame_list[0]);
+
+  env->frame_list[2] = init_frame(0.0, 0.0, w, h, 0.18, 1.0, env->frame_list[1]);
+
+  env->frame_list[3] = init_frame(0.0, 0.2, w, h, 0.18, 1.0, env->frame_list[1]);
+
+  env->frame_list[4] = init_frame(0.0, 0.4, w, h, 0.18, 1.0, env->frame_list[1]);
+
+  env->frame_list[5] = init_frame(0.0, 0.6, w, h, 0.18, 1.0, env->frame_list[1]);
+
+  env->frame_list[6] = init_frame(0.0, 0.8, w, h, 0.18, 1.0, env->frame_list[1]);
 
   strcpy(env->input_col, "8");
   strcpy(env->input_row, "8");
@@ -370,12 +396,14 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     int nb_cases_w = env->g->nb_cols;
     int nb_cases_h = env->g->nb_rows;
     float marge = 0.05;
-    int taille_case = (fmin(h, w)) / ((nb_cases_h + nb_cases_w) / 2) - fmin(h, w) * marge;  // marge a adapter
+    int taille_case = (fmin(env->frame_list[0]->height, env->frame_list[0]->width)) / ((nb_cases_h + nb_cases_w) / 2) -
+                      fmin(env->frame_list[0]->height, env->frame_list[0]->width) * marge;  // marge a adapter
+
     int grille_w = nb_cases_w * taille_case;
     int grille_h = nb_cases_h * taille_case;
 
-    int x = (w - grille_w) / 2;
-    int y = (h - grille_h) / 2;
+    int x = (env->frame_list[0]->width - grille_w) / 2;
+    int y = (env->frame_list[0]->height - grille_h) / 2;
 
     int epaisseur = taille_case * 1;
     if (epaisseur < 4) epaisseur = 4;
@@ -463,11 +491,13 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
       SDL_RenderDrawRect(ren, &retour);
     }
-    SDL_Rect solveur = {w * 0.9, h * 0.9, w * 0.1, h * 0.1};
-    SDL_Rect retour = {w * 0, h * 0, w * 0.1, h * 0.1};
-    SDL_Rect restart = {w * 0.9, h * 0, w * 0.1, h * 0.1};
-    SDL_Rect undo = {w * 0, h * 0.9, w * 0.1, h * 0.1};
-    SDL_Rect redo = {w * 0.2, h * 0.9, w * 0.1, h * 0.1};
+
+    SDL_Rect solveur = env->frame_list[2]->rect;
+
+    SDL_Rect retour = env->frame_list[3]->rect;
+    SDL_Rect restart = env->frame_list[4]->rect;
+    SDL_Rect undo = env->frame_list[5]->rect;
+    SDL_Rect redo = env->frame_list[6]->rect;
     SDL_RenderCopy(ren, env->retour, NULL, &retour);
     SDL_RenderDrawRect(ren, &retour);
     SDL_RenderCopy(ren, env->solve, NULL, &solveur);
@@ -560,6 +590,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
   /* generic events */
   if (e->type == SDL_QUIT) {
     return true;
+
   } else if (e->type == SDL_MOUSEBUTTONDOWN) {
     SDL_Point mouse;
     SDL_GetMouseState(&mouse.x, &mouse.y);
@@ -611,11 +642,11 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         SDL_StopTextInput();
       }
     } else if (env->back == 1) {
-      SDL_Rect retour = {w * 0, h * 0, w * 0.1, h * 0.1};
-      SDL_Rect restart = {w * 0.9, 0, w * 0.1, h * 0.1};
-      SDL_Rect solveur = {w * 0.9, h * 0.9, w * 0.1, h * 0.1};
-      SDL_Rect undo = {w * 0, h * 0.9, w * 0.1, h * 0.1};
-      SDL_Rect redo = {w * 0.2, h * 0.9, w * 0.1, h * 0.1};
+      SDL_Rect retour = env->frame_list[3]->rect;
+      SDL_Rect restart = env->frame_list[4]->rect;
+      SDL_Rect solveur = env->frame_list[2]->rect;
+      SDL_Rect undo = env->frame_list[5]->rect;
+      SDL_Rect redo = env->frame_list[6]->rect;
       int nb_cases_w = env->g->nb_cols;
       int nb_cases_h = env->g->nb_rows;
       float marge = 0.05;

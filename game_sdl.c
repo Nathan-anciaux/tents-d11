@@ -730,7 +730,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         }
       }
     } else if (env->back == 2) {
-      SDL_Rect retour = {w * 0.41, h * 0.76, w * 0.18, h * 0.08};
+      SDL_Rect retour = {w * 0.41, h * 0.74, w * 0.18, h * 0.08};
       SDL_Rect charger = {w * 0.3, h * 0.73, w * 0.12, h * 0.04};
       SDL_Rect input_box = {w * 0.44, h * 0.45, w * 0.15, h * 0.08};
 

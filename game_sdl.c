@@ -58,14 +58,14 @@
 
 /* PUT YOUR VARIABLES HERE */
 typedef struct Frame {
-  double x;
-  double y;
-  double height;
-  double width;
+  double x;       // x proportion
+  double y;       // y proportion
+  double height;  // windows height
+  double width;   // windows width
   double height_proportion;
   double width_proportion;
   SDL_Rect rect;
-  struct Frame* parent;
+  struct Frame* parent;  // parent (an other frame), if null is the windows
 
 } Frame;
 
@@ -194,12 +194,11 @@ static void update_text(SDL_Renderer* ren, TTF_Font* font, const char* input, SD
   }
 }
 
-/* PUT YOUR CODE HERE TO INIT TEXTURES, ... */
 Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 {
   Env* env = malloc(sizeof(struct Env_t));
 
-  PRINT("Jeu créé par Evan, Maxence et Nathan.\n");
+  PRINT("Jeu créé par Maxence, Nathan et Evan.\n");
   PRINT("Sélectionne la taille de ta grille et clic sur play pour commencer a jouer.\n");
   PRINT("Press ESC to quit. Enjoy this Tents and trees game!\n");
 
@@ -324,9 +323,11 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 
   /* panneau help*/
   env->frame_list[17] = init_frame(0.25, 0.2, w, h, 0.4, 0.5, env->frame_list[0]);
-  env->frame_list[18] = init_frame(0.1, 0.15, w, h, 0.3, 0.8, env->frame_list[7]);
-  env->frame_list[19] = init_frame(0.1, 0.6, w, h, 0.25, 0.35, env->frame_list[7]);
-  env->frame_list[20] = init_frame(0.55, 0.6, w, h, 0.25, 0.35, env->frame_list[7]);
+  env->frame_list[18] = init_frame(0.1, 0.15, w, h, 0.3, 0.8, env->frame_list[17]);
+
+  env->frame_list[19] = init_frame(0.35, 0.7, w, h, 0.20, 0.30, env->frame_list[17]);
+
+  env->frame_list[20] = init_frame(0.55, 0.6, w, h, 0.25, 0.35, env->frame_list[17]);
 
   // wraping
   env->frame_list[11] = init_frame(0.3, 0.73, w, h, 0.04, 0.12, env->frame_list[0]);
@@ -584,24 +585,31 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     if (env->help_press) {
       SDL_Rect place = env->frame_list[17]->rect;
       SDL_Rect cadre_text = env->frame_list[18]->rect;
-      SDL_Rect bouton_save = env->frame_list[19]->rect;
-      SDL_Rect bouton_non_save = env->frame_list[20]->rect;
+      SDL_Rect bouton_retour = env->frame_list[19]->rect;
 
       SDL_RenderCopy(ren, env->fv, NULL, &place);
 
       SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-      SDL_RenderDrawRect(ren, &bouton_save);
-      SDL_SetRenderDrawColor(ren, 0, 255, 0, 255);
-      SDL_RenderDrawRect(ren, &bouton_non_save);
+      SDL_RenderDrawRect(ren, &bouton_retour);
+
       SDL_SetRenderDrawColor(ren, 0, 0, 255, 255);
       SDL_RenderDrawRect(ren, &cadre_text);
-      if (env->text_s != NULL) {
-        SDL_Rect dest;
-        SDL_QueryTexture(env->text_s, NULL, NULL, &dest.w, &dest.h);
-        dest.x = cadre_text.x + (cadre_text.w - dest.w) / 2;
-        dest.y = cadre_text.y + (cadre_text.h - dest.h) / 2;
-        SDL_RenderCopy(ren, env->text_s, NULL, &dest);
-      }
+
+      SDL_Color couleur = {0, 0, 0, 255};
+      SDL_Surface* surface_texte = TTF_RenderText_Blended_Wrapped(
+          env->font, "HELP :\n clic gauche : \n clic droit : \n clique sur une case remplie : clear\n ...      ",
+          couleur, 500);
+      SDL_Texture* texture_texte = SDL_CreateTextureFromSurface(ren, surface_texte);
+
+      SDL_Rect dest;
+      SDL_QueryTexture(texture_texte, NULL, NULL, &dest.w, &dest.h);
+      dest.x = cadre_text.x + (cadre_text.w - dest.w) / 2;
+      dest.y = cadre_text.y + (cadre_text.h - dest.h) / 2;
+
+      SDL_RenderCopy(ren, texture_texte, NULL, &dest);
+      SDL_FreeSurface(surface_texte);
+
+      SDL_DestroyTexture(texture_texte);
     }
   }
 
@@ -787,6 +795,11 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
             env->back = 0;
           }
         }
+      } else if ((mouse.x >= env->frame_list[19]->rect.x &&
+                  mouse.x <= env->frame_list[19]->rect.x + env->frame_list[19]->rect.w &&
+                  mouse.y >= env->frame_list[19]->rect.y &&
+                  mouse.y <= env->frame_list[19]->rect.y + env->frame_list[19]->rect.h)) {
+        env->help_press = false;
       } else if (env->retour_press) {
         if (e->button.button == SDL_BUTTON_LEFT) {
           SDL_Rect cadre_text = env->frame_list[8]->rect;

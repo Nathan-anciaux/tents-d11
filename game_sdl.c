@@ -302,7 +302,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   env->frame_list[6] = init_frame(0.0, 0.8, w, h, 0.18, 1.0, env->frame_list[1]);
 
   /* panneau save*/
-  env->frame_list[7] = init_frame(0.25, 0.3, w, h, 0.4, 0.5, env->frame_list[0]);
+  env->frame_list[7] = init_frame(0.25, 0.2, w, h, 0.4, 0.5, env->frame_list[0]);
   env->frame_list[8] = init_frame(0.1, 0.15, w, h, 0.3, 0.8, env->frame_list[7]);
   env->frame_list[9] = init_frame(0.1, 0.6, w, h, 0.25, 0.35, env->frame_list[7]);
   env->frame_list[10] = init_frame(0.55, 0.6, w, h, 0.25, 0.35, env->frame_list[7]);
@@ -446,6 +446,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
         SDL_RenderCopyEx(ren, env->baton, NULL, &place, 90.0, NULL, SDL_FLIP_NONE);
       }
     }
+
     update_frame(win, ren, env, w, h);
 
     update_number(ren, env, nb_cases_w, taille_case, 1, x, y);
@@ -849,10 +850,16 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         update_text(ren, env->font, env->input_row, &env->text_row);
       }
     }
-    if (env->is_typing_s){
+    else if (env->is_typing_s){
       if (strlen(env->input) + strlen(e->text.text) < 255) {
         strcat(env->input, e->text.text);
         update_text(ren, env->font, env->input, &env->text_s);
+      }
+    }
+    else if (env->is_typing_load){
+      if (strlen(env->input_load) + strlen(e->text.text) < 255) {
+        strcat(env->input_load, e->text.text);
+        update_text(ren, env->font, env->input_load, &env->text_load);
       }
     }
   }
@@ -879,9 +886,16 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           update_text(ren, env->font, env->input, &env->text_s);
         }
       }
+      else if (env->is_typing_load){
+        if (strlen(env->input_load) > 0) {
+          env->input_load[strlen(env->input_load) - 1] = '\0';
+          update_text(ren, env->font, env->input_load, &env->text_load);
+        }
+      }
     } else if (e->key.keysym.sym == SDLK_RETURN || e->key.keysym.sym == SDLK_KP_ENTER) {
       env->is_typing_c = false;
       env->is_typing_s = false;
+      env->is_typing_load = false;
       SDL_StopTextInput();
     }
   }

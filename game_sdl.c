@@ -123,6 +123,7 @@ struct Env_t {
   char input_load[256];
   bool write_load;
   bool is_typing_load;
+  SDL_Texture* write_here;
 };
 
 /* **************************************************************** */
@@ -198,7 +199,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 {
   Env* env = malloc(sizeof(struct Env_t));
 
-  PRINT("Jeu créé par Maxence, Nathan et Evan.\n");
+  PRINT("Jeu créé par Evan, Maxence et Nathan.\n");
   PRINT("Sélectionne la taille de ta grille et clic sur play pour commencer a jouer.\n");
   PRINT("Press ESC to quit. Enjoy this Tents and trees game!\n");
 
@@ -295,7 +296,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   env->back = 0;
 
   /*GESTION DES FRAMES*/
-  env->nb_frame = 21;
+  env->nb_frame = 20;
   env->frame_list = malloc(sizeof(Frame*) * env->nb_frame);
   // frame_list[0] = fenetre
   env->frame_list[0] = init_frame(0, 0, w, h, 1, 1, NULL);
@@ -317,17 +318,14 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 
   /* panneau save*/
   env->frame_list[7] = init_frame(0.25, 0.2, w, h, 0.4, 0.5, env->frame_list[0]);
-  env->frame_list[8] = init_frame(0.3, 0.05, w, h, 0.3, 0.8, env->frame_list[7]);
-  env->frame_list[9] = init_frame(0.1, 0.6, w, h, 0.25, 0.35, env->frame_list[7]);
-  env->frame_list[10] = init_frame(0.55, 0.6, w, h, 0.25, 0.35, env->frame_list[7]);
+  env->frame_list[8] = init_frame(0.27, 0.58, w, h, 0.1, 0.45, env->frame_list[7]);
+  env->frame_list[9] = init_frame(0.29, 0.70, w, h, 0.15, 0.18, env->frame_list[7]);
+  env->frame_list[10] = init_frame(0.55, 0.70, w, h, 0.15, 0.18, env->frame_list[7]);
 
   /* panneau help*/
-  env->frame_list[17] = init_frame(0.25, 0.2, w, h, 0.4, 0.5, env->frame_list[0]);
-  env->frame_list[18] = init_frame(0.1, 0.15, w, h, 0.3, 0.8, env->frame_list[17]);
-
-  env->frame_list[19] = init_frame(0.35, 0.7, w, h, 0.20, 0.30, env->frame_list[17]);
-
-  env->frame_list[20] = init_frame(0.55, 0.6, w, h, 0.25, 0.35, env->frame_list[17]);
+  env->frame_list[17] = init_frame(0.25, 0.1, w, h, 0.85, 0.5, env->frame_list[0]);
+  env->frame_list[18] = init_frame(0.18, 0.17, w, h, 0.65, 0.65, env->frame_list[17]);
+  env->frame_list[19] = init_frame(0.4, 0.88, w, h, 0.06, 0.21, env->frame_list[17]);
 
   // wraping
   env->frame_list[11] = init_frame(0.3, 0.73, w, h, 0.04, 0.12, env->frame_list[0]);
@@ -363,6 +361,10 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   env->write_load = false;
   env->text_load = NULL;
   env->is_typing_load = false;
+  SDL_Color gris = {150,150,150,255};
+  SDL_Surface* surf_place = TTF_RenderText_Blended(env->font, "Clic and write filename here ...", gris);
+  env->write_here = SDL_CreateTextureFromSurface(ren, surf_place);
+  SDL_FreeSurface(surf_place);
 
   return env;
 }
@@ -386,6 +388,7 @@ static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int other_nb
                           int y)
 {
   SDL_Color color = {255, 255, 255, 255};
+  double scale = taille_case / 2;
   for (int k = 0; k < nb_case; k++) {
     int expected;
     if (col)
@@ -406,6 +409,14 @@ static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int other_nb
       SDL_Rect number;
       SDL_QueryTexture(texture, NULL, NULL, &number_ex.w, &number_ex.h);
       SDL_QueryTexture(texture1, NULL, NULL, &number.w, &number.h);
+
+      double echelle = scale / number.h;
+      number.w = (number.w * echelle);
+      number.h = (number.h * echelle);
+
+      double echelle_ex = scale / number_ex.h;
+      number_ex.w = (number_ex.w * echelle_ex);
+      number_ex.h = (number_ex.h * echelle_ex);
 
       if (col) {
         number.x = x + (k * taille_case) + (taille_case / 2) - number.w / 2;
@@ -597,16 +608,11 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
 
       SDL_Color couleur = {0, 0, 0, 255};
       SDL_Surface* surface_texte = TTF_RenderText_Blended_Wrapped(
-          env->font, "HELP :\n clic gauche : \n clic droit : \n clique sur une case remplie : clear\n ...      ",
+          env->font, "Gameplay: \n LeftClic : Tent\n RightClic : Grass\n Empty : LeftClic on tent or Rightclic on Grass\n solve : solve the game\n Undo/Redo : undo/redo last move\n Restart : restart game\n Red Tent : too many expected tent on a col/row\n Warning : tent near another (forbid)\n save : clic retour and choose the filename",
           couleur, 500);
       SDL_Texture* texture_texte = SDL_CreateTextureFromSurface(ren, surface_texte);
 
-      SDL_Rect dest;
-      SDL_QueryTexture(texture_texte, NULL, NULL, &dest.w, &dest.h);
-      dest.x = cadre_text.x + (cadre_text.w - dest.w) / 2;
-      dest.y = cadre_text.y + (cadre_text.h - dest.h) / 2;
-
-      SDL_RenderCopy(ren, texture_texte, NULL, &dest);
+      SDL_RenderCopy(ren, texture_texte, NULL, &cadre_text);
       SDL_FreeSurface(surface_texte);
 
       SDL_DestroyTexture(texture_texte);
@@ -645,15 +651,23 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
 
     /* --------  on affiche le text --------*/
     if (env->text_col != NULL) {
-      SDL_Rect dest;
+      SDL_Rect dest = col;
       SDL_QueryTexture(env->text_col, NULL, NULL, &dest.w, &dest.h);
+      double echelle = col.h * 0.7;
+      double scale = echelle / dest.h;
+      dest.w = dest.w * scale;
+      dest.h = dest.h * scale;
       dest.x = col.x + (col.w - dest.w) / 2;
       dest.y = col.y + (col.h - dest.h) / 2;
       SDL_RenderCopy(ren, env->text_col, NULL, &dest);
     }
     if (env->text_row != NULL) {
-      SDL_Rect dest;
+      SDL_Rect dest =row;
       SDL_QueryTexture(env->text_row, NULL, NULL, &dest.w, &dest.h);
+      double echelle = row.h * 0.7;
+      double scale = echelle / dest.h;
+      dest.w = dest.w * scale;
+      dest.h = dest.h * scale;
       dest.x = row.x + (row.w - dest.w) / 2;
       dest.y = row.y + (row.h - dest.h) / 2;
       SDL_RenderCopy(ren, env->text_row, NULL, &dest);
@@ -671,13 +685,26 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     SDL_Rect input_box = {w * 0.44, h * 0.45, w * 0.15, h * 0.08};
     SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
     SDL_RenderDrawRect(ren, &input_box);
-
-    if (env->text_load != NULL) {
+    if (strlen(env->input_load) && env->text_load != NULL) {
       SDL_Rect dest;
       SDL_QueryTexture(env->text_load, NULL, NULL, &dest.w, &dest.h);
+      double scale = input_box.h * 0.6 / dest.h;
+      dest.w = dest.w * scale;
+      dest.h = dest.h * scale;
       dest.x = input_box.x;
       dest.y = input_box.y + (input_box.h - dest.h) / 2;
+
       SDL_RenderCopy(ren, env->text_load, NULL, &dest);
+    }
+    else {
+      SDL_Rect dest;
+      SDL_QueryTexture(env->write_here, NULL, NULL, &dest.w, &dest.h);
+      double scale = input_box.h * 0.6 / dest.h;
+      dest.w = dest.w * scale;
+      dest.h = dest.h * scale;
+      dest.x = input_box.x;
+      dest.y = input_box.y + (input_box.h - dest.h) / 2;
+      SDL_RenderCopy(ren, env->write_here, NULL, &dest);
     }
   }
   update_frame(win, ren, env, w, h);
@@ -753,6 +780,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
       SDL_Rect restart = env->frame_list[4]->rect;
       SDL_Rect solveur = env->frame_list[2]->rect;
       SDL_Rect undo = env->frame_list[5]->rect;
+      SDL_Rect help = env->frame_list[16]->rect;
+      SDL_Rect fermer_help = env->frame_list[19]->rect;
       SDL_Rect redo = env->frame_list[6]->rect;
 
       int nb_cases_w = env->g->nb_cols;
@@ -795,11 +824,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
             env->back = 0;
           }
         }
-      } else if ((mouse.x >= env->frame_list[19]->rect.x &&
-                  mouse.x <= env->frame_list[19]->rect.x + env->frame_list[19]->rect.w &&
-                  mouse.y >= env->frame_list[19]->rect.y &&
-                  mouse.y <= env->frame_list[19]->rect.y + env->frame_list[19]->rect.h)) {
-        env->help_press = false;
       } else if (env->retour_press) {
         if (e->button.button == SDL_BUTTON_LEFT) {
           SDL_Rect cadre_text = env->frame_list[8]->rect;
@@ -867,12 +891,10 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           game_print(env->g);
         } else if (mouse.x >= redo.x && mouse.x <= redo.x + redo.w && mouse.y >= redo.y && mouse.y <= redo.y + redo.h) {
           game_redo(env->g);
-        } else if (mouse.x >= env->frame_list[16]->rect.x &&
-                   mouse.x <= env->frame_list[16]->rect.x + env->frame_list[16]->rect.w &&
-                   mouse.y >= env->frame_list[16]->rect.y &&
-                   mouse.y <= env->frame_list[16]->rect.y + env->frame_list[16]->rect.h) {
-          printf("help pressed\n");
+        } else if (mouse.x >= help.x && mouse.x <= help.x + help.w && mouse.y >= help.y && mouse.y <= help.y + help.h) {
           env->help_press = true;
+        }else if (mouse.x >= fermer_help.x && mouse.x <= fermer_help.x + fermer_help.w && mouse.y >= fermer_help.y && mouse.y <= fermer_help.y + fermer_help.h) {
+          env->help_press = !env->help_press;
         }
       }
     } else if (env->back == 2) {
@@ -998,6 +1020,7 @@ void clean(SDL_Window* win, SDL_Renderer* ren, Env* env)
   SDL_DestroyTexture(env->load_game);
 
   if (env->text_load) SDL_DestroyTexture(env->text_load);
+  if (env->write_here) SDL_DestroyTexture(env->write_here);
 
   if (env->text_col) SDL_DestroyTexture(env->text_col);
   if (env->text_row) SDL_DestroyTexture(env->text_row);

@@ -361,7 +361,8 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 //   }
 // }
 
-static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int taille_case, bool col, int x, int y)
+static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int other_nb, int taille_case, bool col, int x,
+                          int y)
 {
   SDL_Color color = {255, 255, 255, 255};
   for (int k = 0; k < nb_case; k++) {
@@ -384,17 +385,19 @@ static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int taille_c
       SDL_Rect number;
       SDL_QueryTexture(texture, NULL, NULL, &number_ex.w, &number_ex.h);
       SDL_QueryTexture(texture1, NULL, NULL, &number.w, &number.h);
+
       if (col) {
         number.x = x + (k * taille_case) + (taille_case / 2) - number.w / 2;
         number.y = y - number.h - taille_case * 0.1;
 
         number_ex.x = x + (k * taille_case) + (taille_case / 2) - number.w / 2;
-        number_ex.y = y + (nb_case * taille_case) + (taille_case / 2) - number.h / 2;
+        number_ex.y = y + (other_nb * taille_case) + (taille_case / 2) - number.h / 2;
+
       } else {
         number.x = x - number.w - taille_case * 0.1;
         number.y = y + (k * taille_case) + (taille_case / 2) - number.h / 2;
 
-        number_ex.x = x + (nb_case * taille_case) + (taille_case / 2) - number_ex.w / 2;
+        number_ex.x = x + (other_nb * taille_case) + (taille_case / 2) - number_ex.w / 2;
         number_ex.y = y + (k * taille_case) + (taille_case / 2) - number_ex.h / 2;
       }
       SDL_RenderCopy(ren, texture1, NULL, &number);
@@ -459,8 +462,8 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       }
     }
 
-    update_number(ren, env, nb_cases_w, taille_case, 1, x, y);
-    update_number(ren, env, nb_cases_h, taille_case, 0, x, y);
+    update_number(ren, env, nb_cases_w, nb_cases_h, taille_case, 1, x, y);
+    update_number(ren, env, nb_cases_h, nb_cases_w, taille_case, 0, x, y);
 
     int marge_case = taille_case * 0.1;
     for (int i = 0; i < nb_cases_h; i++) {
@@ -657,13 +660,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         SDL_Rect play = env->frame_list[13]->rect;
         SDL_Rect col = env->frame_list[14]->rect;
         SDL_Rect row = env->frame_list[15]->rect;
-
-        // SDL_Rect wrap = env->frame_list[11]->rect;
-        // SDL_Rect bigtree = env->frame_list[12]->rect;
-        // SDL_Rect play = env->frame_list[13]->rect;
-        // SDL_Rect load = env->frame_list[14]->rect;
-        // SDL_Rect col = env->frame_list[15]->rect;
-        // SDL_Rect row = env->frame_list[16]->rect;
 
         if (mouse.x >= wrap.x && mouse.x <= wrap.x + wrap.w && mouse.y >= wrap.y && mouse.y <= wrap.y + wrap.h)
           env->wrap_case = !env->wrap_case;

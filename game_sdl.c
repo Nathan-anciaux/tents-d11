@@ -301,7 +301,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   // frame_list[0] = fenetre
   env->frame_list[0] = init_frame(0, 0, w, h, 1, 1, NULL);
 
-  env->frame_list[1] = init_frame(0.9, 0, w, h, 0.6, 0.1, env->frame_list[0]);
+  env->frame_list[1] = init_frame(0.9, 0.2, w, h, 0.6, 0.1, env->frame_list[0]);
 
   /*bouton plateau*/
   env->frame_list[3] = init_frame(0.0, 0.0, w, h, 0.16, 1.0, env->frame_list[1]);
@@ -361,8 +361,8 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   env->write_load = false;
   env->text_load = NULL;
   env->is_typing_load = false;
-  SDL_Color gris = {150,150,150,255};
-  SDL_Surface* surf_place = TTF_RenderText_Blended(env->font, "Clic and write filename here ...", gris);
+  SDL_Color gris = {150, 150, 150, 255};
+  SDL_Surface* surf_place = TTF_RenderText_Blended(env->font, "Filename...", gris);
   env->write_here = SDL_CreateTextureFromSurface(ren, surf_place);
   SDL_FreeSurface(surf_place);
 
@@ -558,18 +558,21 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     SDL_RenderDrawRect(ren, &help);
 
     if (game_won(env->g)) {
+      // shadow
+      SDL_SetRenderDrawBlendMode(ren, SDL_BLENDMODE_BLEND);
+      SDL_SetRenderDrawColor(ren, 0, 0, 0, 160);
+      SDL_Rect screen = {0, 0, w, h};
+      SDL_RenderFillRect(ren, &screen);
+      SDL_SetRenderDrawBlendMode(ren, SDL_BLENDMODE_NONE);
+
       SDL_Rect place;
       int w1, h1;
       SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
-      place.w = w * 0.5;
+      place.w = w * 0.4;
       place.h = place.w * h1 / w1;
-      place.x = (w) - (place.w);
-      place.y = (h / 2) - (place.h / 2);
+      place.x = (w - place.w) / 2;
+      place.y = (h - place.h) / 2;
       SDL_RenderCopy(ren, env->winner, NULL, &place);
-
-      SDL_Rect retour = {w * 0.7, h * 0.56, w * 0.1, h * 0.1};
-      SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-      SDL_RenderDrawRect(ren, &retour);
     }
     if (env->retour_press) {
       SDL_Rect place = env->frame_list[7]->rect;
@@ -608,7 +611,10 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
 
       SDL_Color couleur = {0, 0, 0, 255};
       SDL_Surface* surface_texte = TTF_RenderText_Blended_Wrapped(
-          env->font, "Gameplay: \n LeftClic : Tent\n RightClic : Grass\n Empty : LeftClic on tent or Rightclic on Grass\n solve : solve the game\n Undo/Redo : undo/redo last move\n Restart : restart game\n Red Tent : too many expected tent on a col/row\n Warning : tent near another (forbid)\n save : clic retour and choose the filename",
+          env->font,
+          "Gameplay: \n LeftClic : Tent\n RightClic : Grass\n Empty : LeftClic on tent or Rightclic on Grass\n solve : "
+          "solve the game\n Undo/Redo : undo/redo last move\n Restart : restart game\n Red Tent : too many expected "
+          "tent on a col/row\n Warning : tent near another (forbid)\n save : clic retour and choose the filename",
           couleur, 500);
       SDL_Texture* texture_texte = SDL_CreateTextureFromSurface(ren, surface_texte);
 
@@ -662,7 +668,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_RenderCopy(ren, env->text_col, NULL, &dest);
     }
     if (env->text_row != NULL) {
-      SDL_Rect dest =row;
+      SDL_Rect dest = row;
       SDL_QueryTexture(env->text_row, NULL, NULL, &dest.w, &dest.h);
       double echelle = row.h * 0.7;
       double scale = echelle / dest.h;
@@ -695,8 +701,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       dest.y = input_box.y + (input_box.h - dest.h) / 2;
 
       SDL_RenderCopy(ren, env->text_load, NULL, &dest);
-    }
-    else {
+    } else {
       SDL_Rect dest;
       SDL_QueryTexture(env->write_here, NULL, NULL, &dest.w, &dest.h);
       double scale = input_box.h * 0.6 / dest.h;
@@ -814,7 +819,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           SDL_Rect bouton_retour;
           bouton_retour.w = place.w * 0.26;
           bouton_retour.h = place.h * 0.15;
-          bouton_retour.x = w - place.w + (place.w * 0.37);
+          bouton_retour.x = place.x + (place.w * 0.37);
           bouton_retour.y = place.y + (place.h * 0.78) - 1.4 * (bouton_retour.h / 1.8);
 
           if (mouse.x >= bouton_retour.x && mouse.x <= bouton_retour.x + bouton_retour.w &&
@@ -893,7 +898,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           game_redo(env->g);
         } else if (mouse.x >= help.x && mouse.x <= help.x + help.w && mouse.y >= help.y && mouse.y <= help.y + help.h) {
           env->help_press = true;
-        }else if (mouse.x >= fermer_help.x && mouse.x <= fermer_help.x + fermer_help.w && mouse.y >= fermer_help.y && mouse.y <= fermer_help.y + fermer_help.h) {
+        } else if (mouse.x >= fermer_help.x && mouse.x <= fermer_help.x + fermer_help.w && mouse.y >= fermer_help.y &&
+                   mouse.y <= fermer_help.y + fermer_help.h) {
           env->help_press = !env->help_press;
         }
       }

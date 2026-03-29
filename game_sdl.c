@@ -814,6 +814,14 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
             SDL_StopTextInput();
           }
         }
+        // menu help
+      } else if (env->help_press) {
+        if (e->button.button == SDL_BUTTON_LEFT) {
+          if (mouse.x >= fermer_help.x && mouse.x <= fermer_help.x + fermer_help.w && mouse.y >= fermer_help.y &&
+              mouse.y <= fermer_help.y + fermer_help.h) {
+            env->help_press = false;
+          }
+        }
         // mouvement classique jeu
       } else {
         // grille
@@ -860,9 +868,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           game_redo(env->g);
         } else if (mouse.x >= help.x && mouse.x <= help.x + help.w && mouse.y >= help.y && mouse.y <= help.y + help.h) {
           env->help_press = true;
-        } else if (mouse.x >= fermer_help.x && mouse.x <= fermer_help.x + fermer_help.w && mouse.y >= fermer_help.y &&
-                   mouse.y <= fermer_help.y + fermer_help.h) {
-          env->help_press = !env->help_press;
         }
       }
       // interaction menu load

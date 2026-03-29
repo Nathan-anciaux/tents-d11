@@ -127,6 +127,7 @@ struct Env_t {
 };
 
 /* **************************************************************** */
+// fonction auxiliaire permettant d'initier les différentes frames
 Frame* init_frame(double x, double y, double w, double h, double height_proportion, double width_proportion,
                   Frame* parent)
 {
@@ -207,8 +208,11 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
 
+  // option de l'accueil
   env->wrap_case = false;
   env->bigtree_case = false;
+
+  // optin du plateau de jeu (si on appuit sur le bouton d'aide et si on appuit sur retour)
   env->retour_press = false;
   env->help_press = false;
 
@@ -338,10 +342,12 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   // col
   env->frame_list[15] = init_frame(0.535, 0.543, w, h, 0.065, 0.087, env->frame_list[0]);
 
+  // ecrit de la sauvegarde
   env->input[0] = '\0';
   env->is_typing_s = false;
   env->text_s = NULL;
 
+  // ecrit dans l'accueil pour les col et row
   strcpy(env->input_col, "8");
   strcpy(env->input_row, "8");
   env->is_typing_c = false;
@@ -371,6 +377,7 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 
 /* **************************************************************** */
 
+// fonction auxiliaire permettant d'afficher les numéro de col/row et le nbr expected de tents par row/col
 static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int other_nb, int taille_case, bool col, int x,
                           int y)
 {
@@ -397,6 +404,7 @@ static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int other_nb
       SDL_QueryTexture(texture, NULL, NULL, &number_ex.w, &number_ex.h);
       SDL_QueryTexture(texture1, NULL, NULL, &number.w, &number.h);
 
+      // j'ajuste l'échelle en fonction de la taille des cases
       double echelle = scale / number.h;
       number.w = (number.w * echelle);
       number.h = (number.h * echelle);
@@ -693,7 +701,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         SDL_Rect play = env->frame_list[13]->rect;
         SDL_Rect col = env->frame_list[14]->rect;
         SDL_Rect row = env->frame_list[15]->rect;
-
+        // gestion des boutons
         if (mouse.x >= wrap.x && mouse.x <= wrap.x + wrap.w && mouse.y >= wrap.y && mouse.y <= wrap.y + wrap.h)
           env->wrap_case = !env->wrap_case;
         else if (mouse.x >= bigtree.x && mouse.x <= bigtree.x + bigtree.w && mouse.y >= bigtree.y &&
@@ -975,6 +983,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
 /* PUT YOUR CODE HERE TO CLEAN MEMORY */
 void clean(SDL_Window* win, SDL_Renderer* ren, Env* env)
 {
+  if (env->g != NULL) {game_delete(env->g);}
+
   SDL_DestroyTexture(env->background);
   SDL_DestroyTexture(env->tent);
   SDL_DestroyTexture(env->tree);
@@ -988,6 +998,15 @@ void clean(SDL_Window* win, SDL_Renderer* ren, Env* env)
   SDL_DestroyTexture(env->accueil_bigtree);
   SDL_DestroyTexture(env->accueil_wrap_bigtree);
   SDL_DestroyTexture(env->load_game);
+  SDL_DestroyTexture(env->warning);
+  SDL_DestroyTexture(env->restart);
+  SDL_DestroyTexture(env->undo);
+  SDL_DestroyTexture(env->redo);
+  SDL_DestroyTexture(env->solve);
+  SDL_DestroyTexture(env->help);
+  SDL_DestroyTexture(env->fv);
+  SDL_DestroyTexture(env->retour);
+  SDL_DestroyTexture(env->save);
 
   if (env->text_load) SDL_DestroyTexture(env->text_load);
   if (env->write_here) SDL_DestroyTexture(env->write_here);
@@ -996,6 +1015,15 @@ void clean(SDL_Window* win, SDL_Renderer* ren, Env* env)
   if (env->text_row) SDL_DestroyTexture(env->text_row);
   if (env->text_s) SDL_DestroyTexture(env->text_s);
   if (env->font) TTF_CloseFont(env->font);
+
+  if (env->frame_list != NULL){
+    for (int i =0; i< env->nb_frame; i++){
+      if(env->frame_list[i]!=NULL){
+        free(env->frame_list[i]);
+      }
+    }
+    free(env->frame_list);
+  }
 
   free(env);
 }

@@ -458,9 +458,9 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     // pas de code en dur donc je met des variables pour chosisir
     int nb_cases_w = env->g->nb_cols;
     int nb_cases_h = env->g->nb_rows;
-    float marge = 0.05;
-    int taille_case = (fmin(env->frame_list[0]->height, env->frame_list[0]->width)) / ((nb_cases_h + nb_cases_w) / 2) -
-                      fmin(env->frame_list[0]->height, env->frame_list[0]->width) * marge;  // marge a adapter
+    int space_available = h * 0.75;
+    int max_cases = (nb_cases_w > nb_cases_h) ? nb_cases_w : nb_cases_h;
+    int taille_case = space_available / max_cases;
     int grille_w = nb_cases_w * taille_case;
     int grille_h = nb_cases_h * taille_case;
 
@@ -791,8 +791,9 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
 
       int nb_cases_w = env->g->nb_cols;
       int nb_cases_h = env->g->nb_rows;
-      float marge = 0.05;
-      int taille_case = (fmin(h, w)) / ((nb_cases_h + nb_cases_w) / 2) - fmin(h, w) * marge;  // marge a adapter
+      int space_available = h * 0.75;
+      int max_cases = (nb_cases_w > nb_cases_h) ? nb_cases_w : nb_cases_h;
+      int taille_case = space_available / max_cases;
       int grille_w = nb_cases_w * taille_case;
       int grille_h = nb_cases_h * taille_case;
 

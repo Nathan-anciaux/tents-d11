@@ -82,7 +82,7 @@ struct Env_t {
   SDL_Texture* winner;
   Frame** frame_list;
   int nb_frame;
-  int back;
+  int back;  // 0 : Accueil; 1 : Jeu ; 2 : Load;
   game g;
 
   /* bouton */
@@ -333,10 +333,10 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
   env->frame_list[12] = init_frame(0.3, 0.78, w, h, 0.04, 0.12, env->frame_list[0]);
   // Play
   env->frame_list[13] = init_frame(0.42, 0.35, w, h, 0.10, 0.18, env->frame_list[0]);
-  // col
-  env->frame_list[14] = init_frame(0.388, 0.543, w, h, 0.065, 0.087, env->frame_list[0]);
   // row
-  env->frame_list[15] = init_frame(0.525, 0.543, w, h, 0.065, 0.087, env->frame_list[0]);
+  env->frame_list[14] = init_frame(0.388, 0.543, w, h, 0.065, 0.087, env->frame_list[0]);
+  // col
+  env->frame_list[15] = init_frame(0.535, 0.543, w, h, 0.065, 0.087, env->frame_list[0]);
 
   env->input[0] = '\0';
   env->is_typing_s = false;
@@ -370,19 +370,6 @@ Env* init(SDL_Window* win, SDL_Renderer* ren, int argc, char* argv[])
 }
 
 /* **************************************************************** */
-
-// static void update_numero(SDL_Renderer* ren, TTF_Font* font, const char* input, SDL_Texture** texture){
-//   SDL_Color color = {0, 0, 0, 255};
-//   if (*texture != NULL){
-//     SDL_DestroyTexture(*texture);
-//     *texture = NULL;
-//   }
-//   if (strlen(input) > 0){
-//     SDL_Surface* test = TTF_RenderText_Blended(font, input, color);
-//     *texture = SDL_CreateTextureFromSurface(ren, test);
-//     SDL_FreeSurface(test);
-//   }
-// }
 
 static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int other_nb, int taille_case, bool col, int x,
                           int y)
@@ -445,8 +432,6 @@ static void update_number(SDL_Renderer* ren, Env* env, int nb_case, int other_nb
 /* PUT YOUR CODE HERE TO RENDER TEXTURES, ... */
 void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
 {
-  // SDL_Rect rect;
-
   /* get current window size */
   int w, h;
   SDL_GetWindowSize(win, &w, &h);
@@ -454,11 +439,12 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
   /* render background texture */
   SDL_RenderCopy(ren, env->background, NULL, NULL); /* stretch it */
 
+  // JEU
   if (env->back == 1) {
     // pas de code en dur donc je met des variables pour chosisir
     int nb_cases_w = env->g->nb_cols;
     int nb_cases_h = env->g->nb_rows;
-    int space_available = h * 0.75;
+    int space_available = h * 0.75;  // grille 75% hauteur de l'ecrant
     int max_cases = (nb_cases_w > nb_cases_h) ? nb_cases_w : nb_cases_h;
     int taille_case = space_available / max_cases;
     int grille_w = nb_cases_w * taille_case;
@@ -474,6 +460,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
 
     int off = epaisseur / 1.8;
 
+    // affichage grille
     for (int i = 0; i < nb_cases_h; i++) {
       for (int j = 0; j <= nb_cases_w; j++) {
         SDL_Rect place = {x + (j * taille_case) - off, y + (i * taille_case) - (gap / 2), epaisseur, taille_baton};
@@ -497,6 +484,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     update_number(ren, env, nb_cases_w, nb_cases_h, taille_case, 1, x, y);
     update_number(ren, env, nb_cases_h, nb_cases_w, taille_case, 0, x, y);
 
+    // affichage arbre / tentes / herbe
     int marge_case = taille_case * 0.1;
     for (int i = 0; i < nb_cases_h; i++) {
       for (int j = 0; j < nb_cases_w; j++) {
@@ -538,6 +526,7 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       }
     }
 
+    // affichage menu bouton à droite
     SDL_Rect solveur = env->frame_list[2]->rect;
     SDL_Rect retour = env->frame_list[3]->rect;
     SDL_Rect restart = env->frame_list[4]->rect;
@@ -545,18 +534,13 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     SDL_Rect redo = env->frame_list[6]->rect;
     SDL_Rect help = env->frame_list[16]->rect;
     SDL_RenderCopy(ren, env->retour, NULL, &retour);
-    SDL_RenderDrawRect(ren, &retour);
     SDL_RenderCopy(ren, env->solve, NULL, &solveur);
-    SDL_RenderDrawRect(ren, &solveur);
     SDL_RenderCopy(ren, env->restart, NULL, &restart);
-    SDL_RenderDrawRect(ren, &restart);
     SDL_RenderCopy(ren, env->undo, NULL, &undo);
-    SDL_RenderDrawRect(ren, &undo);
     SDL_RenderCopy(ren, env->redo, NULL, &redo);
-    SDL_RenderDrawRect(ren, &redo);
     SDL_RenderCopy(ren, env->help, NULL, &help);
-    SDL_RenderDrawRect(ren, &help);
 
+    // gestion menu victoire / help / save
     if (game_won(env->g)) {
       // shadow
       SDL_SetRenderDrawBlendMode(ren, SDL_BLENDMODE_BLEND);
@@ -568,26 +552,19 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_Rect place;
       int w1, h1;
       SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
-      place.w = w * 0.4;
+
+      place.w = x;
       place.h = place.w * h1 / w1;
-      place.x = (w - place.w) / 2;
+      place.x = (x - place.w) / 2;
       place.y = (h - place.h) / 2;
       SDL_RenderCopy(ren, env->winner, NULL, &place);
     }
     if (env->retour_press) {
       SDL_Rect place = env->frame_list[7]->rect;
       SDL_Rect cadre_text = env->frame_list[8]->rect;
-      SDL_Rect bouton_save = env->frame_list[9]->rect;
-      SDL_Rect bouton_non_save = env->frame_list[10]->rect;
 
       SDL_RenderCopy(ren, env->save, NULL, &place);
 
-      SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-      SDL_RenderDrawRect(ren, &bouton_save);
-      SDL_SetRenderDrawColor(ren, 0, 255, 0, 255);
-      SDL_RenderDrawRect(ren, &bouton_non_save);
-      SDL_SetRenderDrawColor(ren, 0, 0, 255, 255);
-      SDL_RenderDrawRect(ren, &cadre_text);
       if (env->text_s != NULL) {
         SDL_Rect dest;
         SDL_QueryTexture(env->text_s, NULL, NULL, &dest.w, &dest.h);
@@ -599,15 +576,8 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     if (env->help_press) {
       SDL_Rect place = env->frame_list[17]->rect;
       SDL_Rect cadre_text = env->frame_list[18]->rect;
-      SDL_Rect bouton_retour = env->frame_list[19]->rect;
 
       SDL_RenderCopy(ren, env->fv, NULL, &place);
-
-      SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-      SDL_RenderDrawRect(ren, &bouton_retour);
-
-      SDL_SetRenderDrawColor(ren, 0, 0, 255, 255);
-      SDL_RenderDrawRect(ren, &cadre_text);
 
       SDL_Color couleur = {0, 0, 0, 255};
       SDL_Surface* surface_texte = TTF_RenderText_Blended_Wrapped(
@@ -625,18 +595,9 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
     }
   }
 
+  // ACCUEIL
   if (env->back == 0) {
     SDL_Rect place = {0, 0, w, h};
-
-    // SDL_Rect wrap = {w * 0.3, h * 0.73, w * 0.12, h * 0.04};
-    // SDL_Rect bigtree = {w * 0.3, h * 0.78, w * 0.12, h * 0.04};
-    // SDL_Rect play = {w * 0.41, h * 0.37, w * 0.18, h * 0.10};
-    // SDL_Rect col = {w * 0.388, h * 0.543, w * 0.087, h * 0.065};
-    // SDL_Rect row = {w * 0.525, h * 0.543, w * 0.087, h * 0.065};
-
-    SDL_Rect wrap = env->frame_list[11]->rect;
-    SDL_Rect bigtree = env->frame_list[12]->rect;
-    SDL_Rect play = env->frame_list[13]->rect;
     SDL_Rect col = env->frame_list[14]->rect;
     SDL_Rect row = env->frame_list[15]->rect;
 
@@ -648,14 +609,9 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_RenderCopy(ren, env->accueil_wrap, NULL, &place);
     else
       SDL_RenderCopy(ren, env->accueil_clean, NULL, NULL);
-    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-    SDL_RenderDrawRect(ren, &col);
-    SDL_RenderDrawRect(ren, &row);
-    SDL_RenderDrawRect(ren, &play);
-    SDL_RenderDrawRect(ren, &bigtree);
-    SDL_RenderDrawRect(ren, &wrap);
 
     /* --------  on affiche le text --------*/
+    // col et row
     if (env->text_col != NULL) {
       SDL_Rect dest = col;
       SDL_QueryTexture(env->text_col, NULL, NULL, &dest.w, &dest.h);
@@ -679,18 +635,14 @@ void render(SDL_Window* win, SDL_Renderer* ren, Env* env)
       SDL_RenderCopy(ren, env->text_row, NULL, &dest);
     }
   }
+
+  // LOAD
   if (env->back == 2) {
     SDL_Rect place = {0, 0, w, h};
 
     SDL_RenderCopy(ren, env->load_game, NULL, &place);
 
-    SDL_Rect charger = {w * 0.6, h * 0.45, w * 0.1, h * 0.08};
-    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-    SDL_RenderDrawRect(ren, &charger);
-
     SDL_Rect input_box = {w * 0.44, h * 0.45, w * 0.15, h * 0.08};
-    SDL_SetRenderDrawColor(ren, 255, 0, 0, 255);
-    SDL_RenderDrawRect(ren, &input_box);
     if (strlen(env->input_load) && env->text_load != NULL) {
       SDL_Rect dest;
       SDL_QueryTexture(env->text_load, NULL, NULL, &dest.w, &dest.h);
@@ -726,9 +678,12 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
   /* generic events */
   if (e->type == SDL_QUIT) {
     return true;
+    // souris
   } else if (e->type == SDL_MOUSEBUTTONDOWN) {
     SDL_Point mouse;
     SDL_GetMouseState(&mouse.x, &mouse.y);
+
+    // menu accueil
     if (env->back == 0) {
       if (e->button.button == SDL_BUTTON_LEFT) {
         SDL_Rect load = {w * 0.42, h * 0.72, w * 0.16, h * 0.08};
@@ -761,6 +716,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
             col = atoi(env->input_col);
             row = atoi(env->input_row);
           }
+          // creation du jeu -> PLAY
           if (col >= 2 && row >= 2) {
             int nb_tree = col * row / 5;
             int nb_bigtree = 0;
@@ -771,6 +727,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           } else
             printf("error");
 
+          // lancement menu load -> LOAD
         } else if (mouse.x >= load.x && mouse.x <= load.x + load.w && mouse.y >= load.y && mouse.y <= load.y + load.h) {
           strcpy(env->input_load, "");
           update_text(ren, env->font, env->input_load, &env->text_load);
@@ -780,6 +737,8 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         env->is_typing_c = false;
         SDL_StopTextInput();
       }
+
+      // Interaction en JEU -> boutons et tentes
     } else if (env->back == 1) {
       SDL_Rect retour = env->frame_list[3]->rect;
       SDL_Rect restart = env->frame_list[4]->rect;
@@ -804,10 +763,10 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           SDL_Rect place;
           int w1, h1;
           SDL_QueryTexture(env->winner, NULL, NULL, &w1, &h1);
-          place.w = w * 0.5;
+          place.w = x;
           place.h = place.w * h1 / w1;
-          place.x = (w / 2) - (place.w / 2);
-          place.y = (h / 2) - (place.h / 2);
+          place.x = (x - place.w) / 2;
+          place.y = (h - place.h) / 2;
 
           env->bigtree_case = false;
           env->wrap_case = false;
@@ -825,11 +784,10 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
 
           if (mouse.x >= bouton_retour.x && mouse.x <= bouton_retour.x + bouton_retour.w &&
               mouse.y >= bouton_retour.y && mouse.y <= bouton_retour.y + bouton_retour.h) {
-            // revenir à l'écran d'accueil
-            // env->g = game_default();
             env->back = 0;
           }
         }
+        // menu SAVE
       } else if (env->retour_press) {
         if (e->button.button == SDL_BUTTON_LEFT) {
           SDL_Rect cadre_text = env->frame_list[8]->rect;
@@ -856,7 +814,9 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
             SDL_StopTextInput();
           }
         }
+        // mouvement classique jeu
       } else {
+        // grille
         if (mouse.x >= x && mouse.x < x + grille_w && mouse.y >= y && mouse.y < y + grille_h) {
           int j = (mouse.x - x) / taille_case;
           int i = (mouse.y - y) / taille_case;
@@ -873,6 +833,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
               game_play_move(env->g, i, j, GRASS);
             }
           }
+          // clics boutons
         } else if (mouse.x >= solveur.x && mouse.x <= solveur.x + solveur.w && mouse.y >= solveur.y &&
                    mouse.y <= solveur.y + solveur.h) {
           game_restart(env->g);
@@ -904,6 +865,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
           env->help_press = !env->help_press;
         }
       }
+      // interaction menu load
     } else if (env->back == 2) {
       SDL_Rect retour = {w * 0.41, h * 0.74, w * 0.18, h * 0.08};
       SDL_Rect charger = {w * 0.6, h * 0.45, w * 0.1, h * 0.08};
@@ -946,6 +908,7 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
         }
       }
     }
+    // texte
   } else if (e->type == SDL_TEXTINPUT) {
     if (env->back == 0 && env->is_typing_c) {
       if (env->write_col) {
@@ -971,11 +934,6 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
   }
   // je gere la suppression de truc
   else if (e->type == SDL_KEYDOWN) {
-    // bool valide = false;
-    // if (env->write_col){
-    //   if (strlen(env->write_col) > 0) valide = true;
-    // }
-    // else if (strlen(env->write_row) > 0) valide = true;
     if (e->key.keysym.sym == SDLK_BACKSPACE) {
       if (env->back == 0 && env->is_typing_c) {
         if (env->write_col && strlen(env->input_col) > 0) {

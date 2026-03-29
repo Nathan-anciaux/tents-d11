@@ -983,7 +983,9 @@ bool process(SDL_Window* win, SDL_Renderer* ren, Env* env, SDL_Event* e)
 /* PUT YOUR CODE HERE TO CLEAN MEMORY */
 void clean(SDL_Window* win, SDL_Renderer* ren, Env* env)
 {
-  if (env->g != NULL) {game_delete(env->g);}
+  if (env->g != NULL) {
+    game_delete(env->g);
+  }
 
   SDL_DestroyTexture(env->background);
   SDL_DestroyTexture(env->tent);
@@ -1016,9 +1018,9 @@ void clean(SDL_Window* win, SDL_Renderer* ren, Env* env)
   if (env->text_s) SDL_DestroyTexture(env->text_s);
   if (env->font) TTF_CloseFont(env->font);
 
-  if (env->frame_list != NULL){
-    for (int i =0; i< env->nb_frame; i++){
-      if(env->frame_list[i]!=NULL){
+  if (env->frame_list != NULL) {
+    for (int i = 0; i < env->nb_frame; i++) {
+      if (env->frame_list[i] != NULL) {
         free(env->frame_list[i]);
       }
     }

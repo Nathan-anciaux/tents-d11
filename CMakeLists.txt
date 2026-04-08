@@ -18,6 +18,18 @@ add_library(game STATIC
 include(CTest)
 target_include_directories(game PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
+
+add_custom_target(copy_html ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/web
+            /net/cremi/maxjulienne/espaces/www/web
+)
+
+
+
+
+
+
 # folder copy
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/saves/ DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/saves/)
 file(COPY res DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

@@ -10,6 +10,9 @@ const BIGTREE = 4;  // big tree square
 
 let _square2str = [" ", "x", "*", "-", "#"];
 
+var g = null;
+var taille_case = 0;
+
 function square2str(s) {
     return _square2str[s];
 }
@@ -33,10 +36,10 @@ function printGame(g) {
 
 function start() {
     console.log("call start routine");
-    var g = Module._new_default();
+    g = Module._new_default();
+
     Module._play_move(g, 1, 0, TENT);
     printGame(g);
-    Module._delete(g);
 }
 
 // Demo Canvas (JavaScript)
@@ -45,23 +48,15 @@ function start() {
 
 var canvas = document.getElementById('mycanvas');
 
-// load mario image
-var mario = new Image();
-mario.src = "mario.png";
+var imgTent = new Image();
+imgTent.src = "tent.png";
+var imgTree = new Image();
+imgTree.src = "tree.png";
+var imgBigTree = new Image();
+imgBigTree.src = "bigtree.png";
+var imgGrass = new Image();
+imgGrass.src = "grass.png";
 
-// initial position in canvas
-var marioX = 100;
-var marioY = 100;
-var squareX = 300;
-var squareY = 300;
-
-// load brr image
-var brr = new Image();
-brr.src = "brr.jpeg";
-
-// initial position in canvas
-var brrX = 200;
-var brrY = 200;
 
 /* ******************** register events ******************** */
 
@@ -77,20 +72,38 @@ document.getElementById('player').addEventListener('click', function () {
 function canvasLeftClick(event) {
     event.preventDefault(); // prevent default context menu to appear...
     // get relative cursor position in canvas
+    if (!g) return;
     console.log("left click at position:", event.offsetX, event.offsetY);
-    // update position of mario image used by drawCanvas()
-    marioX = event.offsetX;
-    marioY = event.offsetY;
+    let col = Math.floor(event.offsetX / taille_case); // on convertit l'offset en pixel pour les cols
+    let row = Math.floor(event.offsetY / taille_case); // on convertit l'offset en pixel pour les rows
+
+    // update position of tents / grass
+    let current = Module._get_square(g, row, col);
+    if (current == 0 || current == 3) {
+        Module._play_move(g, row, col, TENT);
+    }
+    else if (current == 2) {
+        Module._play_move(g, row, col, EMPTY);
+    }
     drawCanvas();
 }
 
 function canvasRightClick(event) {
     event.preventDefault(); // prevent default context menu to appear...
     // get relative cursor position in canvas
+    if (!g) return;
     console.log("right click at position:", event.offsetX, event.offsetY);
+    let col = Math.floor(event.offsetX / taille_case); // on convertit l'offset en pixel pour les cols
+    let row = Math.floor(event.offsetY / taille_case); // on convertit l'offset en pixel pour les rows
+
     // update position of mario image used by drawCanvas()
-    brrX = event.offsetX;
-    brrY = event.offsetY;
+    let current = Module._get_square(g, row, col);
+    if (current == 0 || current == 2) {
+        Module._play_move(g, row, col, GRASS);
+    }
+    else if (current == 3) {
+        Module._play_move(g, row, col, EMPTY);
+    }
     drawCanvas();
 }
 
@@ -149,6 +162,27 @@ function drawCanvas() {
     }
     ctx.stroke();
     ctx.restore();
+
+    let current;
+    for (let i = 0; i < size_game_row; i++) {
+        for (let j = 0; j < size_game_col; j++) {
+            current = Module._get_square(g, i, j);
+            switch (current) {
+                case TENT:
+                    ctx.drawImage(imgTent, j * taille_case, i * taille_case, taille_case, taille_case);
+                    break;
+                case GRASS:
+                    ctx.drawImage(imgGrass, j * taille_case, i * taille_case, taille_case, taille_case);
+                    break;
+                case BIGTREE:
+                    ctx.drawImage(imgBigTree, j * taille_case, i * taille_case, taille_case, taille_case);
+                    break;
+                case TREE:
+                    ctx.drawImage(imgTree, j * taille_case, i * taille_case, taille_case, taille_case);
+                    break;
+            }
+        }
+    }
 
     // draw a centered text
     //ctx.save();

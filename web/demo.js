@@ -68,6 +68,9 @@ var brrY = 200;
 window.addEventListener('load', windowLoad);              // window load
 canvas.addEventListener('click', canvasLeftClick);        // left click event
 canvas.addEventListener('contextmenu', canvasRightClick); // right click event
+document.getElementById('player').addEventListener('click', function () {
+    drawCanvas();
+})
 
 /* ******************** event callback ******************** */
 
@@ -107,29 +110,54 @@ function drawCanvas() {
     ctx.clearRect(0, 0, width, height);
 
     // draw a yellow square at (squareX, squareY) position
-    ctx.save();
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect(squareX, squareY, 40, 40);
-    ctx.restore();
 
     // draw some lines
+    //ctx.save();
+    //ctx.strokeStyle = 'blue';
+    //ctx.moveTo(0, 0);
+    //ctx.lineTo(width, height);
+    //ctx.moveTo(width, 0);
+    //ctx.lineTo(0, height);
+    //ctx.stroke(); // the stroke will actually paint the current lines
+    //ctx.restore();
+
     ctx.save();
-    ctx.strokeStyle = 'blue';
-    ctx.moveTo(0, 0);
-    ctx.lineTo(width, height);
-    ctx.moveTo(width, 0);
-    ctx.lineTo(0, height);
-    ctx.stroke(); // the stroke will actually paint the current lines
+    ctx.strokeStyle = 'black';
+
+    // je commence un nouveau dessin pour supprimer les lignes si il y a chnagement
+    ctx.beginPath();
+
+    let size_game_col = Math.max(2, Math.min(25, parseInt(document.getElementById('input_nb_cols').value)));
+    let size_game_row = Math.max(2, Math.min(25, parseInt(document.getElementById('input_nb_rows').value)));
+    taille_case = Math.min(canvas.width / size_game_col, canvas.height / size_game_row);
+    let x = 0;
+
+    // background du jeu
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, size_game_col * taille_case, size_game_row * taille_case);
+
+    for (let i = 0; i <= size_game_col; i++) {
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, size_game_row * taille_case);
+        x = x + taille_case;
+    }
+    x = 0;
+    for (let i = 0; i <= size_game_row; i++) {
+        ctx.moveTo(0, x);
+        ctx.lineTo(size_game_col * taille_case, x);
+        x = x + taille_case;
+    }
+    ctx.stroke();
     ctx.restore();
 
     // draw a centered text
-    ctx.save();
-    ctx.font = 'bold 20px Arial';
-    ctx.fillStyle = 'black';
-    ctx.textBaseline = 'middle';
-    ctx.textAlign = 'center';
-    ctx.fillText("Hello World!", width / 2, height / 2);
-    ctx.restore();
+    //ctx.save();
+    //ctx.font = 'bold 20px Arial';
+    //ctx.fillStyle = 'black';
+    //ctx.textBaseline = 'middle';
+    //ctx.textAlign = 'center';
+    //ctx.fillText("Hello World!", width / 2, height / 2);
+    //ctx.restore();
 
     // draw mario image at (marioX, marioY) position
     ctx.drawImage(mario, marioX, marioY, 80, 80);

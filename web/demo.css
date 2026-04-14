@@ -1,6 +1,5 @@
-
 canvas {
-    background: rgb(136, 136, 136);
+    background: rgb(255, 0, 0);
     outline: 1px solid rgb(25, 0, 255);
     /* Hint: do not add padding to canvas! */
 }

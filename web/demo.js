@@ -66,6 +66,22 @@ canvas.addEventListener('contextmenu', canvasRightClick); // right click event
 document.getElementById('player').addEventListener('click', function () {
     drawCanvas();
 })
+document.getElementById('btn_fill_grass').addEventListener('click', function () {
+    Module._fill_grass(g);
+    drawCanvas();
+})
+document.getElementById('btn_undo').addEventListener('click', function () {
+    Module._undo(g);
+    drawCanvas();
+})
+document.getElementById('btn_redo').addEventListener('click', function () {
+    Module._redo(g);
+    drawCanvas();
+})
+document.getElementById('btn_restart').addEventListener('click', function () {
+    Module._restart(g);
+    drawCanvas();
+})
 
 /* ******************** event callback ******************** */
 
@@ -194,9 +210,9 @@ function drawCanvas() {
     //ctx.restore();
 
     // draw mario image at (marioX, marioY) position
-    ctx.drawImage(mario, marioX, marioY, 80, 80);
+    //ctx.drawImage(mario, marioX, marioY, 80, 80);
 
-    ctx.drawImage(brr, brrX, brrY, 80, 80);
+    //ctx.drawImage(brr, brrX, brrY, 80, 80);
 }
 
 // EOF

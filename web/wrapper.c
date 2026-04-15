@@ -77,7 +77,7 @@ void redo(game g) { game_redo(g); }
 /* Add more function wrappers here, if needed... */
 
 // EMSCRIPTEN_KEEPALIVE
-// bool solve(game g) { /* TODO */ }
+// bool solve(game g) { return game_ }
 
 // EMSCRIPTEN_KEEPALIVE
 // game new_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint nb_bigtrees, bool solution) { /* TODO */ }

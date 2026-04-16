@@ -166,8 +166,8 @@ function drawCanvas() {
     // sans ça juste je j'écris par dessus 
     ctx.beginPath();
 
-    let size_game_col = Math.max(2, Math.min(25, parseInt(document.getElementById('input_nb_cols').value)));
-    let size_game_row = Math.max(2, Math.min(25, parseInt(document.getElementById('input_nb_rows').value)));
+    let size_game_col = Module._nb_cols(g);
+    let size_game_row = Module._nb_rows(g);
     taille_case = Math.min(canvas.width / size_game_col, canvas.height / size_game_row);
     let x = 0;
 

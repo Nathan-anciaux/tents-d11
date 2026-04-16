@@ -144,20 +144,12 @@ function drawCanvas() {
     var width = canvas.width;
     var height = canvas.height;
 
+    let size_game_col = Module._nb_cols(g);
+    let size_game_row = Module._nb_rows(g);
+    taille_case = Math.min(canvas.width / size_game_col, canvas.height / size_game_row);
+
     // clear canvas
     ctx.clearRect(0, 0, width, height);
-
-    // draw a yellow square at (squareX, squareY) position
-
-    // draw some lines
-    //ctx.save();
-    //ctx.strokeStyle = 'blue';
-    //ctx.moveTo(0, 0);
-    //ctx.lineTo(width, height);
-    //ctx.moveTo(width, 0);
-    //ctx.lineTo(0, height);
-    //ctx.stroke(); // the stroke will actually paint the current lines
-    //ctx.restore();
 
     ctx.save();
     ctx.strokeStyle = 'black';
@@ -165,10 +157,6 @@ function drawCanvas() {
     // je commence un nouveau dessin pour supprimer les lignes si il y a chnagement
     // sans ça juste je j'écris par dessus 
     ctx.beginPath();
-
-    let size_game_col = Module._nb_cols(g);
-    let size_game_row = Module._nb_rows(g);
-    taille_case = Math.min(canvas.width / size_game_col, canvas.height / size_game_row);
     let x = 0;
 
     // background du jeu
@@ -209,7 +197,16 @@ function drawCanvas() {
             }
         }
     }
+    if (Module._won(g)) {
+        ctx.fillStyle = 'grey';
+        ctx.fillRect(width / 5, height / 3, 3 * (width / 5), height / 3);
 
+        ctx.font = "30px Arial";
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('Congratulation !', width / 2, height / 2);
+    }
     // draw a centered text
     //ctx.save();
     //ctx.font = 'bold 20px Arial';

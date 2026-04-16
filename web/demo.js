@@ -37,8 +37,6 @@ function printGame(g) {
 function start() {
     console.log("call start routine");
     g = Module._new_default();
-
-    Module._play_move(g, 1, 0, TENT);
     printGame(g);
 }
 
@@ -63,7 +61,18 @@ imgGrass.src = "grass.png";
 window.addEventListener('load', windowLoad);              // window load
 canvas.addEventListener('click', canvasLeftClick);        // left click event
 canvas.addEventListener('contextmenu', canvasRightClick); // right click event
-document.getElementById('player').addEventListener('click', function () {
+document.getElementById('btn_play').addEventListener('click', function () {
+    let col = parseInt(document.getElementById('input_nb_cols').value);
+    let row = parseInt(document.getElementById('input_nb_rows').value);
+    let tree = parseInt(document.getElementById('input_nb_tree').value);
+    let btree = parseInt(document.getElementById('input_nb_bigtree').value);
+    let iswrap = document.getElementById('btn_wrapping').Checked;
+
+    g = Module._new_random(col, row, iswrap, tree, btree, false);
+    drawCanvas();
+})
+document.getElementById('btn_solve').addEventListener('click', function () {
+    Module._solve(g);
     drawCanvas();
 })
 document.getElementById('btn_fill_grass').addEventListener('click', function () {
@@ -154,6 +163,7 @@ function drawCanvas() {
     ctx.strokeStyle = 'black';
 
     // je commence un nouveau dessin pour supprimer les lignes si il y a chnagement
+    // sans ça juste je j'écris par dessus 
     ctx.beginPath();
 
     let size_game_col = Math.max(2, Math.min(25, parseInt(document.getElementById('input_nb_cols').value)));

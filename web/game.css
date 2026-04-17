@@ -1,0 +1,45 @@
+body {
+    max-width: 800px;
+    margin: auto;
+    font-family: sans-serif;
+}
+
+div {
+    margin: 20px 0;
+    text-align: center;
+}
+
+label {
+    display: inline-block;
+    margin: 5px;
+}
+
+input {
+    margin: 5px;
+    width: 50px;
+}
+
+button {
+    margin: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: rgb(150, 150, 150);
+    border: 1px solid black;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border: 2px solid black;
+    margin: 20px auto;
+}
+
+#result {
+    background-color: lightgrey;
+    padding: 10px;
+}

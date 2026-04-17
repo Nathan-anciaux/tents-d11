@@ -2108,9 +2108,6 @@ var _solve = Module["_solve"] = createExportWrapper("solve");
 var _new_random = Module["_new_random"] = createExportWrapper("new_random");
 
 /** @type {function(...*):?} */
-var _is_neigh = Module["_is_neigh"] = createExportWrapper("is_neigh");
-
-/** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
 
 /** @type {function(...*):?} */

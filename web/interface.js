@@ -82,7 +82,7 @@ document.getElementById('btn_play').addEventListener('click', function () {
     let row = parseInt(document.getElementById('input_nb_rows').value);
     let tree = parseInt(document.getElementById('input_nb_tree').value);
     let btree = parseInt(document.getElementById('input_nb_bigtree').value);
-    let iswrap = document.getElementById('btn_wrapping').Checked;
+    let iswrap = document.getElementById('btn_wrapping').checked;
 
     g = Module._new_random(col, row, iswrap, tree, btree, false);
     drawCanvas();

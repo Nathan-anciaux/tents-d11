@@ -38,6 +38,7 @@ function start() {
     console.log("call start routine");
     g = Module._new_default();
     printGame(g);
+    drawCanvas(g);
 }
 
 // Demo Canvas (JavaScript)
@@ -47,12 +48,19 @@ function start() {
 var canvas = document.getElementById('mycanvas');
 
 var imgTent = new Image();
+imgTent.onload = () => drawCanvas();
 imgTent.src = "tent.png";
+
 var imgTree = new Image();
+imgTree.onload = () => drawCanvas();
 imgTree.src = "tree.png";
+
 var imgBigTree = new Image();
+imgBigTree.onload = () => drawCanvas();
 imgBigTree.src = "bigtree.png";
+
 var imgGrass = new Image();
+imgGrass.onload = () => drawCanvas();
 imgGrass.src = "grass.png";
 
 
@@ -92,7 +100,7 @@ document.getElementById('btn_restart').addEventListener('click', function () {
     drawCanvas();
 })
 
-/* ******************** event callback ******************** */
+/* ******************** event callback ******************** CONTROLLER PART */
 
 function canvasLeftClick(event) {
     event.preventDefault(); // prevent default context menu to appear...
@@ -134,19 +142,19 @@ function canvasRightClick(event) {
 
 function windowLoad() {
     console.log("window load");
-    drawCanvas();
 }
 
-/* ******************** canvas drawing ******************** */
+/* ******************** canvas drawing ******************** VIEW PART */
 
 function drawCanvas() {
+    if (!g) return;
     var ctx = canvas.getContext('2d');
     var width = canvas.width;
     var height = canvas.height;
 
     let size_game_col = Module._nb_cols(g);
     let size_game_row = Module._nb_rows(g);
-    taille_case = Math.min(canvas.width / size_game_col, canvas.height / size_game_row);
+    taille_case = Math.min(canvas.width / (size_game_col + 1), canvas.height / (size_game_row + 1));
 
     // clear canvas
     ctx.clearRect(0, 0, width, height);
@@ -160,7 +168,7 @@ function drawCanvas() {
     let x = 0;
 
     // background du jeu
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = 'green';
     ctx.fillRect(0, 0, size_game_col * taille_case, size_game_row * taille_case);
 
     for (let i = 0; i <= size_game_col; i++) {
@@ -197,6 +205,30 @@ function drawCanvas() {
             }
         }
     }
+
+    // affichage lignes et colonnes
+    ctx.save();
+    ctx.fillStyle = 'black';
+    ctx.font = 'bold ' + (taille_case / 2) + 'px Arial';
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    for (let i = 0; i < size_game_row; i++) {
+        let expected_in_row = Module._get_expected_nb_tents_row(g, i);
+        let pos_x = size_game_col * taille_case + (taille_case / 2);
+        let pos_y = i * taille_case + (taille_case / 2);
+        ctx.fillText(expected_in_row, pos_x, pos_y);
+    }
+
+    for (let j = 0; j < size_game_col; j++) {
+        let expected_in_col = Module._get_expected_nb_tents_col(g, j);
+        let pos_x = j * taille_case + (taille_case / 2);
+        let pos_y = size_game_row * taille_case + (taille_case / 2);
+        ctx.fillText(expected_in_col, pos_x, pos_y);
+    }
+    ctx.restore()
+
+
     if (Module._won(g)) {
         ctx.fillStyle = 'grey';
         ctx.fillRect(width / 5, height / 3, 3 * (width / 5), height / 3);

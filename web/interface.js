@@ -63,6 +63,14 @@ var imgGrass = new Image();
 imgGrass.onload = () => drawCanvas();
 imgGrass.src = "grass.png";
 
+var imgRedTent = new Image();
+imgRedTent.onload = () => drawCanvas();
+imgRedTent.src = "redtent.png";
+
+var imgWarn = new Image();
+imgWarn.onload = () => drawCanvas();
+imgWarn.src = "warning.png";
+
 
 /* ******************** register events ******************** */
 
@@ -185,22 +193,44 @@ function drawCanvas() {
     ctx.stroke();
     ctx.restore();
 
+    let marge = taille_case * 0.1; // esthétique
+
     let current;
     for (let i = 0; i < size_game_row; i++) {
         for (let j = 0; j < size_game_col; j++) {
+
+            let dx = j * taille_case + marge; // définition de variable pour le debugage (c'est pour ca dh = dw)
+            let dy = i * taille_case + marge;
+            let dw = taille_case - (2 * marge);
+            let dh = taille_case - (2 * marge);
+
             current = Module._get_square(g, i, j);
+
             switch (current) {
-                case TENT:
-                    ctx.drawImage(imgTent, j * taille_case, i * taille_case, taille_case, taille_case);
+                case TREE:
+                    ctx.drawImage(imgTree, dx, dy, dw, dh);
                     break;
                 case GRASS:
-                    ctx.drawImage(imgGrass, j * taille_case, i * taille_case, taille_case, taille_case);
+                    ctx.drawImage(imgGrass, dx, dy, dw, dh);
                     break;
                 case BIGTREE:
-                    ctx.drawImage(imgBigTree, j * taille_case, i * taille_case, taille_case, taille_case);
+                    ctx.drawImage(imgBigTree, dx, dy, dw, dh);
                     break;
-                case TREE:
-                    ctx.drawImage(imgTree, j * taille_case, i * taille_case, taille_case, taille_case);
+                case TENT:
+                    // redtent et warning
+                    let expected_col = Module._get_expected_nb_tents_col(g, j);
+                    let current_col = Module._get_current_nb_tents_col(g, j);
+                    let expected_row = Module._get_expected_nb_tents_row(g, i);
+                    let current_row = Module._get_current_nb_tents_row(g, i);
+                    let has_neighbor = Module._is_neigh(g, i, j, TENT, true);
+
+                    if (has_neighbor) {
+                        ctx.drawImage(imgWarn, dx, dy, dw, dh);
+                    } else if ((current_col > expected_col) || (current_row > expected_row)) {
+                        ctx.drawImage(imgRedTent, dx, dy, dw, dh);
+                    } else {
+                        ctx.drawImage(imgTent, dx, dy, dw, dh);
+                    }
                     break;
             }
         }

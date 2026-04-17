@@ -21,7 +21,7 @@ EMSCRIPTEN_KEEPALIVE
 game new_default(void) { return game_default(); }
 
 EMSCRIPTEN_KEEPALIVE
-void delete(game g) { game_delete(g); }
+void delete (game g) { game_delete(g); }
 
 EMSCRIPTEN_KEEPALIVE
 void play_move(game g, uint i, uint j, square s) { game_play_move(g, i, j, s); }
@@ -80,8 +80,12 @@ EMSCRIPTEN_KEEPALIVE
 bool solve(game g) { return game_solve(g); }
 
 EMSCRIPTEN_KEEPALIVE
-game new_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint nb_bigtrees, bool solution) {
-    return game_random(nb_rows, nb_cols, wrapping, nb_trees, nb_bigtrees, solution);
+game new_random(uint nb_rows, uint nb_cols, bool wrapping, uint nb_trees, uint nb_bigtrees, bool solution)
+{
+  return game_random(nb_rows, nb_cols, wrapping, nb_trees, nb_bigtrees, solution);
 }
+
+EMSCRIPTEN_KEEPALIVE
+bool is_neigh(cgame g, uint i, uint j, square s, bool diag) { return game_is_neigh(g, i, j, s, diag); }
 
 // EOF

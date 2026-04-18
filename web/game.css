@@ -8,17 +8,16 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #e0e0e0;
     color: black;
-    display: flex;
-    justify-content: center;
     padding: 30px 10px;
 }
 
 .main-container {
     background-color: white;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgb(0, 0, 0);
     padding: 30px;
     width: 100%;
+    margin: 0 auto;
 }
 
 header {
@@ -34,17 +33,17 @@ header h1 {
 
 .game-layout {
     display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    align-items: flex-start;
     justify-content: center;
+    flex-wrap: wrap;
+    /* sur teléphone */
 }
 
 .canvas-container {
     background-color: rgb(212, 212, 212);
-    padding: 15px;
+    padding: 10px;
     border-radius: 12px;
     box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
 }
 
 canvas {
@@ -55,69 +54,53 @@ canvas {
 }
 
 .controls-container {
-    flex: 1;
-    min-width: 280px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    width: 300px;
 }
 
 .control-group {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 20px;
 }
 
 .control-group h3 {
     margin-bottom: 15px;
-    color: #34495e;
+    color: #000000;
     font-size: 1.2em;
     border-bottom: 2px solid #e9ecef;
-    padding-bottom: 8px;
+    padding-bottom: 5px;
 }
 
 .input-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .input-row label {
-    font-weight: 600;
-    color: #565454;
+    font-weight: bold;
 }
 
 .input-row input[type="number"] {
-    width: 65px;
-    padding: 6px 10px;
+    width: 60px;
+    padding: 5px;
     border: 1px solid #ced4da;
     border-radius: 6px;
-    font-size: 1em;
-    font-family: inherit;
-    text-align: center;
 }
 
 .checkbox-row {
-    margin: 15px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    color: #565454;
+    margin: 15px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
 button {
     width: 100%;
-    padding: 12px;
-    border: none;
+    padding: 10px;
     border-radius: 8px;
-    font-size: 1em;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
     margin-top: 5px;
-    font-family: inherit;
 }
 
 button:active {
@@ -125,9 +108,13 @@ button:active {
 }
 
 .button-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    width: 48%;
+    display: inline-block;
+}
+
+#btn_fill_grass,
+#btn_solve {
+    width: 100%;
 }
 
 footer {
@@ -136,5 +123,4 @@ footer {
     padding-top: 15px;
     border-top: 1px solid #eeeeee;
     color: #abaaaa;
-    font-size: 0.9em;
 }
